@@ -1,16 +1,29 @@
 # API Endpoints (v1)
 
 ## Auth
+- `POST /v1/auth/register`
 - `POST /v1/auth/login`
 - `GET /v1/auth/google`
 - `GET /v1/auth/google/callback`
 
 ## Flights
 - `GET /v1/flights/search?origin=DXB&destination=LHR&departureDate=2026-10-01&page=1&limit=20`
-- `GET /v1/flights/:id`
+- `GET /v1/flights/:id` (JWT)
 
-## Booking / Payment / User
-- `GET /v1/booking/health`
-- `POST /v1/booking` (planned)
-- `POST /v1/payment` (planned)
-- `GET /v1/user/profile` (planned)
+## Hotels
+- `GET /v1/hotel/search?city=Dubai&page=1&limit=20`
+
+## Booking
+- `POST /v1/booking` (JWT)
+- `GET /v1/booking/me` (JWT)
+
+## Payment
+- `POST /v1/payment` (JWT)
+
+## User
+- `GET /v1/user/profile` (JWT)
+
+## AI
+- `POST /v1/ai/assistant`
+- `GET /v1/ai/search?prompt=...`
+- `GET /v1/ai/price-prediction?route=DXB-LHR`

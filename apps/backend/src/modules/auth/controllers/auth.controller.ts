@@ -3,11 +3,17 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../services/auth.service';
 import { LoginDto } from '../dto/login.dto';
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
+import { RegisterDto } from '../dto/register.dto';
 
 @ApiTags('auth')
 @Controller({ path: 'auth', version: '1' })
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Post('register')
+  register(@Body() dto: RegisterDto) {
+    return this.authService.register(dto);
+  }
 
   @Post('login')
   login(@Body() dto: LoginDto) {
@@ -23,6 +29,6 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(GoogleOauthGuard)
   googleCallback(@Req() req: { user: { email: string } }) {
-    return this.authService.login({ email: req.user.email, password: 'oauth-placeholder' });
+    return this.authService.oauthLogin(req.user.email);
   }
 }

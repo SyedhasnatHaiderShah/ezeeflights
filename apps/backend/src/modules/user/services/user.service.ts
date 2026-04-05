@@ -1,8 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { UserRepository } from '../repositories/user.repository';
 
 @Injectable()
 export class UserService {
-  health() {
-    return { module: 'user', status: 'ok' };
+  constructor(private readonly repository: UserRepository) {}
+
+  async getProfile(userId: string) {
+    const user = await this.repository.findById(userId);
+    if (!user) {
+      throw new NotFoundException('User profile not found');
+    }
+
+    return user;
   }
 }
