@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ChevronsRight } from "lucide-react"
-import Link from "next/link"
-import { AppImage } from "@/components/ui/app-image"
+import * as React from "react";
+import { ChevronsRight } from "lucide-react";
+import Link from "next/link";
+import { AppImage } from "@/components/ui/app-image";
 
 interface Experience {
   id: number;
@@ -18,45 +18,55 @@ const EXPERIENCES: Experience[] = [
     id: 1,
     title: "Emergency Travel Story",
     description: "An emergency travel story shared by our customer...",
-    image: "https://images.unsplash.com/photo-1544016768-982d1554f0b9?q=80&w=1000&auto=format&fit=crop",
-    link: "/experience/emergency-travel"
+    image:
+      "https://images.unsplash.com/photo-1544016768-982d1554f0b9?q=80&w=1000&auto=format&fit=crop",
+    link: "/experience/emergency-travel",
   },
   {
     id: 2,
     title: "Travel Journey of a Student",
-    description: "Travelling experience with Ezee flights shared by a student...",
-    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000&auto=format&fit=crop",
-    link: "/experience/student-journey"
+    description:
+      "Travelling experience with Ezee flights shared by a student...",
+    image:
+      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000&auto=format&fit=crop",
+    link: "/experience/student-journey",
   },
   {
     id: 3,
     title: "International Family Trip",
-    description: "Our customers shared their experience of their first international family trip...",
-    image: "https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=1000&auto=format&fit=crop",
-    link: "/experience/family-trip"
+    description:
+      "Our customers shared their experience of their first international family trip...",
+    image:
+      "https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=1000&auto=format&fit=crop",
+    link: "/experience/family-trip",
   },
   {
     id: 4,
     title: "International Travel with Pet",
-    description: "A customer shared her first international travel experience with her pet...",
-    image: "https://images.unsplash.com/photo-1544568100-847a948585b9?q=80&w=1000&auto=format&fit=crop",
-    link: "/experience/travel-with-pet"
+    description:
+      "A customer shared her first international travel experience with her pet...",
+    image:
+      "https://images.unsplash.com/photo-1544568100-847a948585b9?q=80&w=1000&auto=format&fit=crop",
+    link: "/experience/travel-with-pet",
   },
   {
     id: 5,
     title: "Story of Lost Baggage",
     description: "A panic story of lost baggage shared by our customer...",
-    image: "https://images.unsplash.com/photo-1553531384-cc64ac80f931?q=80&w=1000&auto=format&fit=crop",
-    link: "/experience/lost-baggage"
+    image:
+      "https://images.unsplash.com/photo-1553531384-cc64ac80f931?q=80&w=1000&auto=format&fit=crop",
+    link: "/experience/lost-baggage",
   },
   {
     id: 6,
     title: "Emergency Cancellation",
-    description: "Emergency cancellation of tickets due to a sudden change in plans...",
-    image: "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?q=80&w=1000&auto=format&fit=crop",
-    link: "/experience/emergency-cancellation"
-  }
-]
+    description:
+      "Emergency cancellation of tickets due to a sudden change in plans...",
+    image:
+      "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?q=80&w=1000&auto=format&fit=crop",
+    link: "/experience/emergency-cancellation",
+  },
+];
 
 export function TravelExperience() {
   return (
@@ -86,16 +96,16 @@ export function TravelExperience() {
 
               {/* Content - Compact & Refined */}
               <div className="p-4 px-4.5 flex flex-col flex-grow bg-card/50 backdrop-blur-sm">
-                <h3 className="text-[15px] font-bold text-brand-red mb-1.5 leading-tight group-hover:text-red-500 transition-colors line-clamp-1">
+                <h3 className="text-base font-bold text-brand-red mb-1.5 leading-tight group-hover:text-red-500 transition-colors line-clamp-1">
                   {exp.title}
                 </h3>
-                <p className="text-muted-foreground font-medium text-[11px] leading-relaxed mb-4 flex-grow line-clamp-2">
+                <p className="text-muted-foreground font-medium text-xs leading-relaxed mb-4 flex-grow line-clamp-2">
                   {exp.description}
                 </p>
 
                 <Link
                   href={exp.link as any}
-                  className="inline-flex items-center gap-1 text-brand-blue dark:text-brand-red-light font-bold text-[10px] uppercase tracking-wider hover:opacity-80 transition-colors w-fit border border-border px-3.5 py-1.5 rounded-md hover:bg-muted group/btn shadow-sm active:scale-95"
+                  className="inline-flex items-center gap-1 text-brand-blue dark:text-muted-foreground font-bold text-xs tracking-wider hover:opacity-80 transition-colors w-fit border border-border px-3.5 py-1.5 rounded-md hover:bg-muted group/btn shadow-sm active:scale-95"
                 >
                   Read Story
                   <ChevronsRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
@@ -106,5 +116,5 @@ export function TravelExperience() {
         </div>
       </div>
     </section>
-  )
+  );
 }

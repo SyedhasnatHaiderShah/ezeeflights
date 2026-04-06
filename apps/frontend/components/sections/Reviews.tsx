@@ -41,7 +41,7 @@ export function Reviews() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 w-full">
         <div className="flex items-baseline justify-between mb-8 px-1">
           <div className="space-y-0.5">
-            <span className="text-brand-red font-bold uppercase tracking-[0.2em] text-[9px] block">
+            <span className="text-brand-red font-bold uppercase tracking-[0.2em] text-xs block">
               Customer Trust
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-foreground leading-tight">
@@ -56,7 +56,7 @@ export function Reviews() {
               <Star className="w-3.5 h-3.5 fill-current" />
               <Star className="w-3.5 h-3.5 fill-current" />
             </div>
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider ml-1 border-l border-border/50 pl-2">
+            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider ml-1 border-l border-border/50 pl-2">
               1K+ Reviews
             </span>
           </div>
@@ -80,11 +80,11 @@ export function Reviews() {
                 </div>
                 <div className="flex-grow min-w-0">
                   <div className="flex items-center justify-between mb-0.5">
-                    <h4 className="font-bold text-foreground flex items-center gap-1 text-[13px] truncate">
+                    <h4 className="font-bold text-foreground flex items-center gap-1 text-xs truncate">
                       {rev.name}
                       <CheckCircle2 className="w-3 h-3 text-emerald-500 fill-emerald-500/10" />
                     </h4>
-                    <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.1em]">
+                    <span className="text-xs font-bold text-muted-foreground uppercase tracking-[0.1em]">
                       {new Date(rev.date).toLocaleDateString("en-US", {
                         month: "short",
                         year: "numeric",
@@ -97,7 +97,7 @@ export function Reviews() {
                         <Star key={i} className="w-4 h-4 fill-current" />
                       ))}
                     </div>
-                    <span className="text-[9px] font-bold text-muted-foreground uppercase opacity-70 border-l border-border/50 pl-1.5 leading-none">
+                    <span className="text-xs font-bold text-muted-foreground uppercase opacity-70 border-l border-border/50 pl-1.5 leading-none">
                       {rev.location}
                     </span>
                   </div>
@@ -106,7 +106,7 @@ export function Reviews() {
 
               <div className="relative flex-grow">
                 <Quote className="w-4 h-4 text-brand-red/20 absolute -top-1 -left-1 transform -translate-x-1 -translate-y-1" />
-                <p className="text-foreground/90 text-[11px] font-medium leading-relaxed font-sans line-clamp-5 px-1 pt-1 opacity-90">
+                <p className="text-foreground/90 text-xs font-medium leading-relaxed font-sans line-clamp-6 px-1 pt-1 opacity-90">
                   {rev.text}
                 </p>
               </div>
@@ -123,7 +123,7 @@ export function Reviews() {
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <div className="text-[10px] font-black text-muted-foreground uppercase tracking-widest bg-muted/40 px-3 py-1.5 rounded-lg border border-border/40">
+            <div className="text-xs font-medium text-muted-foreground tracking-widest bg-muted/40 px-3 py-1.5 rounded-lg border border-border/40">
               {currentIndex + 1}-
               {Math.min(currentIndex + itemsPerPage, REVIEWS.length)} /{" "}
               {REVIEWS.length}
@@ -141,7 +141,7 @@ export function Reviews() {
             href={"/reviews" as any}
             className="flex items-center gap-1.5 text-brand-red font-bold hover:text-brand-blue dark:hover:text-brand-red-light transition-all active:scale-95 group"
           >
-            <span className="text-[10px] uppercase tracking-wider">
+            <span className="text-xs uppercase tracking-wider">
               Read All Stories
             </span>
             <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />

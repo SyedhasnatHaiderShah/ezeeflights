@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
 import { AppIcon } from "../ui/app-icon";
- 
+
 export function PrecisionFeatures() {
   return (
     <section
@@ -15,7 +15,7 @@ export function PrecisionFeatures() {
     >
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 w-1/4 h-full bg-brand-blue/5 dark:bg-brand-red-light/5 -skew-x-12 translate-x-1/2 z-0" />
- 
+
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
         <div className="relative order-2 lg:order-1 animate-in fade-in slide-in-from-left-8 duration-1000">
           <div className="absolute -top-16 -left-16 w-64 h-64 bg-brand-blue/5 dark:bg-brand-red-light/5 rounded-full blur-[80px] animate-pulse" />
@@ -51,10 +51,10 @@ export function PrecisionFeatures() {
                     />
                   </div>
                   <div>
-                    <h4 className="font-bold text-[15px] mb-1 tracking-tight text-foreground group-hover:text-brand-red transition-colors">
+                    <h4 className="font-bold text-base mb-1 tracking-tight text-foreground group-hover:text-brand-red transition-colors">
                       {feat.title}
                     </h4>
-                    <p className="text-muted-foreground leading-snug text-[11px] font-medium font-sans opacity-90">
+                    <p className="text-muted-foreground leading-snug text-xs font-medium font-sans opacity-90">
                       {feat.desc}
                     </p>
                   </div>
@@ -63,9 +63,9 @@ export function PrecisionFeatures() {
             </div>
           </Card>
         </div>
- 
+
         <div className="space-y-4 order-1 lg:order-2 animate-in fade-in slide-in-from-right-8 duration-1000 lg:sticky lg:top-32">
-          <span className="text-brand-red font-bold tracking-[0.2em] uppercase text-[10px] block">
+          <span className="text-brand-red font-bold tracking-[0.2em] uppercase text-xs block">
             Technology & Safety
           </span>
           <h2 className="text-3xl font-bold tracking-tight leading-tight text-foreground">
@@ -77,9 +77,7 @@ export function PrecisionFeatures() {
             eliminates the friction of modern movement.
           </p>
           <div className="pt-2">
-            <Button
-              className="group rounded-xl h-11 px-6 shadow-sm bg-brand-red hover:bg-brand-red/90 text-white transition-all active:scale-95 text-xs font-bold uppercase tracking-wider"
-            >
+            <Button className="group rounded-xl h-11 px-6 shadow-sm bg-brand-red hover:bg-brand-red/90 text-white transition-all active:scale-95 text-xs font-bold uppercase tracking-wider">
               <span>Our Tech Stack</span>
               <ArrowRight className="ml-2.5 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>

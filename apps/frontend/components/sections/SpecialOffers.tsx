@@ -92,7 +92,7 @@ export function SpecialOffers() {
   return (
     <section className="py-14 bg-muted/30 dark:bg-background transition-colors duration-300 relative overflow-hidden">
       {/* Information Contact Cards - More Compact Row */}
-      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 mb-8">
+      <div className="w-full max-w-7xl mx-auto px-5 md:px-12 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
           {INFO_CARDS.map((card) => (
             <div
@@ -103,10 +103,10 @@ export function SpecialOffers() {
                 <card.icon className="w-5 h-5" strokeWidth={2} />
               </div>
               <div className="flex flex-col min-w-0">
-                <h4 className="text-[13px] font-bold text-foreground font-display leading-tight truncate">
+                <h4 className="text-sm font-bold text-foreground font-display leading-tight truncate">
                   {card.title}
                 </h4>
-                <div className="text-[10px] text-muted-foreground font-medium mt-0.5 whitespace-nowrap">
+                <div className="text-xs text-muted-foreground font-medium mt-0.5 whitespace-nowrap">
                   {card.text}
                 </div>
               </div>
@@ -145,10 +145,10 @@ export function SpecialOffers() {
 
               {/* Content - Compact Typography */}
               <div className="flex flex-col flex-grow min-w-0 py-1">
-                <h3 className="text-[14px] font-bold text-brand-red mb-1 font-display group-hover:text-brand-blue dark:group-hover:text-brand-red-light transition-colors truncate">
+                <h3 className="text-sm font-bold text-brand-red mb-1 font-display group-hover:text-brand-blue dark:group-hover:text-brand-red-light transition-colors truncate">
                   {offer.title}
                 </h3>
-                <p className="text-[10.5px] font-medium text-muted-foreground leading-snug mb-3.5 flex-grow line-clamp-2 opacity-90">
+                <p className="text-xs font-medium text-muted-foreground leading-snug mb-3.5 flex-grow line-clamp-2 opacity-90">
                   {offer.description}
                 </p>
 
