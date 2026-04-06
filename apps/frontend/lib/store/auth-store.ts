@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
-interface AuthState {
-  accessToken: string;
-  setAccessToken: (accessToken: string) => void;
+/**
+ * Client-only UI flags. Authentication uses HttpOnly cookies via the Next.js BFF.
+ */
+interface AuthUiState {
+  /** Reserved for future client-only auth UX. */
+  _version: number;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  accessToken: '',
-  setAccessToken: (accessToken) => set({ accessToken }),
-}));
+export const useAuthStore = create<AuthUiState>(() => ({ _version: 1 }));
