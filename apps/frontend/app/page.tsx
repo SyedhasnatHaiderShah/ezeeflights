@@ -1,30 +1,133 @@
-import Link from 'next/link';
+"use client";
 
-export default function HomePage() {
+import * as React from "react";
+import dynamic from "next/dynamic";
+
+// Critical Path (Above the Fold) - Immediate LCP
+import { Header } from "@/components/sections/Header";
+import { Hero } from "@/components/sections/Hero";
+import { RecentSearches } from "@/components/sections/RecentSearches";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+
+// Lazy Loaded (Below the Fold) - High Performance Chunks
+const Reviews = dynamic(
+  () => import("@/components/sections/Reviews").then((mod) => mod.Reviews),
+  { ssr: false },
+);
+const SpecialOffers = dynamic(
+  () =>
+    import("@/components/sections/SpecialOffers").then(
+      (mod) => mod.SpecialOffers,
+    ),
+  { ssr: false },
+);
+const TopDestinations = dynamic(
+  () =>
+    import("@/components/sections/TopDestinations").then(
+      (mod) => mod.TopDestinations,
+    ),
+  { ssr: false },
+);
+const TravelExperience = dynamic(
+  () =>
+    import("@/components/sections/TravelExperience").then(
+      (mod) => mod.TravelExperience,
+    ),
+  { ssr: false },
+);
+const CuratedJourneys = dynamic(
+  () =>
+    import("@/components/sections/CuratedJourneys").then(
+      (mod) => mod.CuratedJourneys,
+    ),
+  { ssr: false },
+);
+const WhyChooseUs = dynamic(
+  () =>
+    import("@/components/sections/WhyChooseUs").then((mod) => mod.WhyChooseUs),
+  { ssr: false },
+);
+const PrecisionFeatures = dynamic(
+  () =>
+    import("@/components/sections/PrecisionFeatures").then(
+      (mod) => mod.PrecisionFeatures,
+    ),
+  { ssr: false },
+);
+const DealsSection = dynamic(
+  () =>
+    import("@/components/sections/DealsSection").then(
+      (mod) => mod.DealsSection,
+    ),
+  { ssr: false },
+);
+const Newsletter = dynamic(
+  () =>
+    import("@/components/sections/Newsletter").then((mod) => mod.Newsletter),
+  { ssr: false },
+);
+const Footer = dynamic(
+  () => import("@/components/sections/Footer").then((mod) => mod.Footer),
+  { ssr: false },
+);
+
+export default function LandingPage() {
   return (
-    <section className="space-y-6">
-      <h1 className="text-3xl font-bold">ezeeFlights</h1>
-      <p className="text-slate-600">AI-powered travel booking platform (Flights, Hotels, Cars, Packages, and Trip Planner).</p>
-      <nav className="flex flex-wrap gap-3">
-        <Link href="/auth" className="rounded bg-slate-900 px-4 py-2 text-white">
-          Sign In
-        </Link>
-        <Link href="/flights" className="rounded bg-blue-600 px-4 py-2 text-white">
-          Search Flights
-        </Link>
-        <Link href="/hotels" className="rounded border px-4 py-2">
-          Search Hotels
-        </Link>
-        <Link href="/ai" className="rounded border px-4 py-2">
-          AI Assistant
-        </Link>
-        <Link href="/destinations" className="rounded border px-4 py-2">
-          Destinations
-        </Link>
-        <Link href="/dashboard" className="rounded border px-4 py-2">
-          Dashboard
-        </Link>
-      </nav>
-    </section>
+    <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
+      {/* 1. Header (Static/Immediate) */}
+      <Header />
+
+      <main className="flex-grow overflow-x-hidden bg-background">
+        {/* 2. Hero (Static/Immediate) - Crucial for UX & LCP */}
+        <Hero />
+
+        {/* 2.1 Recent Searches (Critical Context) */}
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full pb-16">
+          <RecentSearches />
+        </div>
+
+        {/* 3. Lazy Loaded Sections - Progressive Enhancement */}
+        <ScrollReveal minHeight="600px">
+          <TopDestinations />
+        </ScrollReveal>
+
+        <ScrollReveal minHeight="500px">
+          <DealsSection />
+        </ScrollReveal>
+
+        <ScrollReveal minHeight="600px">
+          <SpecialOffers />
+        </ScrollReveal>
+
+        <ScrollReveal minHeight="600px">
+          <TravelExperience />
+        </ScrollReveal>
+
+        <ScrollReveal minHeight="600px">
+          <CuratedJourneys />
+        </ScrollReveal>
+
+        <ScrollReveal minHeight="500px">
+          <WhyChooseUs />
+        </ScrollReveal>
+
+        <ScrollReveal minHeight="500px">
+          <PrecisionFeatures />
+        </ScrollReveal>
+
+        <ScrollReveal minHeight="600px">
+          <Reviews />
+        </ScrollReveal>
+
+        <ScrollReveal minHeight="400px">
+          <Newsletter />
+        </ScrollReveal>
+      </main>
+
+      {/* 4. Footer (Lazy/Bottom) */}
+      <ScrollReveal minHeight="300px">
+        <Footer />
+      </ScrollReveal>
+    </div>
   );
 }
