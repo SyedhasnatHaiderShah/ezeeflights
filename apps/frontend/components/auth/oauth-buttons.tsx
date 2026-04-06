@@ -1,20 +1,34 @@
-'use client';
+"use client";
 
-import { googleOAuthUrl } from '@/lib/api/auth-api';
+import { googleOAuthUrl } from "@/lib/api/auth-api";
+
+import { Button } from "@/components/ui/button";
+import { GoogleIcon } from "@/components/shared/SocialAuth";
 
 export function OAuthButtons() {
   return (
-    <div className="space-y-2 border-t border-slate-200 pt-4">
-      <p className="text-center text-xs text-slate-500">Or continue with</p>
-      <a
-        className="block w-full rounded border border-slate-300 py-2 text-center text-sm font-medium text-slate-800 hover:bg-slate-50"
-        href={googleOAuthUrl()}
+    <div className="space-y-4 pt-4 border-t border-border/50 transition-all duration-300">
+      <div className="relative py-1">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t border-border" />
+        </div>
+        <div className="relative flex justify-center text-[10px] uppercase">
+          <span className="bg-background px-2 text-muted-foreground font-medium lowercase tracking-widest">
+            or continue with
+          </span>
+        </div>
+      </div>
+
+      <Button
+        variant="outline"
+        className="w-full h-11 rounded-xl flex items-center justify-center gap-3 border-border text-foreground font-semibold hover:bg-muted/50 transition-all shadow-sm"
+        onClick={() => {
+          window.location.href = googleOAuthUrl();
+        }}
       >
-        Continue with Google
-      </a>
-      <p className="text-center text-xs text-slate-500">
-        After Google, you are sent back to this app to finish sign-in (one-time code exchange).
-      </p>
+        <GoogleIcon className="w-4 h-4" />
+        <span className="text-sm">Google</span>
+      </Button>
     </div>
   );
 }

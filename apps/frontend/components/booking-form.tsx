@@ -11,6 +11,7 @@ import {
   Package,
 } from "lucide-react"
 import { BookingSearchForm } from "./search/BookingSearchForm"
+import { AppIcon } from "./ui/app-icon"
 
 const TABS = [
   { id: "flights", icon: Plane, label: "Flights" },
@@ -21,6 +22,7 @@ const TABS = [
 
 export function BookingForm() {
   const router = useRouter()
+  const [activeTab, setActiveTab] = React.useState("flights")
 
   const [origin, setOrigin] = React.useState("")
   const [destination, setDestination] = React.useState("")
@@ -53,7 +55,11 @@ export function BookingForm() {
 
   return (
     <div className="w-full">
-      <Tabs.Root defaultValue="flights" className="w-full">
+      <Tabs.Root 
+        defaultValue="flights" 
+        className="w-full"
+        onValueChange={(val) => setActiveTab(val)}
+      >
         <Tabs.List
           className="flex items-center gap-1 mb-6 overflow-x-auto no-scrollbar scroll-smooth"
           aria-label="Search type"
@@ -62,11 +68,14 @@ export function BookingForm() {
             <Tabs.Trigger
               key={tab.id}
               value={tab.id}
-              className="tab-trigger flex flex-col items-center justify-center gap-1.5 cursor-pointer px-3 py-1.5 min-w-[70px] transition-all outline-none text-foreground/65 hover:text-foreground/90 relative data-[state=active]:text-foreground"
+              className="tab-trigger flex flex-col items-center justify-center gap-1.5 cursor-pointer px-3 py-1.5 min-w-[80px] transition-all outline-none text-foreground/65 hover:text-foreground/90 relative data-[state=active]:text-foreground group"
             >
-              <div className="tab-icon-box w-9 h-9 flex items-center justify-center rounded-full transition-all border-2 border-transparent duration-300 bg-muted text-foreground/60 group-hover:bg-brand-red/10 data-[state=active]:bg-gradient-to-tl data-[state=active]:from-brand-red data-[state=active]:to-brand-red-light data-[state=active]:shadow-sm data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-brand-red/20 data-[state=active]:scale-105">
-                <tab.icon className="w-5 h-5" />
-              </div>
+              <AppIcon 
+                icon={tab.icon} 
+                isActive={activeTab === tab.id}
+                isFill={false}
+                className="w-10 h-10"
+              />
               <span className="text-xs capitalize tracking-wider font-semibold">
                 {tab.label}
               </span>

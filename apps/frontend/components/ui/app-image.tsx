@@ -2,6 +2,7 @@
 
 import NextImage, { ImageProps as NextImageProps } from "next/image"
 import { cn } from "@/lib/utils"
+import * as React from "react"
 import { useState } from "react"
 import { ImageOff } from "lucide-react"
 
@@ -20,6 +21,7 @@ interface AppImageProps extends Omit<NextImageProps, 'src' | 'alt'> {
   priority?: boolean;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
   fallback?: string | null;
+  isCompact?: boolean;
 }
 
 export function AppImage({
@@ -33,6 +35,7 @@ export function AppImage({
   priority = false,
   objectFit = "cover",
   fallback = null,
+  isCompact = false,
   ...rest
 }: AppImageProps) {
   const [errored, setErrored] = useState(false)
@@ -42,9 +45,12 @@ export function AppImage({
   // When both the original src and fallback fail
   const hasReallyErrored = errored && (!fallback || (errored && resolvedSrc === fallback))
 
+  // Destructure children and other potential non-DOM props from rest
+  const { children: _children, ...restForNextImage } = rest as any;
+
   const commonProps = {
     src: resolvedSrc,
-    alt: alt || "",
+    alt: String(alt || ""),
     priority,
     onLoad: () => setIsLoading(false),
     onError: () => {
@@ -52,27 +58,35 @@ export function AppImage({
       setErrored(true)
     },
     className: cn(
-      "duration-700 ease-in-out transition-all",
-      isLoading || errored ? "scale-[1.02] blur-sm grayscale opacity-0" : "scale-100 blur-0 grayscale-0 opacity-100",
+      isCompact ? "duration-300 ease-out transition-all" : "duration-700 ease-in-out transition-all",
+      isLoading || errored 
+        ? cn("opacity-0", isCompact ? "scale-100 blur-[2px]" : "scale-[1.02] blur-sm grayscale") 
+        : cn("opacity-100 scale-100 blur-0 grayscale-0"),
       fill ? "object-cover" : "",
       className
     ),
-    ...rest
+    ...restForNextImage
   }
 
   const skeleton = (
     <div
+      key="skeleton"
       className={cn(
-        "absolute inset-0 z-10 bg-neutral-100 dark:bg-neutral-900 animate-pulse",
+        "absolute inset-0 z-10 bg-neutral-100 dark:bg-neutral-900",
+        isCompact ? "animate-none bg-muted/40" : "animate-pulse",
         fill ? "" : "rounded-md"
       )}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-shimmer" />
+      <div className={cn(
+        "absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full",
+        isCompact ? "animate-shimmer-fast" : "animate-shimmer"
+      )} />
     </div>
   )
 
   const fallbackUI = (
     <div
+      key="fallback"
       className={cn(
         "absolute inset-0 z-20 flex flex-col items-center justify-center bg-neutral-100 dark:bg-neutral-900",
         fill ? "" : "rounded-md",
@@ -81,29 +95,33 @@ export function AppImage({
     >
       <ImageOff className="w-8 h-8 text-neutral-400 mb-2" />
       <span className="text-[10px] uppercase font-bold tracking-widest text-neutral-400 px-4 text-center truncate w-full">
-        {alt || "Image Unavailable"}
+        {String(alt || "Image Unavailable")}
       </span>
     </div>
   )
 
   const content = (
-    <>
+    <React.Fragment>
       {(isLoading && !errored) && skeleton}
       {hasReallyErrored ? fallbackUI : (
         <NextImage
           {...commonProps}
           {...(fill 
-            ? { fill: true, sizes: rest.sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" }
-            : { width, height, style: { ...rest.style, objectFit } }
+            ? { fill: true, sizes: restForNextImage.sizes || "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" }
+            : { width, height, style: { ...restForNextImage.style, objectFit } }
           )}
         />
       )}
-    </>
+    </React.Fragment>
   )
 
   if (fill) {
     return (
-      <div className={cn("relative w-full h-full overflow-hidden", wrapperClassName)}>
+      <div className={cn(
+        "relative w-full h-full overflow-hidden", 
+        isCompact && "rounded-xl ring-1 ring-inset ring-black/[0.08] dark:ring-white/[0.08] bg-muted/10",
+        wrapperClassName
+      )}>
         {content}
       </div>
     )
@@ -111,7 +129,11 @@ export function AppImage({
 
   return (
     <div
-      className={cn("relative overflow-hidden inline-block", wrapperClassName)}
+      className={cn(
+        "relative overflow-hidden inline-block", 
+        isCompact && "rounded-xl ring-1 ring-inset ring-black/[0.08] dark:ring-white/[0.08] bg-muted/10",
+        wrapperClassName
+      )}
       style={!fill ? { width, height } : {}}
     >
       {content}

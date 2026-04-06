@@ -37,126 +37,114 @@ export function Reviews() {
   );
 
   return (
-    <section className="py-16 bg-background relative overflow-hidden transition-colors duration-300">
-      {/* Background gradients for premium feel */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[100px] translate-y-1/4 pointer-events-none"></div>
-
-      <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-10 relative z-10 w-full">
-        <div className="text-center space-y-4 max-w-2xl mx-auto">
-          <div className="space-y-4">
-            <span className="text-primary font-semibold text-sm block">
-              Real Customer Experiences
+    <section className="py-14 bg-background relative overflow-hidden transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 w-full">
+        <div className="flex items-baseline justify-between mb-8 px-1">
+          <div className="space-y-0.5">
+            <span className="text-brand-red font-bold uppercase tracking-[0.2em] text-[9px] block">
+              Customer Trust
             </span>
-            <h2 className="font-display text-2xl md:text-3xl lg:text-3xl font-bold tracking-tight text-foreground">
-              What Our Passengers Are Saying
+            <h2 className="text-2xl font-bold tracking-tight text-foreground leading-tight">
+              What Our Passengers Say
             </h2>
           </div>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8">
-            <div className="flex items-center gap-2 bg-muted px-5 py-2.5 rounded-full border border-border shadow-sm">
-              <span className="font-bold text-lg text-foreground">4.7</span>
-              <div className="flex bg-redmix/10 px-2 py-1 rounded-full border border-redmix/20">
-                <Star className="w-4 h-4 text-redmix fill-current" />
-                <Star className="w-4 h-4 text-redmix fill-current" />
-                <Star className="w-4 h-4 text-redmix fill-current" />
-                <Star className="w-4 h-4 text-redmix fill-current" />
-                <Star className="w-4 h-4 text-redmix fill-current opacity-50" />
-              </div>
-              <span className="text-xs font-medium text-muted-foreground ml-1">
-                Based on 1,000+ verified reviews
-              </span>
+          <div className="hidden sm:flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full border border-border/50">
+            <span className="font-bold text-sm text-foreground">4.7</span>
+            <div className="flex text-brand-red scale-75 origin-left">
+              <Star className="w-3.5 h-3.5 fill-current" />
+              <Star className="w-3.5 h-3.5 fill-current" />
+              <Star className="w-3.5 h-3.5 fill-current" />
+              <Star className="w-3.5 h-3.5 fill-current" />
             </div>
-            <div className="flex items-center gap-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-4 py-2 rounded-full font-semibold text-xs border border-emerald-500/20">
-              <CheckCircle2 className="w-4 h-4" />
-              85% 5-Star Ratings
-            </div>
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider ml-1 border-l border-border/50 pl-2">
+              1K+ Reviews
+            </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 w-full">
           {visibleReviews.map((rev, i) => (
             <div
               key={currentIndex + i}
-              className="flex flex-col relative p-5 rounded-md bg-card backdrop-blur-sm border border-border shadow-lg hover:shadow-2xl transition-all duration-300 group overflow-hidden"
+              className="group flex flex-col p-4 rounded-xl bg-card border border-border/60 hover:border-brand-red/20 shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10 transition-all duration-500 group-hover:bg-primary/15 pointer-events-none"></div>
-
-              <div className="relative z-10 flex flex-col h-full space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-1 text-redmix">
-                    {[...Array(rev.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-xs font-semibold text-muted-foreground/90 tracking-wider">
-                    {new Date(rev.date).toLocaleDateString("en-US", {
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </span>
+              {/* Profile - Positioned on Top */}
+              <div className="flex items-center gap-3 mb-3.5">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-red to-brand-red-light flex items-center justify-center text-white font-bold text-sm shadow-sm shrink-0">
+                  {rev.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .substring(0, 2)
+                    .toUpperCase()}
                 </div>
-
-                <div className="flex-grow">
-                  <Quote className="w-6 h-6 text-primary/50 mb-3" />
-                  <p className="text-foreground/90 text-sm font-medium leading-relaxed italic line-clamp-6">
-                    "{rev.text}"
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-4 pt-6 border-t border-border/50">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-bold text-lg shadow-md shrink-0">
-                    {rev.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .substring(0, 2)
-                      .toUpperCase()}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground flex items-center gap-1.5 text-sm">
+                <div className="flex-grow min-w-0">
+                  <div className="flex items-center justify-between mb-0.5">
+                    <h4 className="font-bold text-foreground flex items-center gap-1 text-[13px] truncate">
                       {rev.name}
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                      <CheckCircle2 className="w-3 h-3 text-emerald-500 fill-emerald-500/10" />
                     </h4>
-                    <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1 mt-0.5">
-                      <MapPin className="w-3 h-3" /> Verified Buyer,{" "}
+                    <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.1em]">
+                      {new Date(rev.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="flex text-brand-red scale-[0.65] origin-left -ml-1">
+                      {[...Array(rev.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-current" />
+                      ))}
+                    </div>
+                    <span className="text-[9px] font-bold text-muted-foreground uppercase opacity-70 border-l border-border/50 pl-1.5 leading-none">
                       {rev.location}
-                    </p>
+                    </span>
                   </div>
                 </div>
+              </div>
+
+              <div className="relative flex-grow">
+                <Quote className="w-4 h-4 text-brand-red/20 absolute -top-1 -left-1 transform -translate-x-1 -translate-y-1" />
+                <p className="text-foreground/90 text-[11px] font-medium leading-relaxed font-sans line-clamp-5 px-1 pt-1 opacity-90">
+                  {rev.text}
+                </p>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-border/30">
-          <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between gap-6 pt-6 mt-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={prevReviews}
-              className="p-3.5 rounded-full border border-border bg-card hover:bg-muted transition-all text-foreground shadow-sm hover:shadow-md active:scale-95"
+              className="w-9 h-9 rounded-full border border-border/60 bg-card hover:bg-muted transition-all flex items-center justify-center text-foreground hover:border-brand-red/30 active:scale-90"
               aria-label="Previous Reviews"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4" />
             </button>
-            <div className="text-xs font-semibold text-muted-foreground bg-card px-4 py-2 rounded-full border border-border/50">
-              Showing {currentIndex + 1}-
-              {Math.min(currentIndex + itemsPerPage, REVIEWS.length)} of{" "}
+            <div className="text-[10px] font-black text-muted-foreground uppercase tracking-widest bg-muted/40 px-3 py-1.5 rounded-lg border border-border/40">
+              {currentIndex + 1}-
+              {Math.min(currentIndex + itemsPerPage, REVIEWS.length)} /{" "}
               {REVIEWS.length}
             </div>
             <button
               onClick={nextReviews}
-              className="p-3.5 rounded-full border border-border bg-card hover:bg-muted transition-all text-foreground shadow-sm hover:shadow-md active:scale-95"
+              className="w-9 h-9 rounded-full border border-border/60 bg-card hover:bg-muted transition-all flex items-center justify-center text-foreground hover:border-brand-red/30 active:scale-90"
               aria-label="Next Reviews"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
           <Link
             href={"/reviews" as any}
-            className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full text-sm font-bold tracking-wide hover:bg-primary/90 transition-all hover:gap-3 group shadow-lg shadow-primary/25"
+            className="flex items-center gap-1.5 text-brand-red font-bold hover:text-brand-blue dark:hover:text-brand-red-light transition-all active:scale-95 group"
           >
-            Read All Reviews
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            <span className="text-[10px] uppercase tracking-wider">
+              Read All Stories
+            </span>
+            <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>

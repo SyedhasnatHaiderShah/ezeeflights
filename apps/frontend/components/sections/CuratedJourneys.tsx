@@ -42,69 +42,68 @@ const JOURNEYS: Journey[] = [
 
 export function CuratedJourneys() {
   return (
-    <section id="destinations" className="py-16 bg-muted/30 dark:bg-background relative overflow-hidden transition-colors duration-300">
+    <section id="destinations" className="py-14 bg-muted/30 dark:bg-background relative overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
-          <div className="space-y-1">
-            <span className="text-brand-red font-semibold tracking-widest capitalize text-[10px]">Exclusive Collections</span>
-            <h2 className="font-display font-bold text-3xl tracking-tight text-foreground leading-tight">
+        <div className="flex items-baseline justify-between mb-8 px-1">
+          <div className="space-y-0.5">
+            <span className="text-brand-red font-bold uppercase tracking-[0.2em] text-[9px] block">Exclusive Collections</span>
+            <h2 className="font-bold text-2xl tracking-tight text-foreground leading-tight">
               Curated Journeys
             </h2>
           </div>
-          <button className="flex items-center space-x-1.5 text-brand-red font-bold hover:text-brand-blue dark:hover:text-brand-red-light transition-colors group">
-            <span className="text-[11px] capitalize tracking-widest">Explore All</span>
+          <button className="flex items-center space-x-1 text-brand-red font-bold hover:text-brand-blue dark:hover:text-brand-red-light transition-all active:scale-95 group">
+            <span className="text-[10px] uppercase tracking-wider">Explore All</span>
             <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {JOURNEYS.map((dest, i) => (
             <div
               key={i}
-              className="group flex flex-col bg-card border border-border hover:border-brand-red/20 rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
+              className="group flex flex-row items-center gap-4 bg-card border border-border/60 hover:border-brand-red/20 rounded-xl p-3 cursor-pointer shadow-sm hover:shadow-md transition-all duration-300"
             >
-              {/* Image Container - More Compact */}
-              <div className="h-44 md:h-48 relative border-b border-border overflow-hidden">
+              {/* Square Image Thumbnail */}
+              <div className="relative w-28 h-28 shrink-0 overflow-hidden rounded-lg">
                 <AppImage
                   src={dest.img}
                   alt={dest.city}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="group-hover:scale-105 transition-transform duration-700 ease-out object-cover"
+                  isCompact={true}
+                  sizes="112px"
+                  className="group-hover:scale-105 transition-transform duration-500 ease-out object-cover"
                 />
-
-                {/* Compact Dynamic Status Tag */}
-                <div className="absolute top-3 right-3 z-20">
-                  <span className={`text-[9px] font-bold px-2.5 py-1 rounded-full shadow-sm tracking-widest capitalize ${dest.tagColor.replace("bg-", "dark:bg-opacity-20 bg-").replace("text-", "dark:text-")} border border-white/20 backdrop-blur-md`}>
+                
+                {/* Status Tag - Repositioned for Compactness */}
+                <div className="absolute top-1.5 right-1.5 z-20">
+                  <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-md shadow-sm tracking-widest uppercase ${dest.tagColor.replace("bg-", "dark:bg-opacity-20 bg-").replace("text-", "dark:text-")} border border-white/10 backdrop-blur-md`}>
                     {dest.tag}
                   </span>
                 </div>
               </div>
 
-              {/* Card Content Segment - Refined Padding */}
-              <div className="p-5 md:p-6 flex flex-col flex-grow transition-colors">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="space-y-0.5">
-                    <h3 className="font-display font-bold text-lg text-foreground tracking-tight group-hover:text-brand-red transition-colors">
-                      {dest.city}
-                    </h3>
-                    <p className="text-muted-foreground font-medium text-[11px] capitalize">{dest.desc}</p>
-                  </div>
-                  <div className="flex text-redmix drop-shadow-sm scale-75 origin-right">
+              {/* Refined Content Area */}
+              <div className="flex flex-col flex-grow min-w-0 pr-1">
+                <div className="flex justify-between items-start mb-1">
+                  <div className="flex text-brand-red scale-75 origin-left -ml-1">
                     <Star className="h-4 w-4 fill-current" />
                     <Star className="h-4 w-4 fill-current" />
                     <Star className="h-4 w-4 fill-current" />
                   </div>
                 </div>
 
-                <div className="mt-auto pt-4 border-t border-border flex justify-between items-end">
+                <h3 className="font-bold text-[15px] text-foreground tracking-tight truncate group-hover:text-brand-red transition-colors">
+                  {dest.city}
+                </h3>
+                <p className="text-muted-foreground font-medium text-[11px] truncate mb-3">{dest.desc}</p>
+
+                <div className="flex justify-between items-end mt-auto">
                   <div className="flex flex-col">
-                    <span className="text-muted-foreground font-medium text-[9px] capitalize tracking-widest mb-0.5">From</span>
-                    <span className="font-bold text-base text-brand-red font-display leading-none">{dest.price}</span>
+                    <span className="text-muted-foreground font-bold text-[8px] uppercase tracking-wider -mb-0.5">From</span>
+                    <span className="font-bold text-[15px] text-brand-red leading-none">{dest.price}</span>
                   </div>
 
-                  {/* Decorative Action Button - Scaled down */}
-                  <div className="w-8 h-8 rounded-md bg-muted text-foreground flex items-center justify-center group-hover:bg-brand-red group-hover:text-white transition-all shadow-sm">
+                  <div className="w-7 h-7 rounded-md bg-muted text-muted-foreground flex items-center justify-center group-hover:bg-brand-red group-hover:text-white transition-all shadow-sm">
                     <ArrowRight className="w-3.5 h-3.5 -rotate-45 group-hover:rotate-0 transition-transform duration-300" />
                   </div>
                 </div>

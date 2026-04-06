@@ -33,10 +33,15 @@ const buttonVariants = cva(
                 xl: "h-14 rounded-md px-6 text-base",
                 icon: "h-10 w-10",
             },
+            shimmer: {
+                true: "relative overflow-hidden group",
+                false: "",
+            },
         },
         defaultVariants: {
             variant: "default",
             size: "default",
+            shimmer: true,
         },
     }
 );
@@ -48,14 +53,25 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, ...props }, ref) => {
+    ({ className, variant, size, shimmer = true, asChild = false, children, ...props }, ref) => {
         const Comp = asChild ? Slot : "button";
         return (
             <Comp
-                className={cn(buttonVariants({ variant, size, className }))}
+                className={cn(buttonVariants({ variant, size, shimmer, className }))}
                 ref={ref}
                 {...props}
-            />
+            >
+                {shimmer && (
+                  <div className="absolute inset-0 bg-white/10 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:250%_250%] opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-300 pointer-events-none z-0" />
+                )}
+                {asChild ? (
+                  children
+                ) : (
+                  <span className={cn("inline-flex items-center gap-2", shimmer && "relative z-10")}>
+                    {children}
+                  </span>
+                )}
+            </Comp>
         );
     }
 );

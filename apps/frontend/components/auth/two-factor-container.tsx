@@ -28,17 +28,12 @@ export function TwoFactorContainer() {
   };
 
   return (
-    <div className="space-y-3">
-      <p className="text-sm text-slate-600">
-        Enter the code from your authenticator app. Your pending challenge is stored in an HttpOnly cookie.
-      </p>
-      <TwoFactorForm
-        code={code}
-        onCodeChange={setCode}
-        onSubmit={onSubmit}
-        disabled={busy}
-        error={error}
-      />
-    </div>
+    <TwoFactorForm
+      code={code}
+      onCodeChange={setCode}
+      onSubmit={onSubmit}
+      disabled={busy}
+      error={error}
+    />
   );
 }

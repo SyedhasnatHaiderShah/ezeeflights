@@ -6,14 +6,19 @@ import { AppImage } from "@/components/ui/app-image";
 export function Hero() {
   return (
     <section className="relative w-full pt-20 pb-5 overflow-hidden lg:min-h-[70dvh] h-auto bg-muted/10 dark:bg-background transition-colors duration-300">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full flex items-center gap-10">
+      <div className="max-w-[1400px] mx-auto px-5 w-full flex items-center gap-5">
         {/* Left Side: Content & Search (3/4 width) */}
-        <div className="flex flex-col space-y-5 py-12 lg:w-[70%]">
+        <div className="flex flex-col space-y-5 py-12 lg:w-[70%] w-full">
           <div className="flex flex-col space-y-4">
-            <h1 className="text-5xl lg:text-5xl font-bold tracking-tight text-foreground">
-              Find the right hotel from 100s of sites
+            <h1 className="text-3xl lg:text-5xl font-bold tracking-tight text-foreground break-words">
+              Domestic & International Flights Booking in USA
               <span className="text-brand-red">.</span>
             </h1>
+            <p className="text-sm lg:text-base text-foreground max-w-2xl">
+              Reach new heights with EzeeFlights' unbeatable domestic &
+              international deals! Explore your dream destination at the perfect
+              price with cheap budget airlines!
+            </p>
           </div>
 
           <div className="w-full animate-in fade-in slide-in-from-bottom-8 duration-1000">
@@ -22,7 +27,7 @@ export function Hero() {
         </div>
 
         {/* Right Side: Organic Mosaic Grid (1/4 width) */}
-        <div className="hidden lg:flex gap-2 h-[500px] py-12 -mr-32 relative lg:w-[30%]">
+        <div className="hidden lg:flex gap-2 h-[500px] py-12 -mr-32 relative lg:w-[30%] hidden">
           <div className="flex-1 flex flex-col gap-4 animate-in slide-in-from-right-20 duration-1000">
             <div className="flex-[0.6] rounded-2xl overflow-hidden bg-muted relative group">
               <AppImage

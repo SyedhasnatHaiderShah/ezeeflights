@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   Phone,
   UserCircle,
@@ -11,14 +11,16 @@ import {
   Briefcase,
   Sparkles,
   Sun,
-  Moon
-} from "lucide-react"
-import { useTheme } from "next-themes"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+  Moon,
+  User,
+} from "lucide-react";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 // @ts-ignore
-import logo from "@/public/logo.svg"
-import Link from "next/link"
+import logo from "@/public/logo.svg";
+import EzeeFlightsLogo from "@/components/ezee-flights-logo";
+import Link from "next/link";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -26,21 +28,21 @@ import {
   NavigationMenuList,
   // @ts-ignore
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog"
-import { AppImage } from "@/components/ui/app-image"
+} from "@/components/ui/dialog";
+import { AppImage } from "@/components/ui/app-image";
 
 interface NavLink {
   href: string;
@@ -52,21 +54,23 @@ const NAV_LINKS: NavLink[] = [
   { href: "/stays", label: "Stays" },
   { href: "/cars", label: "Cars" },
   { href: "/packages", label: "Packages" },
-]
+];
+
+import { AppIcon } from "@/components/ui/app-icon";
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = React.useState(false)
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
-    setMounted(true)
+    setMounted(true);
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header
@@ -74,7 +78,7 @@ export function Header() {
         "fixed top-0 w-full z-50 transition-all duration-300 border-b",
         isScrolled
           ? "h-16 bg-background shadow-md border-brand-gray"
-          : "h-20 bg-background/95 backdrop-blur-sm border-transparent"
+          : "h-20 bg-background/95 backdrop-blur-sm border-transparent",
       )}
     >
       <div className="flex justify-between items-center h-full px-4 md:px-6 max-w-full mx-auto">
@@ -82,21 +86,26 @@ export function Header() {
         <div className="flex items-center gap-6">
           <Dialog>
             <DialogTrigger asChild>
-              <button className="p-2 hover:bg-muted rounded-md transition-colors">
-                <Menu className="w-5 h-5 text-foreground" />
+              <button className="p-2 hover:bg-redmix/5 rounded-md transition-colors bg-white border border-redmix/30">
+                <Menu className="w-5 h-5 text-redmix" />
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-xs h-full top-0 left-0 translate-x-0 translate-y-0 rounded-none p-0 border-none">
               <div className="flex flex-col h-full bg-background">
                 <div className="flex items-center justify-between p-4 border-b">
                   <DialogTitle className="sr-only">Menu</DialogTitle>
-                  <DialogDescription className="sr-only">Navigational links for easy flights</DialogDescription>
+                  <DialogDescription className="sr-only">
+                    Navigational links for easy flights
+                  </DialogDescription>
                   <Link href="/" className="flex gap-0.5 group">
-                    <AppImage src={logo} alt="Logo" className="w-24 h-auto" width={100} height={40} />
+                    <EzeeFlightsLogo
+                      isDarkMode={mounted && theme === "dark"}
+                      className="w-24 h-auto"
+                    />
                   </Link>
                 </div>
                 <div className="flex flex-col p-4 gap-4">
-                  {NAV_LINKS.map(link => (
+                  {NAV_LINKS.map((link) => (
                     <Link
                       key={link.label}
                       href={link.href as any}
@@ -108,7 +117,9 @@ export function Header() {
                 </div>
                 <div className="mt-auto p-4 border-t bg-muted space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold opacity-60">Currency</span>
+                    <span className="text-sm font-bold opacity-60">
+                      Currency
+                    </span>
                     <span className="text-sm font-bold">USD</span>
                   </div>
                   <Button variant="brand-red" className="w-full font-bold h-12">
@@ -120,45 +131,54 @@ export function Header() {
           </Dialog>
 
           <Link href="/" className="flex items-center gap-0.5 group">
-            <AppImage src={logo} alt="Logo" className="w-32 h-auto" width={128} height={40} priority />
+            <EzeeFlightsLogo
+              isDarkMode={mounted && theme === "dark"}
+              className="w-32 h-auto"
+            />
           </Link>
         </div>
 
         {/* Right Side: Utils & Auth */}
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-2 md:gap-4">
+          {/* Ask AI Pill */}
+          <AppIcon
+            icon={Sparkles}
+            label="Ask AI"
+            className="hidden sm:flex"
+            onClick={() => console.log("AI search open")}
+          />
           {/* Favorites Heart */}
-          <button className="p-2 hover:bg-muted rounded-full transition-colors text-brand-blue/70 hover:text-brand-blue dark:text-brand-red-light/70 dark:hover:text-brand-red-light">
-            <Heart className="w-5 h-5" />
-          </button>
+          <AppIcon
+            icon={Heart}
+            onClick={() => console.log("Favorites open")}
+            isFill
+          />
 
-          {/* Theme Toggle */}
-          <button
+          {/* Theme Toggle (Optional/Hidden if needed, but keeping for utility) */}
+          <AppIcon
+            icon={mounted && theme === "dark" ? Sun : Moon}
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 hover:bg-muted rounded-full transition-colors text-brand-blue/70 hover:text-brand-blue dark:text-brand-red-light/70 dark:hover:text-brand-red-light"
-            aria-label="Toggle theme"
-          >
-            {mounted && (theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />)}
-            {!mounted && <Sun className="w-5 h-5 opacity-0" />}
-          </button>
+            isFill
+          />
 
           {/* User Profile */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center cursor-pointer gap-2 p-0.5 hover:ring-2 hover:ring-brand-gray transition-all rounded-full">
-                <div className="w-8 h-8 rounded-full overflow-hidden bg-brand-red flex items-center justify-center border border-brand-red">
-                  <UserCircle className="w-8 h-8 flex items-center justify-center text-white" />
-                </div>
-              </button>
+              <div>
+                <AppIcon icon={User} isFill />
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem className="font-semibold">Sign in</DropdownMenuItem>
+              <DropdownMenuItem className="font-semibold">
+                Sign in
+              </DropdownMenuItem>
               <DropdownMenuItem>Trips</DropdownMenuItem>
-              <div className="h-[1px] bg-brand-gray my-1" />
+              <div className="h-px bg-brand-gray my-1" />
               <DropdownMenuItem>Preferences</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
     </header>
-  )
+  );
 }

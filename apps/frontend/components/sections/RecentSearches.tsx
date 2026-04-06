@@ -15,6 +15,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AppIcon } from "../ui/app-icon";
 
 interface MockSearch {
   id: number;
@@ -97,10 +98,12 @@ export function RecentSearches() {
             className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-brand-red/10 hover:bg-brand-red/[0.02] hover:shadow-xl dark:hover:shadow-black/40 transition-all duration-300"
           >
             <div className="flex items-center gap-6 px-6 py-5">
-              {/* Icon */}
-              <div className="w-11 h-11 rounded-full bg-redmix flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-300">
-                <search.icon className="w-5 h-5 text-white" strokeWidth={2.5} />
-              </div>
+              <AppIcon
+                icon={search.icon}
+                isActive={true}
+                isFill={false}
+                className="w-11 h-11 pointer-events-none"
+              />
 
               {/* Route */}
               <div className="flex items-center gap-4 min-w-[240px]">
@@ -178,16 +181,13 @@ export function RecentSearches() {
             </p>
             <div className="flex flex-wrap items-center gap-2">
               {CATEGORIES.map((cat) => (
-                <motion.button
+                <AppIcon
                   key={cat.id}
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  title={cat.label}
-                  className="flex items-center gap-2 bg-card border border-border text-foreground text-[13px] font-bold rounded-xl px-3.5 py-2 hover:border-brand-red/50 hover:text-brand-red transition-all shadow-sm active:shadow-inner"
-                >
-                  <cat.icon className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
-                  {cat.label}
-                </motion.button>
+                  icon={cat.icon}
+                  label={cat.label}
+                  isFill={false}
+                  className="h-9 px-3.5 text-[12px] bg-card border-border hover:border-brand-red/50 transition-all shadow-sm"
+                />
               ))}
             </div>
           </div>

@@ -11,7 +11,7 @@ interface Destination {
 }
 
 const DESTINATIONS: Destination[] = [
-  { id: 1, name: "Los Angeles", image: "https://images.unsplash.com/photo-1542736667-069246bdf6d7?q=80&w=800&auto=format&fit=crop" },
+  { id: 1, name: "Los Angeles", image: "https://images.unsplash.com/photo-1534430480872-3498386e7a56?q=80&w=800&auto=format&fit=crop" },
   { id: 2, name: "Atlanta", image: "https://images.unsplash.com/photo-1575917649705-5b59aaa12e6b?q=80&w=800&auto=format&fit=crop" },
   { id: 3, name: "New York", image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=800&auto=format&fit=crop" },
   { id: 4, name: "Fort Lauderdale", image: "https://images.unsplash.com/photo-1596250410216-1ac77dc208e3?q=80&w=800&auto=format&fit=crop" },
@@ -23,45 +23,47 @@ const DESTINATIONS: Destination[] = [
 
 export function TopDestinations() {
   return (
-    <section className="py-16 bg-background relative overflow-hidden">
+    <section className="py-12 bg-background relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <h2 className="text-3xl font-bold text-foreground font-display mb-10 tracking-tight">
-          Top Flight Destinations
-        </h2>
+        <div className="flex items-baseline justify-between mb-8 px-1">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            Top Flight Destinations
+          </h2>
+          <Link href="/destinations" className="text-xs font-bold text-brand-red hover:underline uppercase tracking-wider">
+            View all
+          </Link>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-4">
           {DESTINATIONS.map((dest) => (
             <Link
               href={`/destinations/${dest.name.toLowerCase().replace(/\s+/g, "-")}` as any}
               key={dest.id}
-              className="group relative h-[220px] sm:h-[240px] rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 block border border-border/40"
+              className="group flex items-center gap-4 p-2.5 rounded-xl bg-card border border-border/50 hover:border-brand-red/20 hover:bg-brand-red/[0.02] hover:shadow-md transition-all duration-300"
             >
-              <AppImage
-                src={dest.image}
-                alt={`${dest.name} Flight Destination`}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className="group-hover:scale-105 transition-all duration-700 ease-out object-cover"
-              />
-
-              {/* Sleeker Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-
-              {/* Compact Arrow Element */}
-              <div className="absolute top-3 right-3 w-8 h-8 border border-white/20 rounded-md flex items-center justify-center backdrop-blur-md bg-white/10 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14"></path>
-                  <path d="m12 5 7 7-7 7"></path>
-                </svg>
+              {/* Compact Thumbnail Container */}
+              <div className="relative w-16 h-16 shrink-0 overflow-hidden rounded-lg">
+                <AppImage
+                  src={dest.image}
+                  alt={dest.name}
+                  fill
+                  isCompact={true}
+                  sizes="64px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
               </div>
 
-              {/* Text - Left Aligned and Compact */}
-              <div className="absolute inset-x-0 bottom-0 p-5 flex flex-col items-start justify-end transform">
-                <h3 className="text-white text-lg font-bold font-display tracking-tight drop-shadow-md">
+              {/* Text Content - Compact & Clean */}
+              <div className="flex flex-col min-w-0">
+                <h3 className="text-[15px] font-bold text-foreground truncate group-hover:text-brand-red transition-colors">
                   {dest.name}
                 </h3>
-                {/* Minimal bar */}
-                <div className="w-0 h-[2px] bg-brand-red mt-1.5 transition-all duration-500 group-hover:w-8 rounded-full" />
+                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide mt-0.5">
+                  Flights to {dest.name}
+                </p>
+                
+                {/* Minimalist interactive indicator */}
+                <div className="w-0 h-[1.5px] bg-brand-red mt-1.5 transition-all duration-300 group-hover:w-4 rounded-full" />
               </div>
             </Link>
           ))}

@@ -32,34 +32,39 @@ const FEATURES: Feature[] = [
   },
 ]
 
+import { AppIcon } from "../ui/app-icon"
+ 
 export function WhyChooseUs() {
   return (
-    <section className="py-16 bg-background relative overflow-hidden border-t border-border/40 transition-colors duration-300">
+    <section className="py-14 bg-background relative overflow-hidden border-t border-border/40 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="text-center mb-10 space-y-2">
-          <h2 className="text-4xl md:text-5xl font-semibold text-foreground opacity-90 font-display">
+        <div className="flex flex-col items-start mb-8 space-y-1">
+          <span className="text-brand-red font-bold uppercase tracking-[0.2em] text-[10px] block">The Modern Choice</span>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground leading-tight">
             Why Choose Ezee Flights
           </h2>
-          <p className="text-muted-foreground text-lg mt-2">Best deals on international flights in just a few clicks</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+ 
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {FEATURES.map((feature, idx) => (
             <div
               key={idx}
-              className="group flex flex-col items-center text-center lg:items-start lg:text-left gap-4 p-4 md:p-6 rounded-2xl bg-card backdrop-blur-sm border border-border/80 hover:shadow-xl hover:shadow-brand-red/5 transition-all duration-300 hover:-translate-y-1 relative"
+              className="group flex items-center gap-4 p-3 rounded-xl bg-card border border-border/60 hover:border-brand-red/20 hover:bg-brand-red/[0.02] transition-all duration-300"
             >
-              {/* Icon Container - Smaller and Square */}
-              <div className="w-12 h-12 shrink-0 rounded-xl bg-muted flex items-center justify-center text-brand-red border border-border group-hover:scale-105 group-hover:bg-brand-red group-hover:text-white transition-all duration-300">
-                <feature.icon className="w-6 h-6" strokeWidth={2} />
+              <div className="shrink-0">
+                <AppIcon
+                  icon={feature.icon}
+                  isFill={true}
+                  isActive={true}
+                  className="w-11 h-11 pointer-events-none"
+                />
               </div>
-
-              {/* Text Content - Focused and Compact */}
-              <div className="flex flex-col">
-                <h3 className="text-base font-bold text-foreground font-display mb-1 group-hover:text-brand-red transition-colors">
+ 
+              <div className="flex flex-col min-w-0 pr-1">
+                <h3 className="text-[15px] font-bold text-foreground group-hover:text-brand-red transition-colors truncate">
                   {feature.title}
                 </h3>
-                <p className="text-xs font-medium text-muted-foreground leading-snug">
+                <p className="text-[11px] font-medium text-muted-foreground leading-tight line-clamp-2">
                   {feature.text}
                 </p>
               </div>

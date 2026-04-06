@@ -7,6 +7,7 @@ import { LocationInput } from "@/components/ui/location-input";
 import { DatePicker } from "@/components/ui/date-picker";
 import { PassengerSelector } from "@/components/ui/PassengerSelector";
 import { TripTypeSelector } from "./TripTypeSelector";
+import { Button } from "../ui/button";
 
 interface BookingSearchFormProps {
   variant?: "flight" | "hotel" | "car" | "package" | "cruise";
@@ -249,12 +250,12 @@ export function BookingSearchForm({
         </div>
 
         <div className="p-1.5 w-full lg:w-auto self-stretch flex items-center bg-background">
-          <button
+          <Button
             onClick={handleSearch}
             className="bg-redmix transition-all w-full lg:w-auto h-full rounded-sm font-semibold text-sm capitalize text-white px-5 cursor-pointer hover:shadow-lg hover:shadow-brand-red/20"
           >
             {resolvedLabels.search}
-          </button>
+          </Button>
         </div>
       </div>
 

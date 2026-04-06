@@ -10,7 +10,7 @@ export default function TwoFactorPage() {
       </div>
       <TwoFactorContainer />
       <p className="text-center text-sm text-slate-600">
-        <Link className="text-blue-600 hover:underline" href="/login">
+        <Link className="text-blue-600 hover:underline" href={'/auth/login' as any}>
           Back to login
         </Link>
       </p>
