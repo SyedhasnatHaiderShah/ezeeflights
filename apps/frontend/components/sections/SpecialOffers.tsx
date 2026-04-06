@@ -116,8 +116,8 @@ export function SpecialOffers() {
       </div>
 
       {/* Header Banner - Sleeker Height */}
-      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 mb-8">
-        <div className="w-full bg-gradient-to-r from-brand-blue via-blue-900 to-brand-blue py-4 rounded-xl shadow-lg border border-blue-800/30 text-center relative overflow-hidden">
+      <div className="w-full max-w-md mx-auto px-6 md:px-12 mb-8">
+        <div className="w-full bg-gradient-to-br from-redmix via-redmix-light to-redmix-dark py-4 rounded-full shadow-lg border border-blue-800/30 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:250%_250%] animate-shimmer pointer-events-none" />
           <h2 className="relative z-10 text-xl md:text-2xl font-bold text-white tracking-tight uppercase">
             Special Flight Offers

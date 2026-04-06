@@ -62,6 +62,8 @@
   --color-brand-dark: #192024;
   --color-brand-gray: #a1a1a1;
   --color-brand-gray-light: #f8f9fa;
+  --color-brand-yellow: #edbf26;
+  --color-brand-orange: #ff9c00;
 
   --animate-shimmer: shimmer 2s infinite;
   --animate-shimmer-fast: shimmer 1s infinite;
@@ -224,5 +226,21 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   /* Active effect for the icon when the tab is selected */
   .tab-trigger[data-state="active"] .tab-icon-box {
     @apply bg-gradient-to-tl from-brand-red to-brand-red-light shadow-sm text-white shadow-lg shadow-brand-red/20 scale-105;
+  }
+
+  .bg-brand-yellow {
+    background-color: #edbf26;
+  }
+
+  .text-brand-yellow {
+    color: #edbf26;
+  }
+
+  .bg-brand-orange {
+    background-color: #ff9c00;
+  }
+
+  .text-brand-orange {
+    color: #ff9c00;
   }
 }

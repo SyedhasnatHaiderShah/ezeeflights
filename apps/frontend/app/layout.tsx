@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import { MobileBottomNav } from "@/components/sections/MobileBottomNav";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AppSidebar } from "@/components/sections/AppSidebar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,9 +21,10 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.ezeeflights.com"),
   title: {
     default: "Ezee Flights | Premium Flight Booking & Aerospace Intelligence",
-    template: "%s | Ezee Flights"
+    template: "%s | Ezee Flights",
   },
-  description: "Experience premium flight booking with AI-powered recommendations. Discover curated journeys, exclusive offers, and a modern approach to global travel.",
+  description:
+    "Experience premium flight booking with AI-powered recommendations. Discover curated journeys, exclusive offers, and a modern approach to global travel.",
   keywords: [
     "flight booking",
     "premium flights",
@@ -32,7 +34,7 @@ export const metadata: Metadata = {
     "ezee flights",
     "vacation deals",
     "airline tickets",
-    "aero intelligence"
+    "aero intelligence",
   ],
   authors: [{ name: "Ezeewellness" }],
   creator: "Ezeeflights",
@@ -43,9 +45,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
@@ -53,7 +55,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://www.ezeeflights.com",
     title: "Ezee Flights | The Modern Navigator",
-    description: "Experience premium flight booking with AI-powered recommendations. Your exclusive gateway to global destinations.",
+    description:
+      "Experience premium flight booking with AI-powered recommendations. Your exclusive gateway to global destinations.",
     siteName: "Ezee Flights",
     images: [
       {
@@ -89,7 +92,7 @@ export default function RootLayout({
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           inter.variable,
-          notoTabs.variable
+          notoTabs.variable,
         )}
       >
         <ThemeProvider
@@ -98,6 +101,9 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
+          {/* Include the Sidebar globally */}
+          <AppSidebar />
+
           <div className="relative flex flex-col min-h-screen pb-16 md:pb-0">
             {children}
             <MobileBottomNav />
