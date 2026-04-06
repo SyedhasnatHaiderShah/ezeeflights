@@ -1,10 +1,26 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
+import helmet from 'helmet';
+import { appLogger } from './common/logging/winston';
 import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
+
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }),
+  );
+  app.use(cookieParser());
+
+  const frontendOrigin = process.env.FRONTEND_ORIGIN ?? 'http://localhost:3000';
+  app.enableCors({
+    origin: frontendOrigin,
+    credentials: true,
+  });
 
   app.enableVersioning({
     type: VersioningType.URI,
@@ -29,7 +45,9 @@ async function bootstrap(): Promise<void> {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(process.env.PORT ?? 4000);
+  const port = process.env.PORT ?? 4000;
+  await app.listen(port);
+  appLogger.info(`Listening on port ${port}`);
 }
 
 bootstrap();
