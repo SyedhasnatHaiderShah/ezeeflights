@@ -186,7 +186,10 @@ export function BookingSearchForm({
                 placeholder={placeholders.origin ?? `${resolvedLabels.origin}?`}
                 value={origin}
                 onChange={setOrigin}
-                className={cn("w-full lg:flex-1 h-16 border-b lg:border-none border-border", resolvedFlags.showSwap && "pr-6 lg:pr-6")}
+                className={cn(
+                  "w-full lg:flex-1 h-16 border-b lg:border-none border-border",
+                  resolvedFlags.showSwap && "pr-6 lg:pr-6",
+                )}
               />
 
               {resolvedFlags.showSwap && (
@@ -212,7 +215,10 @@ export function BookingSearchForm({
             }
             value={destination}
             onChange={setDestination}
-            className={cn("w-full lg:flex-1 h-16", resolvedFlags.showSwap && "lg:pl-6")}
+            className={cn(
+              "w-full lg:flex-1 h-16",
+              resolvedFlags.showSwap && "lg:pl-6",
+            )}
           />
         </div>
 

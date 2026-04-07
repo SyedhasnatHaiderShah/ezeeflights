@@ -4,10 +4,58 @@ import * as React from "react";
 import { Shield, ArrowRight, Cpu, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { AppIcon } from "../ui/app-icon";
 
 export function PrecisionFeatures() {
+  const [emblaRef] = useEmblaCarousel({ 
+    loop: true, 
+    align: "start",
+    breakpoints: {
+      '(min-width: 1024px)': { active: false } 
+    }
+  }, [Autoplay({ delay: 4000, stopOnInteraction: true })]);
+
+  const features = [
+    {
+      icon: Cpu,
+      title: "Aerospace Accuracy",
+      desc: "Algorithms process millions of flight paths to ensure zero-lag scheduling and optimal trajectories.",
+    },
+    {
+      icon: Activity,
+      title: "Predictive Preference",
+      desc: "AI that learns your travel rhythm—from seat pitch preferences to in-flight meal timing.",
+    },
+    {
+      icon: Shield,
+      title: "Immutable Safety",
+      desc: "Advanced diagnostic monitoring on every fleet, ensuring standards that exceed the norm.",
+    },
+  ];
+
+  const renderFeature = (feat: any, i: number) => (
+    <div key={i} className="flex items-start gap-4 group w-full">
+      <div className="shrink-0 transition-transform duration-500 group-hover:scale-105">
+        <AppIcon
+          icon={feat.icon}
+          isFill={true}
+          isActive={true}
+          className="w-11 h-11 pointer-events-none"
+        />
+      </div>
+      <div>
+        <h4 className="font-bold text-base mb-1 tracking-tight text-foreground group-hover:text-brand-red transition-colors">
+          {feat.title}
+        </h4>
+        <p className="text-muted-foreground leading-snug text-xs font-medium font-sans opacity-90">
+          {feat.desc}
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <section
       id="experiences"
@@ -23,43 +71,19 @@ export function PrecisionFeatures() {
             variant="lowest"
             className="p-4 md:p-6 bg-card/60 backdrop-blur-md shadow-sm rounded-xl border border-border/80"
           >
-            <div className="space-y-6">
-              {[
-                {
-                  icon: Cpu,
-                  title: "Aerospace Accuracy",
-                  desc: "Algorithms process millions of flight paths to ensure zero-lag scheduling and optimal trajectories.",
-                },
-                {
-                  icon: Activity,
-                  title: "Predictive Preference",
-                  desc: "AI that learns your travel rhythm—from seat pitch preferences to in-flight meal timing.",
-                },
-                {
-                  icon: Shield,
-                  title: "Immutable Safety",
-                  desc: "Advanced diagnostic monitoring on every fleet, ensuring standards that exceed the norm.",
-                },
-              ].map((feat, i) => (
-                <div key={i} className="flex items-start gap-4 group">
-                  <div className="shrink-0 transition-transform duration-500 group-hover:scale-105">
-                    <AppIcon
-                      icon={feat.icon}
-                      isFill={true}
-                      isActive={true}
-                      className="w-11 h-11 pointer-events-none"
-                    />
+            {/* Carousel for Mobile / Static for Desktop */}
+            <div className="lg:hidden overflow-hidden" ref={emblaRef}>
+              <div className="flex">
+                {features.map((feat, i) => (
+                  <div key={i} className="flex-[0_0_100%] min-w-0">
+                    {renderFeature(feat, i)}
                   </div>
-                  <div>
-                    <h4 className="font-bold text-base mb-1 tracking-tight text-foreground group-hover:text-brand-red transition-colors">
-                      {feat.title}
-                    </h4>
-                    <p className="text-muted-foreground leading-snug text-xs font-medium font-sans opacity-90">
-                      {feat.desc}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+            
+            <div className="hidden lg:flex flex-col gap-6">
+              {features.map(renderFeature)}
             </div>
           </Card>
         </div>

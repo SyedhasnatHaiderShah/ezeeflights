@@ -81,86 +81,100 @@ const CATEGORIES = [
 
 export function RecentSearches() {
   return (
-    <div className="w-full mt-12 h-auto min-h-[60dvh] animate-in fade-in duration-700">
-      <div className="flex items-baseline justify-between mb-8 px-1">
-        <h2 className="text-2xl font-bold tracking-tight text-foreground">
+    <div className="w-full mt-8 lg:mt-12 h-auto md:min-h-[40dvh]  animate-in fade-in duration-700 md:pb-20 pb-5 lg:pb-0">
+      <div className="flex items-baseline justify-between mb-6 lg:mb-8 px-1">
+        <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-foreground">
           Recent searches
         </h2>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 lg:gap-5">
         {MOCK_SEARCHES.map((search, index) => (
           <motion.div
             key={search.id}
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.08 * index, duration: 0.5, ease: "easeOut" }}
-            className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-brand-red/10 hover:bg-brand-red/[0.02] hover:shadow-xl dark:hover:shadow-black/40 transition-all duration-300"
+            className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-brand-red/20 hover:bg-muted/30 transition-all duration-300 shadow-sm hover:shadow-md"
           >
-            {/* <div className="shimmer-effect" /> */}
-            <div className="flex items-center gap-6 px-6 py-5 relative z-10">
-              <AppIcon
-                icon={search.icon}
-                isActive={true}
-                isFill={false}
-                className="w-11 h-11 pointer-events-none"
-              />
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-6 px-4 py-4 lg:px-6 lg:py-5 relative z-10">
+              <div className="flex items-center gap-4 lg:gap-6 flex-1">
+                <AppIcon
+                  icon={search.icon}
+                  isActive={true}
+                  isFill={true}
+                  className="w-10 h-10 lg:w-11 lg:h-11 shrink-0"
+                />
 
-              {/* Route */}
-              <div className="flex items-center gap-4 min-w-[240px]">
-                <div>
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.1em] leading-none mb-1.5 lg:mb-2 text-wrap">
-                    {search.originCity}
-                  </p>
-                  <p className="text-2xl font-semibold text-foreground tracking-tighter leading-none">
-                    {search.origin}
-                  </p>
-                </div>
+                {/* Route */}
+                <div className="flex items-center gap-3 lg:gap-4 flex-1 min-w-0">
+                  <div className="min-w-0">
+                    <p className="text-[10px] lg:text-xs font-bold text-muted-foreground uppercase tracking-wider leading-none mb-1 lg:mb-2 truncate">
+                      {search.originCity}
+                    </p>
+                    <p className="text-xl lg:text-2xl font-bold text-foreground tracking-tighter leading-none">
+                      {search.origin}
+                    </p>
+                  </div>
 
-                <div className="flex items-center gap-2 px-1">
-                  <div className="w-10 h-0.5 bg-border rounded-full" />
-                  <ArrowRight className="w-4 h-4 text-muted-foreground" />
-                </div>
+                  <div className="flex items-center gap-1.5 lg:gap-2 shrink-0">
+                    <div className="w-6 lg:w-10 h-0.5 bg-border rounded-full" />
+                    <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                  </div>
 
-                <div>
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.1em] leading-none mb-1.5 lg:mb-2 text-wrap">
-                    {search.destinationCity}
-                  </p>
-                  <p className="text-2xl font-semibold text-foreground tracking-tighter leading-none">
-                    {search.destination}
-                  </p>
+                  <div className="min-w-0">
+                    <p className="text-[10px] lg:text-xs font-bold text-muted-foreground uppercase tracking-wider leading-none mb-1 lg:mb-2 truncate">
+                      {search.destinationCity}
+                    </p>
+                    <p className="text-xl lg:text-2xl font-bold text-foreground tracking-tighter leading-none">
+                      {search.destination}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Divider */}
-              <div className="hidden lg:block w-[1.5px] h-10 bg-border mx-2" />
-
-              {/* Meta */}
-              <div className="hidden md:flex flex-col gap-1.5 flex-1 pl-2">
+              {/* MD+ Meta (Horizontally) */}
+              <div className="hidden md:flex flex-col gap-1 flex-1 border-l border-border/50 pl-6">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
-                  <Clock className="w-3.5 h-3.5 text-muted-foreground" />
-                  <span>{search.dates}</span>
+                  <Clock className="w-3.5 h-3.5" />
+                  <span className="truncate">{search.dates}</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
-                  <Users className="w-3.5 h-3.5 text-muted-foreground" />
-                  <span>
-                    {search.travelers} · {search.class} · {search.tripType}
+                <div className="flex items-center gap-2 text-xs text-muted-foreground/80">
+                  <Users className="w-3.5 h-3.5" />
+                  <span className="truncate">
+                    {search.travelers} · {search.class}
                   </span>
                 </div>
               </div>
 
-              {/* Price + tag */}
-              <div className="ml-auto flex items-center gap-6">
-                <div className="text-right">
-                  <p className="text-3xl font-black text-foreground tracking-tighter leading-none">
+              {/* Mobile-only Meta (Inline) */}
+              <div className="flex md:hidden items-center gap-3 py-2 border-t border-border/30">
+                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground font-medium">
+                  <Clock className="w-3 h-3" />
+                  <span>{search.dates}</span>
+                </div>
+                <div className="w-1 h-1 rounded-full bg-border" />
+                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground font-medium">
+                  <Users className="w-3 h-3" />
+                  <span>{search.travelers}</span>
+                </div>
+              </div>
+
+              {/* Price + Action */}
+              <div className="flex items-center justify-between sm:justify-end gap-4 lg:gap-6 pt-3 sm:pt-0 border-t sm:border-0 border-border/30">
+                <div className="text-left sm:text-right">
+                  <p className="text-2xl lg:text-3xl font-black text-foreground tracking-tighter leading-none">
                     {search.price}
+                  </p>
+                  <p className="text-[10px] font-bold text-brand-red uppercase tracking-wider mt-1 opacity-80">
+                    {search.tag}
                   </p>
                 </div>
 
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-white bg-gradient-to-tl from-brand-red to-brand-red-light shadow-lg shadow-brand-red/20 hover:shadow-brand-red/40 transition-all shrink-0"
+                  className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white bg-gradient-to-tl from-brand-red to-brand-red-light shadow-lg shadow-brand-red/20 hover:shadow-brand-red/40 transition-all shrink-0"
                 >
                   <Search className="w-5 h-5" strokeWidth={2.5} />
                 </motion.button>
@@ -169,32 +183,32 @@ export function RecentSearches() {
           </motion.div>
         ))}
 
-        {/* New Search card - Standardized & Compact */}
+        {/* New Search Section */}
         <motion.div
-          initial={{ opacity: 0, x: -16 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
-          className="relative bg-muted/20 border border-dashed border-border rounded-2xl px-6 py-4 flex items-center justify-between hover:bg-brand-red/[0.01] hover:border-brand-red/20 transition-all duration-300 group"
+          className="relative bg-muted/20 border border-dashed border-border rounded-2xl p-4 lg:px-6 lg:py-4 transition-all duration-300 group"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <p className="text-[13px] text-muted-foreground font-bold uppercase tracking-wider whitespace-nowrap">
-              Start new
-            </p>
-            <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Plus className="w-4 h-4 text-brand-red" />
+              <p className="text-[13px] text-muted-foreground font-bold uppercase tracking-wider">
+                Start new
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
               {CATEGORIES.map((cat) => (
                 <AppIcon
                   key={cat.id}
                   icon={cat.icon}
                   label={cat.label}
                   isFill={false}
-                  className="h-9 px-3.5 text-[12px] bg-card border-border hover:border-brand-red/50 transition-all shadow-sm"
+                  className="h-10 sm:h-9 px-3.5 text-[12px] bg-card border-border hover:border-brand-red/50 transition-all shadow-sm w-full sm:w-auto"
                 />
               ))}
             </div>
-          </div>
-
-          <div className="hidden lg:flex items-center justify-center w-9 h-9 rounded-full bg-muted text-muted-foreground group-hover:bg-brand-red/10 group-hover:text-brand-red transition-all">
-            <Plus className="w-5 h-5" />
           </div>
         </motion.div>
       </div>

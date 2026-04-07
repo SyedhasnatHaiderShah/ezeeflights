@@ -8,7 +8,10 @@ import {
   CircleDollarSign,
   LucideIcon,
 } from "lucide-react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { AppImage } from "@/components/ui/app-image";
+import { Button } from "@/components/ui/button";
 
 interface InfoCard {
   id: number;
@@ -86,32 +89,101 @@ const OFFERS: Offer[] = [
   },
 ];
 
-import { Button } from "@/components/ui/button";
-
 export function SpecialOffers() {
+  const [infoRef] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "center",
+      breakpoints: {
+        "(min-width: 768px)": { active: false },
+      },
+    },
+    [Autoplay({ delay: 3000, stopOnInteraction: true })],
+  );
+
+  const [offersRef] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "start",
+      breakpoints: {
+        "(min-width: 1024px)": { active: false },
+      },
+    },
+    [Autoplay({ delay: 4000, stopOnInteraction: true })],
+  );
+
+  const renderInfoCard = (card: InfoCard) => (
+    <div
+      key={card.id}
+      className="bg-card/80 backdrop-blur-md border border-border/60 rounded-2xl p-3.5 flex items-center gap-4 shadow-sm group w-full min-h-[80px]"
+    >
+      <div className="w-10 h-10 shrink-0 bg-brand-red/10 rounded-xl flex items-center justify-center text-brand-red group-hover:scale-105 transition-transform">
+        <card.icon className="w-5 h-5" strokeWidth={2.5} />
+      </div>
+      <div className="flex flex-col min-w-0">
+        <h4 className="text-[13px] font-black text-foreground font-display leading-tight mb-1">
+          {card.title}
+        </h4>
+        <div className="text-[11px] text-muted-foreground font-bold leading-normal whitespace-normal">
+          {card.text}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderOfferCard = (offer: Offer) => (
+    <div
+      key={offer.id}
+      className="group flex flex-col sm:flex-row items-center gap-4 p-3 rounded-2xl bg-card border border-border/60 shadow-sm hover:shadow-md transition-all duration-500 h-full w-full"
+    >
+      {/* Image Container - Compact Editorial Square */}
+      <div className="w-full sm:w-32 h-32 lg:h-32 shrink-0 relative overflow-hidden rounded-xl">
+        <AppImage
+          src={offer.image}
+          alt={offer.title}
+          fill
+          isCompact={true}
+          className="group-hover:scale-105 transition-transform duration-700 object-cover"
+        />
+      </div>
+
+      {/* Content - Compact Typography */}
+      <div className="flex flex-col flex-grow min-w-0 py-1">
+        <h3 className="text-sm font-bold text-brand-red mb-1 font-display group-hover:text-brand-blue dark:group-hover:text-brand-red-light transition-colors truncate">
+          {offer.title}
+        </h3>
+        <p className="text-xs font-medium text-muted-foreground leading-snug mb-3.5 flex-grow line-clamp-2 opacity-90">
+          {offer.description}
+        </p>
+
+        <Button
+          variant="outline"
+          size="sm"
+          shimmer={true}
+          className="inline-flex items-center gap-1 text-brand-blue dark:text-muted-foreground font-bold text-xs tracking-wider hover:opacity-80 transition-colors w-fit border border-border px-3.5 py-1.5 rounded-md hover:bg-muted group/btn shadow-sm active:scale-95 cursor-pointer"
+        >
+          View Offer
+          <ChevronsRight className="w-3 h-3 ml-1 transition-transform group-hover/btn:translate-x-1" />
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
-    <section className="py-14 bg-muted/30 dark:bg-background transition-colors duration-300 relative overflow-hidden">
-      {/* Information Contact Cards - More Compact Row */}
-      <div className="w-full max-w-7xl mx-auto px-5 md:px-12 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-          {INFO_CARDS.map((card) => (
-            <div
-              key={card.id}
-              className="bg-card border border-border/60 rounded-xl p-3 flex items-center gap-3.5 shadow-sm hover:shadow-md transition-all duration-300 group"
-            >
-              <div className="w-10 h-10 shrink-0 bg-brand-red/5 dark:bg-brand-red/10 rounded-lg flex items-center justify-center text-brand-red group-hover:scale-105 transition-transform">
-                <card.icon className="w-5 h-5" strokeWidth={2} />
+    <section className="md:py-14 py-5 bg-muted/30 dark:bg-background transition-colors duration-300 relative overflow-hidden">
+      {/* Information Contact Cards - Slider on Mobile */}
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-12 mb-8">
+        <div className="md:hidden overflow-hidden" ref={infoRef}>
+          <div className="flex ml-[-12px] items-center">
+            {INFO_CARDS.map((card) => (
+              <div key={card.id} className="flex-[0_0_92%] min-w-0 pl-3">
+                {renderInfoCard(card)}
               </div>
-              <div className="flex flex-col min-w-0">
-                <h4 className="text-sm font-bold text-foreground font-display leading-tight truncate">
-                  {card.title}
-                </h4>
-                <div className="text-xs text-muted-foreground font-medium mt-0.5 whitespace-nowrap">
-                  {card.text}
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+        <div className="hidden md:grid grid-cols-3 gap-3.5">
+          {INFO_CARDS.map(renderInfoCard)}
         </div>
       </div>
 
@@ -126,44 +198,21 @@ export function SpecialOffers() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5">
-          {OFFERS.map((offer) => (
-            <div
-              key={offer.id}
-              className="group flex flex-col sm:flex-row items-center gap-4 p-3 rounded-xl bg-card border border-border/60 shadow-sm hover:shadow-md transition-all duration-500"
-            >
-              {/* Image Container - Compact Editorial Square */}
-              <div className="w-full sm:w-32 h-32 shrink-0 relative overflow-hidden rounded-lg">
-                <AppImage
-                  src={offer.image}
-                  alt={offer.title}
-                  fill
-                  isCompact={true}
-                  className="group-hover:scale-105 transition-transform duration-700 object-cover"
-                />
+        {/* Offers Slider on Mobile */}
+        <div className="lg:hidden overflow-hidden" ref={offersRef}>
+          <div className="flex ml-[-16px]">
+            {OFFERS.map((offer) => (
+              <div
+                key={offer.id}
+                className="flex-[0_0_85%] sm:flex-[0_0_48%] min-w-0 pl-4"
+              >
+                {renderOfferCard(offer)}
               </div>
-
-              {/* Content - Compact Typography */}
-              <div className="flex flex-col flex-grow min-w-0 py-1">
-                <h3 className="text-sm font-bold text-brand-red mb-1 font-display group-hover:text-brand-blue dark:group-hover:text-brand-red-light transition-colors truncate">
-                  {offer.title}
-                </h3>
-                <p className="text-xs font-medium text-muted-foreground leading-snug mb-3.5 flex-grow line-clamp-2 opacity-90">
-                  {offer.description}
-                </p>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  shimmer={true}
-                  className="inline-flex items-center gap-1 text-brand-blue dark:text-muted-foreground font-bold text-xs tracking-wider hover:opacity-80 transition-colors w-fit border border-border px-3.5 py-1.5 rounded-md hover:bg-muted group/btn shadow-sm active:scale-95 cursor-pointer"
-                >
-                  View Offer
-                  <ChevronsRight className="w-3 h-3 ml-1 transition-transform group-hover:translate-x-0.5" />
-                </Button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+        <div className="hidden lg:grid grid-cols-3 gap-4 md:gap-5">
+          {OFFERS.map(renderOfferCard)}
         </div>
       </div>
     </section>

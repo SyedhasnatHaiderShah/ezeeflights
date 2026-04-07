@@ -2,8 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronRight } from "lucide-react";
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
+import { AppImage } from "@/components/ui/app-image";
 
 interface Deal {
   id: string;
@@ -43,11 +45,52 @@ const DEALS: Deal[] = [
   },
 ];
 
-import { AppImage } from "@/components/ui/app-image";
-
 export function DealsSection() {
+  const [emblaRef] = useEmblaCarousel({ 
+    loop: true,
+    align: 'start',
+    slidesToScroll: 1,
+    breakpoints: {
+      '(min-width: 640px)': { slidesToScroll: 2 },
+      '(min-width: 1024px)': { active: false } 
+    }
+  }, [Autoplay({ delay: 3500, stopOnInteraction: true })])
+
+  const renderDealCard = (deal: Deal) => (
+    <Link
+      key={deal.id}
+      href={`/deals/${deal.id}` as any}
+      className="group relative block aspect-[3.5/4.5] rounded-2xl overflow-hidden bg-muted shadow-sm hover:shadow-2xl transition-all duration-500 w-full border border-border/40"
+    >
+      <AppImage
+        src={deal.image}
+        alt={deal.city}
+        fill
+        isCompact={true}
+        className="group-hover:scale-110 transition-transform duration-700 object-cover"
+      />
+
+      {/* Overlay Metadata - Neat & Clean Glassmorphism */}
+      <div className="absolute inset-x-3 bottom-3 p-3 bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-xl flex items-center justify-between shadow-xl group-hover:bg-white/60 dark:group-hover:bg-black/60 transition-all duration-300">
+        <div className="min-w-0 pr-2">
+          <p className="text-[9px] text-muted-foreground font-black uppercase tracking-widest mb-0.5 opacity-80">
+            Starting from
+          </p>
+          <h4 className="text-[13px] font-bold text-foreground truncate leading-tight">
+            {deal.city}
+          </h4>
+        </div>
+        <div className="flex flex-col items-end shrink-0">
+          <div className="text-[15px] font-black text-brand-red font-display drop-shadow-sm">
+            {deal.price}
+          </div>
+        </div>
+      </div>
+    </Link>
+  )
+
   return (
-    <section className="py-14 bg-background transition-colors duration-300">
+    <section className="py-14 bg-background transition-colors duration-300 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
         <div className="flex items-center justify-between mb-8 border-b border-border/60 pb-5">
           <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground uppercase">
@@ -62,39 +105,23 @@ export function DealsSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-          {DEALS.map((deal) => (
-            <Link
-              key={deal.id}
-              href={`/deals/${deal.id}` as any}
-              className="group relative block aspect-[3.5/4.5] rounded-xl overflow-hidden bg-muted shadow-sm hover:shadow-xl transition-all duration-500"
-            >
-              <AppImage
-                src={deal.image}
-                alt={deal.city}
-                fill
-                isCompact={true}
-                className="group-hover:scale-105 transition-transform duration-700 object-cover"
-              />
+        {/* Carousel for Mobile / Grid for Desktop */}
+        <div className="relative">
+          {/* Embla Viewport */}
+          <div className="lg:hidden overflow-hidden" ref={emblaRef}>
+            <div className="flex ml-[-16px]">
+              {DEALS.map((deal) => (
+                <div key={deal.id} className="flex-[0_0_75%] sm:flex-[0_0_45%] min-w-0 pl-4">
+                  {renderDealCard(deal)}
+                </div>
+              ))}
+            </div>
+          </div>
 
-              {/* Overlay Metadata - Neat & Clean Glassmorphism */}
-              <div className="absolute inset-x-3 bottom-3 p-3 bg-card/60 backdrop-blur-md border border-white/20 rounded-lg flex items-center justify-between shadow-lg group-hover:bg-card/80 transition-all">
-                <div className="min-w-0">
-                  <p className="text-[10px] text-muted-foreground font-black uppercase tracking-tighter mb-0.5">
-                    Starting from
-                  </p>
-                  <h4 className="text-[13px] font-bold text-foreground truncate leading-tight">
-                    {deal.city}
-                  </h4>
-                </div>
-                <div className="flex flex-col items-end">
-                  <div className="text-[14px] font-black text-brand-red font-display">
-                    {deal.price}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+          {/* Static Grid for Large Screens */}
+          <div className="hidden lg:grid grid-cols-4 gap-5 xl:gap-6">
+            {DEALS.map(deal => renderDealCard(deal))}
+          </div>
         </div>
       </div>
     </section>

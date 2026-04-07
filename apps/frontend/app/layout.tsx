@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { MobileBottomNav } from "@/components/sections/MobileBottomNav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppSidebar } from "@/components/sections/AppSidebar";
+import { Providers } from "@/components/shared/providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -101,13 +102,16 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          {/* Include the Sidebar globally */}
-          <AppSidebar />
+          {/* Include the Providers for React Query, etc */}
+          <Providers>
+            {/* Include the Sidebar globally */}
+            <AppSidebar />
 
-          <div className="relative flex flex-col min-h-screen pb-16 md:pb-0">
-            {children}
-            <MobileBottomNav />
-          </div>
+            <div className="relative flex flex-col min-h-screen pb-16 md:pb-0">
+              {children}
+              <MobileBottomNav />
+            </div>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>
