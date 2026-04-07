@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: ezeeFlights Payments API
+  version: 1.0.0
+paths:
+  /v1/payments/initiate:
+    post:
+      summary: Create a payment session
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [bookingId, provider, amount, currency, successUrl, failureUrl]
+              properties:
+                bookingId: { type: string, format: uuid }
+                provider: { type: string, enum: [STRIPE, PAYTABS, TABBY, TAMARA] }
+                amount: { type: number }
+                currency: { type: string, enum: [USD, AED, EUR, GBP] }
+                successUrl: { type: string }
+                failureUrl: { type: string }
+      responses:
+        '200':
+          description: Session created
+  /v1/payments/refund:
+    post:
+      summary: Create full or partial refund
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [paymentId]
+              properties:
+                paymentId: { type: string, format: uuid }
+                amount: { type: number }
+      responses:
+        '200':
+          description: Refund created
+  /v1/payments/{id}:
+    get:
+      summary: Get payment status
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: Payment details }
+  /v1/payments/webhook/stripe:
+    post:
+      summary: Stripe webhook callback
+      responses:
+        '200': { description: Webhook accepted }
+  /v1/payments/webhook/paytabs:
+    post:
+      summary: PayTabs webhook callback
+      responses:
+        '200': { description: Webhook accepted }
+  /v1/payments/webhook/tabby:
+    post:
+      summary: Tabby webhook callback
+      responses:
+        '200': { description: Webhook accepted }
+  /v1/payments/webhook/tamara:
+    post:
+      summary: Tamara webhook callback
+      responses:
+        '200': { description: Webhook accepted }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
