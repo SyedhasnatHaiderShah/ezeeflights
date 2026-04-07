@@ -25,6 +25,8 @@ services:
       FRONTEND_ORIGIN: http://localhost:3000
       FRONTEND_OAUTH_REDIRECT: http://localhost:3000
       GOOGLE_CALLBACK_URL: http://localhost:4000/v1/auth/google/callback
+      BOOKING_COM_API_KEY: ${BOOKING_COM_API_KEY:-}
+      EXPEDIA_API_KEY: ${EXPEDIA_API_KEY:-}
     depends_on:
       - postgres
       - redis

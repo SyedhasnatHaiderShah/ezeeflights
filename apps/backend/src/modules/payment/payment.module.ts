@@ -7,5 +7,6 @@ import { PostgresClient } from '../../database/postgres.client';
 @Module({
   controllers: [PaymentController],
   providers: [PaymentService, PaymentRepository, PostgresClient],
+  exports: [PaymentService],
 })
 export class PaymentModule {}
