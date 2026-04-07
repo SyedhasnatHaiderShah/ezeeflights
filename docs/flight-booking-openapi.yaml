@@ -1,0 +1,76 @@
+openapi: 3.0.3
+info:
+  title: ezeeFlight Booking Engine API
+  version: 1.0.0
+paths:
+  /v1/flights/search:
+    get:
+      summary: Search flights
+      parameters:
+        - in: query
+          name: origin
+          required: true
+          schema: { type: string }
+        - in: query
+          name: destination
+          required: true
+          schema: { type: string }
+        - in: query
+          name: departureDate
+          required: true
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: Matching flights
+  /v1/bookings:
+    post:
+      summary: Create booking
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [flightIds, passengers]
+      responses:
+        '201': { description: Booking created }
+  /v1/bookings/{id}:
+    get:
+      summary: Get booking by id
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: Booking details }
+  /v1/bookings/user/{userId}:
+    get:
+      summary: List bookings for user
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: User bookings }
+  /v1/bookings/{id}/cancel:
+    patch:
+      summary: Cancel booking
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: Booking cancelled }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

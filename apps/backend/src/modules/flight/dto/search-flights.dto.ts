@@ -1,4 +1,4 @@
-import { IsDateString, IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsDateString, IsEnum, IsInt, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class SearchFlightsDto {
   @IsString()
@@ -9,6 +9,26 @@ export class SearchFlightsDto {
 
   @IsDateString()
   departureDate!: string;
+
+  @IsOptional()
+  @IsString()
+  airline?: string;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(3)
+  stops?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  minPrice?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  maxPrice?: number;
 
   @IsOptional()
   @IsEnum(['ECONOMY', 'PREMIUM_ECONOMY', 'BUSINESS', 'FIRST'])

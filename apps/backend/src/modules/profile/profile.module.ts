@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PostgresClient } from '../../database/postgres.client';
 import { BookingModule } from '../booking/booking.module';
 import { UserModule } from '../user/user.module';
@@ -7,7 +7,7 @@ import { ProfileRepository } from './repositories/profile.repository';
 import { ProfileService } from './services/profile.service';
 
 @Module({
-  imports: [UserModule, BookingModule],
+  imports: [UserModule, forwardRef(() => BookingModule)],
   controllers: [ProfileController],
   providers: [ProfileService, ProfileRepository, PostgresClient],
   exports: [ProfileService],

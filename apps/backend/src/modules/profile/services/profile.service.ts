@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { BookingService } from '../../booking/services/booking.service';
 import { UserService } from '../../user/services/user.service';
 import { UpsertTravelerDto } from '../dto/saved-traveler.dto';
@@ -10,6 +10,7 @@ export class ProfileService {
   constructor(
     private readonly repository: ProfileRepository,
     private readonly userService: UserService,
+    @Inject(forwardRef(() => BookingService))
     private readonly bookingService: BookingService,
   ) {}
 
