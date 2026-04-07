@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as Popover from "@radix-ui/react-popover"
-import { MapPin, Plane, Building, X, LucideIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import * as Popover from "@radix-ui/react-popover";
+import { MapPin, Plane, Building, X, LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Suggestion {
   id: string;
@@ -14,12 +14,42 @@ interface Suggestion {
 }
 
 const SUGGESTIONS: Suggestion[] = [
-  { id: "1", type: "airport", code: "LHE", name: "Lahore", detail: "Allama Iqbal Intl (LHE)" },
-  { id: "2", type: "airport", code: "DXB", name: "Dubai", detail: "Dubai Intl (DXB)" },
-  { id: "3", type: "airport", code: "JFK", name: "New York", detail: "John F Kennedy Intl (JFK)" },
-  { id: "4", type: "city", code: "LON", name: "London", detail: "United Kingdom (LON)" },
-  { id: "5", type: "airport", code: "LHR", name: "London", detail: "Heathrow (LHR)" },
-]
+  {
+    id: "1",
+    type: "airport",
+    code: "LHE",
+    name: "Lahore",
+    detail: "Allama Iqbal Intl (LHE)",
+  },
+  {
+    id: "2",
+    type: "airport",
+    code: "DXB",
+    name: "Dubai",
+    detail: "Dubai Intl (DXB)",
+  },
+  {
+    id: "3",
+    type: "airport",
+    code: "JFK",
+    name: "New York",
+    detail: "John F Kennedy Intl (JFK)",
+  },
+  {
+    id: "4",
+    type: "city",
+    code: "LON",
+    name: "London",
+    detail: "United Kingdom (LON)",
+  },
+  {
+    id: "5",
+    type: "airport",
+    code: "LHR",
+    name: "London",
+    detail: "Heathrow (LHR)",
+  },
+];
 
 interface LocationInputProps {
   id?: string;
@@ -40,37 +70,36 @@ export function LocationInput({
   onChange,
   icon: Icon = MapPin,
   className,
-  shimmer = true
+  shimmer = true,
 }: LocationInputProps) {
-  const [open, setOpen] = React.useState(false)
-  const [inputValue, setInputValue] = React.useState(value || "")
+  const [open, setOpen] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState(value || "");
 
   // Sync internal state with prop value for controlled behavior
   React.useEffect(() => {
     setInputValue(value || "");
   }, [value]);
 
-
   const handleSelect = (suggestion: Suggestion) => {
-    setInputValue(suggestion.code)
-    onChange?.(suggestion.code)
-    setOpen(false)
-  }
+    setInputValue(suggestion.code);
+    onChange?.(suggestion.code);
+    setOpen(false);
+  };
 
   const handleClear = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    setInputValue("")
-    onChange?.("")
-  }
+    e.stopPropagation();
+    setInputValue("");
+    onChange?.("");
+  };
 
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Anchor asChild>
         <div
           className={cn(
-            "relative flex items-center w-full bg-background hover:bg-brand-red/5 transition-all cursor-text px-2.5 group overflow-hidden",
+            "relative flex items-center w-full bg-background hover:bg-brand-red/5 transition-all cursor-text px-4 group overflow-hidden h-full",
             open && "bg-background ring-2 ring-brand-red/20 z-10",
-            className
+            className,
           )}
         >
           <Icon className="relative z-10 w-4 h-4 text-foreground/60 mr-2 shrink-0 group-hover:text-brand-red transition-colors" />
@@ -84,11 +113,11 @@ export function LocationInput({
               id={id}
               type="text"
               value={inputValue}
-              onChange={(e) => { 
+              onChange={(e) => {
                 const val = e.target.value;
-                setInputValue(val); 
+                setInputValue(val);
                 onChange?.(val);
-                if (!open) setOpen(true); 
+                if (!open) setOpen(true);
               }}
               onFocus={() => setOpen(true)}
               placeholder={placeholder}
@@ -105,21 +134,19 @@ export function LocationInput({
             </button>
           )}
 
-          {shimmer && (
-            <div className="shimmer-effect" />
-          )}
+          {shimmer && <div className="shimmer-effect" />}
         </div>
       </Popover.Anchor>
 
       <Popover.Portal>
         <Popover.Content
-          className="w-[var(--radix-popover-trigger-width)] bg-background border border-border shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] rounded-b-xl overflow-hidden z-50 animate-in slide-in-from-top-2 duration-300"
+          className="w-[var(--radix-popover-trigger-width)] bg-background border border-border shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] rounded-md overflow-hidden z-50 animate-in slide-in-from-top-2 duration-300"
           sideOffset={0}
           align="start"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
           <div className="p-2 bg-muted/30 border-b border-border">
-            <span className="text-xs font-semibold text-foreground/40 capitalize tracking-widest px-1">
+            <span className="text-xs font-medium text-foreground/80 px-1">
               Recent or Popular
             </span>
           </div>
@@ -130,14 +157,22 @@ export function LocationInput({
                 onClick={() => handleSelect(s)}
                 className="flex items-center w-full p-2.5 hover:bg-brand-red/5 transition-colors text-left border-b border-border/40 last:border-0 group/item"
               >
-                <div className="w-8 h-8 flex items-center justify-center bg-muted rounded-md mr-3 group-hover/item:bg-brand-red/10 transition-colors">
-                  {s.type === "airport" ? <Plane className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" /> : <Building className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" />}
+                <div className="w-8 h-8 flex items-center justify-center bg-muted rounded-full mr-3 group-hover/item:bg-brand-red/10 transition-colors">
+                  {s.type === "airport" ? (
+                    <Plane className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" />
+                  ) : (
+                    <Building className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" />
+                  )}
                 </div>
                 <div className="flex flex-col flex-1 min-w-0">
-                  <span className="font-semibold text-foreground text-sm truncate">{s.name}</span>
-                  <span className="text-xs text-foreground/50 truncate font-medium">{s.detail}</span>
+                  <span className="font-medium text-foreground text-sm truncate">
+                    {s.name}
+                  </span>
+                  <span className="text-xs text-foreground/50 truncate font-normal">
+                    {s.detail}
+                  </span>
                 </div>
-                <span className="ml-3 font-semibold text-[10px] text-foreground/30 capitalize tracking-tighter">
+                <span className="ml-3 font-medium text-[10px] text-foreground/30 capitalize tracking-wider">
                   {s.code}
                 </span>
               </button>
@@ -146,5 +181,5 @@ export function LocationInput({
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
-  )
+  );
 }

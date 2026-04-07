@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { format } from "date-fns"
-import { Calendar as CalendarIcon, ChevronDown } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import * as React from "react";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
 interface DatePickerProps {
   date: Date | undefined;
@@ -43,23 +43,29 @@ export function DatePicker({
           disabled={disabled}
           aria-disabled={disabled}
           className={cn(
-            "w-full justify-between h-12 px-2.5 py-1 bg-background hover:bg-muted transition-all group rounded-none border-border",
+            "w-full justify-between min-w-40 h-full px-4 py-2 bg-background hover:bg-muted transition-all group rounded-none border-border",
             date && "bg-background",
             disabled && "opacity-50 cursor-not-allowed",
-            className
+            className,
           )}
         >
           <div className="flex flex-col items-start flex-1 min-w-0">
-            <span className="text-[10px] font-semibold text-foreground capitalize leading-none mb-0.5 tracking-tight">{label}</span>
+            <span className="text-[10px] font-semibold text-foreground capitalize leading-none mb-0.5 tracking-tight">
+              {label}
+            </span>
             <div className="flex items-center gap-1.5 w-full">
-              <CalendarIcon className={cn(
-                "h-3.5 w-3.5 shrink-0 transition-colors",
-                date ? "text-foreground" : "text-foreground/60"
-              )} />
-              <span className={cn(
-                "truncate font-semibold text-sm tracking-tight",
-                date ? "text-foreground" : "text-foreground/60"
-              )}>
+              <CalendarIcon
+                className={cn(
+                  "h-3.5 w-3.5 shrink-0 transition-colors",
+                  date ? "text-foreground" : "text-foreground/60",
+                )}
+              />
+              <span
+                className={cn(
+                  "truncate font-semibold text-sm tracking-tight",
+                  date ? "text-foreground" : "text-foreground/60",
+                )}
+              >
                 {date ? format(date, "EEE, MMM d") : "Choose date"}
               </span>
             </div>
@@ -83,5 +89,5 @@ export function DatePicker({
         />
       </PopoverContent>
     </Popover>
-  )
+  );
 }

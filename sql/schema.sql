@@ -213,12 +213,31 @@ CREATE TABLE payment_transactions (
 
 CREATE TABLE refunds (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  payment_id UUID NOT NULL REFERENCES payments(id) ON DELETE CASCADE,
+  payment_id UUID REFERENCES payments(id) ON DELETE CASCADE,
+  booking_id UUID REFERENCES bookings(id) ON DELETE CASCADE,
   amount NUMERIC(12,2) NOT NULL CHECK (amount > 0),
-  status VARCHAR(20) NOT NULL CHECK (status IN ('PENDING', 'SUCCESS', 'FAILED')),
+  status VARCHAR(20) NOT NULL CHECK (status IN ('PENDING', 'SUCCESS', 'PROCESSED', 'FAILED')),
   provider_refund_id VARCHAR(255),
+  payment_reference VARCHAR(255),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE booking_modifications (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  booking_id UUID NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+  change_type VARCHAR(32) NOT NULL CHECK (change_type IN ('DATE_CHANGE', 'PASSENGER_UPDATE')),
+  old_value JSONB NOT NULL,
+  new_value JSONB NOT NULL,
+  changed_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE booking_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  booking_id UUID NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+  action VARCHAR(120) NOT NULL,
+  performed_by VARCHAR(20) NOT NULL CHECK (performed_by IN ('USER', 'ADMIN', 'SYSTEM')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE reviews (
@@ -240,6 +259,9 @@ CREATE INDEX idx_payments_user_created ON payments (user_id, created_at DESC);
 CREATE UNIQUE INDEX idx_payments_provider_txn ON payments (provider, transaction_id) WHERE transaction_id IS NOT NULL;
 CREATE INDEX idx_payment_transactions_payment_created ON payment_transactions (payment_id, created_at DESC);
 CREATE INDEX idx_refunds_payment_created ON refunds (payment_id, created_at DESC);
+CREATE INDEX idx_refunds_booking_created ON refunds (booking_id, created_at DESC);
+CREATE INDEX idx_booking_modifications_booking_changed ON booking_modifications (booking_id, changed_at DESC);
+CREATE INDEX idx_booking_logs_booking_created ON booking_logs (booking_id, created_at DESC);
 CREATE INDEX idx_trips_user_dates ON trips (user_id, start_date, end_date);
 
 -- Example transaction for booking + payment consistency
