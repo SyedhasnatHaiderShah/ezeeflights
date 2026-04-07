@@ -57,3 +57,9 @@
 - `GET /api/invoices/user/:userId` (JWT, legacy-compatible)
 - `POST /api/invoices/:id/pay` (JWT, legacy-compatible)
 - `POST /api/invoices/:id/refund` (JWT, legacy-compatible)
+
+## Analytics Module (Admin)
+- GET /api/analytics/revenue
+- GET /api/analytics/bookings
+- GET /api/analytics/funnel
+- GET /api/analytics/user-behavior
