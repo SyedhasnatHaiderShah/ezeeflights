@@ -2,8 +2,6 @@
 
 import * as React from "react";
 import { Mail, ShieldCheck, Zap, HandCoins } from "lucide-react";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import { Button } from "../ui/button";
 
 const STEPS = [
@@ -24,31 +22,23 @@ const STEPS = [
   }
 ];
 
-export function Newsletter() {
-  const [emblaRef] = useEmblaCarousel({ 
-    loop: true, 
-    align: "start",
-    breakpoints: {
-      '(min-width: 1024px)': { active: false } 
-    }
-  }, [Autoplay({ delay: 3500, stopOnInteraction: true })]);
-
-  const renderStep = (step: any, i: number) => (
-    <div key={i} className="bg-card border border-border/60 rounded-2xl p-4 flex flex-col items-center text-center gap-3 h-full w-full shadow-sm">
-      <div className="w-10 h-10 rounded-xl bg-brand-red/10 flex items-center justify-center text-brand-red shrink-0">
-        <step.icon className="w-5 h-5" />
-      </div>
-      <div>
-        <h4 className="font-black text-sm text-foreground mb-1">{step.title}</h4>
-        <p className="text-[11px] font-medium text-muted-foreground leading-snug line-clamp-2">{step.desc}</p>
-      </div>
+const renderStep = (step: any, i: number) => (
+  <div key={i} className="bg-card border border-border/60 rounded-2xl p-4 flex flex-col items-center text-center gap-3 h-full w-full shadow-sm">
+    <div className="w-10 h-10 rounded-xl bg-brand-red/10 flex items-center justify-center text-brand-red shrink-0">
+      <step.icon className="w-5 h-5" />
     </div>
-  );
+    <div>
+      <h4 className="font-black text-sm text-foreground mb-1">{step.title}</h4>
+      <p className="text-[11px] font-medium text-muted-foreground leading-snug line-clamp-2">{step.desc}</p>
+    </div>
+  </div>
+);
 
+export function Newsletter() {
   return (
     <section className="w-full bg-muted dark:bg-background border-y border-border py-14 transition-colors duration-300 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
-        {/* Carousel for Benefits on Mobile / Grid for Desktop */}
+        {/* Header Section */}
          <div className="mb-10 text-center space-y-1">
           <h2 className="text-2xl font-black text-foreground lg:text-3xl tracking-tight">
             Stay Updated
@@ -58,22 +48,26 @@ export function Newsletter() {
           </p>
         </div>
 
+        {/* Benefits Container */}
         <div className="relative mb-12 max-w-5xl mx-auto">
-          <div className="lg:hidden overflow-hidden" ref={emblaRef}>
-            <div className="flex ml-[-16px]">
+          {/* Mobile: Native CSS Scroll */}
+          <div className="lg:hidden w-full overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex gap-4 px-4 pb-6 w-max">
               {STEPS.map((step, i) => (
-                <div key={i} className="flex-[0_0_80%] sm:flex-[0_0_45%] min-w-0 pl-4">
+                <div key={i} className="w-[80vw] sm:w-[320px] shrink-0 snap-start">
                   {renderStep(step, i)}
                 </div>
               ))}
             </div>
           </div>
 
+          {/* Desktop: Static Grid */}
           <div className="hidden lg:grid grid-cols-3 gap-6">
             {STEPS.map(renderStep)}
           </div>
         </div>
 
+        {/* Subscription Form */}
         <div className="max-w-xl mx-auto">
           <form
             className="flex flex-col sm:flex-row w-full shadow-2xl rounded-2xl sm:rounded-full overflow-hidden border border-border bg-background"
@@ -88,7 +82,8 @@ export function Newsletter() {
                 type="email"
                 placeholder="Enter Your Email Address"
                 required
-                className="w-full h-full pl-12 pr-4 bg-transparent text-foreground placeholder:text-muted-foreground font-bold text-sm outline-none focus:bg-muted/10 transition-colors shimmer"
+                className="w-full h-full pl-12 pr-4 bg-transparent text-foreground placeholder:text-muted-foreground font-bold text-sm outline-none focus:bg-muted/10 transition-colors"
+                draggable={false}
               />
             </div>
 

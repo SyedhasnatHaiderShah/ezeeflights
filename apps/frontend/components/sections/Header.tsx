@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { Menu, Heart, Sparkles, Sun, Moon, User, Bell } from "lucide-react";
-import { Drawer } from "vaul";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 // @ts-ignore
@@ -62,36 +61,47 @@ export function Header() {
 
         {/* Right Side: Utils & Auth */}
         <div className="flex items-center gap-2 md:gap-4">
-          {/* Notifications Dropdown / Drawer (Top to Bottom) - Visible on all screens */}
-          <Drawer.Root direction="top">
-            <Drawer.Trigger asChild>
-              <div>
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <div className="cursor-pointer hover:opacity-80 transition-opacity">
                 <AppIcon icon={Bell} isFill />
               </div>
-            </Drawer.Trigger>
-            <Drawer.Portal>
-              <Drawer.Overlay className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm" />
-              <Drawer.Content className="fixed top-0 left-0 right-0 z-[70] flex flex-col rounded-b-[24px] bg-background border-b shadow-2xl focus:outline-none h-[calc(100vh-64px)] md:h-auto md:max-h-[80vh]">
-                <Drawer.Title className="sr-only">Notifications</Drawer.Title>
-                <Drawer.Description className="sr-only">
-                  View your recent alerts and notifications
-                </Drawer.Description>
-                
-                <div className="flex items-center justify-between p-6 pb-4 border-b">
-                  <h2 className="text-xl font-bold tracking-tight">Notifications</h2>
-                </div>
-                
-                <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
-                  <div className="flex flex-col items-center justify-center h-full text-muted-foreground opacity-60 space-y-4 pb-10 min-h-[30vh]">
-                    <Bell className="w-16 h-16 fill-current" />
-                    <p className="text-sm font-medium">No new notifications</p>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              sideOffset={15}
+              className="w-[380px] p-0 overflow-hidden rounded-2xl bg-background border shadow-2xl z-[40]"
+            >
+              <div className="flex items-center justify-between p-5 border-b bg-muted/20">
+                <h2 className="text-lg font-bold tracking-tight">
+                  Notifications
+                </h2>
+                <div className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
+              </div>
+
+              <div className="flex flex-col max-h-[60vh] overflow-y-auto">
+                <div className="flex flex-col items-center justify-center py-12 px-6 text-muted-foreground space-y-4">
+                  <div className="p-4 rounded-full bg-redmix/10 dark:bg-muted/10">
+                    <Bell className="w-10 h-10 text-redmix" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-semibold text-foreground/80">
+                      All caught up!
+                    </p>
+                    <p className="text-xs">
+                      Check back later for new alerts and flight updates.
+                    </p>
                   </div>
                 </div>
+              </div>
 
-                <div className="mx-auto mb-4 mt-2 h-1.5 w-12 rounded-full bg-muted/60" />
-              </Drawer.Content>
-            </Drawer.Portal>
-          </Drawer.Root>
+              <div className="p-3 border-t bg-muted/5">
+                <button className="w-full py-2 text-xs font-medium text-redmix hover:bg-redmix/5 rounded-lg transition-colors">
+                  View all in Dashboard
+                </button>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {/* Desktop-only Utilities */}
           <div className="hidden md:flex items-center gap-2 md:gap-4">

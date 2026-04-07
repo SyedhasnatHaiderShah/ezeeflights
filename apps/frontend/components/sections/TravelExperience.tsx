@@ -71,7 +71,6 @@ const EXPERIENCES: Experience[] = [
 ];
 
 export function TravelExperience() {
-  const [mounted, setMounted] = React.useState(false);
   const [emblaRef] = useEmblaCarousel({ 
     loop: true, 
     align: "start",
@@ -79,10 +78,6 @@ export function TravelExperience() {
       '(min-width: 1024px)': { active: false } 
     }
   }, [Autoplay({ delay: 5000, stopOnInteraction: true })]);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const renderExperienceCard = (exp: Experience) => (
     <div
@@ -130,7 +125,7 @@ export function TravelExperience() {
         {/* Carousel for Mobile / Grid for Desktop */}
         <div className="relative">
           {/* Embla Viewport */}
-          <div className="lg:hidden overflow-hidden" ref={mounted ? emblaRef : null}>
+          <div className="lg:hidden overflow-hidden touch-pan-y" ref={emblaRef}>
             <div className="flex ml-[-16px]">
               {EXPERIENCES.map((exp) => (
                 <div key={exp.id} className="flex-[0_0_85%] sm:flex-[0_0_45%] min-w-0 pl-4">

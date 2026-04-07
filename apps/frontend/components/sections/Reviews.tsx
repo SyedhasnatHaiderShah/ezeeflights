@@ -159,7 +159,7 @@ export function Reviews({ showFullList = false }: { showFullList?: boolean }) {
         {/* Carousel for Mobile / Grid for Desktop */}
         <div className="relative">
           {!showFullList && (
-            <div className="lg:hidden overflow-hidden" ref={emblaRef}>
+            <div className="lg:hidden overflow-hidden touch-pan-y" ref={emblaRef}>
               <div className="flex ml-[-16px]">
                 {displayedReviews.map((rev, i) => (
                   <div

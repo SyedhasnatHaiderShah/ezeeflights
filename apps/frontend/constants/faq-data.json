@@ -1,0 +1,162 @@
+[
+  {
+    "question": "Do you add hidden charges?",
+    "answer": "No, we show the full price before you pay."
+  },
+  {
+    "question": "Why do you ask me to call?",
+    "answer": "So we can secure live fares and handle changes instantly."
+  },
+  {
+    "question": "What about baggage or seat fees?",
+    "answer": "Those depend on the airline and are added at checkout or by request."
+  },
+  {
+    "question": "Can my total change?",
+    "answer": "Only if the airline changes the fare or you modify the booking."
+  },
+  {
+    "question": "Which US flight tickets do you support?",
+    "answer": "We support all major U.S. domestic and international airlines."
+  },
+  {
+    "question": "How do I change my flight today?",
+    "answer": "Call us with your booking details for immediate assistance."
+  },
+  {
+    "question": "Can you rebook me if I already missed my flight?",
+    "answer": "Yes, we’ll try to secure the next best available option."
+  },
+  {
+    "question": "Can I change just one leg of a round trip?",
+    "answer": "Yes, subject to airline rules."
+  },
+  {
+    "question": "Can you fix a name's spelling or date of birth?",
+    "answer": "Minor corrections are possible based on airline approval."
+  },
+  {
+    "question": "Can I switch airlines or routes when changing?",
+    "answer": "Yes, if availability and fare rules allow."
+  },
+  {
+    "question": "My airline changed the schedule — what are my options?",
+    "answer": "You can choose free rebooking or eligible refund options."
+  },
+  {
+    "question": "Do you do last-minute or same-day bookings?",
+    "answer": "Yes, we specialize in urgent and last-minute travel."
+  },
+  {
+    "question": "Can you hold a fare while I decide?",
+    "answer": "Only if the airline allows a temporary fare hold."
+  },
+  {
+    "question": "Can I choose seats and add baggage by phone?",
+    "answer": "Yes, our agents can add both during booking or rebooking."
+  },
+  {
+    "question": "Do you charge a service fee?",
+    "answer": "Yes, a small service fee may apply based on the request."
+  },
+  {
+    "question": "What information should I have when I call?",
+    "answer": "Your booking ID, passenger name, and travel date."
+  },
+  {
+    "question": "Is support really 24/7?",
+    "answer": "Yes, our agents are available round-the-clock."
+  },
+  {
+    "question": "Can you book multi-city or complex trips?",
+    "answer": "Yes, we handle multi-city and custom itineraries."
+  },
+  {
+    "question": "Can I cancel my flight by phone?",
+    "answer": "Yes, cancellations are processed as per airline policy."
+  },
+  {
+    "question": "Can you change a non-refundable ticket?",
+    "answer": "Yes, but airline penalties and fare differences apply."
+  },
+  {
+    "question": "What’s the fastest way to do a same-day change?",
+    "answer": "Call us directly for priority handling."
+  },
+  {
+    "question": "Can I change my departure airport or destination?",
+    "answer": "Yes, subject to fare and availability."
+  },
+  {
+    "question": "My fare says “no changes allowed.” Any workaround?",
+    "answer": "Only if the airline grants an exception."
+  },
+  {
+    "question": "Can you split travelers so only one person changes?",
+    "answer": "Yes, we can separate passengers from the same booking."
+  },
+  {
+    "question": "I missed my flight—what now?",
+    "answer": "Call us immediately to explore rescue booking options."
+  },
+  {
+    "question": "Can you add or change seats when you rebook me?",
+    "answer": "Yes, based on seat availability."
+  },
+  {
+    "question": "Can you add baggage to my new itinerary?",
+    "answer": "Yes, baggage can be added during rebooking."
+  },
+  {
+    "question": "Can you add my Known Traveler Number or frequent flyer?",
+    "answer": "Yes, we can update loyalty details anytime."
+  },
+  {
+    "question": "Can you fix a name's change or major name issue?",
+    "answer": "Yes, with valid documents and airline approval."
+  },
+  {
+    "question": "Do you handle international & multi-airline itineraries?",
+    "answer": "Yes, that’s our specialty."
+  },
+  {
+    "question": "Can you rebook to a different date months ahead?",
+    "answer": "Yes, future-date changes are supported."
+  },
+  {
+    "question": "What if the airline changed my schedule?",
+    "answer": "You’re eligible for free rebooking or refund options."
+  },
+  {
+    "question": "Can you do last-minute new bookings by phone?",
+    "answer": "Yes, we process instant phone bookings."
+  },
+  {
+    "question": "Do you support multi-city or open-jaw trips?",
+    "answer": "Yes, we handle both."
+  },
+  {
+    "question": "Can I book for someone else?",
+    "answer": "Yes, you can book for anyone."
+  },
+  {
+    "question": "What forms of payment do you take?",
+    "answer": "We accept major debit and credit cards."
+  },
+  {
+    "question": "Will I see the total price before paying?",
+    "answer": "Yes, you’ll always see the final amount before payment."
+  },
+  {
+    "question": "How quickly do I get my confirmation?",
+    "answer": "Within minutes after payment."
+  },
+  {
+    "question": "What info should I have ready when I call?",
+    "answer": "Passenger name, travel dates, and destination."
+  },
+  {
+    "question": "Is support truly 24/7?",
+    "answer": "Yes, anytime, day or night."
+  }
+]

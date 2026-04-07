@@ -27,14 +27,15 @@ import {
   Tag,
   Star,
   Compass,
-  MessageSquare
+  MessageSquare,
+  LucideIcon
 } from "lucide-react";
 import EzeeFlightsLogo from "@/components/ezee-flights-logo";
 
 interface NavigationItem {
   title: string;
   url: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: LucideIcon;
 }
 
 interface NavigationGroup {

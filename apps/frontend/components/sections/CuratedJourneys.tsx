@@ -2,8 +2,6 @@
 
 import * as React from "react";
 import { ArrowRight, Star } from "lucide-react";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import { AppImage } from "@/components/ui/app-image";
 
 interface Journey {
@@ -42,20 +40,9 @@ const JOURNEYS: Journey[] = [
   },
 ];
 
-export function CuratedJourneys() {
-  const [emblaRef] = useEmblaCarousel({ 
-    loop: true, 
-    align: "start",
-    breakpoints: {
-      '(min-width: 1024px)': { active: false } 
-    }
-  }, [Autoplay({ delay: 4500, stopOnInteraction: true })]);
-
-  const renderJourneyCard = (dest: Journey, i: number) => (
-    <div
-      key={i}
-      className="group flex flex-row items-center gap-4 bg-card border border-border/60 hover:border-brand-red/20 rounded-2xl p-3 cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 w-full"
-    >
+const JourneyCard = React.memo(function JourneyCard({ dest }: { dest: Journey }) {
+  return (
+    <div className="group flex flex-row items-center gap-4 bg-card border border-border/60 hover:border-brand-red/20 rounded-2xl p-3 cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 w-full h-full">
       {/* Square Image Thumbnail */}
       <div className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 overflow-hidden rounded-xl">
         <AppImage
@@ -68,14 +55,12 @@ export function CuratedJourneys() {
         />
       </div>
 
-      {/* Refined Content Area */}
+      {/* Content Area */}
       <div className="flex flex-col flex-grow min-w-0 pr-1">
-        <span
-          className={`text-[8px] ms-auto font-black px-2 py-0.5 bg-brand-red rounded-lg shadow-sm tracking-widest uppercase text-white mb-2`}
-        >
+        <span className="text-[8px] ms-auto font-black px-2 py-0.5 bg-brand-red rounded-lg shadow-sm tracking-widest uppercase text-white mb-2">
           {dest.tag}
         </span>
-        
+
         <div className="flex text-brand-red scale-75 origin-left -ml-1 mb-1">
           <Star className="h-4 w-4 fill-current" />
           <Star className="h-4 w-4 fill-current" />
@@ -106,7 +91,9 @@ export function CuratedJourneys() {
       </div>
     </div>
   );
+});
 
+export function CuratedJourneys() {
   return (
     <section
       id="destinations"
@@ -130,23 +117,22 @@ export function CuratedJourneys() {
           </button>
         </div>
 
-        {/* Carousel for Mobile / Grid for Desktop */}
-        <div className="relative">
-          {/* Embla Viewport */}
-          <div className="lg:hidden overflow-hidden" ref={emblaRef}>
-            <div className="flex ml-[-16px]">
-              {JOURNEYS.map((dest, i) => (
-                <div key={i} className="flex-[0_0_88%] sm:flex-[0_0_48%] min-w-0 pl-4">
-                  {renderJourneyCard(dest, i)}
-                </div>
-              ))}
-            </div>
+        {/* Mobile: Native CSS Scroll */}
+        <div className="lg:hidden">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-6 px-6 pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            {JOURNEYS.map((dest, i) => (
+              <div key={i} className="w-[88vw] max-w-[360px] shrink-0 snap-start">
+                <JourneyCard dest={dest} />
+              </div>
+            ))}
           </div>
+        </div>
 
-          {/* Static Grid for Large Screens */}
-          <div className="hidden lg:grid grid-cols-3 gap-5 xl:gap-6">
-            {JOURNEYS.map((dest, i) => renderJourneyCard(dest, i))}
-          </div>
+        {/* Desktop: static grid */}
+        <div className="hidden lg:grid grid-cols-3 gap-5 xl:gap-6">
+          {JOURNEYS.map((dest, i) => (
+            <JourneyCard key={i} dest={dest} />
+          ))}
         </div>
       </div>
     </section>

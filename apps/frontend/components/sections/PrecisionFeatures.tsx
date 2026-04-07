@@ -4,19 +4,9 @@ import * as React from "react";
 import { Shield, ArrowRight, Cpu, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import { AppIcon } from "../ui/app-icon";
 
 export function PrecisionFeatures() {
-  const [emblaRef] = useEmblaCarousel({ 
-    loop: true, 
-    align: "start",
-    breakpoints: {
-      '(min-width: 1024px)': { active: false } 
-    }
-  }, [Autoplay({ delay: 4000, stopOnInteraction: true })]);
-
   const features = [
     {
       icon: Cpu,
@@ -35,7 +25,7 @@ export function PrecisionFeatures() {
     },
   ];
 
-  const renderFeature = (feat: any, i: number) => (
+  const renderFeature = (feat: (typeof features)[number], i: number) => (
     <div key={i} className="flex items-start gap-4 group w-full">
       <div className="shrink-0 transition-transform duration-500 group-hover:scale-105">
         <AppIcon
@@ -71,17 +61,18 @@ export function PrecisionFeatures() {
             variant="lowest"
             className="p-4 md:p-6 bg-card/60 backdrop-blur-md shadow-sm rounded-xl border border-border/80"
           >
-            {/* Carousel for Mobile / Static for Desktop */}
-            <div className="lg:hidden overflow-hidden" ref={emblaRef}>
-              <div className="flex">
+            {/* Mobile: Native CSS Scroll */}
+            <div className="lg:hidden">
+              <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 {features.map((feat, i) => (
-                  <div key={i} className="flex-[0_0_100%] min-w-0">
+                  <div key={i} className="w-full shrink-0 snap-start">
                     {renderFeature(feat, i)}
                   </div>
                 ))}
               </div>
             </div>
-            
+
+            {/* Desktop: static stacked list */}
             <div className="hidden lg:flex flex-col gap-6">
               {features.map(renderFeature)}
             </div>
@@ -90,7 +81,7 @@ export function PrecisionFeatures() {
 
         <div className="space-y-4 order-1 lg:order-2 lg:sticky lg:top-32">
           <span className="text-brand-red font-bold tracking-[0.2em] uppercase text-xs block">
-            Technology & Safety
+            Technology &amp; Safety
           </span>
           <h2 className="text-3xl font-bold tracking-tight leading-tight text-foreground">
             The Precision <br /> of Flight.

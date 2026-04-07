@@ -36,11 +36,11 @@ export function Footer() {
   ];
 
   const topAirlines = [
-    "Alaska Airlines",
-    "JetBlue Airlines",
-    "Southwest Airlines",
-    "Delta Airlines",
-    "Aeromexico Airlines",
+    { name: "Alaska Airlines", href: "/alaska-airlines" },
+    { name: "JetBlue Airlines", href: "/jetblue-airlines" },
+    { name: "Southwest Airlines", href: "/southwest-airlines" },
+    { name: "Delta Airlines", href: "/delta-airlines" },
+    { name: "Aeromexico Airlines", href: "/aeromexico-airlines" },
   ];
 
   const globalSites = [
@@ -87,12 +87,12 @@ export function Footer() {
             </h3>
             <ul className="space-y-2">
               {topAirlines.map((airline) => (
-                <li key={airline}>
+                <li key={airline.name}>
                   <a
-                    href="#"
+                    href={airline.href}
                     className="text-[#4b5563] dark:text-muted-foreground hover:text-[#c52a28] transition-colors text-xs font-medium"
                   >
-                    {airline}
+                    {airline.name}
                   </a>
                 </li>
               ))}

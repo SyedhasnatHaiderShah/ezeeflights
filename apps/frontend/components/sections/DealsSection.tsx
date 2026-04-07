@@ -108,7 +108,7 @@ export function DealsSection() {
         {/* Carousel for Mobile / Grid for Desktop */}
         <div className="relative">
           {/* Embla Viewport */}
-          <div className="lg:hidden overflow-hidden" ref={emblaRef}>
+          <div className="lg:hidden overflow-hidden touch-pan-y" ref={emblaRef}>
             <div className="flex ml-[-16px]">
               {DEALS.map((deal) => (
                 <div key={deal.id} className="flex-[0_0_75%] sm:flex-[0_0_45%] min-w-0 pl-4">

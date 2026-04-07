@@ -114,7 +114,9 @@ export default function RootLayout({
             {/* Include the Sidebar globally */}
             <AppSidebar />
 
-            <div className="relative flex flex-col min-h-screen pb-16 md:pb-0">
+            <div
+              className="relative flex flex-col min-h-screen pb-16 md:pb-0"
+            >
               {children}
               <MobileBottomNav />
             </div>

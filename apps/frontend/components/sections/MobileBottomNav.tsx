@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Drawer } from "vaul";
 import { cn } from "@/lib/utils";
-import { AppImage } from "@/components/ui/app-image";
 import {
   Home,
   Search,
@@ -48,47 +47,22 @@ const rightNavItems: NavItem[] = [
 interface NavigationItem {
   title: string;
   url: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: LucideIcon;
 }
 
-interface NavigationGroup {
-  label: string;
-  items: NavigationItem[];
-}
-
-const NAVIGATION_GROUPS: NavigationGroup[] = [
-  {
-    label: "Explore",
-    items: [
-      { title: "Flights", url: "/flights", icon: Plane },
-      { title: "Stays", url: "/stays", icon: Building2 },
-      { title: "Cars", url: "/cars", icon: Car },
-      { title: "Packages", url: "/packages", icon: PackageOpen },
-      { title: "Destinations", url: "/destinations", icon: MapIcon },
-    ],
-  },
-  {
-    label: "Account",
-    items: [
-      { title: "Sign in / Profile", url: "/profile", icon: User },
-      { title: "My Trips", url: "/trips", icon: CalendarDays },
-      { title: "Saved", url: "/saved", icon: Heart },
-    ],
-  },
-  {
-    label: "Preferences",
-    items: [
-      { title: "Currency", url: "?config=currency", icon: DollarSign },
-      { title: "Language", url: "?config=language", icon: Globe },
-    ],
-  },
-  {
-    label: "Support",
-    items: [
-      { title: "Help Center", url: "/help", icon: HelpCircle },
-      { title: "Contact Us", url: "/contact", icon: Phone },
-    ],
-  },
+const NAVIGATION_ITEMS: NavigationItem[] = [
+  { title: "Cars", url: "/cars", icon: Car },
+  { title: "Contact Us", url: "/contact", icon: Phone },
+  { title: "Currency", url: "?config=currency", icon: DollarSign },
+  { title: "Destinations", url: "/destinations", icon: MapIcon },
+  { title: "Flights", url: "/flights", icon: Plane },
+  { title: "Help Center", url: "/help", icon: HelpCircle },
+  { title: "Language", url: "?config=language", icon: Globe },
+  { title: "My Trips", url: "/trips", icon: CalendarDays },
+  { title: "Packages", url: "/packages", icon: PackageOpen },
+  { title: "Saved", url: "/saved", icon: Heart },
+  { title: "Sign in / Profile", url: "/profile", icon: User },
+  { title: "Stays", url: "/stays", icon: Building2 },
 ];
 
 export function MobileBottomNav() {
@@ -111,16 +85,15 @@ export function MobileBottomNav() {
       <Link
         key={item.name}
         href={item.href as any}
-        className="flex flex-col items-center justify-center w-full h-full space-y-1 relative group"
+        className="flex flex-col items-center justify-center min-w-[64px] h-full space-y-1 relative group"
+        style={{ WebkitTapHighlightColor: "transparent" }}
       >
         {isActive && (
           <span className="absolute top-0 w-8 h-1 rounded-b-full bg-primary/20" />
         )}
-
-        <div>
-          <AppIcon icon={Icon} isFill isActive={isActive} />
+        <div className="pointer-events-none">
+          <AppIcon icon={Icon} isActive={isActive} />
         </div>
-
         <span
           className={cn(
             "text-[10px] font-bold tracking-tight transition-colors duration-300",
@@ -135,24 +108,37 @@ export function MobileBottomNav() {
 
   return (
     <>
-      <nav className="fixed bottom-0 w-full z-50 bg-background/90 backdrop-blur-lg border-t border-border/50 md:hidden pb-safe">
-        <div className="flex items-center justify-between h-16 px-2 sm:px-4 relative">
-          <div className="flex-1 flex justify-around h-full">
+      <nav
+        className="fixed bottom-0 w-full z-50 bg-background/90 backdrop-blur-lg border-t border-border/50 md:hidden pb-safe"
+      >
+        {/*
+          Using overflow-x-auto on the nav itself ensures that if the screen is
+          dangerously narrow (e.g. 280px), the user can still reach all buttons.
+        */}
+        <div className="flex items-center justify-between h-16 px-2 sm:px-4 relative overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex items-center justify-around flex-1 h-full">
             {leftNavItems.map(renderNavItem)}
           </div>
 
-          <div className="relative flex items-center justify-center w-[20%] z-10 -mt-6">
+          {/* Centre FAB */}
+          <div className="relative flex items-center justify-center min-w-[70px] z-10 -mt-6">
             <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
               <Drawer.Trigger asChild>
                 <button
                   aria-label="Open menu"
-                  className="flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-lg border border-border/30 dark:bg-secondary/40 active:scale-95 transition-all duration-200"
+                  className="flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-lg border border-border/30 dark:bg-secondary/40 active:scale-95 transition-all duration-200 select-none cursor-pointer"
+                  style={{
+                    WebkitTapHighlightColor: "transparent",
+                  }}
                 >
-                  <AppIcon icon={Menu} isFill animate={false} className="shadow-none bg-transparent border-none w-auto h-auto" />
+                  <Menu className="w-5 h-5 text-foreground pointer-events-none" />
                 </button>
               </Drawer.Trigger>
+
               <Drawer.Portal>
-                <Drawer.Overlay className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm" />
+                <Drawer.Overlay
+                  className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm"
+                />
                 <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[70] mt-24 flex h-[85vh] flex-col rounded-t-[20px] bg-background border-t shadow-2xl focus:outline-none">
                   <Drawer.Title className="sr-only">Menu</Drawer.Title>
                   <Drawer.Description className="sr-only">
@@ -162,61 +148,55 @@ export function MobileBottomNav() {
 
                   <div className="flex-1 overflow-y-auto p-5 pb-10 mt-2">
                     <div className="grid grid-cols-4 gap-y-8 gap-x-2 mt-4">
-                      {NAVIGATION_GROUPS.flatMap((group) => group.items).map(
-                        (item) => {
-                          const isActive = pathname === item.url;
-                          return (
-                            <Link
-                              key={item.title}
-                              href={item.url as any}
-                              onClick={() => setIsOpen(false)}
-                              className="flex flex-col items-center justify-start gap-2 group hide-tap-highlight"
+                      {NAVIGATION_ITEMS.map((item) => {
+                        const isActive = pathname === item.url;
+                        return (
+                          <Link
+                            key={item.title}
+                            href={item.url as any}
+                            onClick={() => setIsOpen(false)}
+                            className="flex flex-col items-center justify-start gap-2 group"
+                            style={{
+                              WebkitTapHighlightColor: "transparent",
+                            }}
+                          >
+                            <div
+                              className={cn(
+                                "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300",
+                                isActive
+                                  ? "bg-primary border-primary text-primary-foreground shadow-primary/20 scale-110"
+                                  : "bg-background border-border group-hover:bg-muted group-hover:scale-105",
+                              )}
                             >
-                              <div
-                                className={cn(
-                                  "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-sm border",
-                                  isActive
-                                    ? "bg-primary border-primary text-primary-foreground shadow-primary/20 scale-110"
-                                    : "bg-background border-border group-hover:bg-muted group-hover:scale-105",
-                                )}
-                              >
-                                <item.icon
-                                  className={cn(
-                                    "h-[22px] w-[22px] stroke-[1.5px] fill-current",
-                                    isActive
-                                      ? "stroke-[2px]"
-                                      : "text-foreground",
-                                  )}
-                                />
-                              </div>
-                              <span
-                                className={cn(
-                                  "text-[10px] font-medium text-center leading-tight px-0.5",
-                                  isActive
-                                    ? "text-primary font-bold"
-                                    : "text-muted-foreground group-hover:text-foreground",
-                                )}
-                              >
-                                {item.title}
-                              </span>
-                            </Link>
-                          );
-                        },
-                      )}
+                              <AppIcon icon={item.icon} isActive={isActive} />
+                            </div>
+                            <span
+                              className={cn(
+                                "text-[10px] font-medium text-center leading-tight px-0.5",
+                                isActive
+                                  ? "text-primary font-bold"
+                                  : "text-muted-foreground group-hover:text-foreground",
+                              )}
+                            >
+                              {item.title}
+                            </span>
+                          </Link>
+                        );
+                      })}
 
-                      {/* Theme Toggle within the grid */}
                       <button
                         onClick={() =>
                           setTheme(theme === "dark" ? "light" : "dark")
                         }
-                        className="flex flex-col items-center justify-start gap-2 group hide-tap-highlight"
+                        className="flex flex-col items-center justify-start gap-2 group"
+                        style={{
+                          WebkitTapHighlightColor: "transparent",
+                        }}
                       >
-                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-background border border-border transition-all duration-300 shadow-sm group-hover:bg-muted group-hover:scale-105">
-                          {mounted && theme === "dark" ? (
-                            <Moon className="h-[22px] w-[22px] stroke-[1.5px] text-foreground fill-current" />
-                          ) : (
-                            <Sun className="h-[22px] w-[22px] stroke-[1.5px] text-foreground fill-current" />
-                          )}
+                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-background transition-all duration-300 group-hover:bg-muted group-hover:scale-105">
+                          <AppIcon
+                            icon={mounted && theme === "dark" ? Moon : Sun}
+                          />
                         </div>
                         <span className="text-[10px] font-medium text-center leading-tight px-0.5 text-muted-foreground group-hover:text-foreground">
                           Theme
@@ -229,7 +209,7 @@ export function MobileBottomNav() {
             </Drawer.Root>
           </div>
 
-          <div className="flex-1 flex justify-around h-full">
+          <div className="flex items-center justify-around flex-1 h-full">
             {rightNavItems.map(renderNavItem)}
           </div>
         </div>
