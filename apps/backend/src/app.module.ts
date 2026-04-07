@@ -12,6 +12,7 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { EventsModule } from './common/events/events.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { LoyaltyModule } from './modules/loyalty/loyalty.module';
+import { TicketingModule } from './modules/ticketing/ticketing.module';
 import { HotelBookingModule } from './modules/hotel-booking/hotel-booking.module';
 
 @Module({
@@ -29,6 +30,7 @@ import { HotelBookingModule } from './modules/hotel-booking/hotel-booking.module
     NotificationModule,
     ProfileModule,
     LoyaltyModule,
+    TicketingModule,
     HotelBookingModule,
   ],
 })
