@@ -14,8 +14,10 @@
 - `GET /v1/hotel/search?city=Dubai&page=1&limit=20`
 
 ## Booking
-- `POST /v1/booking` (JWT)
-- `GET /v1/booking/me` (JWT)
+- `POST /v1/bookings` (JWT)
+- `GET /v1/bookings/:id` (JWT)
+- `GET /v1/bookings/user/:userId` (JWT)
+- `PATCH /v1/bookings/:id/cancel` (JWT)
 
 ## Payment
 - `POST /v1/payment` (JWT, legacy-compatible)

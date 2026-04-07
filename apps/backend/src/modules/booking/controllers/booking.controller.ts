@@ -1,15 +1,15 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { BookingService } from '../services/booking.service';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CreateBookingDto } from '../dto/create-booking.dto';
+import { BookingService } from '../services/booking.service';
 
 interface AuthenticatedRequest {
   user: { userId: string };
 }
 
 @ApiTags('booking')
-@Controller({ path: 'booking', version: '1' })
+@Controller({ path: 'bookings', version: '1' })
 export class BookingController {
   constructor(private readonly service: BookingService) {}
 
@@ -18,6 +18,7 @@ export class BookingController {
     return this.service.health();
   }
 
+  @ApiOperation({ summary: 'Create booking' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -27,7 +28,29 @@ export class BookingController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Get('me')
+  @Get('user/:userId')
+  listByUser(@Req() req: AuthenticatedRequest, @Param('userId') userId: string) {
+    const targetUserId = req.user.userId === userId ? userId : req.user.userId;
+    return this.service.getUserBookings(targetUserId);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  getById(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
+    return this.service.getById(id, req.user.userId);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id/cancel')
+  cancel(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
+    return this.service.cancelBooking(id, req.user.userId);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('me/list')
   myBookings(@Req() req: AuthenticatedRequest) {
     return this.service.getUserBookings(req.user.userId);
   }
