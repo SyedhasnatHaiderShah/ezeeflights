@@ -45,3 +45,15 @@
 - `GET /v1/notifications/logs` - admin notification audit logs.
 - `POST /v1/notifications/templates` - admin create/update template.
 - `GET /v1/notifications/templates` - admin list templates.
+
+## Billing
+- `POST /v1/invoices/generate` (JWT)
+- `GET /v1/invoices/:id` (JWT)
+- `GET /v1/invoices/user/:userId` (JWT)
+- `POST /v1/invoices/:id/pay` (JWT)
+- `POST /v1/invoices/:id/refund` (JWT)
+- `POST /api/invoices/generate` (JWT, legacy-compatible)
+- `GET /api/invoices/:id` (JWT, legacy-compatible)
+- `GET /api/invoices/user/:userId` (JWT, legacy-compatible)
+- `POST /api/invoices/:id/pay` (JWT, legacy-compatible)
+- `POST /api/invoices/:id/refund` (JWT, legacy-compatible)

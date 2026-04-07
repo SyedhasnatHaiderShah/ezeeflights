@@ -14,6 +14,7 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { LoyaltyModule } from './modules/loyalty/loyalty.module';
 import { TicketingModule } from './modules/ticketing/ticketing.module';
 import { HotelBookingModule } from './modules/hotel-booking/hotel-booking.module';
+import { BillingModule } from './modules/billing/billing.module';
 import { BookingManagementModule } from './modules/booking-management/booking-management.module';
 
 @Module({
@@ -33,6 +34,7 @@ import { BookingManagementModule } from './modules/booking-management/booking-ma
     LoyaltyModule,
     TicketingModule,
     HotelBookingModule,
+    BillingModule,
     BookingManagementModule,
   ],
 })
