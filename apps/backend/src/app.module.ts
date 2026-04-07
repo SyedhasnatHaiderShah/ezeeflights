@@ -14,6 +14,7 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { LoyaltyModule } from './modules/loyalty/loyalty.module';
 import { TicketingModule } from './modules/ticketing/ticketing.module';
 import { HotelBookingModule } from './modules/hotel-booking/hotel-booking.module';
+import { BookingManagementModule } from './modules/booking-management/booking-management.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { HotelBookingModule } from './modules/hotel-booking/hotel-booking.module
     LoyaltyModule,
     TicketingModule,
     HotelBookingModule,
+    BookingManagementModule,
   ],
 })
 export class AppModule {}
