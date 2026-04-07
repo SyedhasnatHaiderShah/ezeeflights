@@ -1,0 +1,16 @@
+{
+  "name": "EzeeFlights",
+  "short_name": "EzeeFlights",
+  "description": "Domestic & International Flights Booking in USA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#edbf26",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
