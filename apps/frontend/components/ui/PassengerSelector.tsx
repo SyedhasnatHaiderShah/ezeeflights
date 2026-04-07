@@ -37,7 +37,7 @@ export function PassengerSelector({
       <Popover.Trigger asChild>
         <button
           className={cn(
-            "w-full flex items-center justify-between px-3 transition-colors group border-r border-border last:border-r-0 relative overflow-hidden",
+            "w-full flex items-center justify-between px-4 transition-colors group border-r border-border last:border-r-0 relative overflow-hidden h-full",
             className,
           )}
           aria-haspopup="dialog"
