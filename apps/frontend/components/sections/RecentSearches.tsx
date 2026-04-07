@@ -97,7 +97,8 @@ export function RecentSearches() {
             transition={{ delay: 0.08 * index, duration: 0.5, ease: "easeOut" }}
             className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-brand-red/10 hover:bg-brand-red/[0.02] hover:shadow-xl dark:hover:shadow-black/40 transition-all duration-300"
           >
-            <div className="flex items-center gap-6 px-6 py-5">
+            {/* <div className="shimmer-effect" /> */}
+            <div className="flex items-center gap-6 px-6 py-5 relative z-10">
               <AppIcon
                 icon={search.icon}
                 isActive={true}

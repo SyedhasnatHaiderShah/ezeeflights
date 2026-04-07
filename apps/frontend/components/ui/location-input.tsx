@@ -29,6 +29,7 @@ interface LocationInputProps {
   onChange?: (value: string) => void;
   icon?: LucideIcon;
   className?: string;
+  shimmer?: boolean;
 }
 
 export function LocationInput({
@@ -38,10 +39,17 @@ export function LocationInput({
   value,
   onChange,
   icon: Icon = MapPin,
-  className
+  className,
+  shimmer = true
 }: LocationInputProps) {
   const [open, setOpen] = React.useState(false)
   const [inputValue, setInputValue] = React.useState(value || "")
+
+  // Sync internal state with prop value for controlled behavior
+  React.useEffect(() => {
+    setInputValue(value || "");
+  }, [value]);
+
 
   const handleSelect = (suggestion: Suggestion) => {
     setInputValue(suggestion.code)
@@ -60,13 +68,13 @@ export function LocationInput({
       <Popover.Anchor asChild>
         <div
           className={cn(
-            "relative flex items-center w-full bg-background hover:bg-brand-red/5 transition-all cursor-text px-2.5 group",
+            "relative flex items-center w-full bg-background hover:bg-brand-red/5 transition-all cursor-text px-2.5 group overflow-hidden",
             open && "bg-background ring-2 ring-brand-red/20 z-10",
             className
           )}
         >
-          <Icon className="w-4 h-4 text-foreground/60 mr-2 shrink-0 group-hover:text-brand-red transition-colors" />
-          <div className="flex flex-col flex-1 min-w-0">
+          <Icon className="relative z-10 w-4 h-4 text-foreground/60 mr-2 shrink-0 group-hover:text-brand-red transition-colors" />
+          <div className="relative z-10 flex flex-col flex-1 min-w-0">
             {inputValue && (
               <span className="text-[10px] font-semibold text-brand-red capitalize leading-none mb-0.5 tracking-tight animate-in slide-in-from-bottom-1 fade-in duration-200">
                 {placeholder}
@@ -76,7 +84,12 @@ export function LocationInput({
               id={id}
               type="text"
               value={inputValue}
-              onChange={(e) => { setInputValue(e.target.value); if (!open) setOpen(true); }}
+              onChange={(e) => { 
+                const val = e.target.value;
+                setInputValue(val); 
+                onChange?.(val);
+                if (!open) setOpen(true); 
+              }}
               onFocus={() => setOpen(true)}
               placeholder={placeholder}
               className="w-full bg-transparent border-none outline-none text-sm font-medium text-foreground placeholder:text-foreground/60 placeholder:font-medium"
@@ -86,10 +99,14 @@ export function LocationInput({
           {inputValue && (
             <button
               onClick={handleClear}
-              className="p-1 hover:bg-brand-gray rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+              className="relative z-10 p-1 hover:bg-brand-gray rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <X className="w-3 h-3 text-foreground/40" />
             </button>
+          )}
+
+          {shimmer && (
+            <div className="shimmer-effect" />
           )}
         </div>
       </Popover.Anchor>

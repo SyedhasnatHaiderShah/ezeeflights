@@ -14,6 +14,7 @@ interface AppIconProps {
   isActive?: boolean;
   asChild?: boolean;
   isFill?: boolean;
+  animate?: boolean;
   children?: React.ReactNode;
 }
 
@@ -26,6 +27,7 @@ export function AppIcon({
   isActive = false,
   asChild = false,
   isFill = false,
+  animate = true,
   children,
 }: AppIconProps) {
   const isPill = !!label;
@@ -41,7 +43,8 @@ export function AppIcon({
           !isActive && [
             "text-redmix",
             isFill ? "fill-redmix" : "fill-none",
-            "dark:text-muted-foreground dark:fill-none group-hover:dark:text-foreground",
+            "dark:text-muted-foreground group-hover:dark:text-foreground",
+            isFill ? "dark:fill-muted-foreground" : "dark:fill-none",
           ],
           // Active colors
           isActive && ["text-white", isFill ? "fill-white" : "fill-none"],
@@ -66,13 +69,16 @@ export function AppIcon({
   return (
     <Comp
       onClick={onClick}
+      type={Comp === "button" ? "button" : undefined}
       className={cn(
         "flex items-center justify-center transition-all duration-300 active:scale-95 group cursor-pointer",
         isPill ? "px-4 h-10 rounded-full gap-2.5" : "w-10 h-10 rounded-full",
         // Base Styling (Inactive)
         !isActive && [
-          "bg-white border-none shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-redmix/[0.04]",
-          "dark:bg-secondary/40 dark:shadow-none dark:hover:bg-redmix/70",
+          "bg-white border-none transition-all",
+          animate && "shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-redmix/[0.04]",
+          "dark:bg-secondary/40 dark:shadow-none",
+          animate && "dark:hover:bg-redmix/70",
         ],
         // Active Styling
         isActive && [
@@ -95,7 +101,8 @@ export function AppIcon({
                 !isActive && [
                   "text-redmix",
                   isFill ? "fill-redmix" : "fill-none",
-                  "dark:text-muted-foreground dark:fill-none group-hover:dark:text-foreground",
+                  "dark:text-muted-foreground group-hover:dark:text-foreground",
+                  isFill ? "dark:fill-muted-foreground" : "dark:fill-none",
                 ],
                 // Active colors
                 isActive && ["text-white", isFill ? "fill-white" : "fill-none"],
@@ -126,7 +133,8 @@ export function AppIcon({
               !isActive && [
                 "text-redmix",
                 isFill ? "fill-redmix" : "fill-none",
-                "dark:text-gray-100 dark:fill-none group-hover:dark:text-foreground",
+                "dark:text-gray-100 group-hover:dark:text-foreground",
+                isFill ? "dark:fill-gray-100" : "dark:fill-none",
               ],
               // Active colors
               isActive && ["text-white", isFill ? "fill-white" : "fill-none"],

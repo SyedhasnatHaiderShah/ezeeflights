@@ -1,0 +1,84 @@
+openapi: 3.0.3
+info:
+  title: ezeeFlights Hotel Booking API
+  version: 1.0.0
+paths:
+  /v1/hotels/search:
+    get:
+      summary: Search hotels
+      parameters:
+        - in: query
+          name: city
+          required: true
+          schema: { type: string }
+        - in: query
+          name: checkInDate
+          required: true
+          schema: { type: string, format: date }
+        - in: query
+          name: checkOutDate
+          required: true
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: Hotel results
+  /v1/hotels/{id}:
+    get:
+      summary: Get hotel details
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: Hotel details }
+  /v1/hotels/{id}/rooms:
+    get:
+      summary: Get available rooms
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+        - in: query
+          name: checkInDate
+          required: true
+          schema: { type: string, format: date }
+        - in: query
+          name: checkOutDate
+          required: true
+          schema: { type: string, format: date }
+      responses:
+        '200': { description: Room inventory }
+  /v1/hotel-bookings:
+    post:
+      security: [{ bearerAuth: [] }]
+      summary: Create hotel booking
+      requestBody:
+        required: true
+      responses:
+        '201': { description: Hotel booking created }
+  /v1/hotel-bookings/{id}:
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: Get booking by id
+      responses:
+        '200': { description: Booking details }
+  /v1/hotel-bookings/user/{userId}:
+    get:
+      security: [{ bearerAuth: [] }]
+      summary: List user bookings
+      responses:
+        '200': { description: User booking list }
+  /v1/hotel-bookings/{id}/cancel:
+    patch:
+      security: [{ bearerAuth: [] }]
+      summary: Cancel booking
+      responses:
+        '200': { description: Cancelled }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

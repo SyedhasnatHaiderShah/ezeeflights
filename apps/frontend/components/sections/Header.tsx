@@ -44,7 +44,7 @@ export function Header() {
         {/* Left Side: Hamburger & Logo */}
         <div className="flex items-center gap-6">
           <button
-            className="p-2 transition-colors rounded-md bg-transparent hover:bg-muted"
+            className="p-2 transition-colors rounded-md bg-transparent"
             onClick={toggleSidebar}
             aria-label="Toggle menu"
           >
