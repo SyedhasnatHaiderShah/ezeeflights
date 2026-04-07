@@ -25,5 +25,13 @@ export class NotificationEventsListener implements OnModuleInit {
         });
       },
     );
+
+    this.events.on<{ userId: string; points: number; balance: number }>('loyalty.points.earned', async (event) => {
+      await this.notificationService.triggerLoyaltyPointsEarned(event.userId, event.points, event.balance);
+    });
+
+    this.events.on<{ userId: string; fromTier: string; toTier: string }>('loyalty.tier.upgraded', async (event) => {
+      await this.notificationService.triggerTierUpgrade(event.userId, event.fromTier, event.toTier);
+    });
   }
 }

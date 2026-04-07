@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: ezeeFlights Profile & Loyalty API
+  version: 1.0.0
+paths:
+  /v1/profile/me:
+    get:
+      tags: [profile]
+      security: [{ bearerAuth: [] }]
+      summary: Get current profile and travel history
+      responses:
+        '200': { description: Profile payload }
+  /v1/profile/update:
+    put:
+      tags: [profile]
+      security: [{ bearerAuth: [] }]
+      summary: Update profile details/preferences
+      responses:
+        '200': { description: Updated profile }
+  /v1/profile/travelers:
+    get:
+      tags: [profile]
+      security: [{ bearerAuth: [] }]
+      summary: List saved travelers
+      responses:
+        '200': { description: Traveler list }
+    post:
+      tags: [profile]
+      security: [{ bearerAuth: [] }]
+      summary: Add saved traveler
+      responses:
+        '201': { description: Traveler created }
+  /v1/profile/travelers/{id}:
+    delete:
+      tags: [profile]
+      security: [{ bearerAuth: [] }]
+      summary: Delete traveler
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: Deleted }
+  /v1/loyalty/me:
+    get:
+      tags: [loyalty]
+      security: [{ bearerAuth: [] }]
+      summary: Get loyalty account
+      responses:
+        '200': { description: Loyalty account }
+  /v1/loyalty/transactions:
+    get:
+      tags: [loyalty]
+      security: [{ bearerAuth: [] }]
+      summary: Get loyalty transactions
+      responses:
+        '200': { description: Transactions }
+  /v1/loyalty/redeem:
+    post:
+      tags: [loyalty]
+      security: [{ bearerAuth: [] }]
+      summary: Redeem points
+      responses:
+        '200': { description: Updated account }
+  /v1/loyalty/earn:
+    post:
+      tags: [loyalty]
+      summary: Internal endpoint to award points
+      responses:
+        '200': { description: Updated account }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

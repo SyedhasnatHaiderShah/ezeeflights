@@ -7,5 +7,6 @@ import { PostgresClient } from '../../database/postgres.client';
 @Module({
   controllers: [BookingController],
   providers: [BookingService, BookingRepository, PostgresClient],
+  exports: [BookingService],
 })
 export class BookingModule {}

@@ -270,3 +270,66 @@ CREATE INDEX idx_notifications_user_status_created ON notifications(user_id, sta
 CREATE INDEX idx_notification_logs_notification_timestamp ON notification_logs(notification_id, timestamp DESC);
 CREATE INDEX idx_notification_templates_name_type ON notification_templates(name, type);
 CREATE INDEX idx_notification_queue_next_attempt ON notification_queue(next_attempt_at);
+
+-- Profile + Loyalty & Rewards
+CREATE TABLE user_profiles (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+  first_name VARCHAR(100),
+  last_name VARCHAR(100),
+  phone VARCHAR(20),
+  date_of_birth DATE,
+  gender VARCHAR(20) CHECK (gender IN ('MALE', 'FEMALE', 'OTHER', 'UNSPECIFIED')),
+  passport_number VARCHAR(50),
+  nationality VARCHAR(50),
+  preferences JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE saved_travelers (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  full_name VARCHAR(150) NOT NULL,
+  passport_number VARCHAR(50) NOT NULL,
+  dob DATE NOT NULL,
+  nationality VARCHAR(80) NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(user_id, passport_number)
+);
+
+CREATE TABLE loyalty_accounts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+  points_balance INT NOT NULL DEFAULT 0 CHECK (points_balance >= 0),
+  tier VARCHAR(20) NOT NULL DEFAULT 'BRONZE' CHECK (tier IN ('BRONZE', 'SILVER', 'GOLD', 'PLATINUM')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE loyalty_transactions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  loyalty_account_id UUID NOT NULL REFERENCES loyalty_accounts(id) ON DELETE CASCADE,
+  points INT NOT NULL,
+  type VARCHAR(20) NOT NULL CHECK (type IN ('EARN', 'REDEEM', 'EXPIRE')),
+  reference_id VARCHAR(120),
+  expires_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE reward_rules (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  action VARCHAR(20) NOT NULL CHECK (action IN ('BOOKING', 'SIGNUP', 'REFERRAL')),
+  points_awarded INT NOT NULL CHECK (points_awarded >= 0),
+  conditions JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_user_profiles_user_id ON user_profiles(user_id);
+CREATE INDEX idx_saved_travelers_user_id ON saved_travelers(user_id);
+CREATE INDEX idx_loyalty_accounts_user_id ON loyalty_accounts(user_id);
+CREATE INDEX idx_loyalty_transactions_account_date ON loyalty_transactions(loyalty_account_id, created_at DESC);
+CREATE INDEX idx_loyalty_transactions_expires ON loyalty_transactions(expires_at) WHERE expires_at IS NOT NULL;
+CREATE INDEX idx_reward_rules_action ON reward_rules(action);

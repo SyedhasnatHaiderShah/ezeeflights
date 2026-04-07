@@ -94,6 +94,34 @@ export class NotificationService {
     await this.send({ userId, type: 'EMAIL', templateName: 'booking-confirmed', payload });
   }
 
+  async triggerLoyaltyPointsEarned(userId: string, points: number, balance: number): Promise<void> {
+    const user = await this.userRepository.findById(userId);
+    if (!user?.email) {
+      return;
+    }
+    await this.send({
+      userId,
+      type: 'EMAIL',
+      email: user.email,
+      templateName: 'loyalty-points-earned',
+      payload: { email: user.email, points, balance },
+    });
+  }
+
+  async triggerTierUpgrade(userId: string, fromTier: string, toTier: string): Promise<void> {
+    const user = await this.userRepository.findById(userId);
+    if (!user?.email) {
+      return;
+    }
+    await this.send({
+      userId,
+      type: 'EMAIL',
+      email: user.email,
+      templateName: 'loyalty-tier-upgraded',
+      payload: { email: user.email, fromTier, toTier },
+    });
+  }
+
   private async getRenderedMessage(notification: NotificationEntity): Promise<{ subject: string; body: string }> {
     const payload = notification.payload as Record<string, unknown>;
     const templateName = typeof payload.templateName === 'string' ? payload.templateName : null;
