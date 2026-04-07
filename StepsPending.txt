@@ -1,0 +1,6 @@
+npm install in apps/backend (and frontend if needed).
+Set AUTH_ENCRYPTION_KEY to 64 hex chars before using 2FA (openssl rand -hex 32).
+Run migration 002 on non-fresh databases.
+Configure Google redirect URI to match GOOGLE_CALLBACK_URL.
+Set INTERNAL_API_BASE_URL on the Next server to the Nest origin (Docker: http://backend:4000).
+Google OAuth still starts on the API URL; completion uses POST /api/auth/oauth/exchange on the Next origin.

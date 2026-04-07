@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api/client';
-import { useAuthStore } from '@/lib/store/auth-store';
+import { useAuthSession } from '@/lib/hooks/use-auth-session';
 
 interface FlightDetail {
   id: string;
@@ -17,20 +17,19 @@ interface FlightDetail {
 }
 
 export default function FlightDetailPage({ params }: { params: { id: string } }) {
-  const token = useAuthStore((state) => state.accessToken);
+  const session = useAuthSession();
 
   const flightQuery = useQuery({
-    queryKey: ['flight-detail', params.id, token],
-    queryFn: () =>
-      apiFetch<FlightDetail>(`/flights/${params.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-    enabled: Boolean(token),
+    queryKey: ['flight-detail', params.id, session.data?.id],
+    queryFn: () => apiFetch<FlightDetail>(`/flights/${params.id}`),
+    enabled: Boolean(session.data),
   });
 
-  if (!token) {
+  if (session.isLoading) {
+    return <p className="rounded border bg-slate-50 p-4">Checking session…</p>;
+  }
+
+  if (!session.data) {
     return <p className="rounded border bg-amber-50 p-4">Sign in required to view full flight details.</p>;
   }
 

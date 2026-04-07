@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api/client';
-import { useAuthStore } from '@/lib/store/auth-store';
+import { useAuthSession } from '@/lib/hooks/use-auth-session';
 
 interface UserProfile {
   id: string;
@@ -18,27 +18,25 @@ interface Booking {
 }
 
 export default function DashboardPage() {
-  const token = useAuthStore((state) => state.accessToken);
+  const session = useAuthSession();
 
   const profileQuery = useQuery({
-    queryKey: ['profile', token],
-    queryFn: () =>
-      apiFetch<UserProfile>('/user/profile', {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-    enabled: Boolean(token),
+    queryKey: ['profile', 'bff'],
+    queryFn: () => apiFetch<UserProfile>('/user/profile'),
+    enabled: Boolean(session.data),
   });
 
   const bookingsQuery = useQuery({
-    queryKey: ['bookings', token],
-    queryFn: () =>
-      apiFetch<Booking[]>('/booking/me', {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-    enabled: Boolean(token),
+    queryKey: ['bookings', 'bff'],
+    queryFn: () => apiFetch<Booking[]>('/booking/me'),
+    enabled: Boolean(session.data),
   });
 
-  if (!token) {
+  if (session.isLoading) {
+    return <p className="rounded border bg-slate-50 p-4">Checking session…</p>;
+  }
+
+  if (!session.data) {
     return <p className="rounded border bg-amber-50 p-4">Sign in to view your dashboard.</p>;
   }
 
@@ -49,7 +47,11 @@ export default function DashboardPage() {
       <div className="rounded border bg-white p-4">
         <h2 className="font-semibold">Profile</h2>
         {profileQuery.isLoading && <p>Loading profile...</p>}
-        {profileQuery.data && <p>{profileQuery.data.email} · {profileQuery.data.preferredCurrency}</p>}
+        {profileQuery.data && (
+          <p>
+            {profileQuery.data.email} · {profileQuery.data.preferredCurrency}
+          </p>
+        )}
       </div>
 
       <div className="rounded border bg-white p-4">
