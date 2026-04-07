@@ -1,8 +1,10 @@
 "use client";
 
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Eye, EyeOff } from "lucide-react";
+import { AppIcon } from "@/components/ui/app-icon";
 import Link from "next/link";
 
 export interface LoginFormProps {
@@ -24,6 +26,7 @@ export function LoginForm({
   disabled,
   error,
 }: LoginFormProps) {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="w-full space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
       <div className="space-y-1.5 mb-8">
@@ -41,7 +44,7 @@ export function LoginForm({
           <div className="space-y-2">
             <label
               htmlFor="email"
-              className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 ml-1"
+              className="text-xs font-semibold  tracking-widest text-muted-foreground/80 ml-1"
             >
               Email Address
             </label>
@@ -54,7 +57,7 @@ export function LoginForm({
               onChange={(e) => onEmailChange(e.target.value)}
               disabled={disabled}
               required
-              className="h-12 bg-muted/20 border-border/50 rounded-xl px-4 focus-visible:ring-redmix/20 transition-all font-medium"
+              className="h-12 bg-muted/10 border-border/50 rounded-xl px-4 focus-visible:ring-redmix/20 transition-all font-medium"
             />
           </div>
 
@@ -63,7 +66,7 @@ export function LoginForm({
             <div className="flex justify-between items-center px-1">
               <label
                 htmlFor="password"
-                className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80"
+                className="text-xs font-semibold  tracking-widest text-muted-foreground/80"
               >
                 Password
               </label>
@@ -74,17 +77,28 @@ export function LoginForm({
                 Forgot?
               </Link>
             </div>
-            <Input
-              id="password"
-              placeholder="••••••••"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => onPasswordChange(e.target.value)}
-              disabled={disabled}
-              required
-              className="h-12 bg-muted/20 border-border/50 rounded-xl px-4 focus-visible:ring-redmix/20 transition-all font-medium"
-            />
+            <div className="relative group">
+              <Input
+                id="password"
+                placeholder="••••••••"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => onPasswordChange(e.target.value)}
+                disabled={disabled}
+                required
+                className="h-12 bg-muted/20 border-border/50 rounded-xl px-4 pr-12 focus-visible:ring-redmix/20 transition-all font-medium"
+              />
+              <div className="absolute right-1 top-1/2 -translate-y-1/2">
+                <AppIcon
+                  icon={showPassword ? EyeOff : Eye}
+                  onClick={() => setShowPassword(!showPassword)}
+                  animate={false}
+                  className="w-10 h-10 bg-transparent border-none shadow-none hover:bg-muted/30 focus-within:ring-0 active:scale-90"
+                  variant="default"
+                />
+              </div>
+            </div>
           </div>
         </div>
 

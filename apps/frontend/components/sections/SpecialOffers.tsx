@@ -117,7 +117,7 @@ export function SpecialOffers() {
 
       {/* Header Banner - Sleeker Height */}
       <div className="w-full max-w-md mx-auto px-6 md:px-12 mb-8">
-        <div className="w-full bg-gradient-to-br from-redmix via-redmix-light to-redmix-dark py-4 rounded-full shadow-lg border border-blue-800/30 text-center relative overflow-hidden">
+        <div className="w-full bg-gradient-to-r from-redmix-dark via-redmix to-redmix-dark py-4 rounded-full shadow-lg border border-blue-800/30 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:250%_250%] animate-shimmer pointer-events-none" />
           <h2 className="relative z-10 text-xl md:text-2xl font-bold text-white tracking-tight uppercase">
             Special Flight Offers
@@ -156,7 +156,7 @@ export function SpecialOffers() {
                   variant="outline"
                   size="sm"
                   shimmer={true}
-                  className="w-full sm:w-fit h-8 rounded-lg px-4 border-border/60 text-[10px] font-black uppercase tracking-widest active:scale-95"
+                  className="inline-flex items-center gap-1 text-brand-blue dark:text-muted-foreground font-bold text-xs tracking-wider hover:opacity-80 transition-colors w-fit border border-border px-3.5 py-1.5 rounded-md hover:bg-muted group/btn shadow-sm active:scale-95 cursor-pointer"
                 >
                   View Offer
                   <ChevronsRight className="w-3 h-3 ml-1 transition-transform group-hover:translate-x-0.5" />

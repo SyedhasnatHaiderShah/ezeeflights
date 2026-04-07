@@ -236,11 +236,22 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
     color: #edbf26;
   }
 
-  .bg-brand-orange {
-    background-color: #ff9c00;
-  }
-
   .text-brand-orange {
     color: #ff9c00;
+  }
+
+  /* Reusable Shimmer Effect */
+  .shimmer-effect {
+    @apply absolute inset-0 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-500 pointer-events-none z-0;
+    /* Light mode: Redmix gradient shimmer */
+    background-color: rgba(197, 42, 40, 0.03);
+    background-image: linear-gradient(45deg, transparent 25%, rgba(197, 42, 40, 0.05) 50%, transparent 75%);
+    background-size: 250% 250%;
+  }
+
+  .dark .shimmer-effect {
+    /* Dark mode: Gray/Light gradient shimmer */
+    background-color: rgba(255, 255, 255, 0.03);
+    background-image: linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.1) 50%, transparent 75%);
   }
 }

@@ -52,7 +52,7 @@ export function LoginContainer() {
       <div className="space-y-6">
         <OAuthButtons />
 
-        <p className="text-[10px] text-center text-muted-foreground leading-relaxed px-4">
+        <p className="text-xs text-center font-medium text-gray-500 leading-relaxed px-4">
           By continuing, you agree to our{" "}
           <Link
             href={"/terms" as any}
