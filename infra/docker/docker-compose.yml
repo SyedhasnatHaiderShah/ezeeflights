@@ -25,6 +25,11 @@ services:
       FRONTEND_ORIGIN: http://localhost:3000
       FRONTEND_OAUTH_REDIRECT: http://localhost:3000
       GOOGLE_CALLBACK_URL: http://localhost:4000/v1/auth/google/callback
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      PAYTABS_SERVER_KEY: ${PAYTABS_SERVER_KEY:-}
+      TABBY_API_KEY: ${TABBY_API_KEY:-}
+      TAMARA_API_KEY: ${TAMARA_API_KEY:-}
     depends_on:
       - postgres
       - redis

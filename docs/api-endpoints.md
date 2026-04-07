@@ -18,7 +18,15 @@
 - `GET /v1/booking/me` (JWT)
 
 ## Payment
-- `POST /v1/payment` (JWT)
+- `POST /v1/payment` (JWT, legacy-compatible)
+- `POST /v1/payments/initiate` (JWT)
+- `POST /v1/payments/refund` (JWT)
+- `GET /v1/payments/:id` (JWT)
+- `POST /v1/payments/webhook/stripe`
+- `POST /v1/payments/webhook/paytabs`
+- `POST /v1/payments/webhook/tabby`
+- `POST /v1/payments/webhook/tamara`
+- `GET /v1/payments/admin/transactions` (JWT Admin)
 
 ## User
 - `GET /v1/user/profile` (JWT)

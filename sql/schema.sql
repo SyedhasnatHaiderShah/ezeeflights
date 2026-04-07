@@ -192,12 +192,33 @@ CREATE TABLE bookings (
 CREATE TABLE payments (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   booking_id UUID NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
-  amount NUMERIC(12,2) NOT NULL,
+  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  provider VARCHAR(20) NOT NULL CHECK (provider IN ('STRIPE', 'PAYTABS', 'TABBY', 'TAMARA')),
+  amount NUMERIC(12,2) NOT NULL CHECK (amount > 0),
   currency VARCHAR(3) NOT NULL CHECK (currency IN ('USD', 'AED', 'EUR', 'GBP')),
-  provider VARCHAR(50) NOT NULL,
-  provider_reference VARCHAR(255),
-  status VARCHAR(20) NOT NULL CHECK (status IN ('INITIATED', 'AUTHORIZED', 'CAPTURED', 'FAILED', 'REFUNDED')),
+  status VARCHAR(20) NOT NULL CHECK (status IN ('PENDING', 'SUCCESS', 'FAILED', 'REFUNDED')),
+  transaction_id VARCHAR(255),
+  metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE payment_transactions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  payment_id UUID NOT NULL REFERENCES payments(id) ON DELETE CASCADE,
+  provider_response JSONB NOT NULL,
+  status VARCHAR(20) NOT NULL CHECK (status IN ('PENDING', 'SUCCESS', 'FAILED', 'REFUNDED')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE refunds (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  payment_id UUID NOT NULL REFERENCES payments(id) ON DELETE CASCADE,
+  amount NUMERIC(12,2) NOT NULL CHECK (amount > 0),
+  status VARCHAR(20) NOT NULL CHECK (status IN ('PENDING', 'SUCCESS', 'FAILED')),
+  provider_refund_id VARCHAR(255),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE reviews (
@@ -215,6 +236,10 @@ CREATE INDEX idx_flights_price ON flights (currency, base_fare);
 CREATE INDEX idx_hotels_city_rate ON hotels (city, nightly_rate);
 CREATE INDEX idx_bookings_user_created ON bookings (user_id, created_at DESC);
 CREATE INDEX idx_payments_booking_status ON payments (booking_id, status);
+CREATE INDEX idx_payments_user_created ON payments (user_id, created_at DESC);
+CREATE UNIQUE INDEX idx_payments_provider_txn ON payments (provider, transaction_id) WHERE transaction_id IS NOT NULL;
+CREATE INDEX idx_payment_transactions_payment_created ON payment_transactions (payment_id, created_at DESC);
+CREATE INDEX idx_refunds_payment_created ON refunds (payment_id, created_at DESC);
 CREATE INDEX idx_trips_user_dates ON trips (user_id, start_date, end_date);
 
 -- Example transaction for booking + payment consistency
