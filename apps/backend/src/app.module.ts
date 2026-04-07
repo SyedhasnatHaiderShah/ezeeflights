@@ -10,6 +10,8 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { AiModule } from './modules/ai/ai.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { EventsModule } from './common/events/events.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { LoyaltyModule } from './modules/loyalty/loyalty.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { EventsModule } from './common/events/events.module';
     PaymentModule,
     AiModule,
     NotificationModule,
+    ProfileModule,
+    LoyaltyModule,
   ],
 })
 export class AppModule {}
