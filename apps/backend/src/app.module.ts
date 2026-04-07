@@ -12,6 +12,7 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { EventsModule } from './common/events/events.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { LoyaltyModule } from './modules/loyalty/loyalty.module';
+import { TicketingModule } from './modules/ticketing/ticketing.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { LoyaltyModule } from './modules/loyalty/loyalty.module';
     NotificationModule,
     ProfileModule,
     LoyaltyModule,
+    TicketingModule,
   ],
 })
 export class AppModule {}
