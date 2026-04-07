@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/co
 import { JwtService } from '@nestjs/jwt';
 import { scryptSync, randomBytes, timingSafeEqual } from 'crypto';
 import { PostgresClient } from '../../../database/postgres.client';
+import { AppEventBus } from '../../../common/events/app-event-bus.service';
 import { LoginDto } from '../dto/login.dto';
 import { RegisterDto } from '../dto/register.dto';
 
@@ -16,6 +17,7 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly db: PostgresClient,
+    private readonly events: AppEventBus,
   ) {}
 
   private hashPassword(password: string): string {
@@ -48,7 +50,9 @@ export class AuthService {
       throw new UnauthorizedException('Failed to create user');
     }
 
-    return this.issueToken(user.id, user.email);
+    const token = await this.issueToken(user.id, user.email);
+    this.events.emit('user.registered', { userId: user.id, email: user.email });
+    return token;
   }
 
   async login(dto: LoginDto) {
@@ -64,7 +68,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return this.issueToken(user.id, user.email);
+    const token = await this.issueToken(user.id, user.email);
+    this.events.emit('user.registered', { userId: user.id, email: user.email });
+    return token;
   }
 
   async oauthLogin(email: string) {
@@ -83,7 +89,9 @@ export class AuthService {
       throw new UnauthorizedException('OAuth login failed');
     }
 
-    return this.issueToken(user.id, user.email);
+    const token = await this.issueToken(user.id, user.email);
+    this.events.emit('user.registered', { userId: user.id, email: user.email });
+    return token;
   }
 
   private async issueToken(userId: string, email: string) {

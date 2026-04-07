@@ -105,3 +105,51 @@ CREATE INDEX idx_trips_user_dates ON trips (user_id, start_date, end_date);
 -- INSERT INTO bookings (...) VALUES (...);
 -- INSERT INTO payments (...) VALUES (...);
 -- COMMIT;
+
+CREATE TABLE notifications (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  type VARCHAR(20) NOT NULL CHECK (type IN ('EMAIL', 'SMS', 'WHATSAPP')),
+  status VARCHAR(20) NOT NULL DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'SENT', 'FAILED')),
+  payload JSONB NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE notification_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  notification_id UUID NOT NULL REFERENCES notifications(id) ON DELETE CASCADE,
+  response JSONB,
+  status VARCHAR(20) NOT NULL CHECK (status IN ('PENDING', 'SENT', 'FAILED')),
+  error_message TEXT,
+  timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE notification_templates (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name VARCHAR(120) NOT NULL,
+  type VARCHAR(20) NOT NULL CHECK (type IN ('EMAIL', 'SMS', 'WHATSAPP')),
+  subject VARCHAR(255),
+  body TEXT NOT NULL,
+  variables JSONB NOT NULL DEFAULT '[]'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(name, type)
+);
+
+CREATE TABLE notification_queue (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  notification_id UUID NOT NULL REFERENCES notifications(id) ON DELETE CASCADE,
+  retry_count INT NOT NULL DEFAULT 0,
+  next_attempt_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(notification_id)
+);
+
+CREATE INDEX idx_notifications_user_status_created ON notifications(user_id, status, created_at DESC);
+CREATE INDEX idx_notification_logs_notification_timestamp ON notification_logs(notification_id, timestamp DESC);
+CREATE INDEX idx_notification_templates_name_type ON notification_templates(name, type);
+CREATE INDEX idx_notification_queue_next_attempt ON notification_queue(next_attempt_at);

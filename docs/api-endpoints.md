@@ -27,3 +27,11 @@
 - `POST /v1/ai/assistant`
 - `GET /v1/ai/search?prompt=...`
 - `GET /v1/ai/price-prediction?route=DXB-LHR`
+
+## Notifications API (v1)
+
+- `POST /v1/notifications/send` - enqueue a notification for async delivery.
+- `GET /v1/notifications/:id` - get notification status.
+- `GET /v1/notifications/logs` - admin notification audit logs.
+- `POST /v1/notifications/templates` - admin create/update template.
+- `GET /v1/notifications/templates` - admin list templates.

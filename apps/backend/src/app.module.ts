@@ -8,10 +8,13 @@ import { BookingModule } from './modules/booking/booking.module';
 import { HotelModule } from './modules/hotel/hotel.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { AiModule } from './modules/ai/ai.module';
+import { NotificationModule } from './modules/notification/notification.module';
+import { EventsModule } from './common/events/events.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    EventsModule,
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 120 }]),
     AuthModule,
     FlightModule,
@@ -20,6 +23,7 @@ import { AiModule } from './modules/ai/ai.module';
     HotelModule,
     PaymentModule,
     AiModule,
+    NotificationModule,
   ],
 })
 export class AppModule {}

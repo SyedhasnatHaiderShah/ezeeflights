@@ -1,25 +1,25 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
-import { Pool, PoolClient, QueryResultRow } from 'pg';
+import { Pool } from 'pg';
 
 @Injectable()
 export class PostgresClient implements OnModuleDestroy {
-  private readonly pool: Pool;
+  private readonly pool: any;
 
   constructor() {
     this.pool = new Pool({ connectionString: process.env.DATABASE_URL });
   }
 
-  async query<T extends QueryResultRow>(text: string, params: unknown[] = []): Promise<T[]> {
-    const result = await this.pool.query<T>(text, params);
-    return result.rows;
+  async query<T>(text: string, params: unknown[] = []): Promise<T[]> {
+    const result = await this.pool.query(text, params);
+    return result.rows as T[];
   }
 
-  async queryOne<T extends QueryResultRow>(text: string, params: unknown[] = []): Promise<T | null> {
+  async queryOne<T>(text: string, params: unknown[] = []): Promise<T | null> {
     const rows = await this.query<T>(text, params);
     return rows[0] ?? null;
   }
 
-  async withTransaction<T>(operation: (client: PoolClient) => Promise<T>): Promise<T> {
+  async withTransaction<T>(operation: (client: any) => Promise<T>): Promise<T> {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN');
