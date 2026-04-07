@@ -81,7 +81,7 @@ const CATEGORIES = [
 
 export function RecentSearches() {
   return (
-    <div className="w-full mt-8 lg:mt-12 h-auto md:min-h-[40dvh]  animate-in fade-in duration-700 md:pb-20 pb-5 lg:pb-0">
+    <div className="w-full mt-8 lg:mt-12 h-auto md:min-h-[40dvh] md:pb-20 pb-5 lg:pb-0">
       <div className="flex items-baseline justify-between mb-6 lg:mb-8 px-1">
         <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-foreground">
           Recent searches
@@ -90,11 +90,8 @@ export function RecentSearches() {
 
       <div className="flex flex-col gap-4 lg:gap-5">
         {MOCK_SEARCHES.map((search, index) => (
-          <motion.div
+          <div
             key={search.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08 * index, duration: 0.5, ease: "easeOut" }}
             className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-brand-red/20 hover:bg-muted/30 transition-all duration-300 shadow-sm hover:shadow-md"
           >
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-6 px-4 py-4 lg:px-6 lg:py-5 relative z-10">
@@ -171,23 +168,18 @@ export function RecentSearches() {
                   </p>
                 </div>
 
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white bg-gradient-to-tl from-brand-red to-brand-red-light shadow-lg shadow-brand-red/20 hover:shadow-brand-red/40 transition-all shrink-0"
+                <button
+                  className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white bg-gradient-to-tl from-brand-red to-brand-red-light shadow-lg shadow-brand-red/20 hover:shadow-brand-red/40 transition-all active:scale-95 shrink-0"
                 >
                   <Search className="w-5 h-5" strokeWidth={2.5} />
-                </motion.button>
+                </button>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
 
         {/* New Search Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
+        <div
           className="relative bg-muted/20 border border-dashed border-border rounded-2xl p-4 lg:px-6 lg:py-4 transition-all duration-300 group"
         >
           <div className="flex flex-col lg:flex-row lg:items-center gap-4">
@@ -210,7 +202,7 @@ export function RecentSearches() {
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

@@ -82,6 +82,13 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
+// Proper viewport for mobile — viewport-fit=cover enables safe-area-inset-* CSS env vars on iOS
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

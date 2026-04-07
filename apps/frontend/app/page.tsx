@@ -21,35 +21,35 @@ const TopDestinations = dynamic(
     import("@/components/sections/TopDestinations").then(
       (mod) => mod.TopDestinations,
     ),
-  { ssr: false, loading: () => <SectionSkeleton height={600} /> },
+  { loading: () => <SectionSkeleton height={600} /> },
 );
 const SpecialOffers = dynamic(
   () =>
     import("@/components/sections/SpecialOffers").then(
       (mod) => mod.SpecialOffers,
     ),
-  { ssr: false, loading: () => <SectionSkeleton height={600} /> },
+  { loading: () => <SectionSkeleton height={600} /> },
 );
 const WhyChooseUs = dynamic(
   () =>
     import("@/components/sections/WhyChooseUs").then((mod) => mod.WhyChooseUs),
-  { ssr: false, loading: () => <SectionSkeleton height={500} /> },
+  { loading: () => <SectionSkeleton height={500} /> },
 );
 const PrecisionFeatures = dynamic(
   () =>
     import("@/components/sections/PrecisionFeatures").then(
       (mod) => mod.PrecisionFeatures,
     ),
-  { ssr: false, loading: () => <SectionSkeleton height={500} /> },
+  { loading: () => <SectionSkeleton height={500} /> },
 );
 const Newsletter = dynamic(
   () =>
     import("@/components/sections/Newsletter").then((mod) => mod.Newsletter),
-  { ssr: false, loading: () => <SectionSkeleton height={400} /> },
+  { loading: () => <SectionSkeleton height={400} /> },
 );
 const Footer = dynamic(
   () => import("@/components/sections/Footer").then((mod) => mod.Footer),
-  { ssr: false, loading: () => <SectionSkeleton height={300} /> },
+  { loading: () => <SectionSkeleton height={300} /> },
 );
 
 // ─── Prefetch all chunks immediately after first paint ───────────────────────

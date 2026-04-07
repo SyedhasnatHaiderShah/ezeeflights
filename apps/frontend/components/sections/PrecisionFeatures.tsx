@@ -65,7 +65,7 @@ export function PrecisionFeatures() {
       <div className="absolute top-0 right-0 w-1/4 h-full bg-brand-blue/5 dark:bg-brand-red-light/5 -skew-x-12 translate-x-1/2 z-0" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-        <div className="relative order-2 lg:order-1 animate-in fade-in slide-in-from-left-8 duration-1000">
+        <div className="relative order-2 lg:order-1">
           <div className="absolute -top-16 -left-16 w-64 h-64 bg-brand-blue/5 dark:bg-brand-red-light/5 rounded-full blur-[80px] animate-pulse" />
           <Card
             variant="lowest"
@@ -88,7 +88,7 @@ export function PrecisionFeatures() {
           </Card>
         </div>
 
-        <div className="space-y-4 order-1 lg:order-2 animate-in fade-in slide-in-from-right-8 duration-1000 lg:sticky lg:top-32">
+        <div className="space-y-4 order-1 lg:order-2 lg:sticky lg:top-32">
           <span className="text-brand-red font-bold tracking-[0.2em] uppercase text-xs block">
             Technology & Safety
           </span>

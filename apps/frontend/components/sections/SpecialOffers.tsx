@@ -90,6 +90,7 @@ const OFFERS: Offer[] = [
 ];
 
 export function SpecialOffers() {
+  const [mounted, setMounted] = React.useState(false);
   const [infoRef] = useEmblaCarousel(
     {
       loop: true,
@@ -111,6 +112,10 @@ export function SpecialOffers() {
     },
     [Autoplay({ delay: 4000, stopOnInteraction: true })],
   );
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const renderInfoCard = (card: InfoCard) => (
     <div
@@ -173,7 +178,7 @@ export function SpecialOffers() {
     <section className="md:py-14 py-5 bg-muted/30 dark:bg-background transition-colors duration-300 relative overflow-hidden">
       {/* Information Contact Cards - Slider on Mobile */}
       <div className="w-full max-w-7xl mx-auto px-4 md:px-12 mb-8">
-        <div className="md:hidden overflow-hidden" ref={infoRef}>
+        <div className="md:hidden overflow-hidden" ref={mounted ? infoRef : null}>
           <div className="flex ml-[-12px] items-center">
             {INFO_CARDS.map((card) => (
               <div key={card.id} className="flex-[0_0_92%] min-w-0 pl-3">
@@ -199,7 +204,7 @@ export function SpecialOffers() {
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Offers Slider on Mobile */}
-        <div className="lg:hidden overflow-hidden" ref={offersRef}>
+        <div className="lg:hidden overflow-hidden" ref={mounted ? offersRef : null}>
           <div className="flex ml-[-16px]">
             {OFFERS.map((offer) => (
               <div

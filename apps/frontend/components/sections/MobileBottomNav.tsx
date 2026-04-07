@@ -144,7 +144,12 @@ export function MobileBottomNav() {
           <div className="relative flex items-center justify-center w-[20%] z-10 -mt-6">
             <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
               <Drawer.Trigger asChild>
-                <AppIcon icon={Menu} isFill />
+                <button
+                  aria-label="Open menu"
+                  className="flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-lg border border-border/30 dark:bg-secondary/40 active:scale-95 transition-all duration-200"
+                >
+                  <AppIcon icon={Menu} isFill animate={false} className="shadow-none bg-transparent border-none w-auto h-auto" />
+                </button>
               </Drawer.Trigger>
               <Drawer.Portal>
                 <Drawer.Overlay className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm" />

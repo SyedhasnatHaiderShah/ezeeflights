@@ -21,7 +21,7 @@ export function Hero() {
             </p>
           </div>
 
-          <div className="w-full animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <div className="w-full">
             <BookingForm />
           </div>
         </div>

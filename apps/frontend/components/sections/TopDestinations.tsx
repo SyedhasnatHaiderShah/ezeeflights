@@ -27,15 +27,20 @@ const DESTINATIONS: Destination[] = [
 ]
 
 export function TopDestinations() {
+  const [mounted, setMounted] = React.useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true,
     align: 'start',
     slidesToScroll: 1,
     breakpoints: {
       '(min-width: 640px)': { slidesToScroll: 2 },
-      '(min-width: 1024px)': { active: false } // Disable carousel on desktop
+      '(min-width: 1024px)': { active: false } 
     }
   }, [Autoplay({ delay: 4000, stopOnInteraction: true })])
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const scrollPrev = React.useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
   const scrollNext = React.useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
@@ -110,7 +115,7 @@ export function TopDestinations() {
         {/* Carousel for Mobile / Grid for Desktop */}
         <div className="relative">
           {/* Embla Viewport */}
-          <div className="lg:hidden overflow-hidden" ref={emblaRef}>
+          <div className="lg:hidden overflow-hidden" ref={mounted ? emblaRef : null}>
             <div className="flex ml-[-16px]">
               {DESTINATIONS.map((dest) => (
                 <div key={dest.id} className="flex-[0_0_85%] sm:flex-[0_0_45%] min-w-0 pl-4">

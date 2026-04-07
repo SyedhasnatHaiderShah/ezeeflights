@@ -254,4 +254,15 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
     background-color: rgba(255, 255, 255, 0.03);
     background-image: linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.1) 50%, transparent 75%);
   }
+
+  /* iOS safe area padding for bottom navigation */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Remove tap highlight on mobile (blue flash on Android) */
+  .hide-tap-highlight {
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+  }
 }
