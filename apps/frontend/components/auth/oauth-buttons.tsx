@@ -7,16 +7,15 @@ import { GoogleIcon } from "@/components/shared/SocialAuth";
 
 export function OAuthButtons() {
   return (
-    <div className="space-y-4 pt-4 border-t border-border/50 transition-all duration-300">
-      <div className="relative py-1">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-border" />
-        </div>
-        <div className="relative flex justify-center text-[10px] uppercase">
-          <span className="bg-background px-2 text-muted-foreground font-medium lowercase tracking-widest">
+    <div className="space-y-4 pt-4 transition-all duration-300">
+      <div className="flex items-center justify-center gap-2">
+        <span className="flex-1 border-t border-border" />
+        <div className="flex justify-center text-xs">
+          <span className="text-muted-foreground font-medium tracking-widest">
             or continue with
           </span>
         </div>
+        <span className="flex-1 border-t border-border" />
       </div>
 
       <Button

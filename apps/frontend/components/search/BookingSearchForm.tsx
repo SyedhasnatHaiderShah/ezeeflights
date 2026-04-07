@@ -157,9 +157,10 @@ export function BookingSearchForm({
   const handleSwap = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const temp = origin;
-    setOrigin(destination);
-    setDestination(temp);
+    const currentOrigin = origin;
+    const currentDestination = destination;
+    setOrigin(currentDestination);
+    setDestination(currentOrigin);
   };
 
   return (
@@ -171,7 +172,7 @@ export function BookingSearchForm({
       <div className="flex flex-col lg:flex-row items-center border border-border rounded-sm overflow-hidden shadow-xl bg-background focus-within:ring-2 focus-within:ring-brand-red/10 transition-all">
         <div
           className={cn(
-            "w-full flex flex-col sm:flex-row relative border-b lg:border-b-0 lg:border-r border-border h-14",
+            "w-full flex flex-col sm:flex-row relative border-b lg:border-b-0 lg:border-r border-border h-auto sm:h-14",
             resolvedFlags.showOrigin
               ? "flex-[2] min-w-[320px]"
               : "flex-[1.5] min-w-[200px]",
@@ -192,10 +193,10 @@ export function BookingSearchForm({
                 <button
                   type="button"
                   onClick={handleSwap}
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:border-brand-red hover:text-brand-red transition-all hidden sm:flex active:rotate-180 duration-500"
+                  className="absolute left-[85%] sm:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:border-brand-red hover:text-brand-red transition-all active:rotate-180 duration-500 group/swap"
                   aria-label="Swap origin and destination"
                 >
-                  <ArrowRightLeft className="w-4 h-4" />
+                  <ArrowRightLeft className="w-4 h-4 sm:rotate-0 rotate-90 group-hover/swap:text-brand-red transition-transform" />
                 </button>
               )}
 
