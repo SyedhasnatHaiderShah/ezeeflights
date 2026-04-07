@@ -3,15 +3,19 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CreateBookingDto } from '../dto/create-booking.dto';
 import { BookingService } from '../services/booking.service';
+import { BookingMgmtService } from '../../booking-management/bookingMgmt.service';
 
 interface AuthenticatedRequest {
-  user: { userId: string };
+  user: { userId: string; roles?: string[] };
 }
 
 @ApiTags('booking')
 @Controller({ path: 'bookings', version: '1' })
 export class BookingController {
-  constructor(private readonly service: BookingService) {}
+  constructor(
+    private readonly service: BookingService,
+    private readonly bookingMgmtService: BookingMgmtService,
+  ) {}
 
   @Get('health')
   health() {
@@ -44,8 +48,8 @@ export class BookingController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch(':id/cancel')
-  cancel(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
-    return this.service.cancelBooking(id, req.user.userId);
+  cancel(@Req() req: AuthenticatedRequest, @Param('id') id: string, @Body() body: { reason?: string; refundAmount?: number } = {}) {
+    return this.bookingMgmtService.cancelBooking(id, req.user.userId, body, (req.user.roles ?? []).includes('admin'));
   }
 
   @ApiBearerAuth()
