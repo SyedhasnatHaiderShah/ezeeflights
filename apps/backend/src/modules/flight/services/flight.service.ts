@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { SearchFlightsDto } from '../dto/search-flights.dto';
 import { FlightRepository } from '../repositories/flight.repository';
 import { FlightEntity } from '../entities/flight.entity';
@@ -7,8 +7,12 @@ import { FlightEntity } from '../entities/flight.entity';
 export class FlightService {
   constructor(private readonly repository: FlightRepository) {}
 
-  searchFlights(dto: SearchFlightsDto): Promise<FlightEntity[]> {
-    return this.repository.search(dto);
+  async searchFlights(dto: SearchFlightsDto): Promise<FlightEntity[]> {
+    try {
+      return await this.repository.search(dto);
+    } catch {
+      throw new ServiceUnavailableException('Flight provider failed to return search results');
+    }
   }
 
   async getFlightById(id: string): Promise<FlightEntity> {
