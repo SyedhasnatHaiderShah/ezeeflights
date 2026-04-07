@@ -23,7 +23,11 @@ import {
   DollarSign,
   HelpCircle,
   Phone,
-  X
+  X,
+  Tag,
+  Star,
+  Compass,
+  MessageSquare
 } from "lucide-react";
 import EzeeFlightsLogo from "@/components/ezee-flights-logo";
 
@@ -47,6 +51,10 @@ const NAVIGATION_GROUPS: NavigationGroup[] = [
       { title: "Cars", url: "/cars", icon: Car },
       { title: "Packages", url: "/packages", icon: PackageOpen },
       { title: "Destinations", url: "/destinations", icon: Map },
+      { title: "Deals", url: "/deals", icon: Tag },
+      { title: "Experience", url: "/experience", icon: Star },
+      { title: "Journeys", url: "/journeys", icon: Compass },
+      { title: "Reviews", url: "/reviews", icon: MessageSquare },
     ],
   },
   {

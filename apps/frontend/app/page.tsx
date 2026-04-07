@@ -23,29 +23,10 @@ const TopDestinations = dynamic(
     ),
   { ssr: false, loading: () => <SectionSkeleton height={600} /> },
 );
-const DealsSection = dynamic(
-  () =>
-    import("@/components/sections/DealsSection").then((mod) => mod.DealsSection),
-  { ssr: false, loading: () => <SectionSkeleton height={500} /> },
-);
 const SpecialOffers = dynamic(
   () =>
     import("@/components/sections/SpecialOffers").then(
       (mod) => mod.SpecialOffers,
-    ),
-  { ssr: false, loading: () => <SectionSkeleton height={600} /> },
-);
-const TravelExperience = dynamic(
-  () =>
-    import("@/components/sections/TravelExperience").then(
-      (mod) => mod.TravelExperience,
-    ),
-  { ssr: false, loading: () => <SectionSkeleton height={600} /> },
-);
-const CuratedJourneys = dynamic(
-  () =>
-    import("@/components/sections/CuratedJourneys").then(
-      (mod) => mod.CuratedJourneys,
     ),
   { ssr: false, loading: () => <SectionSkeleton height={600} /> },
 );
@@ -60,10 +41,6 @@ const PrecisionFeatures = dynamic(
       (mod) => mod.PrecisionFeatures,
     ),
   { ssr: false, loading: () => <SectionSkeleton height={500} /> },
-);
-const Reviews = dynamic(
-  () => import("@/components/sections/Reviews").then((mod) => mod.Reviews),
-  { ssr: false, loading: () => <SectionSkeleton height={600} /> },
 );
 const Newsletter = dynamic(
   () =>
@@ -82,13 +59,9 @@ const Footer = dynamic(
 function prefetchChunks() {
   const imports = [
     () => import("@/components/sections/TopDestinations"),
-    () => import("@/components/sections/DealsSection"),
     () => import("@/components/sections/SpecialOffers"),
-    () => import("@/components/sections/TravelExperience"),
-    () => import("@/components/sections/CuratedJourneys"),
     () => import("@/components/sections/WhyChooseUs"),
     () => import("@/components/sections/PrecisionFeatures"),
-    () => import("@/components/sections/Reviews"),
     () => import("@/components/sections/Newsletter"),
     () => import("@/components/sections/Footer"),
   ];
@@ -152,20 +125,8 @@ export default function LandingPage() {
           <TopDestinations />
         </ScrollReveal>
 
-        <ScrollReveal minHeight="500px" rootMargin="600px">
-          <DealsSection />
-        </ScrollReveal>
-
         <ScrollReveal minHeight="600px" rootMargin="600px">
           <SpecialOffers />
-        </ScrollReveal>
-
-        <ScrollReveal minHeight="600px" rootMargin="600px">
-          <TravelExperience />
-        </ScrollReveal>
-
-        <ScrollReveal minHeight="600px" rootMargin="600px">
-          <CuratedJourneys />
         </ScrollReveal>
 
         <ScrollReveal minHeight="500px" rootMargin="600px">
@@ -174,10 +135,6 @@ export default function LandingPage() {
 
         <ScrollReveal minHeight="500px" rootMargin="600px">
           <PrecisionFeatures />
-        </ScrollReveal>
-
-        <ScrollReveal minHeight="600px" rootMargin="600px">
-          <Reviews />
         </ScrollReveal>
 
         <ScrollReveal minHeight="400px" rootMargin="600px">

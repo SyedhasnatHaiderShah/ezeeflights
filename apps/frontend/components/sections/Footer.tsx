@@ -23,7 +23,10 @@ export function Footer() {
   const companyLinks = [
     { name: "About Us", href: "#" },
     { name: "Contact Us", href: "#" },
-    { name: "Review", href: "#" },
+    { name: "Deals", href: "/deals" },
+    { name: "Experience", href: "/experience" },
+    { name: "Journeys", href: "/journeys" },
+    { name: "Reviews", href: "/reviews" },
     { name: "Terms and conditions", href: "#" },
     { name: "Privacy Policy", href: "#" },
     { name: "Cookie Policy", href: "#" },

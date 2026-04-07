@@ -125,5 +125,5 @@ export const REVIEWS: Review[] = [
     rating: 5,
     date: "2025-07-28",
     text: "Quick and easy",
-  }
+  },
 ];
