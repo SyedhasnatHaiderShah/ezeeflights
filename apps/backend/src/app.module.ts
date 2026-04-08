@@ -18,6 +18,7 @@ import { BillingModule } from './modules/billing/billing.module';
 import { BookingManagementModule } from './modules/booking-management/booking-management.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { AdminOpsModule } from './modules/admin-ops/admin-ops.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { AdminModule } from './modules/admin/admin.module';
     BookingManagementModule,
     AnalyticsModule,
     AdminModule,
+    AdminOpsModule,
   ],
 })
 export class AppModule {}
