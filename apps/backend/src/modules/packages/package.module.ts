@@ -12,5 +12,6 @@ import { PackageService } from './package.service';
   imports: [PaymentModule, NotificationModule],
   controllers: [PackageController],
   providers: [PackageService, PackageRepository, ItineraryService, PackageBookingService, PostgresClient],
+  exports: [PackageService, ItineraryService],
 })
 export class PackageModule {}
