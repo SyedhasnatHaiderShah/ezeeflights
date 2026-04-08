@@ -1,20 +1,21 @@
+import Link from 'next/link';
+import { DestinationHero } from '@/components/destinations/DestinationHero';
+import { listDestinations } from '@/lib/api/destinations-api';
+
 export const revalidate = 3600;
 
-const destinations = [
-  { city: 'Dubai', country: 'UAE' },
-  { city: 'London', country: 'UK' },
-  { city: 'Paris', country: 'France' },
-];
+export default async function DestinationsPage() {
+  const countries = await listDestinations();
 
-export default function DestinationsPage() {
   return (
-    <section>
-      <h1 className="mb-4 text-2xl font-bold">Popular Destinations</h1>
+    <section className="space-y-6">
+      <DestinationHero title="Explore destinations" subtitle="Countries, cities, attractions, and AI-guided travel planning." />
       <ul className="grid grid-cols-1 gap-3 md:grid-cols-3">
-        {destinations.map((destination) => (
-          <li className="rounded-xl border bg-white p-4" key={destination.city}>
-            <p className="font-semibold">{destination.city}</p>
-            <p className="text-sm text-slate-600">{destination.country}</p>
+        {countries.map((country: any) => (
+          <li className="rounded-xl border bg-white p-4" key={country.id}>
+            <p className="font-semibold">{country.name}</p>
+            <p className="text-sm text-slate-600">ISO: {country.code}</p>
+            <Link href={`/destinations/${country.code.toLowerCase()}`} className="mt-3 inline-block text-sm font-medium text-blue-600">View cities</Link>
           </li>
         ))}
       </ul>
