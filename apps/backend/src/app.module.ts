@@ -21,6 +21,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { AdminOpsModule } from './modules/admin-ops/admin-ops.module';
 import { PackageModule } from './modules/packages/package.module';
 import { AiItineraryModule } from './modules/ai-itinerary/ai-itinerary.module';
+import { HybridEngineModule } from './modules/hybrid-engine/hybrid.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { AiItineraryModule } from './modules/ai-itinerary/ai-itinerary.module';
     AdminOpsModule,
     PackageModule,
     AiItineraryModule,
+    HybridEngineModule,
   ],
 })
 export class AppModule {}
