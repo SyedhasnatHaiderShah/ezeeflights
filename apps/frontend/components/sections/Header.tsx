@@ -7,19 +7,39 @@ import { cn } from "@/lib/utils";
 // @ts-ignore
 import EzeeFlightsLogo from "@/components/ezee-flights-logo";
 import Link from "next/link";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { AppIcon } from "@/components/ui/app-icon";
+import { motion, AnimatePresence } from "framer-motion";
+
+const menuVariants = {
+  hidden: { opacity: 0, y: -10, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 24,
+      staggerChildren: 0.1
+    }
+  },
+  exit: { opacity: 0, y: -10, scale: 0.95, transition: { duration: 0.2 } }
+} as const;
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 }
+} as const;
+
+import { Drawer } from "vaul";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
+  const [isNotifDrawerOpen, setIsNotifDrawerOpen] = React.useState(false);
   const toggleSidebar = useSidebarStore((state) => state.toggle);
 
   React.useEffect(() => {
@@ -30,6 +50,42 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const NotificationContent = () => (
+    <div className="flex flex-col h-full bg-background rounded-t-2xl sm:rounded-none">
+      <div className="flex items-center justify-between p-5 border-b bg-muted/20">
+        <h2 className="text-lg font-bold tracking-tight">
+          Notifications
+        </h2>
+        <div className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
+      </div>
+
+      <div className="flex flex-col flex-1 overflow-y-auto min-h-[300px] max-h-[60vh]">
+        <motion.div 
+          variants={itemVariants}
+          className="flex flex-col items-center justify-center py-12 px-6 text-muted-foreground space-y-4"
+        >
+          <div className="p-4 rounded-full bg-redmix/10 dark:bg-muted/10">
+            <Bell className="w-10 h-10 text-redmix" />
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-foreground/80">
+              All caught up!
+            </p>
+            <p className="text-xs">
+              Check back later for new alerts and flight updates.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+
+      <motion.div variants={itemVariants} className="p-4 border-t bg-muted/5 mt-auto">
+        <button className="w-full py-3 text-sm font-bold text-redmix hover:bg-redmix/5 rounded-xl border border-redmix/10 transition-all">
+          View all in Dashboard
+        </button>
+      </motion.div>
+    </div>
+  );
 
   return (
     <header
@@ -61,47 +117,63 @@ export function Header() {
 
         {/* Right Side: Utils & Auth */}
         <div className="flex items-center gap-2 md:gap-4">
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <div className="cursor-pointer hover:opacity-80 transition-opacity">
-                <AppIcon icon={Bell} isFill />
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              sideOffset={15}
-              className="w-[380px] p-0 overflow-hidden rounded-2xl bg-background border shadow-2xl z-[40]"
+          {/* Mobile Notifications (Drawer) */}
+          <div className="md:hidden">
+            <Drawer.Root 
+              open={isNotifDrawerOpen} 
+              onOpenChange={setIsNotifDrawerOpen}
+              shouldScaleBackground
             >
-              <div className="flex items-center justify-between p-5 border-b bg-muted/20">
-                <h2 className="text-lg font-bold tracking-tight">
-                  Notifications
-                </h2>
-                <div className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
-              </div>
+              <Drawer.Trigger asChild>
+                <motion.div 
+                  whileTap={{ scale: 0.9 }}
+                  className="cursor-pointer"
+                >
+                  <AppIcon icon={Bell} isFill />
+                </motion.div>
+              </Drawer.Trigger>
+              <Drawer.Portal>
+                <Drawer.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60]" />
+                <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[100] outline-none flex flex-col rounded-t-[20px] bg-background border-t shadow-2xl overflow-hidden appearance-none">
+                  <Drawer.Title className="sr-only">Notifications</Drawer.Title>
+                  <Drawer.Description className="sr-only">
+                    View your recent flight updates and alerts.
+                  </Drawer.Description>
+                  <div className="mx-auto mt-3 h-1.5 w-12 flex-shrink-0 rounded-full bg-muted-foreground/20" />
+                  <NotificationContent />
+                </Drawer.Content>
+              </Drawer.Portal>
+            </Drawer.Root>
+          </div>
 
-              <div className="flex flex-col max-h-[60vh] overflow-y-auto">
-                <div className="flex flex-col items-center justify-center py-12 px-6 text-muted-foreground space-y-4">
-                  <div className="p-4 rounded-full bg-redmix/10 dark:bg-muted/10">
-                    <Bell className="w-10 h-10 text-redmix" />
-                  </div>
-                  <div className="text-center">
-                    <p className="text-sm font-semibold text-foreground/80">
-                      All caught up!
-                    </p>
-                    <p className="text-xs">
-                      Check back later for new alerts and flight updates.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-3 border-t bg-muted/5">
-                <button className="w-full py-2 text-xs font-medium text-redmix hover:bg-redmix/5 rounded-lg transition-colors">
-                  View all in Dashboard
-                </button>
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* Desktop Notifications (Dropdown) */}
+          <div className="hidden md:block">
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <motion.div 
+                  whileTap={{ scale: 0.9 }}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                >
+                  <AppIcon icon={Bell} isFill />
+                </motion.div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                sideOffset={15}
+                asChild
+                className="w-[380px] p-0 overflow-hidden rounded-md bg-background border shadow-2xl z-[40]"
+              >
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  variants={menuVariants}
+                >
+                  <NotificationContent />
+                </motion.div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
 
           {/* Desktop-only Utilities */}
           <div className="hidden md:flex items-center gap-2 md:gap-4">

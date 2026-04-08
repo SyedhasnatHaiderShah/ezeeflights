@@ -10,6 +10,9 @@ import {
   Linkedin,
 } from "@/components/ui/brand-icons";
 import { AppIcon } from "@/components/ui/app-icon";
+import { AppImage } from "../ui/app-image";
+
+import { motion } from "framer-motion";
 
 export function Footer() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -60,7 +63,7 @@ export function Footer() {
     <footer className="w-full bg-[#f9fafb] dark:bg-background pt-12 pb-8 px-6 md:px-12 border-t border-border mt-auto font-sans transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10 mb-12">
           {/* Company Column */}
           <div className="space-y-4">
             <h3 className="text-[#0d2353] dark:text-foreground text-lg font-bold font-display">
@@ -100,7 +103,7 @@ export function Footer() {
           </div>
 
           {/* Contact Column */}
-          <div className="space-y-6">
+          <div className="space-y-5">
             <h3 className="text-[#0d2353] dark:text-foreground text-lg font-bold font-display">
               Contact
             </h3>
@@ -204,7 +207,7 @@ export function Footer() {
           </div>
 
           {/* Follow Us Column */}
-          <div className="space-y-6">
+          <div className="space-y-5">
             <h3 className="text-[#0d2353] dark:text-foreground text-lg font-bold font-display">
               Follow Us
             </h3>
@@ -249,14 +252,47 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Trusted Logos Banner */}
-          <div className="relative w-full max-w-2xl h-16 md:h-12 opacity-80 hover:opacity-100 transition-all duration-300 dark:invert dark:brightness-[1.2] dark:hue-rotate-180 dark:contrast-[1.1] dark:mix-blend-screen">
-            <Image
-              src="/logos-banner-new.jpg"
-              alt="Payment & Trust Logos"
-              fill
-              className="object-contain"
-            />
+          {/* Trusted Logos Banner - Adaptive Scrolling (Mobile Only) */}
+          <div className="relative w-full max-w-2xl h-16 md:h-12 opacity-80 hover:opacity-100 transition-all duration-300 overflow-hidden">
+            {/* Mobile View: Scrolling Marquee */}
+            <div className="block md:hidden">
+              {/* Soft Edge Masking for mobile - Pure CSS gradients that match theme */}
+              <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#f9fafb] dark:from-background to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#f9fafb] dark:from-background to-transparent z-10 pointer-events-none" />
+              
+              <motion.div 
+                 className="flex w-fit h-full items-center"
+                 animate={{ x: [0, -672] }}
+                 transition={{ 
+                   duration: 25, 
+                   repeat: Infinity, 
+                   ease: "linear",
+                   repeatType: "loop"
+                 }}
+              >
+                {[0, 1].map((i) => (
+                  <div key={i} className="relative w-[672px] h-10 flex-shrink-0 mx-4 dark:invert dark:brightness-[1.2] dark:hue-rotate-180 dark:contrast-[1.1] dark:mix-blend-screen">
+                    <AppImage
+                      src="/logos-banner-new.jpg"
+                      alt="Payment & Trust Logos Mobile"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Desktop View: Static Centered Banner */}
+            <div className="hidden md:block relative w-full h-full dark:invert dark:brightness-[1.2] dark:hue-rotate-180 dark:contrast-[1.1] dark:mix-blend-screen">
+              <AppImage
+                src="/logos-banner-new.jpg"
+                alt="Payment & Trust Logos Desktop"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
           </div>
         </div>
 

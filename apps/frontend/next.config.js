@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    typedRoutes: true,
-  },
+  typedRoutes: true,
+  allowedDevOrigins: ["192.168.100.67"],
   images: {
     unoptimized: true,
     remotePatterns: [

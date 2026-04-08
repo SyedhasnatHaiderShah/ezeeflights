@@ -8,6 +8,31 @@ import { loginRequest } from "@/lib/api/auth-api";
 import { queryClient } from "@/lib/query/query-client";
 
 import Link from "next/link";
+import { motion, Variants } from "framer-motion";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { y: 15, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 24,
+    } as const,
+  },
+};
 
 export function LoginContainer() {
   const router = useRouter();
@@ -38,21 +63,28 @@ export function LoginContainer() {
   };
 
   return (
-    <div className="space-y-3">
-      <LoginForm
-        email={email}
-        password={password}
-        onEmailChange={setEmail}
-        onPasswordChange={setPassword}
-        onSubmit={onSubmit}
-        disabled={busy}
-        error={error}
-      />
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-8"
+    >
+      <motion.div variants={itemVariants}>
+        <LoginForm
+          email={email}
+          password={password}
+          onEmailChange={setEmail}
+          onPasswordChange={setPassword}
+          onSubmit={onSubmit}
+          disabled={busy}
+          error={error}
+        />
+      </motion.div>
 
-      <div className="space-y-6">
+      <motion.div variants={itemVariants} className="space-y-6">
         <OAuthButtons />
 
-        <p className="text-xs text-center font-medium text-gray-500 leading-relaxed px-4">
+        <p className="text-xs text-center font-medium text-muted-foreground/60 leading-relaxed px-4">
           By continuing, you agree to our{" "}
           <Link
             href={"/terms" as any}
@@ -70,7 +102,7 @@ export function LoginContainer() {
           .
         </p>
 
-        <div className="pt-4 text-center border-t border-border/50">
+        <div className="pt-5 text-center border-t border-border/50">
           <p className="text-xs text-muted-foreground font-medium">
             New to Ezee Flights?{" "}
             <Link
@@ -81,7 +113,7 @@ export function LoginContainer() {
             </Link>
           </p>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

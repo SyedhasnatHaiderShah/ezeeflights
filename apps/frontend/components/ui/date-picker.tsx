@@ -35,8 +35,10 @@ export function DatePicker({
   calendarDisabled,
   defaultMonth,
 }: DatePickerProps) {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -66,11 +68,16 @@ export function DatePicker({
                   date ? "text-foreground" : "text-foreground/60",
                 )}
               >
-                {date ? format(date, "EEE, MMM d") : "Choose date"}
+                {date ? format(date, "EEE, MMM d") : open ? "" : "Choose date"}
               </span>
             </div>
           </div>
-          <ChevronDown className="ml-1 h-3.5 w-3.5 shrink-0 text-foreground/50 group-hover:text-foreground transition-colors" />
+          <ChevronDown
+            className={cn(
+              "ml-1 h-3.5 w-3.5 shrink-0 text-foreground/50 group-hover:text-foreground transition-all duration-300",
+              open && "rotate-180",
+            )}
+          />
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -81,7 +88,10 @@ export function DatePicker({
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate as any}
+          onSelect={(d) => {
+            setDate(d);
+            setOpen(false);
+          }}
           initialFocus
           numberOfMonths={numberOfMonths}
           disabled={calendarDisabled}

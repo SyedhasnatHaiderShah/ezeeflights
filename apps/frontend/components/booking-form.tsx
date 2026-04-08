@@ -31,6 +31,13 @@ export function BookingForm() {
   const [cabinClass, setCabinClass] = React.useState("Economy")
   const [passengers, setPassengers] = React.useState({ adults: 2, children: 0, infants: 0 })
 
+  const handleDepartDateChange = (date: Date | undefined) => {
+    setDepartDate(date)
+    if (date && returnDate && date > returnDate) {
+      setReturnDate(undefined)
+    }
+  }
+
   const handlePassengerChange = (key: string, val: number) =>
     setPassengers(prev => ({ ...prev, [key]: val }))
 
@@ -46,7 +53,7 @@ export function BookingForm() {
   const commonProps = {
     origin, setOrigin,
     destination, setDestination,
-    departDate, setDepartDate,
+    departDate, setDepartDate: handleDepartDateChange,
     returnDate, setReturnDate,
     passengers, handlePassengerChange,
     cabinClass, setCabinClass,

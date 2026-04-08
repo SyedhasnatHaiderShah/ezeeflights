@@ -7,6 +7,30 @@ import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { RecentSearches } from "@/components/sections/RecentSearches";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
 
 const TopDestinations = dynamic(
   () =>
@@ -88,38 +112,45 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
       <Header />
 
-      {/*
-        KEY FIX: Removed overflow-x-clip from <main> — it was swallowing
-        horizontal touch events on mobile, breaking all swipe-based sliders.
-        Instead, wrap the interior in overflow-x-hidden so we still prevent
-        horizontal scroll without cutting touch propagation.
-      */}
       <main className="flex-grow bg-background">
-        <Hero />
+        <motion.div
+           variants={containerVariants}
+           initial="hidden"
+           animate="visible"
+        >
+          <motion.div variants={itemVariants}>
+            <Hero />
+          </motion.div>
 
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full pb-16">
-          <RecentSearches />
+          <motion.div 
+            variants={itemVariants}
+            className="max-w-[1400px] mx-auto px-6 md:px-12 w-full pb-16"
+          >
+            <RecentSearches />
+          </motion.div>
+        </motion.div>
+
+        <div className="space-y-0">
+          <ScrollReveal minHeight="600px" rootMargin="600px">
+            <TopDestinations />
+          </ScrollReveal>
+
+          <ScrollReveal minHeight="500px" rootMargin="500px">
+            <WhyChooseUs />
+          </ScrollReveal>
+
+          <ScrollReveal minHeight="600px" rootMargin="600px">
+            <SpecialOffers />
+          </ScrollReveal>
+
+          <ScrollReveal minHeight="500px" rootMargin="600px">
+            <PrecisionFeatures />
+          </ScrollReveal>
+
+          <ScrollReveal minHeight="400px" rootMargin="600px">
+            <Newsletter />
+          </ScrollReveal>
         </div>
-
-        <ScrollReveal minHeight="600px" rootMargin="600px">
-          <TopDestinations />
-        </ScrollReveal>
-
-        <ScrollReveal minHeight="600px" rootMargin="600px">
-          <SpecialOffers />
-        </ScrollReveal>
-
-        <ScrollReveal minHeight="500px" rootMargin="600px">
-          <WhyChooseUs />
-        </ScrollReveal>
-
-        <ScrollReveal minHeight="500px" rootMargin="600px">
-          <PrecisionFeatures />
-        </ScrollReveal>
-
-        <ScrollReveal minHeight="400px" rootMargin="600px">
-          <Newsletter />
-        </ScrollReveal>
       </main>
 
       <ScrollReveal minHeight="300px" rootMargin="400px">

@@ -225,9 +225,15 @@ export function BookingSearchForm({
         <div className="lg:flex-[1.5] w-full flex flex-col lg:flex-row border-b lg:border-b-0 lg:border-r border-border bg-background">
           <DatePicker
             date={departDate}
-            setDate={setDepartDate}
+            setDate={(date) => {
+              setDepartDate(date);
+              if (date && returnDate && date > returnDate) {
+                setReturnDate(undefined);
+              }
+            }}
             label={resolvedLabels.depart}
             className="h-16 w-full lg:flex-1 border-b lg:border-none border-border bg-transparent rounded-none hover:bg-muted/50 px-3 transition-all"
+            calendarDisabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
           />
 
           {resolvedFlags.showReturnDate && resolvedLabels.return && (
@@ -239,6 +245,11 @@ export function BookingSearchForm({
                 label={resolvedLabels.return}
                 className="h-16 w-full lg:flex-1 border-none bg-transparent rounded-none hover:bg-muted/50 px-3 transition-all"
                 disabled={resolvedFlags.showTripType && tripType === "one-way"}
+                calendarDisabled={
+                  departDate
+                    ? { before: departDate }
+                    : { before: new Date(new Date().setHours(0, 0, 0, 0)) }
+                }
               />
             </>
           )}

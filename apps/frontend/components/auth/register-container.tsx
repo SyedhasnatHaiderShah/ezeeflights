@@ -7,6 +7,31 @@ import { registerRequest } from "@/lib/api/auth-api";
 import { queryClient } from "@/lib/query/query-client";
 
 import Link from "next/link";
+import { motion, Variants } from "framer-motion";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { y: 15, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 24,
+    } as const,
+  },
+};
 
 export function RegisterContainer() {
   const router = useRouter();
@@ -38,23 +63,30 @@ export function RegisterContainer() {
   };
 
   return (
-    <div className="space-y-3">
-      <RegisterForm
-        email={email}
-        password={password}
-        firstName={firstName}
-        lastName={lastName}
-        onEmailChange={setEmail}
-        onPasswordChange={setPassword}
-        onFirstNameChange={setFirstName}
-        onLastNameChange={setLastName}
-        onSubmit={onSubmit}
-        disabled={busy}
-        error={error}
-      />
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-8"
+    >
+      <motion.div variants={itemVariants}>
+        <RegisterForm
+          email={email}
+          password={password}
+          firstName={firstName}
+          lastName={lastName}
+          onEmailChange={setEmail}
+          onPasswordChange={setPassword}
+          onFirstNameChange={setFirstName}
+          onLastNameChange={setLastName}
+          onSubmit={onSubmit}
+          disabled={busy}
+          error={error}
+        />
+      </motion.div>
 
-      <div className="space-y-6">
-        <p className="text-[10px] text-center text-muted-foreground leading-relaxed px-4">
+      <motion.div variants={itemVariants} className="space-y-6">
+        <p className="text-[10px] text-center text-muted-foreground/60 leading-relaxed px-4">
           By joining, you agree to our{" "}
           <Link
             href={"/terms" as any}
@@ -72,7 +104,7 @@ export function RegisterContainer() {
           .
         </p>
 
-        <div className="pt-4 text-center border-t border-border/50">
+        <div className="pt-5 text-center border-t border-border/50">
           <p className="text-xs text-muted-foreground font-medium">
             Already have an account?{" "}
             <Link
@@ -83,7 +115,7 @@ export function RegisterContainer() {
             </Link>
           </p>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

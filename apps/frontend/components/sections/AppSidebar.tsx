@@ -3,7 +3,6 @@
 import React, { useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence, Variants } from "framer-motion";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { useSidebarStore } from "@/lib/store/sidebar-store";
@@ -57,6 +56,16 @@ const NAVIGATION_GROUPS: NavigationGroup[] = [
       { title: "Journeys", url: "/journeys", icon: Compass },
       { title: "Reviews", url: "/reviews", icon: MessageSquare },
     ],
+  },
+  {
+    label: "Top Airlines",
+    items: [
+      { name: "Alaska Airlines", url: "/alaska-airlines", icon: Plane },
+      { name: "JetBlue Airlines", url: "/jetblue-airlines", icon: Plane },
+      { name: "Southwest Airlines", url: "/southwest-airlines", icon: Plane },
+      { name: "Delta Airlines", url: "/delta-airlines", icon: Plane },
+      { name: "Aeromexico Airlines", url: "/aeromexico-airlines", icon: Plane },
+    ].map(a => ({ title: a.name, url: a.href || a.url, icon: a.icon })),
   },
   {
     label: "Account",
@@ -115,20 +124,6 @@ export function AppSidebar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen, close]);
 
-  const stagger: Variants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.04 } },
-  };
-
-  const fadeUp: Variants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
-
   const getNavClassName = (active: boolean) =>
     active
       ? "bg-brand-red text-white font-medium shadow-md"
@@ -137,17 +132,13 @@ export function AppSidebar() {
   return (
     <>
       {/* Mobile Backdrop */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm lg:hidden"
-            aria-hidden="true"
-          />
-        )}
-      </AnimatePresence>
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm lg:hidden transition-opacity duration-300"
+          aria-hidden="true"
+          onClick={close}
+        />
+      )}
 
       {/* Hover Trigger Zone (Desktop only) */}
       {!isOpen && (
@@ -194,83 +185,72 @@ export function AppSidebar() {
 
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 no-scrollbar">
-          <AnimatePresence mode="wait">
-            {isOpen && (
-              <motion.div
-                variants={stagger}
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-                className="space-y-6"
-              >
-                {NAVIGATION_GROUPS.map((group) => (
-                  <div key={group.label}>
-                    <motion.h4
-                      variants={fadeUp}
-                      className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3"
-                    >
-                      {group.label}
-                    </motion.h4>
-                    <motion.ul variants={stagger} className="space-y-1">
-                      {group.items.map((item) => {
-                        const isActive = currentPath === item.url;
-                        return (
-                          <motion.li key={item.title} variants={fadeUp}>
-                            <Link
-                              href={item.url as any}
-                              onClick={close}
+          {isOpen && (
+            <div className="space-y-6">
+              {NAVIGATION_GROUPS.map((group) => (
+                <div key={group.label}>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">
+                    {group.label}
+                  </h4>
+                  <ul className="space-y-1">
+                    {group.items.map((item) => {
+                      const isActive = currentPath === item.url;
+                      return (
+                        <li key={item.title}>
+                          <Link
+                            href={item.url as any}
+                            onClick={close}
+                            className={cn(
+                              "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
+                              getNavClassName(isActive)
+                            )}
+                          >
+                            <item.icon
                               className={cn(
-                                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
-                                getNavClassName(isActive)
+                                "h-5 w-5 flex-shrink-0",
+                                isActive ? "text-white" : "text-muted-foreground"
                               )}
-                            >
-                              <item.icon
-                                className={cn(
-                                  "h-5 w-5 flex-shrink-0",
-                                  isActive ? "text-white" : "text-muted-foreground"
-                                )}
-                              />
-                              <span className="text-sm font-medium">
-                                {item.title}
-                              </span>
-                            </Link>
-                          </motion.li>
-                        );
-                      })}
-                    </motion.ul>
-                  </div>
-                ))}
+                            />
+                            <span className="text-sm font-medium">
+                              {item.title}
+                            </span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
 
-                {/* Theme Toggle within Preferences */}
-                <motion.div variants={fadeUp} className="pt-2">
-                  <button
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-all duration-200"
-                  >
-                    <div className="flex items-center gap-3">
-                      {mounted && theme === "dark" ? (
-                        <Moon className="h-5 w-5 flex-shrink-0" />
-                      ) : (
-                        <Sun className="h-5 w-5 flex-shrink-0" />
+              {/* Theme Toggle within Preferences */}
+              <div className="pt-2">
+                <button
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-all duration-200"
+                >
+                  <div className="flex items-center gap-3">
+                    {mounted && theme === "dark" ? (
+                      <Moon className="h-5 w-5 flex-shrink-0" />
+                    ) : (
+                      <Sun className="h-5 w-5 flex-shrink-0" />
+                    )}
+                    <span className="text-sm font-medium">Dark Mode</span>
+                  </div>
+                  {/* Visual indicator of switch state */}
+                  <div className="w-10 h-5 bg-muted rounded-full relative flex items-center px-0.5 border">
+                    <div
+                      className={cn(
+                        "w-4 h-4 rounded-full transition-all duration-300 shadow-sm",
+                        mounted && theme === "dark"
+                          ? "bg-primary translate-x-5"
+                          : "bg-background translate-x-0"
                       )}
-                      <span className="text-sm font-medium">Dark Mode</span>
-                    </div>
-                    {/* Visual indicator of switch state */}
-                    <div className="w-10 h-5 bg-muted rounded-full relative flex items-center px-0.5 border">
-                      <div
-                        className={cn(
-                          "w-4 h-4 rounded-full transition-all duration-300 shadow-sm",
-                          mounted && theme === "dark"
-                            ? "bg-primary translate-x-5"
-                            : "bg-background translate-x-0"
-                        )}
-                      />
-                    </div>
-                  </button>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                    />
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -107,7 +107,6 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="light"
           enableSystem={false}
-          disableTransitionOnChange
         >
           {/* Include the Providers for React Query, etc */}
           <Providers>
