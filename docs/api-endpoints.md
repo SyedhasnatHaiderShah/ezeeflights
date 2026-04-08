@@ -63,3 +63,15 @@
 - GET /api/analytics/bookings
 - GET /api/analytics/funnel
 - GET /api/analytics/user-behavior
+
+## Packages Module
+- `GET /v1/packages`
+- `GET /v1/packages/:slug`
+- `POST /v1/packages/:id/book` (JWT)
+- `GET /v1/admin/packages` (JWT Admin)
+- `POST /v1/admin/packages` (JWT Admin)
+- `PUT /v1/admin/packages/:id` (JWT Admin)
+- `DELETE /v1/admin/packages/:id` (JWT Admin)
+- `POST /v1/admin/packages/:id/itinerary` (JWT Admin)
+- `PUT /v1/admin/itinerary/:id` (JWT Admin)
+- `DELETE /v1/admin/itinerary/:id` (JWT Admin)
