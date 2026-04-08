@@ -432,3 +432,46 @@ CREATE INDEX IF NOT EXISTS idx_flights_airline_stops_price ON flights(airline_co
 CREATE INDEX IF NOT EXISTS idx_bookings_user_status_created ON bookings(user_id, status, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_booking_flights_booking ON booking_flights(booking_id);
 CREATE INDEX IF NOT EXISTS idx_booking_passengers_booking ON booking_passengers(booking_id);
+
+-- Admin Control Center
+ALTER TABLE permissions ADD COLUMN IF NOT EXISTS module VARCHAR(64);
+ALTER TABLE permissions ADD COLUMN IF NOT EXISTS action VARCHAR(20);
+
+CREATE TABLE IF NOT EXISTS admin_users (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+  role_id UUID NOT NULL REFERENCES roles(id) ON DELETE RESTRICT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS system_settings (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  key VARCHAR(120) NOT NULL UNIQUE,
+  value JSONB NOT NULL DEFAULT '{}'::jsonb,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES users(id) ON DELETE SET NULL,
+  action VARCHAR(120) NOT NULL,
+  module VARCHAR(64) NOT NULL,
+  metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS admin_sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  admin_id UUID NOT NULL REFERENCES admin_users(id) ON DELETE CASCADE,
+  ip_address VARCHAR(45),
+  login_time TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  logout_time TIMESTAMPTZ
+);
+
+CREATE TABLE IF NOT EXISTS alerts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  type VARCHAR(64) NOT NULL,
+  message TEXT NOT NULL,
+  severity VARCHAR(20) NOT NULL CHECK (severity IN ('LOW', 'MEDIUM', 'HIGH')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
