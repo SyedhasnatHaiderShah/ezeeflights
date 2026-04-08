@@ -6,6 +6,11 @@ import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { adminFetch, getAdminToken } from '@/lib/api/admin-api';
 
 const menu = [
+  { href: '/admin/executive', label: 'Executive', roles: ['SUPER_ADMIN', 'FINANCE'] },
+  { href: '/admin/revenue', label: 'Revenue Intel', roles: ['SUPER_ADMIN', 'FINANCE'] },
+  { href: '/admin/operations', label: 'Operations', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT'] },
+  { href: '/admin/finance', label: 'Finance Ops', roles: ['SUPER_ADMIN', 'FINANCE'] },
+  { href: '/admin/monitoring', label: 'Monitoring', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT'] },
   { href: '/admin/dashboard', label: 'Dashboard', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT', 'MARKETING'] },
   { href: '/admin/users', label: 'Users', roles: ['SUPER_ADMIN', 'ADMIN'] },
   { href: '/admin/bookings', label: 'Bookings', roles: ['SUPER_ADMIN', 'ADMIN', 'SUPPORT'] },
