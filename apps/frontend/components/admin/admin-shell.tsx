@@ -18,6 +18,7 @@ const menu = [
   { href: '/admin/analytics', label: 'Analytics', roles: ['SUPER_ADMIN', 'ADMIN', 'MARKETING'] },
   { href: '/admin/settings', label: 'Settings', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] },
   { href: '/admin/logs', label: 'Logs', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] },
+  { href: '/admin/ai-packages', label: 'AI Packages', roles: ['SUPER_ADMIN', 'ADMIN', 'MARKETING'] },
 ];
 
 export function AdminShell({ children }: { children: ReactNode }) {

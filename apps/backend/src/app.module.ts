@@ -20,6 +20,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { AdminOpsModule } from './modules/admin-ops/admin-ops.module';
 import { PackageModule } from './modules/packages/package.module';
+import { AiItineraryModule } from './modules/ai-itinerary/ai-itinerary.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { PackageModule } from './modules/packages/package.module';
     AdminModule,
     AdminOpsModule,
     PackageModule,
+    AiItineraryModule,
   ],
 })
 export class AppModule {}
