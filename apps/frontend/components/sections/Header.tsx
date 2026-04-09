@@ -7,30 +7,35 @@ import { cn } from "@/lib/utils";
 // @ts-ignore
 import EzeeFlightsLogo from "@/components/ezee-flights-logo";
 import Link from "next/link";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { AppIcon } from "@/components/ui/app-icon";
 import { motion, AnimatePresence } from "framer-motion";
 
 const menuVariants = {
   hidden: { opacity: 0, y: -10, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
+  visible: {
+    opacity: 1,
+    y: 0,
     scale: 1,
     transition: {
       type: "spring",
       stiffness: 300,
       damping: 24,
-      staggerChildren: 0.1
-    }
+      staggerChildren: 0.1,
+    },
   },
-  exit: { opacity: 0, y: -10, scale: 0.95, transition: { duration: 0.2 } }
+  exit: { opacity: 0, y: -10, scale: 0.95, transition: { duration: 0.2 } },
 } as const;
 
 const itemVariants = {
   hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0 },
 } as const;
 
 import { Drawer } from "vaul";
@@ -54,14 +59,12 @@ export function Header() {
   const NotificationContent = () => (
     <div className="flex flex-col h-full bg-background rounded-t-2xl sm:rounded-none">
       <div className="flex items-center justify-between p-5 border-b bg-muted/20">
-        <h2 className="text-lg font-bold tracking-tight">
-          Notifications
-        </h2>
+        <h2 className="text-lg font-bold tracking-tight">Notifications</h2>
         <div className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
       </div>
 
       <div className="flex flex-col flex-1 overflow-y-auto min-h-[300px] max-h-[60vh]">
-        <motion.div 
+        <motion.div
           variants={itemVariants}
           className="flex flex-col items-center justify-center py-12 px-6 text-muted-foreground space-y-4"
         >
@@ -79,7 +82,10 @@ export function Header() {
         </motion.div>
       </div>
 
-      <motion.div variants={itemVariants} className="p-4 border-t bg-muted/5 mt-auto">
+      <motion.div
+        variants={itemVariants}
+        className="p-4 border-t bg-muted/5 mt-auto"
+      >
         <button className="w-full py-3 text-sm font-bold text-redmix hover:bg-redmix/5 rounded-xl border border-redmix/10 transition-all">
           View all in Dashboard
         </button>
@@ -92,8 +98,8 @@ export function Header() {
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 border-b",
         isScrolled
-          ? "h-16 bg-background shadow-md border-brand-gray"
-          : "h-20 bg-background/95 backdrop-blur-sm border-transparent",
+          ? "h-20 bg-background shadow-sm border-redmix transition-all duration-300 ease-in-out"
+          : "h-20 bg-background/95 backdrop-blur-sm border-transparent transition-all duration-300 ease-in-out",
       )}
     >
       <div className="flex justify-between items-center h-full px-4 md:px-6 max-w-full mx-auto">
@@ -119,13 +125,13 @@ export function Header() {
         <div className="flex items-center gap-2 md:gap-4">
           {/* Mobile Notifications (Drawer) */}
           <div className="md:hidden">
-            <Drawer.Root 
-              open={isNotifDrawerOpen} 
+            <Drawer.Root
+              open={isNotifDrawerOpen}
               onOpenChange={setIsNotifDrawerOpen}
               shouldScaleBackground
             >
               <Drawer.Trigger asChild>
-                <motion.div 
+                <motion.div
                   whileTap={{ scale: 0.9 }}
                   className="cursor-pointer"
                 >
@@ -150,7 +156,7 @@ export function Header() {
           <div className="hidden md:block">
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
-                <motion.div 
+                <motion.div
                   whileTap={{ scale: 0.9 }}
                   className="cursor-pointer hover:opacity-80 transition-opacity"
                 >

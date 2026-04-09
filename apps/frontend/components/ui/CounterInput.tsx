@@ -25,11 +25,11 @@ export function CounterInput({
         onClick={() => onChange(Math.max(min, value - 1))}
         disabled={value <= min}
         aria-label={`Decrease ${ariaLabel}`}
-        className="w-6 h-6 rounded-full border border-brand-gray flex items-center justify-center text-brand-dark/60 hover:border-brand-red hover:text-brand-red disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-foreground/60 hover:border-brand-red hover:text-brand-red disabled:opacity-20 disabled:cursor-not-allowed transition-all active:scale-90"
       >
-        <Minus className="w-2 h-2" />
+        <Minus className="w-3 h-3" />
       </button>
-      <span className="w-4 text-center text-xs font-semibold tabular-nums" aria-live="polite">
+      <span className="w-6 text-center text-sm font-bold tabular-nums" aria-live="polite">
         {value}
       </span>
       <button
@@ -37,9 +37,9 @@ export function CounterInput({
         onClick={() => onChange(Math.min(max, value + 1))}
         disabled={value >= max}
         aria-label={`Increase ${ariaLabel}`}
-        className="w-6 h-6 rounded-full border border-brand-gray flex items-center justify-center text-brand-dark/60 hover:border-brand-red hover:text-brand-red disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-foreground/60 hover:border-brand-red hover:text-brand-red disabled:opacity-20 disabled:cursor-not-allowed transition-all active:scale-90"
       >
-        <Plus className="w-2 h-2" />
+        <Plus className="w-3 h-3" />
       </button>
     </div>
   )

@@ -188,7 +188,7 @@ export function BookingSearchForm({
                 onChange={setOrigin}
                 className={cn(
                   "w-full lg:flex-1 h-16 border-b lg:border-none border-border",
-                  resolvedFlags.showSwap && "pr-6 lg:pr-6",
+                  resolvedFlags.showSwap && "pr-0",
                 )}
               />
 
@@ -217,12 +217,12 @@ export function BookingSearchForm({
             onChange={setDestination}
             className={cn(
               "w-full lg:flex-1 h-16",
-              resolvedFlags.showSwap && "lg:pl-6",
+              resolvedFlags.showSwap && "lg:pl-0",
             )}
           />
         </div>
 
-        <div className="lg:flex-[1.5] w-full flex flex-col lg:flex-row border-b lg:border-b-0 lg:border-r border-border bg-background">
+        <div className="lg:flex w-full flex flex-col lg:flex-row border-b lg:border-b-0 lg:border-r border-border bg-background">
           <DatePicker
             date={departDate}
             setDate={(date) => {
@@ -232,8 +232,11 @@ export function BookingSearchForm({
               }
             }}
             label={resolvedLabels.depart}
+            numberOfMonths={1}
             className="h-16 w-full lg:flex-1 border-b lg:border-none border-border bg-transparent rounded-none hover:bg-muted/50 px-3 transition-all"
-            calendarDisabled={{ before: new Date(new Date().setHours(0, 0, 0, 0)) }}
+            calendarDisabled={{
+              before: new Date(new Date().setHours(0, 0, 0, 0)),
+            }}
           />
 
           {resolvedFlags.showReturnDate && resolvedLabels.return && (
@@ -243,6 +246,8 @@ export function BookingSearchForm({
                 date={returnDate}
                 setDate={setReturnDate}
                 label={resolvedLabels.return}
+                numberOfMonths={2}
+                defaultMonth={departDate}
                 className="h-16 w-full lg:flex-1 border-none bg-transparent rounded-none hover:bg-muted/50 px-3 transition-all"
                 disabled={resolvedFlags.showTripType && tripType === "one-way"}
                 calendarDisabled={
@@ -255,7 +260,7 @@ export function BookingSearchForm({
           )}
         </div>
 
-        <div className="lg:flex-1 min-w-0 lg:min-w-[200px] w-full border-b lg:border-b-0 lg:border-r border-border bg-background">
+        <div className="lg:w-44 w-full border-b lg:border-b-0 lg:border-r border-border bg-background">
           <PassengerSelector
             passengers={passengers}
             onChange={handlePassengerChange as any}
@@ -267,10 +272,10 @@ export function BookingSearchForm({
           />
         </div>
 
-        <div className="p-1.5 w-full lg:w-auto self-stretch flex items-center bg-background h-[72px] lg:h-auto">
+        <div className="p-1.5 w-full lg:flex-1 self-stretch flex items-center bg-background h-[72px] lg:h-auto">
           <Button
             onClick={handleSearch}
-            className="bg-redmix transition-all w-full lg:w-auto h-full min-h-[56px] rounded-sm font-semibold text-sm capitalize text-white px-5 cursor-pointer hover:shadow-lg hover:shadow-brand-red/20"
+            className="bg-redmix transition-all w-full h-full min-h-[56px] rounded-sm font-semibold text-base capitalize text-white px-8 cursor-pointer hover:shadow-lg hover:shadow-brand-red/20"
           >
             {resolvedLabels.search}
           </Button>

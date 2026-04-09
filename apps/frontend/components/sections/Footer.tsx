@@ -253,25 +253,28 @@ export function Footer() {
           </div>
 
           {/* Trusted Logos Banner - Adaptive Scrolling (Mobile Only) */}
-          <div className="relative w-full max-w-2xl h-16 md:h-12 opacity-80 hover:opacity-100 transition-all duration-300 overflow-hidden">
+          <div className="relative w-full max-w-2xl h-16 md:h-12 transition-all duration-300 overflow-hidden">
             {/* Mobile View: Scrolling Marquee */}
             <div className="block md:hidden">
               {/* Soft Edge Masking for mobile - Pure CSS gradients that match theme */}
               <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#f9fafb] dark:from-background to-transparent z-10 pointer-events-none" />
               <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#f9fafb] dark:from-background to-transparent z-10 pointer-events-none" />
-              
-              <motion.div 
-                 className="flex w-fit h-full items-center"
-                 animate={{ x: [0, -672] }}
-                 transition={{ 
-                   duration: 25, 
-                   repeat: Infinity, 
-                   ease: "linear",
-                   repeatType: "loop"
-                 }}
+
+              <motion.div
+                className="flex w-fit h-full items-center"
+                animate={{ x: [0, -672] }}
+                transition={{
+                  duration: 25,
+                  repeat: Infinity,
+                  ease: "linear",
+                  repeatType: "loop",
+                }}
               >
                 {[0, 1].map((i) => (
-                  <div key={i} className="relative w-[672px] h-10 flex-shrink-0 mx-4 dark:invert dark:brightness-[1.2] dark:hue-rotate-180 dark:contrast-[1.1] dark:mix-blend-screen">
+                  <div
+                    key={i}
+                    className="relative w-[672px] h-10 flex-shrink-0 mx-4 mix-blend-multiply dark:mix-blend-screen dark:invert dark:brightness-[1.2] dark:hue-rotate-180 dark:contrast-[1.25]"
+                  >
                     <AppImage
                       src="/logos-banner-new.jpg"
                       alt="Payment & Trust Logos Mobile"
@@ -284,7 +287,7 @@ export function Footer() {
             </div>
 
             {/* Desktop View: Static Centered Banner */}
-            <div className="hidden md:block relative w-full h-full dark:invert dark:brightness-[1.2] dark:hue-rotate-180 dark:contrast-[1.1] dark:mix-blend-screen">
+            <div className="hidden md:block relative w-full h-full mix-blend-multiply dark:mix-blend-screen dark:invert dark:brightness-[1.2] dark:hue-rotate-180 dark:contrast-[1.25]">
               <AppImage
                 src="/logos-banner-new.jpg"
                 alt="Payment & Trust Logos Desktop"

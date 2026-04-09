@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
 import * as Separator from "@radix-ui/react-separator";
-import { Users, ChevronDown } from "lucide-react";
+import { Users, ChevronDown, User, Baby, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CounterInput } from "./CounterInput";
 
@@ -33,11 +33,17 @@ export function PassengerSelector({
     passengers.adults + (passengers.children || 0) + (passengers.infants || 0);
 
   return (
-    <Popover.Root open={open} onOpenChange={setOpen}>
+    <Popover.Root
+      open={open}
+      onOpenChange={setOpen}
+      modal={
+        false
+      } /* modal={false} allows interacting with other fields while closing */
+    >
       <Popover.Trigger asChild>
         <button
           className={cn(
-            "w-full flex items-center justify-between px-4 transition-colors group border-r border-border last:border-r-0 relative overflow-hidden h-full",
+            "flex items-center justify-between px-4 transition-colors group border-r border-border last:border-r-0 relative overflow-hidden h-full",
             className,
           )}
           aria-haspopup="dialog"
@@ -50,8 +56,12 @@ export function PassengerSelector({
               </span>
               <span className="text-sm font-semibold text-foreground whitespace-nowrap truncate">
                 {total} {total > 1 ? "guests" : "guest"}
-                {cabinClass ? `, ${cabinClass}` : ""}
               </span>
+              {cabinClass && (
+                <span className="text-[11px] font-medium text-muted-foreground whitespace-nowrap truncate -mt-0.5 leading-none">
+                  {cabinClass}
+                </span>
+              )}
             </div>
           </div>
           <ChevronDown
@@ -66,36 +76,52 @@ export function PassengerSelector({
 
       <Popover.Portal>
         <Popover.Content
-          className="bg-background rounded-sm shadow-2xl border border-border p-3 w-64 z-50 animate-in fade-in zoom-in-95 duration-200"
+          className="bg-background rounded-sm shadow-2xl border border-border p-3 w-64 z-50 animate-in fade-in zoom-in-95 duration-200 focus:outline-none"
           sideOffset={8}
           align="start"
         >
           {/* Passenger counters */}
           {(["adults", "children", "infants"] as const).map((key) => {
             const labelsMap = {
-              adults: { label: "Adults", subtitle: "18+", min: 1, max: 9 },
-              children: { label: "Children", subtitle: "2–17", min: 0, max: 8 },
+              adults: {
+                label: "Adults",
+                subtitle: "18+",
+                min: 1,
+                max: 9,
+                icon: User,
+              },
+              children: {
+                label: "Children",
+                subtitle: "2–17",
+                min: 0,
+                max: 8,
+                icon: UserRound,
+              },
               infants: {
                 label: "Infants",
                 subtitle: "Under 2",
                 min: 0,
                 max: passengers.adults,
+                icon: Baby,
               },
             };
-            const { label, subtitle, min, max } = labelsMap[key];
+            const { label, subtitle, min, max, icon: Icon } = labelsMap[key];
 
             return (
               <div
                 key={key}
                 className="flex items-center justify-between py-1.5"
               >
-                <div>
-                  <p className="text-sm font-semibold text-foreground">
-                    {label}
-                  </p>
-                  <p className="text-xs text-foreground/50 font-medium leading-tight">
-                    {subtitle}
-                  </p>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-brand-red/15 text-brand-red shrink-0">
+                    <Icon className="w-[18px] h-[18px]" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-foreground">{label}</p>
+                    <p className="text-xs text-foreground/50 font-medium leading-tight">
+                      {subtitle}
+                    </p>
+                  </div>
                 </div>
                 <CounterInput
                   value={passengers[key]}
@@ -119,7 +145,13 @@ export function PassengerSelector({
                   {["Economy", "Premium", "Business", "First"].map((cls) => (
                     <button
                       key={cls}
-                      onClick={() => onCabinChange(cls)}
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onCabinChange(cls);
+                        setOpen(false);
+                      }}
                       className={cn(
                         "py-1.5 px-2 text-xs capitalize font-semibold rounded-sm border transition-all",
                         cabinClass === cls
@@ -136,13 +168,18 @@ export function PassengerSelector({
           )}
 
           <button
-            onClick={() => setOpen(false)}
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setOpen(false);
+            }}
             className="bg-redmix mt-4 w-full text-white py-2 rounded-sm text-xs font-semibold capitalize tracking-widest hover:bg-brand-red/90 transition-all hover:shadow-lg hover:shadow-brand-red/20"
           >
             Done
           </button>
 
-          <Popover.Arrow className="fill-brand-gray" />
+          <Popover.Arrow className="fill-background" />
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
