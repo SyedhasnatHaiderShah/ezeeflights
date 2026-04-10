@@ -7,7 +7,7 @@ export default function AuthLayout({
 }) {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
-      <main className="flex-grow flex items-center justify-center relative overflow-hidden bg-[#f8f9fa] dark:bg-background transition-colors duration-500">
+      <main className="flex-grow-1 flex items-center justify-center relative overflow-hidden bg-brand-gray-light dark:bg-background transition-colors duration-500">
         {/* Premium Background Elements */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-brand-red/5 rounded-full blur-[120px] animate-pulse" />
@@ -15,8 +15,8 @@ export default function AuthLayout({
         </div>
 
         {/* Main Container */}
-        <div className="relative z-10 w-full max-w-md mx-auto">
-          <div className="bg-card dark:backdrop-blur-xl rounded-2xl shadow-2xl border border-border/50 overflow-hidden p-6 sm:p-8 transition-all hover:shadow-brand-red/5">
+        <div className="relative z-10 w-full max-w-md md:max-w-4xl lg:max-w-7xl mx-auto">
+          <div className="bg-card dark:backdrop-blur-xl rounded-md shadow-lg border border-border/50 overflow-hidden transition-all hover:shadow-brand-red/5">
             {children}
           </div>
         </div>

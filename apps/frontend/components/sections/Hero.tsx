@@ -78,6 +78,7 @@ export function Hero({
                 src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80"
                 alt="Luxury Stay"
                 fill
+                priority
                 className="object-cover transition-transform group-hover:scale-110 duration-700"
               />
             </div>

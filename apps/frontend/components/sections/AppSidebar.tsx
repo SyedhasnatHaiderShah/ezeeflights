@@ -65,7 +65,7 @@ const NAVIGATION_GROUPS: NavigationGroup[] = [
       { name: "Southwest Airlines", url: "/southwest-airlines", icon: Plane },
       { name: "Delta Airlines", url: "/delta-airlines", icon: Plane },
       { name: "Aeromexico Airlines", url: "/aeromexico-airlines", icon: Plane },
-    ].map(a => ({ title: a.name, url: a.href || a.url, icon: a.icon })),
+    ].map(a => ({ title: a.name, url: a.url, icon: a.icon })),
   },
   {
     label: "Account",
@@ -94,6 +94,12 @@ const NAVIGATION_GROUPS: NavigationGroup[] = [
 export function AppSidebar() {
   const { isOpen, close, open } = useSidebarStore();
   const currentPath = usePathname();
+
+  // Hide sidebar on auth pages
+  if (currentPath?.startsWith("/auth")) {
+    return null;
+  }
+
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);

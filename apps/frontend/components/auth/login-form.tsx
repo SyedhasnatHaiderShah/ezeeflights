@@ -39,7 +39,7 @@ export function LoginForm({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-5">
       <motion.div variants={formItemVariants} className="space-y-2">
         <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
           Welcome back
@@ -49,13 +49,13 @@ export function LoginForm({
         </p>
       </motion.div>
 
-      <form onSubmit={onSubmit} className="space-y-6">
+      <form onSubmit={onSubmit} className="space-y-5">
         <div className="space-y-5">
           {/* Email Field */}
           <motion.div variants={formItemVariants} className="space-y-2.5">
             <label
               htmlFor="email"
-              className="text-xs font-semibold  tracking-widest text-muted-foreground/80 ml-1"
+              className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1"
             >
               Email Address
             </label>
@@ -77,7 +77,7 @@ export function LoginForm({
             <div className="flex justify-between items-center px-1">
               <label
                 htmlFor="password"
-                className="text-xs font-semibold  tracking-widest text-muted-foreground/80"
+                className="text-xs font-semibold  tracking-widest text-foreground/70"
               >
                 Password
               </label>

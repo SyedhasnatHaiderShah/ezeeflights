@@ -44,7 +44,7 @@ export function RegisterForm({
   error,
 }: RegisterFormProps) {
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-5">
       <motion.div variants={formItemVariants} className="space-y-2">
         <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
           Join Ezee Flights
@@ -54,11 +54,14 @@ export function RegisterForm({
         </p>
       </motion.div>
 
-      <form className="space-y-6" onSubmit={onSubmit}>
+      <form className="space-y-5" onSubmit={onSubmit}>
         <div className="space-y-5">
-          <motion.div variants={formItemVariants} className="grid grid-cols-2 gap-4">
+          <motion.div
+            variants={formItemVariants}
+            className="grid grid-cols-2 gap-4"
+          >
             <div className="space-y-2.5">
-              <label className="text-xs font-semibold  tracking-widest text-muted-foreground/80 ml-1">
+              <label className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1">
                 First Name
               </label>
               <Input
@@ -70,7 +73,7 @@ export function RegisterForm({
               />
             </div>
             <div className="space-y-2.5">
-              <label className="text-xs font-semibold  tracking-widest text-muted-foreground/80 ml-1">
+              <label className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1">
                 Last Name
               </label>
               <Input
@@ -84,7 +87,7 @@ export function RegisterForm({
           </motion.div>
 
           <motion.div variants={formItemVariants} className="space-y-2.5">
-            <label className="text-xs font-semibold  tracking-widest text-muted-foreground/80 ml-1">
+            <label className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1">
               Email Address
             </label>
             <Input
@@ -100,7 +103,7 @@ export function RegisterForm({
           </motion.div>
 
           <motion.div variants={formItemVariants} className="space-y-2.5">
-            <label className="text-xs font-semibold  tracking-widest text-muted-foreground/80 ml-1">
+            <label className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1">
               Create Password
             </label>
             <Input
@@ -131,7 +134,7 @@ export function RegisterForm({
         <motion.div variants={formItemVariants} className="pt-2">
           <Button
             variant="brand-red"
-            className="w-full h-14 rounded-md text-base font-semibold shadow-xl shadow-redmix/10 transition-all hover:shadow-redmix/20 active:scale-[0.98] bg-redmix hover:bg-redmix-light group"
+            className="w-full h-14 cursor-pointer rounded-md text-base font-semibold shadow-xl shadow-redmix/10 transition-all hover:shadow-redmix/20 active:scale-[0.98] bg-redmix hover:bg-redmix-light group"
             type="submit"
             disabled={disabled}
           >
