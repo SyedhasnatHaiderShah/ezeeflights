@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { BookingSearchForm } from "@/components/search/BookingSearchForm";
+import { cn } from "@/lib/utils";
 
 interface Props {
   initialOrigin: string;
@@ -20,6 +21,20 @@ export function ResultSearchHeader({ initialOrigin, initialDestination, initialD
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
   const [passengers, setPassengers] = useState({ adults: initialAdt, children: 0, infants: 0 });
   const [cabinClass, setCabinClass] = useState("Economy");
+  const [isHighlighted, setIsHighlighted] = useState(false);
+
+  useEffect(() => {
+    const handleHighlight = () => {
+      // Small delay to coordinate with smooth scroll
+      setTimeout(() => {
+        setIsHighlighted(true);
+        setTimeout(() => setIsHighlighted(false), 3000);
+      }, 100);
+    };
+
+    window.addEventListener("ezee-highlight-search", handleHighlight);
+    return () => window.removeEventListener("ezee-highlight-search", handleHighlight);
+  }, []);
 
   const handlePassengerChange = (key: string, val: number) => setPassengers(prev => ({ ...prev, [key]: val }));
 
@@ -33,7 +48,10 @@ export function ResultSearchHeader({ initialOrigin, initialDestination, initialD
   };
 
   return (
-    <div className="bg-white/95 dark:bg-background/95 backdrop-blur-sm border-b border-gray-200 dark:border-border shadow-sm sticky top-[80px] z-40 py-4 transition-all duration-300">
+    <div className={cn(
+      "bg-white/95 dark:bg-background/95 backdrop-blur-sm border-b border-gray-200 dark:border-border shadow-sm py-4 transition-all duration-700 ease-in-out relative",
+      isHighlighted && "ring-2 ring-redmix/30 shadow-[0_0_50px_rgba(255,75,43,0.4)] border-redmix/50 z-50 ring-offset-2 ring-offset-background"
+    )}>
       <div className="max-w-[1400px] mx-auto px-4 w-full">
         <BookingSearchForm
           variant="flight"

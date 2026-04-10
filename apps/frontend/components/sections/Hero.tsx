@@ -23,7 +23,7 @@ export function Hero({
         {/* Left Side: Content & Search (3/4 width) */}
         <div className="flex flex-col space-y-5 py-12 lg:w-[70%] w-full">
           <div className="flex flex-col space-y-4">
-            <h1 className="text-3xl lg:text-5xl font-bold tracking-tight text-foreground break-words">
+            <h1 className="text-2xl lg:text-4xl font-bold tracking-tight text-foreground break-words">
               {title}
             </h1>
             <p className="text-sm lg:text-base text-foreground max-w-2xl">
@@ -35,13 +35,14 @@ export function Hero({
           </div>
         </div>
 
-        <div className="hidden lg:flex gap-2 h-[500px] py-12 -mr-32 relative lg:w-[30%] hidden">
+        <div className="hidden lg:flex gap-2 h-[500px] py-12 -mr-32 relative lg:w-[30%]">
           <div className="flex-1 flex flex-col gap-4 animate-in slide-in-from-right-20 duration-1000">
             <div className="flex-[0.6] rounded-2xl overflow-hidden bg-muted relative group">
               <AppImage
                 src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80"
                 alt="Luxury Stay"
                 fill
+                priority
                 className="object-cover transition-transform group-hover:scale-110 duration-700"
               />
             </div>
@@ -50,6 +51,7 @@ export function Hero({
                 src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80"
                 alt="Pool Side"
                 fill
+                priority
                 className="object-cover transition-transform group-hover:scale-110 duration-700"
               />
             </div>

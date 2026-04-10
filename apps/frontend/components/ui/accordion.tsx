@@ -32,16 +32,16 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-6 md:py-8 text-sm font-bold tracking-tight transition-all md:text-base text-left group [&[data-state=open]>div>svg]:rotate-180 [&[data-state=open]]:text-brand-red relative outline-none",
+        "flex flex-1 items-center justify-between py-4 text-sm font-bold tracking-tight transition-all text-left group [&[data-state=open]>div>svg]:rotate-180 [&[data-state=open]]:text-brand-red relative outline-none",
         className
       )}
       {...props}
     >
-      <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1 flex items-center gap-3">
+      <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-0.5 flex items-center gap-2">
         {children}
       </span>
-      <div className="flex items-center justify-center w-9 h-9 rounded-full bg-muted/50 group-hover:bg-brand-red/10 group-hover:text-brand-red transition-all duration-500 group-data-[state=open]:bg-brand-red group-data-[state=open]:text-white shadow-sm">
-        <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-500 ease-in-out" />
+      <div className="flex items-center justify-center w-7 h-7 rounded-full bg-muted/50 group-hover:bg-brand-red/10 group-hover:text-brand-red transition-all duration-500 group-data-[state=open]:bg-brand-red group-data-[state=open]:text-white shadow-sm">
+        <ChevronDown className="h-3.5 w-3.5 shrink-0 transition-transform duration-500 ease-in-out" />
       </div>
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
@@ -57,7 +57,7 @@ const AccordionContent = React.forwardRef<
     className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
     {...props}
   >
-    <div className={cn("pb-8 md:pb-10 pt-2 text-muted-foreground font-medium leading-relaxed max-w-[92%] accordion-content-inner", className)}>
+    <div className={cn("pb-4 pt-1 text-muted-foreground font-medium leading-relaxed max-w-full accordion-content-inner", className)}>
       <motion.div
         initial={{ y: 10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

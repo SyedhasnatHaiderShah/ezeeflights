@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { Heart, Share2, Briefcase, Info } from 'lucide-react';
-import { useBookingFlowStore } from '@/lib/store/booking-flow-store';
-import { cn } from '@/lib/utils';
-import { AppImage } from '../ui/app-image';
-import { Button } from '../ui/button';
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { Heart, Share2, Briefcase, Info } from "lucide-react";
+import { useBookingFlowStore } from "@/lib/store/booking-flow-store";
+import { cn } from "@/lib/utils";
+import { AppImage } from "../ui/app-image";
+import { Button } from "../ui/button";
 
 interface Props {
   id: string;
@@ -34,12 +34,14 @@ export function FlightCard(props: Props) {
   const setFlights = useBookingFlowStore((state) => state.setFlights);
 
   const duration = props.duration || "3h 20m";
-  const stopsText = props.stops === 0 ? "nonstop" : `${props.stops} stop${props.stops > 1 ? 's' : ''}`;
-  const totalFare = props.totalFare || (props.baseFare * 4); // Default to 4 travelers for mock display
+  const stops = props.stops ?? 0;
+  const stopsText =
+    stops === 0 ? "nonstop" : `${stops} stop${stops > 1 ? "s" : ""}`;
+  const totalFare = props.totalFare || props.baseFare * 4; // Default to 4 travelers for mock display
   const cabinClass = props.cabinClass || "Economy Basic";
 
   return (
-    <motion.article 
+    <motion.article
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2, transition: { duration: 0.2 } }}
@@ -61,8 +63,11 @@ export function FlightCard(props: Props) {
             {/* Airline Logo & Time */}
             <div className="flex items-center gap-4 min-w-0 flex-[1.5]">
               <div className="w-10 h-10 relative flex-shrink-0 bg-white dark:bg-white p-1 rounded-sm border border-gray-100 shadow-sm">
-                <AppImage 
-                  src={props.airlineLogo || `https://www.kayak.com/rimg/provider-logos/airlines/v/${props.airlineCode}.png`} 
+                <AppImage
+                  src={
+                    props.airlineLogo ||
+                    `https://www.kayak.com/rimg/provider-logos/airlines/v/${props.airlineCode}.png`
+                  }
                   alt={props.airline}
                   fill
                   className="object-contain"
@@ -70,7 +75,17 @@ export function FlightCard(props: Props) {
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="text-lg font-bold text-foreground truncate">
-                  {props.departureTime || new Date(props.departureAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} – {props.arrivalTime || new Date(props.arrivalAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
+                  {props.departureTime ||
+                    new Date(props.departureAt).toLocaleTimeString([], {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}{" "}
+                  –{" "}
+                  {props.arrivalTime ||
+                    new Date(props.arrivalAt).toLocaleTimeString([], {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
                 </span>
                 <span className="text-sm text-gray-500 dark:text-muted-foreground font-medium truncate">
                   {props.airline}
@@ -98,50 +113,59 @@ export function FlightCard(props: Props) {
         </div>
 
         <div className="flex items-center justify-end md:hidden">
-            <span className="text-xs text-gray-500 dark:text-muted-foreground/50 self-end">Ad</span>
+          <span className="text-xs text-gray-500 dark:text-muted-foreground/50 self-end">
+            Ad
+          </span>
         </div>
       </div>
 
       {/* Right Action/Price Section */}
       <div className="w-full md:w-[220px] flex-shrink-0 border-t md:border-t-0 md:border-l border-gray-100 dark:border-border/50 bg-gray-50/30 dark:bg-muted/5 p-4 md:p-6 flex flex-col justify-center items-center md:items-end gap-1">
         <div className="flex items-center gap-2 mb-4">
-            <div className="flex items-center gap-1 text-gray-500 dark:text-muted-foreground">
-                <Briefcase className="w-3.5 h-3.5" />
-                <span className="text-[10px] font-bold">1</span>
-            </div>
-            <div className="flex items-center gap-1 text-gray-500 dark:text-muted-foreground">
-                <Briefcase className="w-3.5 h-3.5" fill="currentColor" />
-                <span className="text-[10px] font-bold">0</span>
-            </div>
+          <div className="flex items-center gap-1 text-gray-500 dark:text-muted-foreground">
+            <Briefcase className="w-3.5 h-3.5" />
+            <span className="text-[10px] font-bold">1</span>
+          </div>
+          <div className="flex items-center gap-1 text-gray-500 dark:text-muted-foreground">
+            <Briefcase className="w-3.5 h-3.5" fill="currentColor" />
+            <span className="text-[10px] font-bold">0</span>
+          </div>
         </div>
 
         <div className="text-right">
           <div className="flex flex-col items-center md:items-end">
-             <span className="text-2xl font-black text-foreground">
-                {props.currency}{props.baseFare.toLocaleString()} <span className="text-sm font-medium text-gray-500 dark:text-muted-foreground">/ person</span>
-             </span>
-             <span className="text-sm font-bold text-foreground mt-1">
-                {props.currency}{totalFare.toLocaleString()} total
-             </span>
-             <span className="text-xs text-gray-500 dark:text-muted-foreground/70 mt-0.5 font-medium">
-                {cabinClass}
-             </span>
+            <span className="text-2xl font-black text-foreground">
+              {props.currency}
+              {props.baseFare.toLocaleString()}{" "}
+              <span className="text-sm font-medium text-gray-500 dark:text-muted-foreground">
+                / person
+              </span>
+            </span>
+            <span className="text-sm font-bold text-foreground mt-1">
+              {props.currency}
+              {totalFare.toLocaleString()} total
+            </span>
+            <span className="text-xs text-gray-500 dark:text-muted-foreground/70 mt-0.5 font-medium">
+              {cabinClass}
+            </span>
           </div>
         </div>
 
         <Button
           onClick={() => {
             setFlights([props.id]);
-            router.push('/flights/booking');
+            router.push("/flights/booking");
           }}
-          className="mt-6 w-full bg-[#ff4b2b] hover:bg-[#ff3b1b] text-white font-bold py-3 md:py-6 rounded-[4px] shadow-sm hover:shadow-lg transition-all"
+          className="mt-6 w-full bg-redmix hover:bg-[#ff3b1b] text-white font-bold py-3 md:py-6 rounded-[4px] shadow-sm hover:shadow-lg transition-all"
         >
           View Deal
         </Button>
       </div>
 
       <div className="absolute right-4 bottom-2 hidden md:block">
-         <span className="text-[10px] font-bold text-gray-300 dark:text-muted-foreground/30">Ad</span>
+        <span className="text-[10px] font-bold text-gray-300 dark:text-muted-foreground/30">
+          Ad
+        </span>
       </div>
     </motion.article>
   );

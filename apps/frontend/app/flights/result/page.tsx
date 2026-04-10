@@ -1,17 +1,23 @@
 import { ResultSearchHeader } from "./ResultSearchHeader";
 import { Suspense } from "react";
-import { Plane, Filter, Info, ChevronRight, Sparkles } from "lucide-react";
+import { Filter, Sparkles } from "lucide-react";
 import * as motion from "framer-motion/client";
 import { MOCK_FLIGHTS } from "@/lib/mock/mock-flights";
-import { AppImage } from "@/components/ui/app-image";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { Header } from "@/components/sections/Header";
 import { FlightResultContent } from "./FlightResultContent";
 import {
   GeminiRecommendations,
   GeminiSkeleton,
 } from "@/components/ai/GeminiRecommendations";
+import { FloatingSearchButton } from "@/components/search/FloatingSearchButton";
+import { FlightFilters } from "./FlightFilters";
+import { SmartFilters } from "./SmartFilters";
+import { QuickFilters } from "./QuickFilters";
+import { TimeFilter } from "./TimeFilter";
+import { AirlinesFilter } from "./AirlinesFilter";
+import { LocationFilters } from "./LocationFilters";
+import { DurationFilter } from "./DurationFilter";
+import { AccordionFilters } from "./AccordionFilters";
 
 interface SearchProps {
   searchParams: Promise<Record<string, string | undefined>>;
@@ -50,135 +56,44 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
   // Combine API results with mock data for aesthetic demo
   const flights = apiFlights.length > 0 ? apiFlights : MOCK_FLIGHTS;
 
+  const searchHeaderBlock = (
+    <Suspense
+      fallback={
+        <div className="h-[72px] bg-white dark:bg-background border-b dark:border-border" />
+      }
+    >
+      <ResultSearchHeader
+        initialOrigin={origin}
+        initialDestination={destination}
+        initialDDate={departureDate}
+        initialAdt={parseInt(adt)}
+      />
+    </Suspense>
+  );
+
   return (
     <>
       <Header />
       <div className="h-20 w-full" /> {/* Spacer for the fixed header height */}
       <div className="min-h-screen bg-slate-50 dark:bg-background relative pb-20 transition-colors duration-300">
-        {/* Search Header component which includes BookingSearchForm statefully */}
-        <Suspense
-          fallback={
-            <div className="h-[72px] bg-white dark:bg-background border-b dark:border-border" />
-          }
-        >
-          <ResultSearchHeader
-            initialOrigin={origin}
-            initialDestination={destination}
-            initialDDate={departureDate}
-            initialAdt={parseInt(adt)}
-          />
-        </Suspense>
+        {/* Static search header visible at the top of the page */}
+        <div className="relative z-10">{searchHeaderBlock}</div>
 
         <div className="max-w-[1240px] mx-auto px-4 py-8 flex flex-col lg:flex-row gap-5">
-          {/* Left filters - Kayak layout styling */}
+          {/* Left Sidebar: Smart & Standard Filters */}
           <motion.aside
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="w-full lg:w-64 flex-shrink-0 space-y-4"
+            className="w-full lg:w-64 flex-shrink-0 space-y-3"
           >
-            <div className="bg-white dark:bg-muted/10 rounded-[4px] border border-gray-200 dark:border-border shadow-sm">
-              <div className="flex items-center gap-2 p-4 border-b border-gray-100 dark:border-border/50">
-                <Filter className="w-4 h-4 text-foreground" />
-                <h2 className="font-semibold text-base text-foreground">
-                  Stops
-                </h2>
-              </div>
-              <div className="p-4 space-y-4">
-                <div className="flex items-center justify-between text-sm group">
-                  <div className="flex items-center gap-3">
-                    <Checkbox
-                      id="stop-nonstop"
-                      defaultChecked
-                      className="border-gray-300 dark:border-border data-[state=checked]:bg-[#ff4b2b] data-[state=checked]:border-[#ff4b2b]"
-                    />
-                    <Label
-                      htmlFor="stop-nonstop"
-                      className="text-gray-700 dark:text-foreground/90 group-hover:text-foreground cursor-pointer font-medium"
-                    >
-                      Nonstop
-                    </Label>
-                  </div>
-                  <span className="text-gray-500 dark:text-muted-foreground font-medium">
-                    $570
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-sm group">
-                  <div className="flex items-center gap-3">
-                    <Checkbox
-                      id="stop-1"
-                      defaultChecked
-                      className="border-gray-300 dark:border-border data-[state=checked]:bg-[#ff4b2b] data-[state=checked]:border-[#ff4b2b]"
-                    />
-                    <Label
-                      htmlFor="stop-1"
-                      className="text-gray-700 dark:text-foreground/90 group-hover:text-foreground cursor-pointer font-medium"
-                    >
-                      1 stop
-                    </Label>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between text-sm group">
-                  <div className="flex items-center gap-3">
-                    <Checkbox
-                      id="stop-2"
-                      defaultChecked
-                      className="border-gray-300 dark:border-border data-[state=checked]:bg-[#ff4b2b] data-[state=checked]:border-[#ff4b2b]"
-                    />
-                    <Label
-                      htmlFor="stop-2"
-                      className="text-gray-700 dark:text-foreground/90 group-hover:text-foreground cursor-pointer font-medium"
-                    >
-                      2+ stops
-                    </Label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-muted/10 rounded-[4px] border border-gray-200 dark:border-border shadow-sm">
-              <div className="p-4 border-b border-gray-100 dark:border-border/50">
-                <h2 className="font-semibold text-base text-foreground">
-                  Amenities
-                </h2>
-                <p className="text-xs text-gray-500 dark:text-muted-foreground mt-0.5 font-medium uppercase tracking-tight">
-                  Bags per passenger
-                </p>
-              </div>
-              <div className="p-4 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700 dark:text-foreground/90">
-                    Carry-on bag
-                  </span>
-                  <div className="flex items-center gap-3 text-sm">
-                    <button className="w-7 h-7 rounded-sm border border-gray-200 dark:border-border shadow-sm flex justify-center items-center font-bold text-gray-400 dark:text-muted-foreground hover:bg-gray-50 dark:hover:bg-muted/20">
-                      -
-                    </button>
-                    <span className="w-4 text-center font-bold text-foreground">
-                      0
-                    </span>
-                    <button className="w-7 h-7 rounded-sm border border-gray-200 dark:border-border shadow-sm flex justify-center items-center font-bold text-gray-400 dark:text-muted-foreground hover:bg-gray-50 dark:hover:bg-muted/20">
-                      +
-                    </button>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700 dark:text-foreground/90">
-                    Checked bag
-                  </span>
-                  <div className="flex items-center gap-3 text-sm">
-                    <button className="w-7 h-7 rounded-sm border border-gray-200 dark:border-border shadow-sm flex justify-center items-center font-bold text-gray-400 dark:text-muted-foreground hover:bg-gray-50 dark:hover:bg-muted/20">
-                      -
-                    </button>
-                    <span className="w-4 text-center font-bold text-foreground">
-                      0
-                    </span>
-                    <button className="w-7 h-7 rounded-sm border border-gray-200 dark:border-border shadow-sm flex justify-center items-center font-bold text-gray-400 dark:text-muted-foreground hover:bg-gray-50 dark:hover:bg-muted/20">
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <SmartFilters />
+            <QuickFilters />
+            <TimeFilter />
+            <AirlinesFilter />
+            <LocationFilters />
+            <DurationFilter />
+            <AccordionFilters />
+            <FlightFilters />
           </motion.aside>
 
           <main className="flex-1 space-y-4">
@@ -187,15 +102,14 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="bg-white dark:bg-muted/10 rounded-[4px] border border-gray-200 dark:border-border overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-md transition-all group border-l-[6px] border-l-[#007aff]"
+              className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-md transition-all group border-l-[6px] border-l-[#007aff]"
             >
               <div className="p-4 md:p-6 flex-grow flex items-center gap-6">
                 <div className="flex-shrink-0 w-24 h-8 relative">
-                  <AppImage
+                  <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Priceline.com_logo.svg/1200px-Priceline.com_logo.svg.png"
                     alt="Priceline"
-                    fill
-                    className="object-contain filter dark:brightness-0 dark:invert"
+                    className="object-contain filter dark:brightness-0 dark:invert w-24 h-auto"
                   />
                 </div>
                 <div className="flex flex-col">
@@ -244,6 +158,7 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
           </main>
         </div>
       </div>
+      <FloatingSearchButton />
     </>
   );
 }
