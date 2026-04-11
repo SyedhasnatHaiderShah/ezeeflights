@@ -64,7 +64,7 @@ export function RegisterContainer() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-stretch">
+    <div className="flex flex-col md:flex-row items-stretch min-h-screen">
       <motion.div
         variants={containerVariants}
         initial="hidden"
