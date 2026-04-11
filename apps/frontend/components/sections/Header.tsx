@@ -40,11 +40,86 @@ const itemVariants = {
 
 import { Drawer } from "vaul";
 
+const NotificationContent = () => (
+  <div className="flex flex-col h-full bg-background rounded-t-2xl sm:rounded-none">
+    <div className="flex items-center justify-between p-5 border-b bg-muted/20">
+      <h2 className="text-lg font-bold tracking-tight">Notifications</h2>
+      <div className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
+    </div>
+
+    <div className="flex flex-col flex-1 overflow-y-auto min-h-[300px] max-h-[60vh]">
+      <motion.div
+        variants={itemVariants}
+        className="flex flex-col items-center justify-center py-12 px-6 text-muted-foreground space-y-4"
+      >
+        <div className="p-4 rounded-full bg-redmix/10 dark:bg-muted/10">
+          <Bell className="w-10 h-10 text-redmix" />
+        </div>
+        <div className="text-center">
+          <p className="text-sm font-semibold text-foreground/80">
+            All caught up!
+          </p>
+          <p className="text-xs">
+            Check back later for new alerts and flight updates.
+          </p>
+        </div>
+      </motion.div>
+    </div>
+
+    <motion.div
+      variants={itemVariants}
+      className="p-4 border-t bg-muted/5 mt-auto"
+    >
+      <button className="w-full py-3 text-sm font-bold text-redmix hover:bg-redmix/5 rounded-xl border border-redmix/10 transition-all">
+        View all in Dashboard
+      </button>
+    </motion.div>
+  </div>
+);
+
+const FavoriteContent = () => (
+  <div className="flex flex-col h-full bg-background rounded-t-2xl sm:rounded-none">
+    <div className="flex items-center justify-between p-5 border-b bg-muted/20">
+      <h2 className="text-lg font-bold tracking-tight">Saved Favorites</h2>
+      <div className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
+    </div>
+
+    <div className="flex flex-col flex-1 overflow-y-auto min-h-[300px] max-h-[60vh]">
+      <motion.div
+        variants={itemVariants}
+        className="flex flex-col items-center justify-center py-12 px-6 text-muted-foreground space-y-4"
+      >
+        <div className="p-4 rounded-full bg-redmix/10 dark:bg-muted/10">
+          <Heart className="w-10 h-10 text-redmix" />
+        </div>
+        <div className="text-center">
+          <p className="text-sm font-semibold text-foreground/80">
+            No favorites yet
+          </p>
+          <p className="text-xs">
+            Tap the heart on flights or destinations to save them here.
+          </p>
+        </div>
+      </motion.div>
+    </div>
+
+    <motion.div
+      variants={itemVariants}
+      className="p-4 border-t bg-muted/5 mt-auto"
+    >
+      <button className="w-full py-3 text-sm font-bold text-redmix hover:bg-redmix/5 rounded-xl border border-redmix/10 transition-all">
+        Explore Destinations
+      </button>
+    </motion.div>
+  </div>
+);
+
 export function Header() {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const [isNotifDrawerOpen, setIsNotifDrawerOpen] = React.useState(false);
+  const [isFavoriteDrawerOpen, setIsFavoriteDrawerOpen] = React.useState(false);
   const toggleSidebar = useSidebarStore((state) => state.toggle);
 
   React.useEffect(() => {
@@ -55,43 +130,6 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const NotificationContent = () => (
-    <div className="flex flex-col h-full bg-background rounded-t-2xl sm:rounded-none">
-      <div className="flex items-center justify-between p-5 border-b bg-muted/20">
-        <h2 className="text-lg font-bold tracking-tight">Notifications</h2>
-        <div className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
-      </div>
-
-      <div className="flex flex-col flex-1 overflow-y-auto min-h-[300px] max-h-[60vh]">
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-col items-center justify-center py-12 px-6 text-muted-foreground space-y-4"
-        >
-          <div className="p-4 rounded-full bg-redmix/10 dark:bg-muted/10">
-            <Bell className="w-10 h-10 text-redmix" />
-          </div>
-          <div className="text-center">
-            <p className="text-sm font-semibold text-foreground/80">
-              All caught up!
-            </p>
-            <p className="text-xs">
-              Check back later for new alerts and flight updates.
-            </p>
-          </div>
-        </motion.div>
-      </div>
-
-      <motion.div
-        variants={itemVariants}
-        className="p-4 border-t bg-muted/5 mt-auto"
-      >
-        <button className="w-full py-3 text-sm font-bold text-redmix hover:bg-redmix/5 rounded-xl border border-redmix/10 transition-all">
-          View all in Dashboard
-        </button>
-      </motion.div>
-    </div>
-  );
 
   return (
     <header
@@ -123,6 +161,37 @@ export function Header() {
 
         {/* Right Side: Utils & Auth */}
         <div className="flex items-center gap-2 md:gap-4">
+          {/* Mobile Favorites (Drawer) */}
+          <div className="md:hidden">
+            <Drawer.Root
+              open={isFavoriteDrawerOpen}
+              onOpenChange={setIsFavoriteDrawerOpen}
+              shouldScaleBackground
+            >
+              <Drawer.Trigger asChild>
+                <motion.div
+                  whileTap={{ scale: 0.9 }}
+                  className="cursor-pointer"
+                >
+                  <AppIcon icon={Heart} isFill />
+                </motion.div>
+              </Drawer.Trigger>
+              <Drawer.Portal>
+                <Drawer.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60]" />
+                <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[100] outline-none flex flex-col rounded-t-[20px] bg-background border-t shadow-2xl overflow-hidden appearance-none">
+                  <Drawer.Title className="sr-only">
+                    Saved Favorites
+                  </Drawer.Title>
+                  <Drawer.Description className="sr-only">
+                    View your saved flights and destinations.
+                  </Drawer.Description>
+                  <div className="mx-auto mt-3 h-1.5 w-12 flex-shrink-0 rounded-full bg-muted-foreground/20" />
+                  <FavoriteContent />
+                </Drawer.Content>
+              </Drawer.Portal>
+            </Drawer.Root>
+          </div>
+
           {/* Mobile Notifications (Drawer) */}
           <div className="md:hidden">
             <Drawer.Root
@@ -153,7 +222,13 @@ export function Header() {
           </div>
 
           {/* Desktop Notifications (Dropdown) */}
-          <div className="hidden md:block">
+          <div className="hidden md:flex gap-3">
+            <AppIcon
+              icon={Sparkles}
+              label="Ask Ezee"
+              className="hidden text-xs font-semibold sm:flex"
+              onClick={() => console.log("AI search open")}
+            />
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <motion.div
@@ -184,19 +259,39 @@ export function Header() {
           {/* Desktop-only Utilities */}
           <div className="hidden md:flex items-center gap-2 md:gap-4">
             {/* Ask AI Pill */}
-            <AppIcon
+            {/* <AppIcon
               icon={Sparkles}
               label="Ask AI"
               className="hidden sm:flex"
               onClick={() => console.log("AI search open")}
-            />
+            /> */}
 
-            {/* Favorites Heart */}
-            <AppIcon
-              icon={Heart}
-              onClick={() => console.log("Favorites open")}
-              isFill
-            />
+            {/* Favorites Heart (Dropdown) */}
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <motion.div
+                  whileTap={{ scale: 0.9 }}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                >
+                  <AppIcon icon={Heart} isFill />
+                </motion.div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                sideOffset={15}
+                asChild
+                className="w-[380px] p-0 overflow-hidden rounded-md bg-background border shadow-2xl z-[40]"
+              >
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  variants={menuVariants}
+                >
+                  <FavoriteContent />
+                </motion.div>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* Theme Toggle (Optional/Hidden if needed, but keeping for utility) */}
             <AppIcon

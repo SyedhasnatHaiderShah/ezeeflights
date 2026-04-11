@@ -270,11 +270,11 @@ export function LocationInput({
                     <span className="font-medium text-foreground text-sm truncate">
                       {s.name}
                     </span>
-                    <span className="text-xs text-foreground/50 truncate font-normal">
+                    <span className="text-xs text-foreground/80 truncate font-normal">
                       {s.detail}
                     </span>
                   </div>
-                  <span className="ml-3 font-medium text-[10px] text-foreground/30 capitalize tracking-wider">
+                  <span className="ml-3 font-medium text-[10px] text-foreground/70 capitalize tracking-wider">
                     {s.code}
                   </span>
                 </button>

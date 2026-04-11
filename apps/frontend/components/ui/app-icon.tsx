@@ -53,7 +53,7 @@ export function AppIcon({
       {label && (
         <span
           className={cn(
-            "text-sm font-bold tracking-tight uppercase text-[11px] transition-colors",
+            "text-xs font-semibold tracking-tight uppercase transition-colors",
             !isActive &&
               "text-foreground/90 dark:text-muted-foreground group-hover:dark:text-foreground",
             isActive && "text-white",
@@ -76,7 +76,8 @@ export function AppIcon({
         // Base Styling (Inactive)
         !isActive && [
           "bg-white border-none transition-all",
-          animate && "shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-redmix/[0.04]",
+          animate &&
+            "shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-redmix/[0.04]",
           "dark:bg-secondary/40 dark:shadow-none",
           animate && "dark:hover:bg-redmix/70",
         ],

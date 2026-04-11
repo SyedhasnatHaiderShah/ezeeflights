@@ -12,14 +12,25 @@ interface Props {
   initialAdt: number;
 }
 
-export function ResultSearchHeader({ initialOrigin, initialDestination, initialDDate, initialAdt }: Props) {
+export function ResultSearchHeader({
+  initialOrigin,
+  initialDestination,
+  initialDDate,
+  initialAdt,
+}: Props) {
   const router = useRouter();
 
   const [origin, setOrigin] = useState(initialOrigin);
   const [destination, setDestination] = useState(initialDestination);
-  const [departDate, setDepartDate] = useState<Date | undefined>(initialDDate ? new Date(initialDDate) : new Date());
+  const [departDate, setDepartDate] = useState<Date | undefined>(
+    initialDDate ? new Date(initialDDate) : new Date(),
+  );
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
-  const [passengers, setPassengers] = useState({ adults: initialAdt, children: 0, infants: 0 });
+  const [passengers, setPassengers] = useState({
+    adults: initialAdt,
+    children: 0,
+    infants: 0,
+  });
   const [cabinClass, setCabinClass] = useState("Economy");
   const [isHighlighted, setIsHighlighted] = useState(false);
 
@@ -33,10 +44,12 @@ export function ResultSearchHeader({ initialOrigin, initialDestination, initialD
     };
 
     window.addEventListener("ezee-highlight-search", handleHighlight);
-    return () => window.removeEventListener("ezee-highlight-search", handleHighlight);
+    return () =>
+      window.removeEventListener("ezee-highlight-search", handleHighlight);
   }, []);
 
-  const handlePassengerChange = (key: string, val: number) => setPassengers(prev => ({ ...prev, [key]: val }));
+  const handlePassengerChange = (key: string, val: number) =>
+    setPassengers((prev) => ({ ...prev, [key]: val }));
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -48,22 +61,31 @@ export function ResultSearchHeader({ initialOrigin, initialDestination, initialD
   };
 
   return (
-    <div className={cn(
-      "bg-white/95 dark:bg-background/95 backdrop-blur-sm border-b border-gray-200 dark:border-border shadow-sm py-4 transition-all duration-700 ease-in-out relative",
-      isHighlighted && "ring-2 ring-redmix/30 shadow-[0_0_50px_rgba(255,75,43,0.4)] border-redmix/50 z-50 ring-offset-2 ring-offset-background"
-    )}>
-      <div className="max-w-[1400px] mx-auto px-4 w-full">
+    <div
+      className={cn(
+        "bg-white/95 dark:bg-background/95 backdrop-blur-sm border-b border-gray-200 dark:border-border shadow-sm py-4 transition-all duration-700 ease-in-out relative",
+        isHighlighted &&
+          "ring-2 ring-redmix/30 shadow-[0_0_50px_rgba(255,75,43,0.4)] border-redmix/50 z-50 ring-offset-2 ring-offset-background",
+      )}
+    >
+      <div className="max-w-6xl mx-auto px-4 w-full">
         <BookingSearchForm
           variant="flight"
           showReturnDate={true}
           showTripType={true}
           showCabinClass={true}
-          origin={origin} setOrigin={setOrigin}
-          destination={destination} setDestination={setDestination}
-          departDate={departDate} setDepartDate={setDepartDate}
-          returnDate={returnDate} setReturnDate={setReturnDate}
-          passengers={passengers} handlePassengerChange={handlePassengerChange}
-          cabinClass={cabinClass} setCabinClass={setCabinClass}
+          origin={origin}
+          setOrigin={setOrigin}
+          destination={destination}
+          setDestination={setDestination}
+          departDate={departDate}
+          setDepartDate={setDepartDate}
+          returnDate={returnDate}
+          setReturnDate={setReturnDate}
+          passengers={passengers}
+          handlePassengerChange={handlePassengerChange}
+          cabinClass={cabinClass}
+          setCabinClass={setCabinClass}
           handleSearch={handleSearch}
         />
       </div>
