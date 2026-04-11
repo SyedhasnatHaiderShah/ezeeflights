@@ -3,6 +3,8 @@
 import * as React from "react";
 import { ArrowRight, Star } from "lucide-react";
 import { AppImage } from "@/components/ui/app-image";
+import { WhyChooseUs } from "./WhyChooseUs";
+import { FAQSection } from "./FAQSection";
 
 interface Journey {
   city: string;
@@ -40,7 +42,11 @@ const JOURNEYS: Journey[] = [
   },
 ];
 
-const JourneyCard = React.memo(function JourneyCard({ dest }: { dest: Journey }) {
+const JourneyCard = React.memo(function JourneyCard({
+  dest,
+}: {
+  dest: Journey;
+}) {
   return (
     <div className="group flex flex-row items-center gap-4 bg-card border border-border/60 hover:border-brand-red/20 rounded-2xl p-3 cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 w-full h-full">
       {/* Square Image Thumbnail */}
@@ -95,46 +101,53 @@ const JourneyCard = React.memo(function JourneyCard({ dest }: { dest: Journey })
 
 export function CuratedJourneys() {
   return (
-    <section
-      id="destinations"
-      className="py-14 bg-muted/30 dark:bg-background relative overflow-hidden transition-colors duration-300"
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex items-baseline justify-between mb-8 px-1">
-          <div className="space-y-0.5">
-            <span className="text-brand-red font-bold uppercase tracking-[0.2em] text-[10px] block mb-1">
-              Exclusive Collections
-            </span>
-            <h2 className="font-black text-2xl lg:text-3xl tracking-tight text-foreground leading-tight">
-              Curated Journeys
-            </h2>
+    <>
+      <section
+        id="destinations"
+        className="py-14 bg-muted/30 dark:bg-background relative overflow-hidden transition-colors duration-300"
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="flex items-baseline justify-between mb-8 px-1">
+            <div className="space-y-0.5">
+              <span className="text-brand-red font-bold uppercase tracking-[0.2em] text-[10px] block mb-1">
+                Exclusive Collections
+              </span>
+              <h2 className="font-black text-2xl lg:text-3xl tracking-tight text-foreground leading-tight">
+                Curated Journeys
+              </h2>
+            </div>
+            <button className="flex items-center space-x-1 text-brand-red font-bold hover:text-brand-red/80 transition-all active:scale-95 group">
+              <span className="text-xs uppercase tracking-widest border-b border-brand-red/20 pb-0.5">
+                Explore All
+              </span>
+              <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+            </button>
           </div>
-          <button className="flex items-center space-x-1 text-brand-red font-bold hover:text-brand-red/80 transition-all active:scale-95 group">
-            <span className="text-xs uppercase tracking-widest border-b border-brand-red/20 pb-0.5">
-              Explore All
-            </span>
-            <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
 
-        {/* Mobile: Native CSS Scroll */}
-        <div className="lg:hidden">
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-6 px-6 pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          {/* Mobile: Native CSS Scroll */}
+          <div className="lg:hidden">
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-6 px-6 pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              {JOURNEYS.map((dest, i) => (
+                <div
+                  key={i}
+                  className="w-[88vw] max-w-[360px] shrink-0 snap-start"
+                >
+                  <JourneyCard dest={dest} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: static grid */}
+          <div className="hidden lg:grid grid-cols-3 gap-5 xl:gap-6">
             {JOURNEYS.map((dest, i) => (
-              <div key={i} className="w-[88vw] max-w-[360px] shrink-0 snap-start">
-                <JourneyCard dest={dest} />
-              </div>
+              <JourneyCard key={i} dest={dest} />
             ))}
           </div>
         </div>
-
-        {/* Desktop: static grid */}
-        <div className="hidden lg:grid grid-cols-3 gap-5 xl:gap-6">
-          {JOURNEYS.map((dest, i) => (
-            <JourneyCard key={i} dest={dest} />
-          ))}
-        </div>
-      </div>
-    </section>
+      </section>
+      <FAQSection />
+      <WhyChooseUs />
+    </>
   );
 }
