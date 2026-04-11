@@ -21,6 +21,10 @@ import { Verify2faLoginDto } from '../dto/verify-2fa-login.dto';
 import { Verify2faSetupDto } from '../dto/verify-2fa-setup.dto';
 import { AuthRepository } from '../repositories/auth.repository';
 import { TwoFactorService } from './two-factor.service';
+import { NotificationService } from '../../notification/services/notification.service';
+import { ForgotPasswordDto } from '../dto/forgot-password.dto';
+import { VerifyOtpDto } from '../dto/verify-otp.dto';
+import { ResetPasswordDto } from '../dto/reset-password.dto';
 
 const REFRESH_COOKIE = 'refresh_token';
 
@@ -35,6 +39,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly repo: AuthRepository,
     private readonly twoFactor: TwoFactorService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   private setRefreshCookie(res: Response | undefined, raw: string): void {
@@ -442,5 +447,52 @@ export class AuthService {
     }
     await this.repo.disableTwoFactor(userId);
     return { disabled: true };
+  }
+
+  async forgotPassword(dto: ForgotPasswordDto) {
+    const user = await this.repo.findUserByEmail(dto.email);
+    if (!user) {
+      // Return success even if user not found for security
+      return { ok: true };
+    }
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 300_000); // 5 minutes
+
+    await this.repo.insertPasswordResetOtp({ email: dto.email, code, expiresAt });
+
+    await this.notificationService.send({
+      userId: user.id,
+      type: 'EMAIL',
+      email: dto.email,
+      templateName: 'password-reset-otp',
+      payload: { code, email: dto.email },
+    });
+
+    return { ok: true };
+  }
+
+  async verifyOtp(dto: VerifyOtpDto) {
+    const valid = await this.repo.findActivePasswordResetOtp(dto.email, dto.code);
+    if (!valid) {
+      throw new UnauthorizedException('Invalid or expired verification code');
+    }
+    return { ok: true };
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const consumed = await this.repo.consumePasswordResetOtp(dto.email, dto.code);
+    if (!consumed) {
+      throw new UnauthorizedException('Invalid or expired verification code');
+    }
+
+    const hash = await hashPassword(dto.newPassword);
+    const updated = await this.repo.updatePasswordByEmail(dto.email, hash);
+
+    if (!updated) {
+      throw new InternalServerErrorException('Failed to update password');
+    }
+
+    return { ok: true };
   }
 }
