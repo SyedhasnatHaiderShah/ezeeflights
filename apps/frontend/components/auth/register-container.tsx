@@ -89,18 +89,18 @@ export function RegisterContainer() {
           </motion.div>
 
           <motion.div variants={itemVariants} className="space-y-5">
-            <p className="text-xs text-center text-muted-foreground/60 leading-relaxed px-4">
+            <p className="text-xs text-center text-brand-dark/80 leading-relaxed px-4">
               By joining, you agree to our{"  "}
               <Link
                 href={"/terms" as any}
-                className="text-primary hover:underline font-semibold"
+                className="text-brand-blue hover:underline font-semibold"
               >
                 Terms of Use
               </Link>{" "}
               and{" "}
               <Link
                 href={"/privacy" as any}
-                className="text-primary hover:underline font-semibold"
+                className="text-brand-blue hover:underline font-semibold"
               >
                 Privacy Policy
               </Link>
@@ -108,7 +108,7 @@ export function RegisterContainer() {
             </p>
 
             <div className="pt-5 md:pt-10 text-center border-t border-border/50">
-              <p className="text-xs text-muted-foreground font-medium">
+              <p className="text-xs text-brand-dark/80 font-medium">
                 Already have an account?{" "}
                 <Link
                   href={"/auth/login" as any}

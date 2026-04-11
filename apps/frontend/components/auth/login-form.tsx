@@ -39,23 +39,23 @@ export function LoginForm({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="w-full space-y-5">
+    <div className="w-full space-y-4">
       <motion.div variants={formItemVariants} className="space-y-2">
-        <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+        <h1 className="text-xl lg:text-2xl font-bold tracking-tight text-brand-dark">
           Welcome back
         </h1>
-        <p className="text-sm text-muted-foreground/80 font-medium">
+        <p className="text-xs text-brand-dark-light font-medium">
           Enter your flight dashboard with your credentials.
         </p>
       </motion.div>
 
-      <form onSubmit={onSubmit} className="space-y-5">
-        <div className="space-y-5">
+      <form onSubmit={onSubmit} className="space-y-4">
+        <div className="space-y-3">
           {/* Email Field */}
-          <motion.div variants={formItemVariants} className="space-y-2.5">
+          <motion.div variants={formItemVariants} className="space-y-1">
             <label
               htmlFor="email"
-              className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1"
+              className="text-xs font-bold tracking-wider text-brand-dark-light ml-1"
             >
               Email Address
             </label>
@@ -68,22 +68,22 @@ export function LoginForm({
               onChange={(e) => onEmailChange(e.target.value)}
               disabled={disabled}
               required
-              className="h-14 bg-muted/5 border-border/40 rounded-2xl px-5 text-base focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-muted-foreground/40"
+              className="h-11 bg-muted/5 border-border/40 rounded-xl px-4 text-sm focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-brand-dark/80"
             />
           </motion.div>
 
           {/* Password Field */}
-          <motion.div variants={formItemVariants} className="space-y-2.5">
+          <motion.div variants={formItemVariants} className="space-y-1">
             <div className="flex justify-between items-center px-1">
               <label
                 htmlFor="password"
-                className="text-xs font-semibold  tracking-widest text-foreground/70"
+                className="text-xs font-bold tracking-wider text-brand-dark-light"
               >
                 Password
               </label>
               <Link
                 href={"/auth/forgot-password" as any}
-                className="text-xs font-bold text-redmix hover:text-redmix-light transition-colors"
+                className="text-[11px] font-bold text-redmix hover:text-redmix-light transition-colors"
               >
                 Forgot?
               </Link>
@@ -98,15 +98,15 @@ export function LoginForm({
                 onChange={(e) => onPasswordChange(e.target.value)}
                 disabled={disabled}
                 required
-                className="h-14 bg-muted/5 border-border/40 rounded-2xl px-5 pr-14 text-base focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-muted-foreground/40"
+                className="h-11 bg-muted/5 border-border/40 rounded-xl px-4 pr-12 text-sm focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-brand-dark/80"
               />
               <div className="absolute right-2 top-1/2 -translate-y-1/2">
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="p-2 rounded-xl text-muted-foreground/40 hover:text-foreground hover:bg-muted/50 transition-all active:scale-90"
+                  className="p-1.5 rounded-lg text-brand-dark/40 hover:text-brand-dark hover:bg-muted/50 transition-all active:scale-90"
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
@@ -117,22 +117,22 @@ export function LoginForm({
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-destructive/5 border border-destructive/10 rounded-2xl p-4"
+            className="bg-destructive/5 border border-destructive/10 rounded-xl p-3"
           >
-            <p className="text-xs text-destructive font-bold text-center">
+            <p className="text-[11px] text-destructive font-bold text-center">
               {error}
             </p>
           </motion.div>
         )}
 
-        <motion.div variants={formItemVariants} className="pt-2">
+        <motion.div variants={formItemVariants} className="pt-1">
           <Button
             variant="brand-red"
-            className="w-full h-14 rounded-md text-base font-semibold shadow-xl shadow-redmix/10 transition-all hover:shadow-redmix/20 active:scale-[0.98] bg-redmix hover:bg-redmix-light"
+            className="w-full h-12 cursor-pointer rounded-xl text-sm font-semibold shadow-lg shadow-redmix/10 transition-all hover:translate-y-[-1px] active:translate-y-[0px] active:scale-[0.98] bg-redmix hover:bg-redmix-light group"
             type="submit"
             disabled={disabled}
           >
-            {disabled ? "Creating Session..." : "Sign in to Ezee Flights"}
+            {disabled ? "Signing in..." : "Sign in to Ezee Flights"}
           </Button>
         </motion.div>
       </form>

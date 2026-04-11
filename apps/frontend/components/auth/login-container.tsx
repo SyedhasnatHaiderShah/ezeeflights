@@ -64,12 +64,12 @@ export function LoginContainer() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-stretch">
+    <div className="flex flex-col md:flex-row items-stretch min-h-screen">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-full md:w-1/2 lg:w-[45%] p-5 space-y-5 flex flex-col justify-center"
+        className="w-full md:w-1/2 lg:w-[45%] p-4 sm:p-12 space-y-5 flex flex-col justify-center"
       >
         <div className="w-full max-w-md mx-auto space-y-5">
           <motion.div variants={itemVariants}>
@@ -87,26 +87,26 @@ export function LoginContainer() {
           <motion.div variants={itemVariants} className="space-y-5">
             <OAuthButtons />
 
-            <p className="text-xs text-center font-medium text-muted-foreground/60 leading-relaxed px-4">
+            <p className="text-xs text-center text-brand-dark/80 leading-relaxed px-4">
               By continuing, you agree to our{" "}
               <Link
                 href={"/terms" as any}
-                className="text-primary hover:underline font-semibold"
+                className="text-brand-blue hover:underline font-semibold"
               >
                 Terms of Use
               </Link>{" "}
               and{" "}
               <Link
                 href={"/privacy" as any}
-                className="text-primary hover:underline font-semibold"
+                className="text-brand-blue hover:underline font-semibold"
               >
                 Privacy Policy
               </Link>
               .
             </p>
 
-            <div className="pt-5 text-center border-t border-border/50">
-              <p className="text-xs text-muted-foreground font-medium">
+            <div className="pt-5 md:pt-10 text-center border-t border-border/50">
+              <p className="text-xs text-brand-dark/80 font-medium">
                 New to Ezee Flights?{" "}
                 <Link
                   href={"/auth/signup" as any}

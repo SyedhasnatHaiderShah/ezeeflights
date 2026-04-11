@@ -1,10 +1,10 @@
 "use client";
 
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
 export interface RegisterFormProps {
@@ -43,25 +43,27 @@ export function RegisterForm({
   disabled,
   error,
 }: RegisterFormProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <div className="w-full space-y-5">
+    <div className="w-full space-y-4">
       <motion.div variants={formItemVariants} className="space-y-2">
-        <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+        <h1 className="text-xl lg:text-2xl font-bold tracking-tight text-brand-dark">
           Join Ezee Flights
         </h1>
-        <p className="text-sm text-muted-foreground/80 font-medium italic">
+        <p className="text-xs text-brand-dark-light font-medium">
           Experience the modern way to navigate the skies.
         </p>
       </motion.div>
 
-      <form className="space-y-5" onSubmit={onSubmit}>
-        <div className="space-y-5">
+      <form className="space-y-4" onSubmit={onSubmit}>
+        <div className="space-y-3">
           <motion.div
             variants={formItemVariants}
-            className="grid grid-cols-2 gap-4"
+            className="grid grid-cols-1 md:grid-cols-2 gap-3"
           >
-            <div className="space-y-2.5">
-              <label className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1">
+            <div className="space-y-1">
+              <label className="text-xs font-bold tracking-wider text-brand-dark-light ml-1">
                 First Name
               </label>
               <Input
@@ -69,11 +71,11 @@ export function RegisterForm({
                 value={firstName}
                 onChange={(e) => onFirstNameChange(e.target.value)}
                 disabled={disabled}
-                className="h-14 bg-muted/5 border-border/40 rounded-2xl px-5 text-base focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-muted-foreground/40"
+                className="h-11 bg-muted/5 border-border/40 rounded-xl px-4 text-sm focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-brand-dark/80"
               />
             </div>
-            <div className="space-y-2.5">
-              <label className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1">
+            <div className="space-y-1">
+              <label className="text-xs font-bold tracking-wider text-brand-dark-light ml-1">
                 Last Name
               </label>
               <Input
@@ -81,13 +83,13 @@ export function RegisterForm({
                 value={lastName}
                 onChange={(e) => onLastNameChange(e.target.value)}
                 disabled={disabled}
-                className="h-14 bg-muted/5 border-border/40 rounded-2xl px-5 text-base focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-muted-foreground/40"
+                className="h-11 bg-muted/5 border-border/40 rounded-xl px-4 text-sm focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-brand-dark/80"
               />
             </div>
           </motion.div>
 
-          <motion.div variants={formItemVariants} className="space-y-2.5">
-            <label className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1">
+          <motion.div variants={formItemVariants} className="space-y-1">
+            <label className="text-xs font-bold tracking-wider text-brand-dark-light ml-1">
               Email Address
             </label>
             <Input
@@ -98,24 +100,35 @@ export function RegisterForm({
               onChange={(e) => onEmailChange(e.target.value)}
               disabled={disabled}
               required
-              className="h-14 bg-muted/5 border-border/40 rounded-2xl px-5 text-base focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-muted-foreground/40"
+              className="h-11 bg-muted/5 border-border/40 rounded-xl px-4 text-sm focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-brand-dark/80"
             />
           </motion.div>
 
-          <motion.div variants={formItemVariants} className="space-y-2.5">
-            <label className="text-xs font-semibold  tracking-widest text-foreground/70 ml-1">
+          <motion.div variants={formItemVariants} className="space-y-1">
+            <label className="text-xs font-bold tracking-wider text-brand-dark-light ml-1">
               Create Password
             </label>
-            <Input
-              placeholder="••••••••"
-              type="password"
-              autoComplete="new-password"
-              value={password}
-              onChange={(e) => onPasswordChange(e.target.value)}
-              disabled={disabled}
-              required
-              className="h-14 bg-muted/5 border-border/40 rounded-2xl px-5 text-base focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-muted-foreground/40"
-            />
+            <div className="relative group">
+              <Input
+                placeholder="••••••••"
+                type={showPassword ? "text" : "password"}
+                autoComplete="new-password"
+                value={password}
+                onChange={(e) => onPasswordChange(e.target.value)}
+                disabled={disabled}
+                required
+                className="h-11 bg-muted/5 border-border/40 rounded-xl px-4 pr-12 text-sm focus-visible:ring-redmix/10 focus-visible:border-redmix/30 transition-colors font-medium placeholder:text-brand-dark/80"
+              />
+              <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="p-1.5 rounded-lg text-brand-dark/40 hover:text-brand-dark hover:bg-muted/50 transition-all active:scale-90"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
           </motion.div>
         </div>
 
@@ -123,23 +136,23 @@ export function RegisterForm({
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-destructive/5 border border-destructive/10 rounded-2xl p-4"
+            className="bg-destructive/5 border border-destructive/10 rounded-xl p-3"
           >
-            <p className="text-xs text-destructive font-bold text-center">
+            <p className="text-[11px] text-destructive font-bold text-center">
               {error}
             </p>
           </motion.div>
         )}
 
-        <motion.div variants={formItemVariants} className="pt-2">
+        <motion.div variants={formItemVariants} className="pt-1">
           <Button
             variant="brand-red"
-            className="w-full h-14 cursor-pointer rounded-md text-base font-semibold shadow-xl shadow-redmix/10 transition-all hover:shadow-redmix/20 active:scale-[0.98] bg-redmix hover:bg-redmix-light group"
+            className="w-full h-12 cursor-pointer rounded-xl text-sm font-semibold shadow-lg shadow-redmix/10 transition-all hover:translate-y-[-1px] active:translate-y-[0px] active:scale-[0.98] bg-redmix hover:bg-redmix-light group"
             type="submit"
             disabled={disabled}
           >
-            {disabled ? "Starting Journey..." : "Begin Your Journey"}
-            <ChevronRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+            {disabled ? "Joining..." : "Begin Your Journey"}
+            <ChevronRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-0.5" />
           </Button>
         </motion.div>
       </form>
