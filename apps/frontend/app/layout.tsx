@@ -102,6 +102,7 @@ export default function RootLayout({
           inter.variable,
           notoTabs.variable,
         )}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"

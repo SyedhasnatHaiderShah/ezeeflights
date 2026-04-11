@@ -2,7 +2,6 @@ import { ResultSearchHeader } from "./ResultSearchHeader";
 import { Suspense } from "react";
 import { Filter, Sparkles } from "lucide-react";
 import * as motion from "framer-motion/client";
-import { MOCK_FLIGHTS } from "@/lib/mock/mock-flights";
 import { Header } from "@/components/sections/Header";
 import { FlightResultContent } from "./FlightResultContent";
 import {
@@ -18,6 +17,8 @@ import { AirlinesFilter } from "./AirlinesFilter";
 import { LocationFilters } from "./LocationFilters";
 import { DurationFilter } from "./DurationFilter";
 import { AccordionFilters } from "./AccordionFilters";
+import flightData from "@/flight-data.json";
+import { FlightSearchResponse } from "@/lib/types/flight-api";
 
 interface SearchProps {
   searchParams: Promise<Record<string, string | undefined>>;
@@ -27,11 +28,17 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
   // Await the searchParams to resolve context access warnings in Next 15+
   const unwrappedParams = await searchParams;
 
-  const origin = unwrappedParams.org ?? "LHE";
-  const destination = unwrappedParams.des ?? "AUH";
+  // Use data from flight-data.json as the primary source as requested
+  const typedFlightData = flightData as unknown as FlightSearchResponse;
+  const { flightsSearchRQ, flightsList } = typedFlightData;
+
+  const origin = flightsSearchRQ.from || unwrappedParams.org || "LHE";
+  const destination = flightsSearchRQ.to || unwrappedParams.des || "DXB";
   const departureDate =
-    unwrappedParams.dDate ?? new Date().toISOString().slice(0, 10);
-  const adt = unwrappedParams.adt ?? "1";
+    flightsSearchRQ.depDate ||
+    unwrappedParams.dDate ||
+    new Date().toISOString().slice(0, 10);
+  const adt = flightsSearchRQ.adult.toString() || unwrappedParams.adt || "1";
 
   const query = new URLSearchParams({
     origin,
@@ -40,21 +47,6 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
     page: unwrappedParams.page ?? "1",
     limit: unwrappedParams.limit ?? "20",
   });
-
-  const base = process.env.INTERNAL_API_BASE_URL ?? "http://localhost:4000";
-  let apiFlights = [];
-  try {
-    const response = await fetch(
-      `${base}/v1/flights/search?${query.toString()}`,
-      { cache: "no-store" },
-    );
-    apiFlights = response.ok ? await response.json() : [];
-  } catch (e) {
-    console.error("API Fetch Error:", e);
-  }
-
-  // Combine API results with mock data for aesthetic demo
-  const flights = apiFlights.length > 0 ? apiFlights : MOCK_FLIGHTS;
 
   const searchHeaderBlock = (
     <Suspense
@@ -102,48 +94,47 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-md transition-all group border-l-[6px] border-l-[#007aff]"
+              className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-md transition-all group"
             >
               <div className="p-4 md:p-6 flex-grow flex items-center gap-6">
-                <div className="flex-shrink-0 w-24 h-8 relative">
+                <div className="flex-shrink-0 w-20 h-6 relative opacity-80 group-hover:opacity-100 transition-opacity">
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Priceline.com_logo.svg/1200px-Priceline.com_logo.svg.png"
                     alt="Priceline"
-                    className="object-contain filter dark:brightness-0 dark:invert w-24 h-auto"
+                    className="object-contain filter dark:brightness-0 dark:invert"
                   />
                 </div>
                 <div className="flex flex-col">
-                  <h3 className="text-lg font-extrabold text-foreground group-hover:text-redmix transition-colors">
-                    Land a great deal for less. Book your flight with
-                    confidence.
+                  <h3 className="text-base font-black text-brand-dark group-hover:text-brand-dark transition-colors tracking-tight">
+                    Land a great deal for less.
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-muted-foreground font-medium mt-1">
-                    Fly more, spend less. Book now, travel anytime.
+                  <p className="text-sm text-brand-dark-light/80 font-bold mt-0.5">
+                    Sponsored • Book your flight with confidence
                   </p>
                 </div>
               </div>
-              <div className="flex-none p-4 md:p-6 bg-gray-50 dark:bg-muted/5 flex items-center justify-center border-t md:border-t-0 md:border-l border-gray-100 dark:border-border/50">
-                <span className="text-[10px] font-black text-gray-300 dark:text-muted-foreground/30 uppercase tracking-widest">
-                  Sponsored
-                </span>
+              <div className="flex-none w-52 p-5 flex items-center justify-center">
+                <button className="mt-4 w-full bg-redmix dark:bg-brand-yellow hover:bg-brand-dark/90 text-white dark:text-white dark:border-redmix border-2 font-bold py-2.5 rounded-md cursor-pointer shadow-sm hover:shadow-md transition-all text-xs">
+                  Book Now
+                </button>
               </div>
             </motion.div>
 
             {/* Dynamic Results Content with Sorting Tabs */}
-            <FlightResultContent initialFlights={flights} />
+            <FlightResultContent initialFlights={flightsList} />
 
             {/* AI Travel Intelligence Section */}
             <div className="pt-12 border-t border-gray-200 dark:border-border mt-12 pb-20">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="p-2 rounded-xl bg-brand-red/10">
-                  <Sparkles className="h-6 w-6 text-brand-red" />
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-2.5 rounded-xl bg-brand-dark text-white shadow-lg shadow-brand-dark/10">
+                  <Sparkles className="h-5 w-5 fill-white" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-foreground">
+                  <h2 className="text-2xl font-black text-brand-dark tracking-tight">
                     Aero Intelligence
                   </h2>
-                  <p className="text-sm text-muted-foreground">
-                    AI-powered travel insights for your destination
+                  <p className="text-xs font-bold text-brand-dark-light/40 uppercase tracking-widest mt-1">
+                    AI-powered travel insights for tactical discovery
                   </p>
                 </div>
               </div>

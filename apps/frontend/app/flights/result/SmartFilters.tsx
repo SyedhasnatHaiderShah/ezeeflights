@@ -13,21 +13,21 @@ export function SmartFilters() {
       <div className="p-3 space-y-3">
         {/* Smart Filters AI Section */}
         <div className="space-y-2.5">
-          <div className="flex items-center justify-center p-1 rounded-lg bg-redmix/5">
-            <div className="flex items-center gap-1.5 text-redmix">
-              <Sparkles className="w-3.5 h-3.5 fill-redmix" />
-              <span className="text-[11px] font-bold tracking-tight uppercase">
-                Smart Filters
+          <div className="flex items-center justify-center p-1 rounded-lg bg-brand-dark/[0.03]">
+            <div className="flex items-center gap-1.5 text-brand-dark">
+              <Sparkles className="w-3 h-3 fill-brand-dark" />
+              <span className="text-[10px] font-black tracking-widest uppercase">
+                Aero Insights
               </span>
             </div>
           </div>
 
-          <div className="rounded-xl cursor-not-allowed transition-all opacity-90">
-            <div className="flex items-start gap-1.5 mb-2 pl-1">
-              <Info className="w-3 h-3 text-brand-red/60 mt-0.5" />
-              <p className="text-[10px] leading-relaxed text-muted-foreground font-medium">
-                AI-powered; AI can make mistakes.{" "}
-                <button className="text-brand-red hover:underline decoration-brand-red/30 underline-offset-2">
+          <div className="rounded-xl transition-all">
+            <div className="flex items-start gap-1.5 mb-2 pl-0.5">
+              <Info className="w-3 h-3 text-brand-dark/30 mt-0.5" />
+              <p className="text-[9px] leading-relaxed text-brand-dark-light/40 font-bold uppercase tracking-tight">
+                AI powered search.{" "}
+                <button className="text-brand-dark hover:underline underline-offset-2">
                   Learn more
                 </button>
               </p>
@@ -38,23 +38,20 @@ export function SmartFilters() {
                 value={aiQuery}
                 onChange={(e) => setAiQuery(e.target.value)}
                 placeholder="I want to see flights with no layover under $300."
-                className="w-full min-h-[70px] p-2.5 text-[11px] bg-background/30 border border-border/60 rounded-lg outline-none focus:border-brand-red/30 focus:ring-2 focus:ring-brand-red/5 transition-all placeholder:text-muted-foreground/50 resize-none font-medium leading-relaxed"
+                className="w-full min-h-[60px] p-2.5 text-xs bg-background/30 border border-border/60 rounded-lg outline-none focus:border-brand-dark/30 focus:ring-4 focus:ring-brand-dark/5 transition-all placeholder:text-brand-dark-light/20 font-medium leading-relaxed resize-none"
               />
-              {/* Aesthetic glow when focused */}
-              <div className="absolute -inset-1 bg-brand-red/5 rounded-xl blur-md opacity-0 group-focus-within/input:opacity-100 transition-opacity -z-10" />
             </div>
           </div>
           <button
             className={cn(
-              "rounded-lg w-full flex items-center cursor-pointer justify-center h-9 gap-2 text-[11px] font-bold transition-all shadow-sm",
+              "rounded-lg w-full flex items-center cursor-pointer justify-center h-8 gap-2 text-[10px] font-black uppercase tracking-widest transition-all shadow-sm",
               aiQuery.trim()
-                ? "bg-redmix text-white hover:bg-redmix/90 active:scale-95"
-                : "bg-muted text-muted-foreground opacity-50 cursor-not-allowed",
+                ? "bg-brand-dark text-white hover:bg-brand-dark/90 active:scale-95"
+                : "bg-muted text-brand-dark-light/20 cursor-not-allowed",
             )}
             disabled={!aiQuery.trim()}
           >
             ASK AI SEARCH
-            <Sparkles className="w-3 h-3" />
           </button>
         </div>
       </div>

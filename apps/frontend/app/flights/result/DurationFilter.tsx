@@ -8,21 +8,21 @@ import { Clock, Hourglass } from "lucide-react";
 export function DurationFilter() {
   return (
     <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
-      <div className="p-3 bg-muted/5 border-b border-border/50 flex items-center gap-2">
-        <Clock className="w-3.5 h-3.5 text-foreground" />
-        <h3 className="text-[11px] font-black text-foreground uppercase tracking-widest">
+      <div className="p-3 bg-brand-dark/[0.02] border-b border-border/50 flex items-center gap-2">
+        <Hourglass className="w-3 h-3 text-brand-dark/40" />
+        <h3 className="text-[10px] font-black text-brand-dark uppercase tracking-widest">
           Duration
         </h3>
       </div>
 
       <div className="p-3 space-y-6">
         {/* Flight leg */}
-        <div className="space-y-3">
-          <div className="flex justify-between items-center px-0.5">
-            <Label className="text-[10px] font-black uppercase">
+        <div className="space-y-2">
+          <div className="flex flex-col gap-1 px-0.5">
+            <Label className="text-[9px] font-black text-brand-dark-light/40 uppercase tracking-widest">
               Flight leg
             </Label>
-            <span className="text-[10px] font-bold text-muted-foreground/70">
+            <span className="text-xs font-bold text-brand-dark leading-none">
               3h 20m - 55h 35m
             </span>
           </div>
@@ -30,10 +30,10 @@ export function DurationFilter() {
         </div>
 
         {/* Layover */}
-        <div className="space-y-3">
-          <div className="flex justify-between items-center px-0.5">
-            <Label className="text-[10px] font-black uppercase">Layover</Label>
-            <span className="text-[10px] font-bold text-muted-foreground/70">
+        <div className="space-y-2">
+          <div className="flex flex-col gap-1 px-0.5">
+            <Label className="text-[9px] font-black text-brand-dark-light/40 uppercase tracking-widest">Layover</Label>
+            <span className="text-xs font-bold text-brand-dark leading-none">
               1h 10m - 47h 40m
             </span>
           </div>

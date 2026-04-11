@@ -31,38 +31,40 @@ export function AirlinesFilter() {
 
   return (
     <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
-      <div className="p-3 bg-muted/5 border-b border-border/50 flex items-center justify-between">
+      <div className="p-3 bg-brand-dark/[0.02] border-b border-border/50 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Plane className="w-3.5 h-3.5 text-foreground" />
-          <h3 className="text-[11px] font-black text-foreground uppercase tracking-widest">Airlines</h3>
+          <Plane className="w-3 h-3 text-brand-dark/40" />
+          <h3 className="text-[10px] font-black text-brand-dark uppercase tracking-widest">Airlines</h3>
         </div>
       </div>
 
       <div className="p-3 space-y-3">
-        <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 border-b border-border/40 pb-2 mb-0.5">
-          <button onClick={() => toggleAll(true)} className="hover:text-brand-red transition-colors">Select all</button>
-          <span className="text-border">|</span>
-          <button onClick={() => toggleAll(false)} className="hover:text-brand-red transition-colors">Clear all</button>
+        <div className="flex items-center justify-between text-[9px] font-black uppercase tracking-widest text-brand-dark-light/30 border-b border-border/40 pb-2 mb-0.5">
+          <div className="flex gap-2">
+            <button onClick={() => toggleAll(true)} className="hover:text-brand-dark transition-colors">Select all</button>
+            <span className="text-border">|</span>
+            <button onClick={() => toggleAll(false)} className="hover:text-brand-dark transition-colors">Clear all</button>
+          </div>
         </div>
 
-        <div className="space-y-2 px-0.5">
+        <div className="space-y-2.5 px-0.5">
           {AIRLINES.map((airline) => (
             <div key={airline.id} className="flex items-center justify-between group cursor-pointer" onClick={() => toggleOne(airline.id)}>
               <div className="flex items-center gap-2.5">
                 <Checkbox 
                   id={airline.id} 
                   checked={selected.includes(airline.id)}
-                  className="w-3.5 h-3.5 data-[state=checked]:bg-brand-red data-[state=checked]:border-brand-red transition-colors"
+                  className="w-3.5 h-3.5 data-[state=checked]:bg-brand-dark data-[state=checked]:border-brand-dark transition-colors"
                 />
                 <Label 
                   htmlFor={airline.id} 
-                  className="text-[11px] font-bold text-foreground/80 group-hover:text-foreground transition-colors cursor-pointer"
+                  className="text-xs font-bold text-brand-dark-light/60 group-hover:text-brand-dark transition-colors cursor-pointer"
                 >
                   {airline.name}
                 </Label>
               </div>
               {airline.price && (
-                <span className="text-[9px] font-black text-muted-foreground/50">
+                <span className="text-[9px] font-black text-brand-dark-light/30">
                   {airline.price}
                 </span>
               )}
