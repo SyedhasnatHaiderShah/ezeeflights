@@ -16,16 +16,18 @@ const AIRLINES = [
 ];
 
 export function AirlinesFilter() {
-  const [selected, setSelected] = React.useState<string[]>(AIRLINES.map(a => a.id));
+  const [selected, setSelected] = React.useState<string[]>(
+    AIRLINES.map((a) => a.id),
+  );
 
   const toggleAll = (select: boolean) => {
-    if (select) setSelected(AIRLINES.map(a => a.id));
+    if (select) setSelected(AIRLINES.map((a) => a.id));
     else setSelected([]);
   };
 
   const toggleOne = (id: string) => {
-    setSelected(prev => 
-      prev.includes(id) ? prev.filter(a => a !== id) : [...prev, id]
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id],
     );
   };
 
@@ -34,37 +36,51 @@ export function AirlinesFilter() {
       <div className="p-3 bg-brand-dark/[0.02] border-b border-border/50 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Plane className="w-3 h-3 text-brand-dark/40" />
-          <h3 className="text-[10px] font-black text-brand-dark uppercase tracking-widest">Airlines</h3>
+          <h3 className="text-xs font-bold text-brand-dark ">Airlines</h3>
         </div>
       </div>
 
       <div className="p-3 space-y-3">
-        <div className="flex items-center justify-between text-[9px] font-black uppercase tracking-widest text-brand-dark-light/30 border-b border-border/40 pb-2 mb-0.5">
+        <div className="flex items-center justify-between text-xs font-bold  text-brand-dark-light/80 border-b border-border/40 pb-2 mb-0.5">
           <div className="flex gap-2">
-            <button onClick={() => toggleAll(true)} className="hover:text-brand-dark transition-colors">Select all</button>
+            <button
+              onClick={() => toggleAll(true)}
+              className="hover:text-brand-dark transition-colors"
+            >
+              Select all
+            </button>
             <span className="text-border">|</span>
-            <button onClick={() => toggleAll(false)} className="hover:text-brand-dark transition-colors">Clear all</button>
+            <button
+              onClick={() => toggleAll(false)}
+              className="hover:text-brand-dark transition-colors"
+            >
+              Clear all
+            </button>
           </div>
         </div>
 
         <div className="space-y-2.5 px-0.5">
           {AIRLINES.map((airline) => (
-            <div key={airline.id} className="flex items-center justify-between group cursor-pointer" onClick={() => toggleOne(airline.id)}>
+            <div
+              key={airline.id}
+              className="flex items-center justify-between group cursor-pointer"
+              onClick={() => toggleOne(airline.id)}
+            >
               <div className="flex items-center gap-2.5">
-                <Checkbox 
-                  id={airline.id} 
+                <Checkbox
+                  id={airline.id}
                   checked={selected.includes(airline.id)}
                   className="w-3.5 h-3.5 data-[state=checked]:bg-brand-dark data-[state=checked]:border-brand-dark transition-colors"
                 />
-                <Label 
-                  htmlFor={airline.id} 
-                  className="text-xs font-bold text-brand-dark-light/60 group-hover:text-brand-dark transition-colors cursor-pointer"
+                <Label
+                  htmlFor={airline.id}
+                  className="text-xs font-semibold text-brand-dark-light/80 group-hover:text-brand-dark transition-colors cursor-pointer"
                 >
                   {airline.name}
                 </Label>
               </div>
               {airline.price && (
-                <span className="text-[9px] font-black text-brand-dark-light/30">
+                <span className="text-xs font-bold text-brand-dark-light/70">
                   {airline.price}
                 </span>
               )}

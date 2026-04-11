@@ -9,17 +9,15 @@ export function DurationFilter() {
   return (
     <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
       <div className="p-3 bg-brand-dark/[0.02] border-b border-border/50 flex items-center gap-2">
-        <Hourglass className="w-3 h-3 text-brand-dark/40" />
-        <h3 className="text-[10px] font-black text-brand-dark uppercase tracking-widest">
-          Duration
-        </h3>
+        <Hourglass className="w-3 h-3 text-brand-dark/80" />
+        <h3 className="text-xs font-bold text-brand-dark ">Duration</h3>
       </div>
 
       <div className="p-3 space-y-6">
         {/* Flight leg */}
         <div className="space-y-2">
           <div className="flex flex-col gap-1 px-0.5">
-            <Label className="text-[9px] font-black text-brand-dark-light/40 uppercase tracking-widest">
+            <Label className="text-xs font-bold text-brand-dark-light/80 ">
               Flight leg
             </Label>
             <span className="text-xs font-bold text-brand-dark leading-none">
@@ -32,7 +30,9 @@ export function DurationFilter() {
         {/* Layover */}
         <div className="space-y-2">
           <div className="flex flex-col gap-1 px-0.5">
-            <Label className="text-[9px] font-black text-brand-dark-light/40 uppercase tracking-widest">Layover</Label>
+            <Label className="text-xs font-bold text-brand-dark-light/80 ">
+              Layover
+            </Label>
             <span className="text-xs font-bold text-brand-dark leading-none">
               1h 10m - 47h 40m
             </span>

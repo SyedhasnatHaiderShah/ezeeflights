@@ -44,8 +44,8 @@ export function SmartFilters() {
             className={cn(
               "rounded-md py-2 w-full flex items-center cursor-pointer justify-center h-8 gap-2 text-xs font-bold transition-all shadow-sm",
               aiQuery.trim()
-                ? "bg-brand-dark text-white hover:bg-brand-dark/90"
-                : "bg-muted text-redmix cursor-not-allowed",
+                ? "bg-white text-ezee-red hover:bg-brand-dark/90"
+                : "bg-white text-redmix cursor-not-allowed",
             )}
             disabled={!aiQuery.trim()}
           >
