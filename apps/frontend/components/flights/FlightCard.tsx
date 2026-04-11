@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import {
   Heart,
   Share2,
@@ -78,13 +77,13 @@ function FlightLeg({
             />
           </div>
           <div className="flex flex-col min-w-0">
-            <span className="text-sm md:text-base font-bold text-brand-dark leading-tight">
-              {departureDate.toLocaleTimeString([], {
+            <span suppressHydrationWarning className="text-sm md:text-base font-bold text-brand-dark leading-tight">
+              {departureDate.toLocaleTimeString("en-US", {
                 hour: "numeric",
                 minute: "2-digit",
               })}{" "}
               –{" "}
-              {arrivalDate.toLocaleTimeString([], {
+              {arrivalDate.toLocaleTimeString("en-US", {
                 hour: "numeric",
                 minute: "2-digit",
               })}
@@ -142,11 +141,8 @@ export function FlightCard({ flight }: Props) {
   const currencySymbol = currencyMap[flight.currency] || flight.currency;
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -2, transition: { duration: 0.2 } }}
-      className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row relative group"
+    <article
+      className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-[2px] transition-all duration-200 flex flex-col md:flex-row relative group"
     >
       <div className="flex-grow p-4 md:p-5 flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-brand-dark-light mb-0.5">
@@ -200,6 +196,6 @@ export function FlightCard({ flight }: Props) {
           View Deal
         </Button>
       </div>
-    </motion.article>
+    </article>
   );
 }

@@ -239,15 +239,22 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
 }
 
 @layer base {
+  /* In @layer base, replace the html rule */
   html {
     scroll-behavior: smooth;
+    color-scheme: light;
+    transition:
+      background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
   * {
     @apply border-border;
-    transition-property:
-      background-color, border-color, color, fill, stroke, box-shadow, opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
+    /* Remove universal transition from here as it causes performance issues */
     /* Hide scrollbar for Chrome, Safari and Opera */
     &::-webkit-scrollbar {
       display: none;
@@ -258,6 +265,22 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   }
   body {
     @apply bg-background text-foreground font-sans;
+    /* Smooth theme transition for background and text */
+    transition:
+      background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    &,
+    * {
+      /* Apply a smoother transition specifically for color-related properties on all elements */
+      /* but avoid transitioning layout properties by default */
+      transition-property:
+        background-color, border-color, color, fill, stroke, box-shadow, opacity;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 300ms;
+    }
+
     /* Hide scrollbar for Chrome, Safari and Opera */
     &::-webkit-scrollbar {
       display: none;
