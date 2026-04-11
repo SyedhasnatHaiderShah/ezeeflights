@@ -29,6 +29,16 @@ export function PassengerSelector({
   className,
 }: PassengerSelectorProps) {
   const [open, setOpen] = React.useState(false);
+  const timeoutRef = React.useRef<NodeJS.Timeout>();
+
+  // Cleanup timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
   const total =
     passengers.adults + (passengers.children || 0) + (passengers.infants || 0);
 
@@ -43,13 +53,23 @@ export function PassengerSelector({
       <Popover.Trigger asChild>
         <button
           className={cn(
-            "flex items-center justify-between px-4 transition-colors group border-r border-border last:border-r-0 relative overflow-hidden h-full",
+            "flex items-center justify-between px-3 bg-transparent hover:bg-brand-red/5 transition-colors group relative overflow-hidden h-full w-full",
+            open && "bg-brand-red/5 z-10",
             className,
           )}
           aria-haspopup="dialog"
+          onMouseEnter={() => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            setOpen(true);
+          }}
+          onMouseLeave={() => {
+            timeoutRef.current = setTimeout(() => {
+              setOpen(false);
+            }, 150);
+          }}
         >
           <div className="flex items-center gap-2 overflow-hidden relative z-10">
-            <Users className="w-4 h-4 text-foreground/60 group-hover:text-brand-red transition-colors shrink-0" />
+
             <div className="flex flex-col items-start min-w-0">
               <span className="text-xs font-medium text-brand-red capitalize leading-none mb-0.5 whitespace-nowrap">
                 Passengers
@@ -79,6 +99,14 @@ export function PassengerSelector({
           className="bg-background rounded-sm shadow-2xl border border-border p-3 w-64 z-50 animate-in fade-in zoom-in-95 duration-200 focus:outline-none"
           sideOffset={8}
           align="start"
+          onMouseEnter={() => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          }}
+          onMouseLeave={() => {
+            timeoutRef.current = setTimeout(() => {
+              setOpen(false);
+            }, 150);
+          }}
         >
           {/* Passenger counters */}
           {(["adults", "children", "infants"] as const).map((key) => {
@@ -113,7 +141,7 @@ export function PassengerSelector({
                 className="flex items-center justify-between py-1.5"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-brand-red/15 text-brand-red shrink-0">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-full bg-brand-dark text-white dark:text-redmix shrink-0">
                     <Icon className="w-[18px] h-[18px]" />
                   </div>
                   <div>

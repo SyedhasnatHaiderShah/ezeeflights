@@ -21,7 +21,7 @@ export function Hero({
     <section className="relative w-full pt-20 pb-5 overflow-hidden lg:min-h-[70dvh] h-auto bg-muted/10 dark:bg-background transition-colors duration-300">
       <div className="max-w-[1400px] mx-auto px-5 w-full flex items-center gap-5">
         {/* Left Side: Content & Search (3/4 width) */}
-        <div className="flex flex-col space-y-5 py-12 lg:w-[70%] w-full">
+        <div className="flex flex-col space-y-5 py-12 xl:w-[70%] w-full">
           <div className="flex flex-col space-y-4">
             <h1 className="text-2xl lg:text-4xl font-bold tracking-tight text-foreground break-words">
               {title}
@@ -34,8 +34,8 @@ export function Hero({
             <BookingForm />
           </div>
         </div>
-
-        <div className="hidden lg:flex gap-2 h-[500px] py-12 -mr-32 relative lg:w-[30%]">
+        {/* right side */}
+        <div className="hidden lg:flex gap-2 h-[500px] py-12 -mr-32 relative xl:w-[30%]">
           <div className="flex-1 flex flex-col gap-4 animate-in slide-in-from-right-20 duration-1000">
             <div className="flex-[0.6] rounded-2xl overflow-hidden bg-muted relative group">
               <AppImage
@@ -56,8 +56,8 @@ export function Hero({
               />
             </div>
           </div>
-          <div className="flex-1 flex flex-col gap-4 mt-12 animate-in slide-in-from-right-40 duration-1000">
-            <div className="flex-[0.4] rounded-2xl overflow-hidden bg-muted relative group">
+          <div className="flex-1 flex flex-col gap-4 mt-0 animate-in slide-in-from-right-40 duration-1000">
+            <div className="flex-[1] rounded-2xl overflow-hidden bg-muted relative group">
               <AppImage
                 src="https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&q=80"
                 alt="Architecture"
@@ -65,7 +65,7 @@ export function Hero({
                 className="object-cover transition-transform group-hover:scale-110 duration-700"
               />
             </div>
-            <div className="flex-[0.8] rounded-2xl overflow-hidden bg-muted relative group">
+            <div className="flex-[0.6] rounded-2xl overflow-hidden bg-muted relative group">
               <AppImage
                 src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80"
                 alt="Paradise"
@@ -73,7 +73,7 @@ export function Hero({
                 className="object-cover transition-transform group-hover:scale-110 duration-700"
               />
             </div>
-            <div className="flex-[0.3] rounded-2xl overflow-hidden bg-muted relative group">
+            {/* <div className="flex-[0.5] rounded-2xl overflow-hidden bg-muted relative group">
               <AppImage
                 src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80"
                 alt="Luxury Stay"
@@ -81,7 +81,7 @@ export function Hero({
                 priority
                 className="object-cover transition-transform group-hover:scale-110 duration-700"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

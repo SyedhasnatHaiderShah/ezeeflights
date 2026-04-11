@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
-import { MapPin, Plane, Building, X, LucideIcon } from "lucide-react";
+import { MapPin, Plane, Building, X, LucideIcon, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Suggestion {
@@ -121,12 +121,8 @@ export function LocationInput({
     setInputValue(val);
     onChange?.(val);
 
-    // Open dropdown only if there's input value
-    if (val) {
-      setOpen(true);
-    } else {
-      setOpen(false);
-    }
+    // Open dropdown when user types
+    setOpen(true);
   };
 
   return (
@@ -134,22 +130,27 @@ export function LocationInput({
       <Popover.Anchor asChild>
         <div
           className={cn(
-            "relative flex items-center w-full bg-background hover:bg-brand-red/5 transition-all cursor-text px-4 group overflow-hidden h-full",
-            open && "bg-background ring-2 ring-brand-red/20 z-10",
+            "relative flex items-center w-full bg-transparent hover:bg-brand-red/5 transition-colors cursor-text px-3 group overflow-hidden h-full focus-visible:outline-none",
+            open && "bg-brand-red/5 z-10",
             className,
           )}
           onClick={() => {
             // Focus the input when clicking anywhere in the container
             if (inputRef.current) {
               inputRef.current.focus();
-              // Only open if there's already a value or we want to show suggestions
-              if (inputValue) {
-                setOpen(true);
-              }
+              setOpen(true);
             }
           }}
+          onMouseEnter={() => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            setOpen(true);
+          }}
+          onMouseLeave={() => {
+            timeoutRef.current = setTimeout(() => {
+              setOpen(false);
+            }, 150);
+          }}
         >
-          <Icon className="relative z-10 w-4 h-4 text-foreground/60 mr-2 shrink-0 group-hover:text-brand-red transition-colors" />
           <div className="relative z-10 flex flex-col flex-1 min-w-0">
             {inputValue && (
               <span className="text-[10px] font-semibold text-brand-red capitalize leading-none mb-0.5 tracking-tight animate-in slide-in-from-bottom-1 fade-in duration-200">
@@ -163,10 +164,7 @@ export function LocationInput({
               value={inputValue}
               onChange={handleInputChange}
               onFocus={() => {
-                // Only open dropdown on focus if there's a value or we want to show suggestions
-                if (inputValue) {
-                  setOpen(true);
-                }
+                setOpen(true);
               }}
               onBlur={() => {
                 // Use timeout to allow click events on dropdown items to fire first
@@ -205,44 +203,83 @@ export function LocationInput({
             setOpen(false);
           }}
           onEscapeKeyDown={() => setOpen(false)}
+          onMouseEnter={() => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          }}
+          onMouseLeave={() => {
+            timeoutRef.current = setTimeout(() => {
+              setOpen(false);
+            }, 150);
+          }}
         >
           <div className="p-2 bg-muted/30 border-b border-border">
             <span className="text-xs font-medium text-foreground/80 px-1">
-              Recent or Popular
+              {inputValue ? "Search Results" : "Recent or Popular"}
             </span>
           </div>
           <div className="max-h-[320px] overflow-y-auto no-scrollbar">
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => handleSelect(s)}
-                className="flex items-center w-full p-2.5 hover:bg-brand-red/5 transition-colors text-left border-b border-border/40 last:border-0 group/item"
-                type="button"
-                onMouseDown={(e) => {
-                  // Prevent blur from firing before click
-                  e.preventDefault();
-                }}
-              >
-                <div className="w-8 h-8 flex items-center justify-center bg-muted rounded-full mr-3 group-hover/item:bg-brand-red/10 transition-colors">
-                  {s.type === "airport" ? (
-                    <Plane className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" />
-                  ) : (
-                    <Building className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" />
-                  )}
-                </div>
-                <div className="flex flex-col flex-1 min-w-0">
-                  <span className="font-medium text-foreground text-sm truncate">
-                    {s.name}
+            {(() => {
+              const filtered = SUGGESTIONS.filter((s) => {
+                if (!inputValue) return true;
+                const search = inputValue.toLowerCase();
+                return (
+                  s.name.toLowerCase().includes(search) ||
+                  s.code.toLowerCase().includes(search) ||
+                  s.detail.toLowerCase().includes(search)
+                );
+              });
+
+              if (filtered.length === 0) {
+                return (
+                  <div className="p-5 text-center">
+                    <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Search className="w-6 h-6 text-foreground/20" />
+                    </div>
+                    <p className="text-sm font-medium text-foreground/60">
+                      No results found for
+                    </p>
+                    <p className="text-xs font-medium text-foreground/60 truncate">
+                      {inputValue}
+                    </p>
+                    <p className="text-xs text-foreground/40 mt-1">
+                      Try searching for a different city or airport code
+                    </p>
+                  </div>
+                );
+              }
+
+              return filtered.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => handleSelect(s)}
+                  className="flex items-center w-full p-2.5 hover:bg-brand-red/5 transition-colors text-left border-b border-border/40 last:border-0 group/item"
+                  type="button"
+                  onMouseDown={(e) => {
+                    // Prevent blur from firing before click
+                    e.preventDefault();
+                  }}
+                >
+                  {/* <div className="w-8 h-8 flex items-center justify-center bg-muted rounded-full mr-3 group-hover/item:bg-brand-red/10 transition-colors">
+                    {s.type === "airport" ? (
+                      <Plane className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" />
+                    ) : (
+                      <Building className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" />
+                    )}
+                  </div> */}
+                  <div className="flex flex-col flex-1 min-w-0">
+                    <span className="font-medium text-foreground text-sm truncate">
+                      {s.name}
+                    </span>
+                    <span className="text-xs text-foreground/50 truncate font-normal">
+                      {s.detail}
+                    </span>
+                  </div>
+                  <span className="ml-3 font-medium text-[10px] text-foreground/30 capitalize tracking-wider">
+                    {s.code}
                   </span>
-                  <span className="text-xs text-foreground/50 truncate font-normal">
-                    {s.detail}
-                  </span>
-                </div>
-                <span className="ml-3 font-medium text-[10px] text-foreground/30 capitalize tracking-wider">
-                  {s.code}
-                </span>
-              </button>
-            ))}
+                </button>
+              ));
+            })()}
           </div>
         </Popover.Content>
       </Popover.Portal>

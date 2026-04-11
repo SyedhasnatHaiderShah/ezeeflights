@@ -169,13 +169,13 @@ export function BookingSearchForm({
         <TripTypeSelector value={tripType} onChange={setTripType} />
       )}
 
-      <div className="flex flex-col lg:flex-row items-center border border-border rounded-sm overflow-hidden shadow-xl bg-background focus-within:ring-2 focus-within:ring-brand-red/10 transition-all">
+      <div className="flex flex-col md:flex-row items-center border border-border rounded-sm overflow-hidden shadow-xl bg-background focus-within:ring-2 focus-within:ring-brand-red/10 transition-all">
         <div
           className={cn(
-            "w-full flex flex-col lg:flex-row relative border-b lg:border-b-0 lg:border-r border-border h-auto lg:h-16",
+            "w-full flex flex-col sm:flex-row relative border-b md:border-b-0 md:border-r border-border h-auto md:h-16",
             resolvedFlags.showOrigin
-              ? "lg:flex-[2] w-full lg:w-auto min-w-0 lg:min-w-[320px]"
-              : "lg:flex-[1.5] w-full lg:w-auto min-w-0 lg:min-w-[200px]",
+              ? "md:flex-[1] w-full md:w-auto min-w-0 md:min-w-0 lg:min-w-[200px]"
+              : "md:flex-[1] w-full md:w-auto min-w-0 md:min-w-0 lg:min-w-[200px]",
           )}
         >
           {resolvedFlags.showOrigin && (
@@ -187,8 +187,8 @@ export function BookingSearchForm({
                 value={origin}
                 onChange={setOrigin}
                 className={cn(
-                  "w-full lg:flex-1 h-16 border-b lg:border-none border-border",
-                  resolvedFlags.showSwap && "pr-0",
+                  "w-full md:flex-1 h-16 border-b md:border-none border-border",
+                  resolvedFlags.showSwap && "sm:pr-8",
                 )}
               />
 
@@ -196,14 +196,14 @@ export function BookingSearchForm({
                 <button
                   type="button"
                   onClick={handleSwap}
-                  className="absolute right-4 lg:right-auto lg:left-1/2 top-1/2 -translate-y-1/2 translate-x-0 lg:-translate-x-1/2 z-20 w-9 h-9 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:border-brand-red hover:text-brand-red transition-all active:rotate-180 duration-500 group/swap"
+                  className="absolute sm:left-1/2 top-1/2 -translate-y-1/2 translate-x-0 sm:-translate-x-1/2 z-20 w-9 h-9 rounded-full bg-background border border-border shadow-md flex items-center justify-center hover:border-brand-red hover:text-brand-red transition-all active:rotate-180 duration-500 group/swap"
                   aria-label="Swap origin and destination"
                 >
-                  <ArrowRightLeft className="w-4 h-4 rotate-90 lg:rotate-0 group-hover/swap:text-brand-red transition-transform" />
+                  <ArrowRightLeft className="w-4 h-4 rotate-90 sm:rotate-0 group-hover/swap:text-brand-red transition-transform" />
                 </button>
               )}
 
-              <div className="w-[1px] h-6 bg-border self-center hidden lg:block z-10" />
+              {/* <div className="w-[1px] h-6 bg-brand-red self-center hidden md:block z-10" /> */}
             </>
           )}
 
@@ -216,13 +216,13 @@ export function BookingSearchForm({
             value={destination}
             onChange={setDestination}
             className={cn(
-              "w-full lg:flex-1 h-16",
-              resolvedFlags.showSwap && "lg:pl-0",
+              "w-full md:flex-1 h-16",
+              resolvedFlags.showSwap && "sm:pl-8",
             )}
           />
         </div>
 
-        <div className="lg:flex w-full flex flex-col lg:flex-row border-b lg:border-b-0 lg:border-r border-border bg-background">
+        <div className="md:flex-[1] w-full flex flex-col sm:flex-row border-b md:border-b-0 md:border-r border-border bg-background">
           <DatePicker
             date={departDate}
             setDate={(date) => {
@@ -233,7 +233,7 @@ export function BookingSearchForm({
             }}
             label={resolvedLabels.depart}
             numberOfMonths={1}
-            className="h-16 w-full lg:flex-1 border-b lg:border-none border-border bg-transparent rounded-none hover:bg-muted/50 px-3 transition-all"
+            className="h-16 w-full md:flex-1 border-b md:border-none border-border bg-transparent rounded-none transition-all"
             calendarDisabled={{
               before: new Date(new Date().setHours(0, 0, 0, 0)),
             }}
@@ -241,14 +241,14 @@ export function BookingSearchForm({
 
           {resolvedFlags.showReturnDate && resolvedLabels.return && (
             <>
-              <div className="w-[1px] h-8 bg-border self-center hidden lg:block" />
+              <div className="w-[1px] h-8 bg-border self-center hidden md:block" />
               <DatePicker
                 date={returnDate}
                 setDate={setReturnDate}
                 label={resolvedLabels.return}
                 numberOfMonths={2}
                 defaultMonth={departDate}
-                className="h-16 w-full lg:flex-1 border-none bg-transparent rounded-none hover:bg-muted/50 px-3 transition-all"
+                className="h-16 w-full md:flex-1 border-none bg-transparent rounded-none transition-all"
                 disabled={resolvedFlags.showTripType && tripType === "one-way"}
                 calendarDisabled={
                   departDate
@@ -260,7 +260,7 @@ export function BookingSearchForm({
           )}
         </div>
 
-        <div className="lg:w-44 w-full border-b lg:border-b-0 lg:border-r border-border bg-background">
+        <div className="md:w-32 w-full border-b md:border-b-0 md:border-r border-border bg-background">
           <PassengerSelector
             passengers={passengers}
             onChange={handlePassengerChange as any}
@@ -272,10 +272,10 @@ export function BookingSearchForm({
           />
         </div>
 
-        <div className="p-1.5 w-full lg:flex-1 self-stretch flex items-center bg-background h-[72px] lg:h-auto">
+        <div className="p-1.5 w-full md:flex-1 self-stretch flex items-center bg-background h-[72px] md:max-w-40 md:h-auto">
           <Button
             onClick={handleSearch}
-            className="bg-redmix transition-all w-full h-full min-h-[56px] rounded-sm font-semibold text-base capitalize text-white px-8 cursor-pointer hover:shadow-lg hover:shadow-brand-red/20"
+            className="bg-redmix transition-all w-full h-full min-h-[56px] rounded-sm font-semibold text-base capitalize text-white px-4 cursor-pointer hover:shadow-lg hover:shadow-brand-red/20"
           >
             {resolvedLabels.search}
           </Button>
