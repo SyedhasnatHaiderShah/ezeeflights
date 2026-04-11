@@ -63,7 +63,7 @@ export function Footer() {
     <footer className="w-full bg-[#f9fafb] dark:bg-background pt-12 pb-8 px-6 md:px-12 border-t border-border mt-auto font-sans transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10 mb-12">
           {/* Company Column */}
           <div className="space-y-4">
             <h3 className="text-[#0d2353] dark:text-foreground text-lg font-bold font-display">

@@ -90,7 +90,7 @@ const OFFERS: Offer[] = [
 const renderInfoCard = (card: InfoCard) => (
   <div
     key={card.id}
-    className="bg-card/80 backdrop-blur-md border border-border/60 rounded-2xl p-3.5 flex items-center gap-4 shadow-sm group w-full min-h-[80px]"
+    className="bg-card/80 backdrop-blur-md border border-border/60 rounded-2xl p-3.5 flex items-center gap-4 shadow-sm group w-full min-h-[100px]"
   >
     <div className="w-10 h-10 shrink-0 bg-brand-red/10 rounded-xl flex items-center justify-center text-brand-red group-hover:scale-105 transition-transform">
       <card.icon className="w-5 h-5" strokeWidth={2.5} />
@@ -150,7 +150,10 @@ export function SpecialOffers() {
         <div className="md:hidden">
           <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 -mx-4 px-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {INFO_CARDS.map((card) => (
-              <div key={card.id} className="w-[85vw] max-w-[320px] shrink-0 snap-start">
+              <div
+                key={card.id}
+                className="w-[85vw] max-w-[320px] shrink-0 snap-start"
+              >
                 {renderInfoCard(card)}
               </div>
             ))}
@@ -178,7 +181,10 @@ export function SpecialOffers() {
         <div className="lg:hidden">
           <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-6 px-6 pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {OFFERS.map((offer) => (
-              <div key={offer.id} className="w-[82vw] max-w-[340px] shrink-0 snap-start">
+              <div
+                key={offer.id}
+                className="w-[82vw] max-w-[340px] shrink-0 snap-start"
+              >
                 {renderOfferCard(offer)}
               </div>
             ))}

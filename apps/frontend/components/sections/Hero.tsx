@@ -23,7 +23,7 @@ export function Hero({
         {/* Left Side: Content & Search (3/4 width) */}
         <div className="flex flex-col space-y-5 py-12 xl:w-[70%] w-full">
           <div className="flex flex-col space-y-4">
-            <h1 className="text-2xl lg:text-4xl font-bold tracking-tight text-foreground break-words">
+            <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-foreground break-words">
               {title}
             </h1>
             <p className="text-sm lg:text-base text-foreground max-w-2xl">
