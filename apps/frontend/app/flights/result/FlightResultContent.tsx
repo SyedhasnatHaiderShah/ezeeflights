@@ -3,12 +3,14 @@
 import React, { useState, useMemo } from "react";
 import { Info, ChevronRight, Loader2 } from "lucide-react";
 import { FlightCard } from "@/components/flights/FlightCard";
+import { FlightResultSkeleton } from "@/components/flights/FlightCardSkeleton";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { FlightListItem } from "@/lib/types/flight-api";
 
 interface Props {
   initialFlights: FlightListItem[];
+  isLoading?: boolean;
 }
 
 const formatDurationMinutes = (totalMinutes: number) => {
@@ -17,7 +19,7 @@ const formatDurationMinutes = (totalMinutes: number) => {
   return `${h}h ${m}m`;
 };
 
-export function FlightResultContent({ initialFlights }: Props) {
+export function FlightResultContent({ initialFlights, isLoading }: Props) {
   const [activeTab, setActiveTab] = useState("best");
   const [displayedCount, setDisplayedCount] = useState(10);
   const ITEMS_PER_PAGE = 10;
@@ -70,6 +72,10 @@ export function FlightResultContent({ initialFlights }: Props) {
   React.useEffect(() => {
     setDisplayedCount(ITEMS_PER_PAGE);
   }, [activeTab]);
+
+  if (isLoading) {
+    return <FlightResultSkeleton />;
+  }
 
   return (
     <div className="space-y-4">

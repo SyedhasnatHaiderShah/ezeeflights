@@ -4,6 +4,7 @@ import { Filter, Sparkles } from "lucide-react";
 import * as motion from "framer-motion/client";
 import { Header } from "@/components/sections/Header";
 import { FlightResultContent } from "./FlightResultContent";
+import { FlightResultSkeleton } from "@/components/flights/FlightCardSkeleton";
 import {
   GeminiRecommendations,
   GeminiSkeleton,
@@ -24,26 +25,44 @@ interface SearchProps {
   searchParams: Promise<Record<string, string | undefined>>;
 }
 
+// Simulated async fetch function to show off the skeleton
+async function FlightResultsSection({ flightsList }: { flightsList: any[] }) {
+  // Simulate API delay
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+  return <FlightResultContent initialFlights={flightsList} />;
+}
+
 export default async function FlightResultsPage({ searchParams }: SearchProps) {
-  // Await the searchParams to resolve context access warnings in Next 15+
   const unwrappedParams = await searchParams;
+  console.log("📥 FlightResultsPage Received Params:", unwrappedParams);
 
   // Use data from flight-data.json as the primary source as requested
   const typedFlightData = flightData as unknown as FlightSearchResponse;
   const { flightsSearchRQ, flightsList } = typedFlightData;
 
-  const origin = flightsSearchRQ.from || unwrappedParams.org || "LHE";
-  const destination = flightsSearchRQ.to || unwrappedParams.des || "DXB";
+  const origin = unwrappedParams.org || flightsSearchRQ.from || "LHE";
+  const destination = unwrappedParams.des || flightsSearchRQ.to || "DXB";
   const departureDate =
-    flightsSearchRQ.depDate ||
     unwrappedParams.dDate ||
+    flightsSearchRQ.depDate ||
     new Date().toISOString().slice(0, 10);
-  const adt = flightsSearchRQ.adult.toString() || unwrappedParams.adt || "1";
+  const returnDate = unwrappedParams.rDate;
+  const adt = unwrappedParams.adt || flightsSearchRQ.adult.toString() || "1";
+  const chd = unwrappedParams.chd || "0";
+  const inf = unwrappedParams.inf || "0";
+  const cabinClass = unwrappedParams.class || "Economy";
+  const tripType = unwrappedParams.trip || "round-trip";
 
   const query = new URLSearchParams({
     origin,
     destination,
     departureDate,
+    ...(returnDate && { returnDate }),
+    adt,
+    chd,
+    inf,
+    class: cabinClass,
+    trip: tripType,
     page: unwrappedParams.page ?? "1",
     limit: unwrappedParams.limit ?? "20",
   });
@@ -58,7 +77,12 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
         initialOrigin={origin}
         initialDestination={destination}
         initialDDate={departureDate}
+        initialRDate={returnDate}
         initialAdt={parseInt(adt)}
+        initialChd={parseInt(chd)}
+        initialInf={parseInt(inf)}
+        initialClass={cabinClass}
+        initialTripType={tripType}
       />
     </Suspense>
   );
@@ -121,7 +145,9 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
             </motion.div>
 
             {/* Dynamic Results Content with Sorting Tabs */}
-            <FlightResultContent initialFlights={flightsList} />
+            <Suspense fallback={<FlightResultSkeleton />}>
+              <FlightResultsSection flightsList={flightsList} />
+            </Suspense>
 
             {/* AI Travel Intelligence Section */}
             <div className="pt-12 border-t border-gray-200 dark:border-border mt-12 pb-20">

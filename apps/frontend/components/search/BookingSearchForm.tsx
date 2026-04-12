@@ -31,6 +31,8 @@ interface BookingSearchFormProps {
   handlePassengerChange: (key: string, val: number) => void;
   cabinClass: string;
   setCabinClass: (val: string) => void;
+  tripType: string;
+  setTripType: (val: string) => void;
   handleSearch: () => void;
 }
 
@@ -137,9 +139,24 @@ export function BookingSearchForm({
   handlePassengerChange,
   cabinClass,
   setCabinClass,
+  tripType,
+  setTripType,
   handleSearch,
 }: BookingSearchFormProps) {
-  const [tripType, setTripType] = React.useState("round-trip");
+
+  // Debug log to show form data
+  React.useEffect(() => {
+    console.log("🔍 BookingSearchForm Data Update:", {
+      variant,
+      tripType,
+      origin,
+      destination,
+      departDate: departDate?.toISOString(),
+      returnDate: returnDate?.toISOString(),
+      passengers,
+      cabinClass
+    });
+  }, [variant, tripType, origin, destination, departDate, returnDate, passengers, cabinClass]);
 
   const defaults = VARIANT_DEFAULTS[variant] ?? VARIANT_DEFAULTS.flight;
   const resolvedFlags = {

@@ -1,7 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Menu, Heart, Sparkles, Sun, Moon, User, Bell } from "lucide-react";
+import {
+  PanelLeft,
+  Heart,
+  Sparkles,
+  Sun,
+  Moon,
+  User,
+  Bell,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 // @ts-ignore
@@ -148,7 +156,7 @@ export function Header() {
             onClick={toggleSidebar}
             aria-label="Toggle menu"
           >
-            <AppIcon icon={Menu} isFill />
+            <AppIcon icon={PanelLeft} />
           </button>
 
           <Link href="/" className="flex items-center gap-0.5 group">

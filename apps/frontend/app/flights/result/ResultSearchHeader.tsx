@@ -9,14 +9,24 @@ interface Props {
   initialOrigin: string;
   initialDestination: string;
   initialDDate: string;
+  initialRDate?: string;
   initialAdt: number;
+  initialChd: number;
+  initialInf: number;
+  initialClass: string;
+  initialTripType: string;
 }
 
 export function ResultSearchHeader({
   initialOrigin,
   initialDestination,
   initialDDate,
+  initialRDate,
   initialAdt,
+  initialChd,
+  initialInf,
+  initialClass,
+  initialTripType,
 }: Props) {
   const router = useRouter();
 
@@ -25,13 +35,16 @@ export function ResultSearchHeader({
   const [departDate, setDepartDate] = useState<Date | undefined>(
     initialDDate ? new Date(initialDDate) : new Date(),
   );
-  const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
+  const [returnDate, setReturnDate] = useState<Date | undefined>(
+    initialRDate ? new Date(initialRDate) : undefined,
+  );
   const [passengers, setPassengers] = useState({
     adults: initialAdt,
-    children: 0,
-    infants: 0,
+    children: initialChd || 0,
+    infants: initialInf || 0,
   });
-  const [cabinClass, setCabinClass] = useState("Economy");
+  const [cabinClass, setCabinClass] = useState(initialClass || "Economy");
+  const [tripType, setTripType] = useState(initialTripType || "round-trip");
   const [isHighlighted, setIsHighlighted] = useState(false);
 
   useEffect(() => {
@@ -52,11 +65,29 @@ export function ResultSearchHeader({
     setPassengers((prev) => ({ ...prev, [key]: val }));
 
   const handleSearch = () => {
+    const searchData = {
+      origin,
+      destination,
+      departDate,
+      returnDate,
+      passengers,
+      cabinClass,
+      tripType,
+    };
+    console.log("🚀 ResultSearchHeader Submitting:", searchData);
+
     const params = new URLSearchParams();
     params.set("org", origin);
     params.set("des", destination);
     if (departDate) params.set("dDate", departDate.toISOString().slice(0, 10));
+    if (returnDate) params.set("rDate", returnDate.toISOString().slice(0, 10));
     params.set("adt", passengers.adults.toString());
+    params.set("chd", passengers.children.toString());
+    params.set("inf", passengers.infants.toString());
+    params.set("class", cabinClass);
+    params.set("trip", tripType);
+
+    console.log("🔗 ResultSearchHeader Generated Params:", params.toString());
     router.push(`/flights/result?${params.toString()}`);
   };
 
@@ -86,6 +117,8 @@ export function ResultSearchHeader({
           handlePassengerChange={handlePassengerChange}
           cabinClass={cabinClass}
           setCabinClass={setCabinClass}
+          tripType={tripType}
+          setTripType={setTripType}
           handleSearch={handleSearch}
         />
       </div>
