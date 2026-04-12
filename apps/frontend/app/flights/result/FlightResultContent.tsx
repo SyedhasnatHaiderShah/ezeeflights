@@ -11,6 +11,7 @@ import { FlightListItem } from "@/lib/types/flight-api";
 interface Props {
   initialFlights: FlightListItem[];
   isLoading?: boolean;
+  totalFlights?: number;
 }
 
 const formatDurationMinutes = (totalMinutes: number) => {
@@ -19,7 +20,11 @@ const formatDurationMinutes = (totalMinutes: number) => {
   return `${h}h ${m}m`;
 };
 
-export function FlightResultContent({ initialFlights, isLoading }: Props) {
+export function FlightResultContent({
+  initialFlights,
+  isLoading,
+  totalFlights,
+}: Props) {
   const [activeTab, setActiveTab] = useState("best");
   const [displayedCount, setDisplayedCount] = useState(10);
   const ITEMS_PER_PAGE = 10;
@@ -152,10 +157,12 @@ export function FlightResultContent({ initialFlights, isLoading }: Props) {
           <span className="text-brand-dark font-bold">
             {sortedFlights.length}
           </span>{" "}
-          of{" "}
-          <span className="text-brand-dark font-bold">
-            {initialFlights.length}
-          </span>{" "}
+          {totalFlights ? (
+            <>
+              of{" "}
+              <span className="text-brand-dark font-bold">{totalFlights}</span>
+            </>
+          ) : null}{" "}
           flights
         </div>
         <div className="flex items-center gap-2 text-xs font-bold text-brand-dark-light cursor-pointer hover:text-brand-dark  transition-colors">

@@ -5,8 +5,10 @@ import { Sparkles, Info, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AppIcon } from "@/components/ui/app-icon";
 
+import { useFlightFilterStore } from "@/lib/store/flight-filter-store";
+
 export function SmartFilters() {
-  const [aiQuery, setAiQuery] = React.useState("");
+  const { filters, setFilter } = useFlightFilterStore();
 
   return (
     <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
@@ -33,8 +35,8 @@ export function SmartFilters() {
 
             <div className="relative group/input">
               <textarea
-                value={aiQuery}
-                onChange={(e) => setAiQuery(e.target.value)}
+                value={filters.smartQuery}
+                onChange={(e) => setFilter("smartQuery", e.target.value)}
                 placeholder="I want to see flights with no layover under $300."
                 className="w-full min-h-[60px] p-2.5 text-xs bg-background/30 border border-border/60 rounded-lg outline-none focus:border-brand-dark/30 focus:ring-4 focus:ring-brand-dark/5 transition-all placeholder:text-brand-dark-light/80 font-medium leading-relaxed resize-none placeholder:text-xs"
               />
@@ -43,11 +45,11 @@ export function SmartFilters() {
           <button
             className={cn(
               "rounded-md py-2 w-full flex items-center cursor-pointer justify-center h-8 gap-2 text-xs font-bold transition-all shadow-sm",
-              aiQuery.trim()
-                ? "bg-white text-ezee-red hover:bg-brand-dark/90"
-                : "bg-white text-redmix cursor-not-allowed",
+              filters.smartQuery.trim()
+                ? "bg-brand-dark text-white hover:bg-brand-dark/90"
+                : "bg-white text-redmix cursor-not-allowed border-redmix/20 border",
             )}
-            disabled={!aiQuery.trim()}
+            disabled={!filters.smartQuery.trim()}
           >
             ASK AI SEARCH
           </button>

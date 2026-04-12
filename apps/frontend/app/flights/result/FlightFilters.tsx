@@ -14,12 +14,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { AppIcon } from "@/components/ui/app-icon";
 
+import { useFlightFilterStore } from "@/lib/store/flight-filter-store";
+
 export function FlightFilters() {
-  const [stops, setStops] = React.useState({
-    nonstop: true,
-    oneStop: true,
-    twoStops: true,
-  });
+  const { filters, setFilter, resetFilters } = useFlightFilterStore();
+  const stops = filters.stops;
 
   const [bags, setBags] = React.useState({
     carryOn: 0,
@@ -55,7 +54,7 @@ export function FlightFilters() {
           </Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center justify-between w-full px-2.5 py-2 text-xs font-bold border rounded-lg bg-background hover:bg-muted/5 transition-all border-border shadow-sm group">
+              <button className="flex items-center justify-between w-full px-2.5 py-2 text-xs font-bold border rounded-lg bg-background hover:bg-muted/5 transition-all border-border shadow-sm group cursor-pointer">
                 <span className="truncate text-brand-dark-light/80">
                   {stopsLabel}
                 </span>
@@ -69,14 +68,18 @@ export function FlightFilters() {
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
                 checked={stops.nonstop}
-                onCheckedChange={(v) => setStops((s) => ({ ...s, nonstop: v }))}
+                onCheckedChange={(v) =>
+                  setFilter("stops", { ...stops, nonstop: v })
+                }
                 className="text-xs font-semibold"
               >
                 Nonstop
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={stops.oneStop}
-                onCheckedChange={(v) => setStops((s) => ({ ...s, oneStop: v }))}
+                onCheckedChange={(v) =>
+                  setFilter("stops", { ...stops, oneStop: v })
+                }
                 className="text-xs font-semibold"
               >
                 1 stop
@@ -84,7 +87,7 @@ export function FlightFilters() {
               <DropdownMenuCheckboxItem
                 checked={stops.twoStops}
                 onCheckedChange={(v) =>
-                  setStops((s) => ({ ...s, twoStops: v }))
+                  setFilter("stops", { ...stops, twoStops: v })
                 }
                 className="text-xs font-semibold"
               >
@@ -120,7 +123,7 @@ export function FlightFilters() {
                       carryOn: Math.max(0, b.carryOn - 1),
                     }))
                   }
-                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/80 hover:bg-muted/50 transition-colors"
+                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/80 hover:bg-muted/50 transition-colors cursor-pointer"
                 >
                   -
                 </button>
@@ -131,7 +134,7 @@ export function FlightFilters() {
                   onClick={() =>
                     setBags((b) => ({ ...b, carryOn: b.carryOn + 1 }))
                   }
-                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/40 hover:bg-muted/50 transition-colors"
+                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/40 hover:bg-muted/50 transition-colors cursor-pointer"
                 >
                   +
                 </button>
@@ -150,7 +153,7 @@ export function FlightFilters() {
                       checked: Math.max(0, b.checked - 1),
                     }))
                   }
-                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/40 hover:bg-muted/50 transition-colors"
+                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/40 hover:bg-muted/50 transition-colors cursor-pointer"
                 >
                   -
                 </button>
@@ -161,7 +164,7 @@ export function FlightFilters() {
                   onClick={() =>
                     setBags((b) => ({ ...b, checked: b.checked + 1 }))
                   }
-                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/40 hover:bg-muted/50 transition-colors"
+                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/40 hover:bg-muted/50 transition-colors cursor-pointer"
                 >
                   +
                 </button>
@@ -172,13 +175,10 @@ export function FlightFilters() {
       </div>
 
       <div className="p-3 border-t border-border/30 bg-brand-dark/[0.02] flex flex-col gap-2">
-        <button
-          className="w-full h-9 rounded-lg bg-white text-redmix text-xs font-semibold  hover:bg-brand-dark/95 transition-all shadow-sm"
-          onClick={() => console.log("Filtering...")}
+        <button 
+          className="w-full h-9 rounded-lg bg-brand-dark/[0.05] text-brand-dark text-xs font-bold hover:bg-brand-dark/[0.08] transition-all cursor-pointer"
+          onClick={resetFilters}
         >
-          FILTER FLIGHTS
-        </button>
-        <button className="text-xs text-brand-dark-light/80 hover:text-brand-dark transition-colors font-semibold  text-center mt-1">
           Clear all filters
         </button>
       </div>

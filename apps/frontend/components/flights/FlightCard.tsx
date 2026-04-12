@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { AppImage } from "../ui/app-image";
 import { Button } from "../ui/button";
 import { FlightListItem, FlightSegment } from "@/lib/types/flight-api";
+import { AppIcon } from "../ui/app-icon";
 
 interface Props {
   flight: FlightListItem;
@@ -77,7 +78,10 @@ function FlightLeg({
             />
           </div>
           <div className="flex flex-col min-w-0">
-            <span suppressHydrationWarning className="text-sm md:text-base font-bold text-brand-dark leading-tight">
+            <span
+              suppressHydrationWarning
+              className="text-sm md:text-base font-bold text-brand-dark leading-tight"
+            >
               {departureDate.toLocaleTimeString("en-US", {
                 hour: "numeric",
                 minute: "2-digit",
@@ -141,19 +145,27 @@ export function FlightCard({ flight }: Props) {
   const currencySymbol = currencyMap[flight.currency] || flight.currency;
 
   return (
-    <article
-      className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-[2px] transition-all duration-200 flex flex-col md:flex-row relative group"
-    >
+    <article className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-[2px] transition-all duration-200 flex flex-col md:flex-row relative group">
       <div className="flex-grow p-4 md:p-5 flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-brand-dark-light mb-0.5">
-          <button className="flex items-center gap-1.5 hover:text-brand-red transition-colors">
-            <Heart className="w-3 h-3" /> Save
+          <button className="flex items-center gap-1.5 transition-colors">
+            <AppIcon icon={Heart} isActive isFill className="w-3 h-3" /> Save
           </button>
-          <button className="flex items-center gap-1.5 hover:text-brand-red transition-colors">
-            <Share2 className="w-3 h-3" /> Share
+          <button className="flex items-center gap-1.5 transition-colors">
+            <AppIcon
+              icon={Share2}
+              isActive
+              isFill
+              className="w-3 h-3 bg-transparent"
+            />{" "}
+            Share
           </button>
           <div className="flex items-center gap-1 ml-auto">
-            <Luggage className="w-3 h-3" />
+            <AppIcon
+              icon={Luggage}
+              isActive
+              className="w-3 h-3 bg-transparent"
+            />
             <span>{flight.outbound[0].baggageAllowance}</span>
           </div>
         </div>

@@ -4,7 +4,11 @@ import * as React from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 
+import { useFlightFilterStore } from "@/lib/store/flight-filter-store";
+
 export function QuickFilters() {
+  const { filters, setFilter } = useFlightFilterStore();
+
   return (
     <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
       <div className="p-3 space-y-4">
@@ -20,7 +24,12 @@ export function QuickFilters() {
               Options with seat & carry-on bag.
             </p>
           </div>
-          <Switch id="basic-tickets" className="scale-75 origin-right" />
+          <Switch
+            id="basic-tickets"
+            className="scale-75 origin-right cursor-pointer"
+            checked={filters.hideBasicTickets}
+            onCheckedChange={(v) => setFilter("hideBasicTickets", v)}
+          />
         </div>
 
         <div className="h-px bg-border/40" />
@@ -37,7 +46,12 @@ export function QuickFilters() {
               Instantly bookable on website.
             </p>
           </div>
-          <Switch id="book-kayak" className="scale-75 origin-right" />
+          <Switch
+            id="book-kayak"
+            className="scale-75 origin-right cursor-pointer"
+            checked={filters.bookOnKayak}
+            onCheckedChange={(v) => setFilter("bookOnKayak", v)}
+          />
         </div>
       </div>
     </div>

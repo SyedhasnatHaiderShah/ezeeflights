@@ -10,14 +10,7 @@ import {
   GeminiSkeleton,
 } from "@/components/ai/GeminiRecommendations";
 import { FloatingSearchButton } from "@/components/search/FloatingSearchButton";
-import { FlightFilters } from "./FlightFilters";
-import { SmartFilters } from "./SmartFilters";
-import { QuickFilters } from "./QuickFilters";
-import { TimeFilter } from "./TimeFilter";
-import { AirlinesFilter } from "./AirlinesFilter";
-import { LocationFilters } from "./LocationFilters";
-import { DurationFilter } from "./DurationFilter";
-import { AccordionFilters } from "./AccordionFilters";
+import { FlightSearchContainer } from "./FlightSearchContainer";
 import flightData from "@/flight-data.json";
 import { FlightSearchResponse } from "@/lib/types/flight-api";
 
@@ -25,11 +18,11 @@ interface SearchProps {
   searchParams: Promise<Record<string, string | undefined>>;
 }
 
-// Simulated async fetch function to show off the skeleton
-async function FlightResultsSection({ flightsList }: { flightsList: any[] }) {
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  return <FlightResultContent initialFlights={flightsList} />;
+// Component to simulate data fetching delay on the server
+async function FlightResultsWrapper({ flightsList }: { flightsList: any[] }) {
+  // Simulate API delay (e.g., 2 seconds)
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  return <FlightSearchContainer initialFlights={flightsList} />;
 }
 
 export default async function FlightResultsPage({ searchParams }: SearchProps) {
@@ -95,60 +88,24 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
         {/* Static search header visible at the top of the page */}
         <div className="relative z-10">{searchHeaderBlock}</div>
 
-        <div className="max-w-[1240px] mx-auto px-4 py-8 flex flex-col lg:flex-row gap-5">
-          {/* Left Sidebar: Smart & Standard Filters */}
-          <motion.aside
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="w-full lg:w-64 flex-shrink-0 space-y-3"
-          >
-            <SmartFilters />
-            <QuickFilters />
-            <TimeFilter />
-            <AirlinesFilter />
-            <LocationFilters />
-            <DurationFilter />
-            <AccordionFilters />
-            <FlightFilters />
-          </motion.aside>
+        <Suspense fallback={
+          <div className="max-w-[1240px] mx-auto px-4 py-8 flex flex-col lg:flex-row gap-5">
+            {/* Sidebar Placeholder */}
+            <div className="w-full lg:w-64 flex-shrink-0 space-y-3 hidden lg:block">
+              <div className="h-40 bg-white dark:bg-muted/10 rounded-xl animate-pulse" />
+              <div className="h-60 bg-white dark:bg-muted/10 rounded-xl animate-pulse" />
+            </div>
+            {/* Results Skeleton */}
+            <div className="flex-1">
+              <FlightResultSkeleton />
+            </div>
+          </div>
+        }>
+          <FlightResultsWrapper flightsList={flightsList} />
+        </Suspense>
 
+        <div className="max-w-[1240px] mx-auto px-4">
           <main className="flex-1 space-y-4">
-            {/* Priceline Ad Banner */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-md transition-all group"
-            >
-              <div className="p-4 md:p-6 flex-grow flex items-center gap-6">
-                <div className="flex-shrink-0 w-20 h-6 relative opacity-80 group-hover:opacity-100 transition-opacity">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Priceline.com_logo.svg/1200px-Priceline.com_logo.svg.png"
-                    alt="Priceline"
-                    className="object-contain filter dark:brightness-0 dark:invert"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <h3 className="text-base font-black text-brand-dark group-hover:text-brand-dark transition-colors tracking-tight">
-                    Land a great deal for less.
-                  </h3>
-                  <p className="text-sm text-brand-dark-light/80 font-bold mt-0.5">
-                    Sponsored • Book your flight with confidence
-                  </p>
-                </div>
-              </div>
-              <div className="flex-none w-52 p-5 flex items-center justify-center">
-                <button className="mt-4 w-full bg-redmix dark:bg-brand-yellow hover:bg-brand-dark/90 text-white dark:text-white dark:border-redmix border-2 font-bold py-2.5 rounded-md cursor-pointer shadow-sm hover:shadow-md transition-all text-xs">
-                  Book Now
-                </button>
-              </div>
-            </motion.div>
-
-            {/* Dynamic Results Content with Sorting Tabs */}
-            <Suspense fallback={<FlightResultSkeleton />}>
-              <FlightResultsSection flightsList={flightsList} />
-            </Suspense>
-
             {/* AI Travel Intelligence Section */}
             <div className="pt-12 border-t border-gray-200 dark:border-border mt-12 pb-20">
               <div className="flex items-center gap-4 mb-8">

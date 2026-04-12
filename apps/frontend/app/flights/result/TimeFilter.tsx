@@ -6,9 +6,27 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Clock } from "lucide-react";
 
+import { useFlightFilterStore } from "@/lib/store/flight-filter-store";
+
 export function TimeFilter() {
-  const [takeoffRange, setTakeoffRange] = React.useState([15, 60]); // 3:30 PM to 8:00 PM approx
-  const [landingRange, setLandingRange] = React.useState([20, 80]);
+  const { filters, setFilter } = useFlightFilterStore();
+
+  const handleTakeoffChange = (value: number[]) => {
+    setFilter("takeoffRange", value as [number, number]);
+  };
+
+  const handleLandingChange = (value: number[]) => {
+    setFilter("landingRange", value as [number, number]);
+  };
+
+  const formatTime = (value: number) => {
+    const totalMinutes = (value / 100) * 1440;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.floor(totalMinutes % 60);
+    const ampm = hours >= 12 ? "PM" : "AM";
+    const h12 = hours % 12 || 12;
+    return `${h12}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+  };
 
   return (
     <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
@@ -21,13 +39,13 @@ export function TimeFilter() {
           <TabsList className="grid w-full grid-cols-2 mb-4 h-8 bg-muted/20 p-0.5 rounded-lg">
             <TabsTrigger
               value="take-off"
-              className="text-xs font-bold  h-7 data-[state=active]:bg-white data-[state=active]:text-redmix data-[state=active]:shadow-sm transition-all"
+              className="text-xs font-bold  h-7 data-[state=active]:bg-white data-[state=active]:text-redmix data-[state=active]:shadow-sm transition-all cursor-pointer"
             >
               Take-off
             </TabsTrigger>
             <TabsTrigger
               value="landing"
-              className="text-xs font-bold  h-7 data-[state=active]:bg-white data-[state=active]:text-redmix data-[state=active]:shadow-sm transition-all"
+              className="text-xs font-bold  h-7 data-[state=active]:bg-white data-[state=active]:text-redmix data-[state=active]:shadow-sm transition-all cursor-pointer"
             >
               Landing
             </TabsTrigger>
@@ -37,46 +55,22 @@ export function TimeFilter() {
             <div className="space-y-2">
               <div className="flex flex-col gap-1">
                 <span className="text-xs font-semibold text-brand-dark-light/80 ">
-                  Take-off from LHE
+                  Take-off range
                 </span>
                 <div className="flex justify-between items-center px-0.5">
                   <span className="text-xs font-semibold text-brand-dark leading-none">
-                    3:30 PM
+                    {formatTime(filters.takeoffRange[0])}
                   </span>
                   <span className="text-xs font-semibold text-brand-dark leading-none">
-                    8:00 PM
+                    {formatTime(filters.takeoffRange[1])}
                   </span>
                 </div>
               </div>
               <Slider
-                defaultValue={[15, 60]}
+                value={filters.takeoffRange}
                 max={100}
                 step={1}
-                onValueChange={setTakeoffRange}
-                className="py-1"
-              />
-            </div>
-
-            <div className="h-px bg-border/40 my-3" />
-
-            <div className="space-y-2">
-              <div className="flex flex-col gap-1">
-                <span className="text-xs font-black text-brand-dark-light/40 ">
-                  Take-off from AUH
-                </span>
-                <div className="flex justify-between items-center px-0.5">
-                  <span className="text-xs font-bold text-brand-dark leading-none">
-                    2:00 AM
-                  </span>
-                  <span className="text-xs font-bold text-brand-dark leading-none">
-                    12:00 AM
-                  </span>
-                </div>
-              </div>
-              <Slider
-                defaultValue={[20, 80]}
-                max={100}
-                step={1}
+                onValueChange={handleTakeoffChange}
                 className="py-1"
               />
             </div>
@@ -85,17 +79,23 @@ export function TimeFilter() {
           <TabsContent value="landing" className="space-y-4 outline-none">
             <div className="w-full space-y-2">
               <div className="flex flex-col gap-1">
-                <span className="text-xs font-black text-brand-dark-light/40 ">
-                  LHE Arrival
+                <span className="text-xs font-semibold text-brand-dark-light/80 ">
+                  Landing range
                 </span>
-                <span className="text-xs font-bold text-brand-dark leading-none">
-                  10:00 AM - 11:59 PM
-                </span>
+                <div className="flex justify-between items-center px-0.5">
+                  <span className="text-xs font-semibold text-brand-dark leading-none">
+                    {formatTime(filters.landingRange[0])}
+                  </span>
+                  <span className="text-xs font-semibold text-brand-dark leading-none">
+                    {formatTime(filters.landingRange[1])}
+                  </span>
+                </div>
               </div>
               <Slider
-                defaultValue={[10, 90]}
+                value={filters.landingRange}
                 max={100}
                 step={1}
+                onValueChange={handleLandingChange}
                 className="py-1"
               />
             </div>
