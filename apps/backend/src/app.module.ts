@@ -23,6 +23,7 @@ import { PackageModule } from './modules/packages/package.module';
 import { AiItineraryModule } from './modules/ai-itinerary/ai-itinerary.module';
 import { HybridEngineModule } from './modules/hybrid-engine/hybrid.module';
 import { DestinationModule } from './modules/destinations/destination.module';
+import { InsuranceModule } from './modules/insurance/insurance.module';
 import { TransfersModule } from './modules/transfers/transfers.module';
 import { CarsModule } from './modules/cars/cars.module';
 
@@ -52,6 +53,7 @@ import { CarsModule } from './modules/cars/cars.module';
     AiItineraryModule,
     HybridEngineModule,
     DestinationModule,
+    InsuranceModule,
     TransfersModule,
     CarsModule,
   ],
