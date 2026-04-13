@@ -95,27 +95,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           inter.variable,
           notoTabs.variable,
         )}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem={false}
+          // disableTransitionOnChange={false}
         >
           {/* Include the Providers for React Query, etc */}
           <Providers>
             {/* Include the Sidebar globally */}
             <AppSidebar />
 
-            <div
-              className="relative flex flex-col min-h-screen pb-16 md:pb-0"
-            >
+            <div className="relative flex flex-col min-h-screen">
               {children}
               <MobileBottomNav />
             </div>

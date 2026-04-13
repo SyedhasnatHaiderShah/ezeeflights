@@ -30,6 +30,7 @@ export function BookingForm() {
   const [returnDate, setReturnDate] = React.useState<Date | undefined>(undefined)
   const [cabinClass, setCabinClass] = React.useState("Economy")
   const [passengers, setPassengers] = React.useState({ adults: 2, children: 0, infants: 0 })
+  const [tripType, setTripType] = React.useState("round-trip")
 
   const handleDepartDateChange = (date: Date | undefined) => {
     setDepartDate(date)
@@ -42,11 +43,29 @@ export function BookingForm() {
     setPassengers(prev => ({ ...prev, [key]: val }))
 
   const handleSearch = () => {
+    const searchData = {
+      origin,
+      destination,
+      departDate,
+      returnDate,
+      passengers,
+      cabinClass,
+      tripType,
+    };
+    console.log("🚀 Submitting Search Data:", searchData);
+
     const params = new URLSearchParams()
     params.set("org", origin)
     params.set("des", destination)
     if (departDate) params.set("dDate", format(departDate, "yyyy-MM-dd"))
+    if (returnDate) params.set("rDate", format(returnDate, "yyyy-MM-dd"))
     params.set("adt", passengers.adults.toString())
+    params.set("chd", passengers.children.toString())
+    params.set("inf", passengers.infants.toString())
+    params.set("class", cabinClass)
+    params.set("trip", tripType)
+    
+    console.log("🔗 Generated URL Params:", params.toString());
     router.push(`/flights/result?${params.toString()}`)
   }
 
@@ -57,6 +76,7 @@ export function BookingForm() {
     returnDate, setReturnDate,
     passengers, handlePassengerChange,
     cabinClass, setCabinClass,
+    tripType, setTripType,
     handleSearch,
   }
 

@@ -122,7 +122,30 @@ export async function meRequest() {
 }
 
 export function googleOAuthUrl(): string {
-  const pub = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/v1';
-  const root = pub.replace(/\/v1\/?$/, '');
+  const pub = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000/v1";
+  const root = pub.replace(/\/v1\/?$/, "");
   return `${root}/v1/auth/google`;
+}
+
+export async function forgotPasswordOtpRequest(email: string): Promise<{ ok: true }> {
+  return bffPost<{ ok: true }>("/api/auth/password/forgot", { email });
+}
+
+export async function verifyPasswordResetOtp(
+  email: string,
+  code: string,
+): Promise<{ ok: true }> {
+  return bffPost<{ ok: true }>("/api/auth/password/verify-otp", { email, code });
+}
+
+export async function resetPassword(
+  email: string,
+  code: string,
+  newPassword: string,
+): Promise<{ ok: true }> {
+  return bffPost<{ ok: true }>("/api/auth/password/reset", {
+    email,
+    code,
+    newPassword,
+  });
 }

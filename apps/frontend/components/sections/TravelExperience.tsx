@@ -6,6 +6,8 @@ import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { AppImage } from "@/components/ui/app-image";
+import { WhyChooseUs } from "./WhyChooseUs";
+import { FAQSection } from "./FAQSection";
 
 interface Experience {
   id: number;
@@ -71,13 +73,16 @@ const EXPERIENCES: Experience[] = [
 ];
 
 export function TravelExperience() {
-  const [emblaRef] = useEmblaCarousel({ 
-    loop: true, 
-    align: "start",
-    breakpoints: {
-      '(min-width: 1024px)': { active: false } 
-    }
-  }, [Autoplay({ delay: 5000, stopOnInteraction: true })]);
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "start",
+      breakpoints: {
+        "(min-width: 1024px)": { active: false },
+      },
+    },
+    [Autoplay({ delay: 5000, stopOnInteraction: true })],
+  );
 
   const renderExperienceCard = (exp: Experience) => (
     <div
@@ -116,31 +121,41 @@ export function TravelExperience() {
   );
 
   return (
-    <section className="py-14 bg-muted/30 dark:bg-background transition-colors duration-300 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <h2 className="text-2xl font-bold tracking-tight text-foreground mb-8">
-          Travel Experiences
-        </h2>
+    <>
+      <section className="py-14 bg-muted/30 dark:bg-background transition-colors duration-300 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground mb-8">
+            Travel Experiences
+          </h2>
 
-        {/* Carousel for Mobile / Grid for Desktop */}
-        <div className="relative">
-          {/* Embla Viewport */}
-          <div className="lg:hidden overflow-hidden touch-pan-y" ref={emblaRef}>
-            <div className="flex ml-[-16px]">
-              {EXPERIENCES.map((exp) => (
-                <div key={exp.id} className="flex-[0_0_85%] sm:flex-[0_0_45%] min-w-0 pl-4">
-                  {renderExperienceCard(exp)}
-                </div>
-              ))}
+          {/* Carousel for Mobile / Grid for Desktop */}
+          <div className="relative">
+            {/* Embla Viewport */}
+            <div
+              className="lg:hidden overflow-hidden touch-pan-y"
+              ref={emblaRef}
+            >
+              <div className="flex ml-[-16px]">
+                {EXPERIENCES.map((exp) => (
+                  <div
+                    key={exp.id}
+                    className="flex-[0_0_85%] sm:flex-[0_0_45%] min-w-0 pl-4"
+                  >
+                    {renderExperienceCard(exp)}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Static Grid for Large Screens */}
+            <div className="hidden lg:grid grid-cols-3 gap-5 xl:gap-6">
+              {EXPERIENCES.map(renderExperienceCard)}
             </div>
           </div>
-
-          {/* Static Grid for Large Screens */}
-          <div className="hidden lg:grid grid-cols-3 gap-5 xl:gap-6">
-            {EXPERIENCES.map(renderExperienceCard)}
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <FAQSection />
+      <WhyChooseUs />
+    </>
   );
 }

@@ -11,13 +11,16 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { PermissionsGuard } from './guards/permissions.guard';
 import { RolesGuard } from './guards/roles.guard';
 
+import { NotificationModule } from '../notification/notification.module';
+
 @Module({
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET ?? 'replace-me',
-      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN ?? '1h' },
+      secret: process.env.JWT_SECRET ?? "replace-me",
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN ?? "1h" },
     }),
+    NotificationModule,
   ],
   controllers: [AuthController],
   providers: [

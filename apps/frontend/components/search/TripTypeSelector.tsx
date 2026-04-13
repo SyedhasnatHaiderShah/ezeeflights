@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as RadioGroup from "@radix-ui/react-radio-group"
-import * as Label from "@radix-ui/react-label"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import * as RadioGroup from "@radix-ui/react-radio-group";
+import * as Label from "@radix-ui/react-label";
+import { cn } from "@/lib/utils";
 
 interface TripTypeSelectorProps {
   value: string;
@@ -12,10 +12,10 @@ interface TripTypeSelectorProps {
 
 export function TripTypeSelector({ value, onChange }: TripTypeSelectorProps) {
   const options = [
-    { value: 'round-trip', label: 'Round-trip' },
-    { value: 'one-way', label: 'One-way' },
-    { value: 'multi-city', label: 'Multi-city' },
-  ]
+    { value: "round-trip", label: "Round-trip" },
+    { value: "one-way", label: "One-way" },
+    { value: "multi-city", label: "Multi-city" },
+  ];
 
   return (
     <div className="w-full relative">
@@ -26,7 +26,10 @@ export function TripTypeSelector({ value, onChange }: TripTypeSelectorProps) {
         aria-label="Trip type"
       >
         {options.map((type) => (
-          <div key={type.value} className="flex items-center gap-2 group cursor-pointer select-none shrink-0 py-1">
+          <div
+            key={type.value}
+            className="flex items-center gap-2 group cursor-pointer select-none shrink-0 py-1"
+          >
             <RadioGroup.Item
               value={type.value}
               id={`trip-${type.value}`}
@@ -41,7 +44,7 @@ export function TripTypeSelector({ value, onChange }: TripTypeSelectorProps) {
             </RadioGroup.Item>
             <Label.Root
               htmlFor={`trip-${type.value}`}
-              className="text-[10px] md:text-[11px] font-black uppercase tracking-widest cursor-pointer text-muted-foreground/80 group-data-[state=checked]:text-foreground whitespace-nowrap transition-colors"
+              className="text-xs font-semibold tracking-widest cursor-pointer text-muted-foreground group-data-[state=checked]:text-foreground whitespace-nowrap transition-colors"
             >
               {type.label}
             </Label.Root>
@@ -49,5 +52,5 @@ export function TripTypeSelector({ value, onChange }: TripTypeSelectorProps) {
         ))}
       </RadioGroup.Root>
     </div>
-  )
+  );
 }
