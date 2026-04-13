@@ -5,11 +5,24 @@ import { PaymentMethods } from '@/components/payment/PaymentMethods';
 import { StripeCheckout } from '@/components/payment/StripeCheckout';
 import { BNPLSelector } from '@/components/payment/BNPLSelector';
 import { PaymentProvider } from '@/components/payment/types';
+import { CheckoutSummary } from '@/components/payment/CheckoutSummary';
+import { useQuery } from '@tanstack/react-query';
+import { apiFetch } from '@/lib/api/client';
 
 export default function CheckoutPage() {
   const [provider, setProvider] = useState<PaymentProvider>('STRIPE');
   const [loading, setLoading] = useState(false);
-  const bookingId = useMemo(() => typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('bookingId') : null, []);
+  const [useWallet, setUseWallet] = useState(false);
+  const bookingId = useMemo(() => (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('bookingId') : null), []);
+
+  const walletQuery = useQuery<{ balance: number }>({
+    queryKey: ['wallet-balance'],
+    queryFn: () => apiFetch('/payments/wallet/me'),
+  });
+
+  const total = 1;
+  const walletBalance = walletQuery.data?.balance ?? 0;
+  const walletApplied = useWallet ? Math.min(total, walletBalance) : 0;
 
   const startPayment = async () => {
     setLoading(true);
@@ -17,19 +30,30 @@ export default function CheckoutPage() {
       const res = await fetch('/api/v1/payments/initiate', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           bookingId,
           provider,
-          amount: 1,
+          amount: total,
           currency: 'AED',
+          useWalletAmount: walletApplied,
+          paymentMethodId: 'pm_card_visa',
           successUrl: `${window.location.origin}/payment/success`,
           failureUrl: `${window.location.origin}/payment/failed`,
         }),
       });
 
       if (!res.ok) throw new Error('Payment initiation failed');
-      const data = (await res.json()) as { redirectUrl: string };
-      window.location.href = data.redirectUrl;
+      const data = (await res.json()) as { redirectUrl?: string; requiresAction?: boolean; paymentId: string };
+      if (data.requiresAction && data.redirectUrl) {
+        window.location.href = data.redirectUrl;
+        return;
+      }
+      if (data.redirectUrl) {
+        window.location.href = data.redirectUrl;
+        return;
+      }
+      window.location.href = `/payment/complete?payment_id=${data.paymentId}`;
     } catch (_error) {
       window.location.href = '/payment/failed';
     } finally {
@@ -38,8 +62,9 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main className="mx-auto max-w-2xl p-8">
-      <h1 className="mb-4 text-2xl font-semibold">Payment Checkout</h1>
+    <main className="mx-auto max-w-2xl space-y-4 p-8">
+      <h1 className="text-2xl font-semibold">Payment Checkout</h1>
+      <CheckoutSummary total={total} walletBalance={walletBalance} useWallet={useWallet} onToggleWallet={setUseWallet} />
       <PaymentMethods value={provider} onChange={setProvider} />
       <div className="my-4">
         <BNPLSelector provider={provider} />
