@@ -11,25 +11,38 @@ function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  numberOfMonths: propsNumberOfMonths,
   ...props
 }: CalendarProps) {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const numberOfMonths = isMobile ? 1 : (propsNumberOfMonths ?? 1);
+
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("p-3 sm:p-3", className)}
+      numberOfMonths={numberOfMonths}
+      className={cn("p-4 sm:p-4 relative bg-background", className)}
       classNames={{
-        months: "flex items-center justify-center gap-0",
-        month: "space-y-3 min-w-[260px]",
+        months: "flex flex-col sm:flex-row items-start justify-center gap-10",
+        month: "space-y-4 w-full",
         // @ts-ignore
-        month_caption: "flex justify-center relative items-center h-10 mb-1",
+        month_caption: "flex justify-center relative items-center h-10 mb-2",
         caption_label:
-          "text-base font-bold text-foreground dark:text-white tracking-tight",
-        nav: "flex items-center",
+          "text-sm font-bold text-foreground dark:text-white tracking-tight px-10",
+        nav: "flex items-center absolute top-2 left-0 right-0 justify-between px-2 w-full z-20 pointer-events-none",
         button_previous: cn(
-          "h-7 w-7 bg-transparent p-0 rounded-full flex items-center justify-center text-brand-dark/50 hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-90 absolute left-2 top-1.5",
+          "h-8 w-8 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-90 pointer-events-auto",
         ),
         button_next: cn(
-          "h-7 w-7 bg-transparent p-0 rounded-full flex items-center justify-center text-brand-dark/50 hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-90 absolute right-2 top-1.5",
+          "h-8 w-8 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-90 pointer-events-auto",
         ),
         month_grid: "w-full border-collapse",
         weekdays: "flex mb-1",

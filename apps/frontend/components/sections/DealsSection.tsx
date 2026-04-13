@@ -3,9 +3,11 @@
 import * as React from "react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import useEmblaCarousel from 'embla-carousel-react'
-import Autoplay from 'embla-carousel-autoplay'
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { AppImage } from "@/components/ui/app-image";
+import { WhyChooseUs } from "./WhyChooseUs";
+import { FAQSection } from "./FAQSection";
 
 interface Deal {
   id: string;
@@ -46,15 +48,18 @@ const DEALS: Deal[] = [
 ];
 
 export function DealsSection() {
-  const [emblaRef] = useEmblaCarousel({ 
-    loop: true,
-    align: 'start',
-    slidesToScroll: 1,
-    breakpoints: {
-      '(min-width: 640px)': { slidesToScroll: 2 },
-      '(min-width: 1024px)': { active: false } 
-    }
-  }, [Autoplay({ delay: 3500, stopOnInteraction: true })])
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "start",
+      slidesToScroll: 1,
+      breakpoints: {
+        "(min-width: 640px)": { slidesToScroll: 2 },
+        "(min-width: 1024px)": { active: false },
+      },
+    },
+    [Autoplay({ delay: 3500, stopOnInteraction: true })],
+  );
 
   const renderDealCard = (deal: Deal) => (
     <Link
@@ -87,43 +92,53 @@ export function DealsSection() {
         </div>
       </div>
     </Link>
-  )
+  );
 
   return (
-    <section className="py-14 bg-background transition-colors duration-300 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
-        <div className="flex items-center justify-between mb-8 border-b border-border/60 pb-5">
-          <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground uppercase">
-            Travel deals under $111
-          </h2>
-          <Link
-            href={"/deals" as any}
-            className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-widest text-muted-foreground hover:text-brand-red transition-all group"
-          >
-            Explore more
-            <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
+    <>
+      <section className="py-14 bg-background transition-colors duration-300 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
+          <div className="flex items-center justify-between mb-8 border-b border-border/60 pb-5">
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground uppercase">
+              Travel deals under $111
+            </h2>
+            <Link
+              href={"/deals" as any}
+              className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-widest text-muted-foreground hover:text-brand-red transition-all group"
+            >
+              Explore more
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
 
-        {/* Carousel for Mobile / Grid for Desktop */}
-        <div className="relative">
-          {/* Embla Viewport */}
-          <div className="lg:hidden overflow-hidden touch-pan-y" ref={emblaRef}>
-            <div className="flex ml-[-16px]">
-              {DEALS.map((deal) => (
-                <div key={deal.id} className="flex-[0_0_75%] sm:flex-[0_0_45%] min-w-0 pl-4">
-                  {renderDealCard(deal)}
-                </div>
-              ))}
+          {/* Carousel for Mobile / Grid for Desktop */}
+          <div className="relative">
+            {/* Embla Viewport */}
+            <div
+              className="lg:hidden overflow-hidden touch-pan-y"
+              ref={emblaRef}
+            >
+              <div className="flex ml-[-16px]">
+                {DEALS.map((deal) => (
+                  <div
+                    key={deal.id}
+                    className="flex-[0_0_75%] sm:flex-[0_0_45%] min-w-0 pl-4"
+                  >
+                    {renderDealCard(deal)}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Static Grid for Large Screens */}
+            <div className="hidden lg:grid grid-cols-4 gap-5 xl:gap-6">
+              {DEALS.map((deal) => renderDealCard(deal))}
             </div>
           </div>
-
-          {/* Static Grid for Large Screens */}
-          <div className="hidden lg:grid grid-cols-4 gap-5 xl:gap-6">
-            {DEALS.map(deal => renderDealCard(deal))}
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <FAQSection />
+      <WhyChooseUs />
+    </>
   );
 }

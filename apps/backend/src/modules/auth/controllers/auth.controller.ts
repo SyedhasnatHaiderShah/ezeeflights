@@ -10,6 +10,9 @@ import { RegisterDto } from '../dto/register.dto';
 import { Verify2faLoginDto } from '../dto/verify-2fa-login.dto';
 import { OauthExchangeDto } from '../dto/oauth-exchange.dto';
 import { Verify2faSetupDto } from '../dto/verify-2fa-setup.dto';
+import { ForgotPasswordDto } from '../dto/forgot-password.dto';
+import { VerifyOtpDto } from '../dto/verify-otp.dto';
+import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
@@ -125,5 +128,20 @@ export class AuthController {
     } catch {
       res.redirect(302, `${base}/auth/callback?error=oauth_failed`);
     }
+  }
+
+  @Post('password/forgot')
+  forgotPassword(@Body() dto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(dto);
+  }
+
+  @Post('password/verify-otp')
+  verifyOtp(@Body() dto: VerifyOtpDto) {
+    return this.authService.verifyOtp(dto);
+  }
+
+  @Post('password/reset')
+  resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.authService.resetPassword(dto);
   }
 }

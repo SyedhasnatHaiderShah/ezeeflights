@@ -312,4 +312,40 @@ export class AuthRepository {
       [code],
     );
   }
+
+  async insertPasswordResetOtp(params: { email: string; code: string; expiresAt: Date }): Promise<void> {
+    await this.db.query(
+      `INSERT INTO password_reset_otps (email, code, expires_at) VALUES ($1, $2, $3)`,
+      [params.email, params.code, params.expiresAt],
+    );
+  }
+
+  async findActivePasswordResetOtp(email: string, code: string): Promise<boolean> {
+    const row = await this.db.queryOne<{ one: number }>(
+      `SELECT 1 as one FROM password_reset_otps
+       WHERE lower(email) = lower($1) AND code = $2 AND consumed_at IS NULL AND expires_at > NOW()
+       LIMIT 1`,
+      [email, code],
+    );
+    return !!row;
+  }
+
+  async consumePasswordResetOtp(email: string, code: string): Promise<boolean> {
+    const row = await this.db.queryOne<{ id: string }>(
+      `UPDATE password_reset_otps
+       SET consumed_at = NOW()
+       WHERE lower(email) = lower($1) AND code = $2 AND consumed_at IS NULL AND expires_at > NOW()
+       RETURNING id`,
+      [email, code],
+    );
+    return !!row;
+  }
+
+  async updatePasswordByEmail(email: string, passwordHash: string): Promise<boolean> {
+    const row = await this.db.queryOne<{ id: string }>(
+      `UPDATE users SET password_hash = $1, updated_at = NOW() WHERE lower(email) = lower($2) RETURNING id`,
+      [passwordHash, email],
+    );
+    return !!row;
+  }
 }

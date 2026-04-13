@@ -16,12 +16,15 @@ interface FlightDetail {
   currency: string;
 }
 
-export default function FlightDetailPage({ params }: { params: { id: string } }) {
+import React from 'react';
+
+export default function FlightDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const session = useAuthSession();
+  const unwrappedParams = React.use(params);
 
   const flightQuery = useQuery({
-    queryKey: ['flight-detail', params.id, session.data?.id],
-    queryFn: () => apiFetch<FlightDetail>(`/flights/${params.id}`),
+    queryKey: ['flight-detail', unwrappedParams.id, session.data?.id],
+    queryFn: () => apiFetch<FlightDetail>(`/flights/${unwrappedParams.id}`),
     enabled: Boolean(session.data),
   });
 
