@@ -46,7 +46,7 @@ export class BookingMgmtService {
     const changed = await this.repository.modify(
       bookingId,
       {
-        type: dto.changeType,
+        type: dto.changeType as 'DATE_CHANGE' | 'PASSENGER_UPDATE',
         oldValue: { passengerId: dto.passengerId, fullName: dto.fullName, passportNumber: dto.passportNumber, seatNumber: dto.seatNumber },
         newValue: { passengerId: dto.passengerId, fullName: dto.fullName, passportNumber: dto.passportNumber, seatNumber: dto.seatNumber },
       },
@@ -85,8 +85,8 @@ export class BookingMgmtService {
       templateName: 'booking-cancelled',
       payload: {
         bookingId,
-        refundStatus: refund.status,
-        refundAmount: refund.amount,
+        refundStatus: refund?.status ?? 'PENDING',
+        refundAmount: refund?.amount ?? amount,
         reason: dto.reason,
       },
     });

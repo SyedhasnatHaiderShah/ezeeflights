@@ -74,8 +74,6 @@ export function ResultSearchHeader({
       cabinClass,
       tripType,
     };
-    console.log("🚀 ResultSearchHeader Submitting:", searchData);
-
     const params = new URLSearchParams();
     params.set("org", origin);
     params.set("des", destination);
@@ -87,7 +85,6 @@ export function ResultSearchHeader({
     params.set("class", cabinClass);
     params.set("trip", tripType);
 
-    console.log("🔗 ResultSearchHeader Generated Params:", params.toString());
     router.push(`/flights/result?${params.toString()}`);
   };
 

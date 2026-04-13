@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AmadeusProvider } from '../../common/providers';
 import { PostgresClient } from '../../database/postgres.client';
 import { HybridCacheService } from './cache.service';
 import { FlightProviderService } from './flight.provider';
@@ -15,6 +16,7 @@ import { PricingEngine } from './pricing.engine';
     PricingEngine,
     FlightProviderService,
     HotelProviderService,
+    AmadeusProvider,
     HybridCacheService,
     PostgresClient,
   ],

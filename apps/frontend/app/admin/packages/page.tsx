@@ -17,7 +17,7 @@ export default function AdminPackagesPage() {
   return (
     <AdminShell>
       <h1 className="mb-4 text-2xl font-bold">Package CRUD Dashboard</h1>
-      <PricingInclusionManager onSave={(payload) => console.log('pricing payload', payload)} />
+      <PricingInclusionManager onSave={(_payload) => { q.refetch(); }} />
       <div className="space-y-2">
         {(q.data?.data ?? []).map((pkg) => (
           <div key={pkg.id} className="flex items-center justify-between rounded border p-3">

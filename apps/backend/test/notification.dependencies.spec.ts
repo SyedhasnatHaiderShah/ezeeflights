@@ -44,7 +44,7 @@ describe('Dependency integration checks', () => {
       ],
     }).compile();
 
-    await moduleRef.get(BookingService).create('u1', { totalAmount: 200, currency: 'USD' });
+    await moduleRef.get(BookingService).create('u1', { totalAmount: 200, currency: 'USD' } as any);
     expect(events.emit).toHaveBeenCalledWith('booking.confirmed', expect.any(Object));
   });
 

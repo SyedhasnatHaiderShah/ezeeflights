@@ -41,6 +41,6 @@ describe('HotelService', () => {
     const service = moduleRef.get(HotelService);
     const response = await service.search({ city: 'Paris', checkInDate: '2026-07-01', checkOutDate: '2026-07-02', page: 1, limit: 20 });
     expect(providerSearch).toHaveBeenCalled();
-    expect(response.source).toBe('provider-fallback');
+    expect((response as any).source).toBe('provider-fallback');
   });
 });

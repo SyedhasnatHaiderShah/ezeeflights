@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { AmadeusProvider } from '../../common/providers';
 import { HybridCacheService } from './cache.service';
 import { NormalizedFlightOption } from './types/hybrid.types';
 
@@ -8,7 +9,10 @@ export class FlightProviderService {
   private circuitOpenedAt: number | null = null;
   private failureCount = 0;
 
-  constructor(private readonly cache: HybridCacheService) {}
+  constructor(
+    private readonly cache: HybridCacheService,
+    private readonly amadeusProvider: AmadeusProvider,
+  ) {}
 
   async getFlights(params: {
     origin: string;
@@ -21,61 +25,31 @@ export class FlightProviderService {
     const cached = await this.cache.get<NormalizedFlightOption[]>(cacheKey);
     if (cached) return cached;
 
-    const providers = [
-      { name: 'amadeus', key: process.env.AMADEUS_API_KEY, baseUrl: process.env.AMADEUS_BASE_URL },
-      { name: 'duffel', key: process.env.DUFFEL_API_KEY, baseUrl: process.env.DUFFEL_BASE_URL },
-      { name: 'skyscanner', key: process.env.SKYSCANNER_API_KEY, baseUrl: process.env.SKYSCANNER_BASE_URL },
-    ];
-
-    for (const provider of providers) {
-      const rows = await this.fetchProviderFlights(provider.name, provider.baseUrl, provider.key, params);
-      if (rows.length > 0) {
-        await this.cache.set(cacheKey, rows, 600);
-        return rows;
-      }
+    const amadeusRows = await this.fetchAmadeusFlights(params);
+    if (amadeusRows.length > 0) {
+      await this.cache.set(cacheKey, amadeusRows, 600);
+      return amadeusRows;
     }
 
     return this.fallbackFlights(params);
   }
 
-  private async fetchProviderFlights(
-    provider: string,
-    baseUrl: string | undefined,
-    apiKey: string | undefined,
-    params: { origin: string; destination: string; date: string; travelers: number; currency?: string },
-  ): Promise<NormalizedFlightOption[]> {
-    if (!baseUrl || !apiKey) {
-      return [];
-    }
-
+  private async fetchAmadeusFlights(params: { origin: string; destination: string; date: string; travelers: number; currency?: string }): Promise<NormalizedFlightOption[]> {
     if (this.isCircuitOpen()) {
-      this.logger.warn(`Circuit open for ${provider} flight API; skipping requests.`);
+      this.logger.warn('Circuit open for amadeus flight API; skipping requests.');
       return [];
     }
 
     try {
       const result = await this.requestWithRetry(async () => {
-        const response = await fetch(`${baseUrl}/flights/search`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(params),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Provider ${provider} failed (${response.status})`);
-        }
-
-        return response.json() as Promise<any>;
+        return this.amadeusProvider.searchFlights(params);
       });
 
       this.resetCircuit();
-      return this.normalize(provider, result);
+      return this.normalize('amadeus', result);
     } catch (error) {
       this.recordFailure();
-      this.logger.warn(`Flight provider ${provider} failed: ${(error as Error).message}`);
+      this.logger.warn(`Flight provider amadeus failed: ${(error as Error).message}`);
       return [];
     }
   }

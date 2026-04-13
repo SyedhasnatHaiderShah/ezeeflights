@@ -1,9 +1,8 @@
 import { ResultSearchHeader } from "./ResultSearchHeader";
 import { Suspense } from "react";
-import { Filter, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import * as motion from "framer-motion/client";
 import { Header } from "@/components/sections/Header";
-import { FlightResultContent } from "./FlightResultContent";
 import { FlightResultSkeleton } from "@/components/flights/FlightCardSkeleton";
 import {
   GeminiRecommendations,
@@ -11,40 +10,113 @@ import {
 } from "@/components/ai/GeminiRecommendations";
 import { FloatingSearchButton } from "@/components/search/FloatingSearchButton";
 import { FlightSearchContainer } from "./FlightSearchContainer";
-import flightData from "@/flight-data.json";
-import { FlightSearchResponse } from "@/lib/types/flight-api";
+import { FlightListItem } from "@/lib/types/flight-api";
 
 interface SearchProps {
   searchParams: Promise<Record<string, string | undefined>>;
 }
 
-// Component to simulate data fetching delay on the server
-async function FlightResultsWrapper({ flightsList }: { flightsList: any[] }) {
-  // Simulate API delay (e.g., 2 seconds)
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  return <FlightSearchContainer initialFlights={flightsList} />;
+/** Map backend FlightEntity shape to the FlightListItem shape the UI expects. */
+function toFlightListItem(entity: Record<string, unknown>): FlightListItem {
+  const depAt = String(entity.departureAt ?? "");
+  const arrAt = String(entity.arrivalAt ?? "");
+  const durationMins = Number(entity.duration ?? 0);
+  const airlineName = String(entity.airline ?? "");
+  const airlineCode = String(entity.airlineCode ?? "");
+
+  const segment = {
+    departureDate: depAt,
+    arrivalDate: arrAt,
+    fromAirport: {
+      id: 0,
+      code: String(entity.departureAirport ?? ""),
+      name: String(entity.departureAirport ?? ""),
+      cityCode: String(entity.departureAirport ?? ""),
+      cityName: String(entity.departureAirport ?? ""),
+    },
+    toAirport: {
+      id: 0,
+      code: String(entity.arrivalAirport ?? ""),
+      name: String(entity.arrivalAirport ?? ""),
+      cityCode: String(entity.arrivalAirport ?? ""),
+      cityName: String(entity.arrivalAirport ?? ""),
+    },
+    airline: { id: 0, code: airlineCode, name: airlineName },
+    operatingAirline: { id: 0, code: airlineCode, name: airlineName },
+    flightNo: String(entity.flightNumber ?? ""),
+    equipmentType: "",
+    baggageAllowance: "23kg",
+    elapsedTime: `${Math.floor(durationMins / 60)}h ${durationMins % 60}m`,
+    totalTime: `${Math.floor(durationMins / 60)}h ${durationMins % 60}m`,
+    cabinClass: String(entity.cabinClass ?? "ECONOMY"),
+    isReturn: false,
+  };
+
+  const baseFare = Number(entity.baseFare ?? 0);
+  const tax = Math.round(baseFare * 0.12 * 100) / 100;
+
+  return {
+    flightId: String(entity.id ?? ""),
+    airline: { id: 0, code: airlineCode, name: airlineName },
+    currency: String(entity.currency ?? "USD"),
+    totalTime: durationMins,
+    totalCost: baseFare + tax,
+    stops: Number(entity.stops ?? 0),
+    outbound: [segment],
+    inbound: [],
+    flightFare: {
+      adultFare: baseFare,
+      adultTax: tax,
+      grandTotal: baseFare + tax,
+    },
+  };
+}
+
+async function fetchFlights(params: URLSearchParams): Promise<FlightListItem[]> {
+  const apiBase =
+    process.env.INTERNAL_API_BASE_URL ??
+    process.env.NEXT_PUBLIC_API_BASE_URL ??
+    "http://localhost:4000/v1";
+
+  try {
+    const res = await fetch(`${apiBase}/flights/search?${params.toString()}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    const data = (await res.json()) as Record<string, unknown>[];
+    return Array.isArray(data) ? data.map(toFlightListItem) : [];
+  } catch {
+    return [];
+  }
+}
+
+async function FlightResultsWrapper({ searchParams }: { searchParams: URLSearchParams }) {
+  const flights = await fetchFlights(searchParams);
+  return <FlightSearchContainer initialFlights={flights} />;
 }
 
 export default async function FlightResultsPage({ searchParams }: SearchProps) {
   const unwrappedParams = await searchParams;
-  console.log("📥 FlightResultsPage Received Params:", unwrappedParams);
 
-  // Use data from flight-data.json as the primary source as requested
-  const typedFlightData = flightData as unknown as FlightSearchResponse;
-  const { flightsSearchRQ, flightsList } = typedFlightData;
-
-  const origin = unwrappedParams.org || flightsSearchRQ.from || "LHE";
-  const destination = unwrappedParams.des || flightsSearchRQ.to || "DXB";
+  const origin = unwrappedParams.org ?? "LHE";
+  const destination = unwrappedParams.des ?? "DXB";
   const departureDate =
-    unwrappedParams.dDate ||
-    flightsSearchRQ.depDate ||
-    new Date().toISOString().slice(0, 10);
+    unwrappedParams.dDate ?? new Date().toISOString().slice(0, 10);
   const returnDate = unwrappedParams.rDate;
-  const adt = unwrappedParams.adt || flightsSearchRQ.adult.toString() || "1";
-  const chd = unwrappedParams.chd || "0";
-  const inf = unwrappedParams.inf || "0";
-  const cabinClass = unwrappedParams.class || "Economy";
-  const tripType = unwrappedParams.trip || "round-trip";
+  const adt = unwrappedParams.adt ?? "1";
+  const chd = unwrappedParams.chd ?? "0";
+  const inf = unwrappedParams.inf ?? "0";
+  const cabinClass = unwrappedParams.class ?? "Economy";
+  const tripType = unwrappedParams.trip ?? "round-trip";
+
+  const apiParams = new URLSearchParams({
+    origin,
+    destination,
+    departureDate,
+    page: unwrappedParams.page ?? "1",
+    limit: unwrappedParams.limit ?? "20",
+  });
+  if (cabinClass) apiParams.set("cabinClass", cabinClass.toUpperCase().replace(/ /g, "_"));
 
   const query = new URLSearchParams({
     origin,
@@ -101,7 +173,7 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
             </div>
           </div>
         }>
-          <FlightResultsWrapper flightsList={flightsList} />
+          <FlightResultsWrapper searchParams={apiParams} />
         </Suspense>
 
         <div className="max-w-[1240px] mx-auto px-4">

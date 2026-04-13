@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Injectable, Logger } from '@nestjs/common';
 
 export interface HotelProvider {
@@ -9,38 +10,94 @@ export interface HotelProvider {
 class BookingComAdapter implements HotelProvider {
   constructor(private readonly apiKey?: string) {}
 
-  async searchHotels(): Promise<unknown[]> {
+  async searchHotels(criteria: Record<string, unknown>): Promise<unknown[]> {
     if (!this.apiKey) {
       return [];
     }
-    return [];
+    try {
+      const response = await axios.get('https://distribution-xml.booking.com/json/bookings.search', {
+        headers: { Authorization: `Bearer ${this.apiKey}` },
+        params: criteria,
+      });
+      return Array.isArray(response.data?.result) ? response.data.result : [];
+    } catch {
+      return [];
+    }
   }
 
-  async getHotelDetails(): Promise<unknown | null> {
-    return null;
+  async getHotelDetails(hotelId: string): Promise<unknown | null> {
+    if (!this.apiKey) {
+      return null;
+    }
+    try {
+      const response = await axios.get(`https://distribution-xml.booking.com/json/hotels/${hotelId}`, {
+        headers: { Authorization: `Bearer ${this.apiKey}` },
+      });
+      return (response.data as Record<string, unknown>) ?? null;
+    } catch {
+      return null;
+    }
   }
 
-  async getRooms(): Promise<unknown[]> {
-    return [];
+  async getRooms(hotelId: string): Promise<unknown[]> {
+    if (!this.apiKey) {
+      return [];
+    }
+    try {
+      const response = await axios.get(`https://distribution-xml.booking.com/json/hotels/${hotelId}/rooms`, {
+        headers: { Authorization: `Bearer ${this.apiKey}` },
+      });
+      return Array.isArray(response.data?.rooms) ? response.data.rooms : [];
+    } catch {
+      return [];
+    }
   }
 }
 
 class ExpediaAdapter implements HotelProvider {
   constructor(private readonly apiKey?: string) {}
 
-  async searchHotels(): Promise<unknown[]> {
+  async searchHotels(criteria: Record<string, unknown>): Promise<unknown[]> {
     if (!this.apiKey) {
       return [];
     }
-    return [];
+    try {
+      const response = await axios.get('https://api.expediagroup.com/x/hotels/search', {
+        headers: { Authorization: `Bearer ${this.apiKey}` },
+        params: criteria,
+      });
+      return Array.isArray(response.data?.data) ? response.data.data : [];
+    } catch {
+      return [];
+    }
   }
 
-  async getHotelDetails(): Promise<unknown | null> {
-    return null;
+  async getHotelDetails(hotelId: string): Promise<unknown | null> {
+    if (!this.apiKey) {
+      return null;
+    }
+    try {
+      const response = await axios.get(`https://api.expediagroup.com/x/hotels/${hotelId}`, {
+        headers: { Authorization: `Bearer ${this.apiKey}` },
+      });
+      return (response.data as Record<string, unknown>) ?? null;
+    } catch {
+      return null;
+    }
   }
 
-  async getRooms(): Promise<unknown[]> {
-    return [];
+  async getRooms(hotelId: string): Promise<unknown[]> {
+    if (!this.apiKey) {
+      return [];
+    }
+    try {
+      const response = await axios.get(`https://api.expediagroup.com/x/hotels/${hotelId}/rooms`, {
+        headers: { Authorization: `Bearer ${this.apiKey}` },
+      });
+      return Array.isArray(response.data?.rooms) ? response.data.rooms : [];
+    } catch {
+      return [];
+    }
   }
 }
 

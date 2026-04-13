@@ -3,6 +3,7 @@ import { AppEventBus } from '../../../common/events/app-event-bus.service';
 import { LoyaltyService } from '../../loyalty/services/loyalty.service';
 import { NotificationService } from '../../notification/services/notification.service';
 import { PaymentService } from '../../payment/services/payment.service';
+import { PaymentProvider } from '../../payment/entities/payment.entity';
 import { ProfileService } from '../../profile/services/profile.service';
 import { UserService } from '../../user/services/user.service';
 import { CreateHotelBookingDto } from '../dto/create-hotel-booking.dto';
@@ -34,9 +35,10 @@ export class HotelBookingService {
       if (process.env.ENABLE_LEGACY_PAYMENT_BRIDGE === 'true') {
         await this.paymentService.createPayment({
           bookingId: booking.id,
+          userId,
           amount: booking.totalPrice,
           currency: booking.currency as 'USD' | 'AED' | 'EUR' | 'GBP',
-          provider: dto.paymentProvider,
+          provider: dto.paymentProvider as PaymentProvider,
         });
       }
       await this.repository.markPaymentStatus(booking.id, 'PAID');

@@ -16,8 +16,8 @@ export default async function DestinationsPage() {
 
   try {
     countries = await listDestinations();
-  } catch (error) {
-    console.error("Error fetching destinations:", error);
+  } catch {
+    // destinations will render empty — non-fatal
   }
 
   return (

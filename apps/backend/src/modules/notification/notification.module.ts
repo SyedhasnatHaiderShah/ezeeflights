@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { notificationFactoryProvider } from '../../common/providers';
 import { NotificationController } from './controllers/notification.controller';
 import { NotificationService } from './services/notification.service';
 import { NotificationRepository } from './repositories/notification.repository';
@@ -27,6 +28,7 @@ import { PriceAlertCron } from './price-alerts/price-alert.cron';
     NotificationQueue,
     TemplateEngineService,
     NotificationProvidersService,
+    notificationFactoryProvider,
     NotificationProcessor,
     AdminGuard,
     NotificationEventsListener,

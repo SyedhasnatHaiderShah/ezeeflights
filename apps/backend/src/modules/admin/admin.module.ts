@@ -18,6 +18,6 @@ import { AdminRbacGuard } from './rbac.middleware';
   ],
   controllers: [AdminController],
   providers: [AdminService, AdminRepository, AuditService, AdminRbacGuard, PostgresClient],
-  exports: [AdminService],
+  exports: [AdminService, AuditService, AdminRepository, AdminRbacGuard],
 })
 export class AdminModule {}

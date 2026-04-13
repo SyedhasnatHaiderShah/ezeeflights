@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { paymentProviderFactory } from '../../common/providers';
 import { PostgresClient } from '../../database/postgres.client';
 import { LoyaltyModule } from '../loyalty/loyalty.module';
 import { NotificationModule } from '../notification/notification.module';
@@ -48,4 +49,4 @@ import { WalletService } from './wallet.service';
   ],
   exports: [PaymentService, WalletService],
 })
-export class PaymentModule {}
+export class PaymentModule { }

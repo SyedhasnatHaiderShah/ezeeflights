@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const modifyBookingSchema = z.discriminatedUnion('changeType', [
+export const modifyBookingSchema = z.union([
   z.object({
     changeType: z.literal('DATE_CHANGE'),
     flightId: z.string().uuid(),

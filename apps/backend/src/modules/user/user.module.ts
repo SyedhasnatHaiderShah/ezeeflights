@@ -10,6 +10,6 @@ import { PostgresClient } from '../../database/postgres.client';
   imports: [AuthModule],
   controllers: [UserController, UsersController],
   providers: [UserService, UserRepository, PostgresClient],
-  exports: [UserService],
+  exports: [UserService, UserRepository],
 })
 export class UserModule {}

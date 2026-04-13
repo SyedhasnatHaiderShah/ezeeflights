@@ -33,7 +33,7 @@ describe('PaymentService', () => {
     createSession: jest.fn(async () => ({ providerPaymentId: 'txn_1', redirectUrl: 'https://pay', raw: { ok: true } })),
     verifyWebhook: jest.fn(() => true),
     parseWebhook: jest.fn(() => ({ paymentId: 'p1', transactionId: 'txn_1', status: 'SUCCESS' })),
-    refund: jest.fn(async () => ({ providerRefundId: 'rf_1', status: 'SUCCESS', raw: { ok: true } })),
+    refund: jest.fn(async () => ({ providerRefundId: 'rf_1', status: 'SUCCESS' as const, raw: { ok: true } })),
   };
 
   const service = new PaymentService(repository, notification, loyalty, [provider]);

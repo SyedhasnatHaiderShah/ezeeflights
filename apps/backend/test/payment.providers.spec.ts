@@ -1,20 +1,42 @@
-import { StripeProvider } from '../src/modules/payment/providers/stripe.provider';
+import { paymentProviderFactory } from '../src/common/providers/payment-provider.factory';
 
-describe('StripeProvider', () => {
-  const provider = new StripeProvider();
+describe('paymentProviderFactory', () => {
+  const factory = paymentProviderFactory as any;
+  const stripe = { provider: 'STRIPE' };
+  const paytabs = { provider: 'PAYTABS' };
+  const tabby = { provider: 'TABBY' };
+  const tamara = { provider: 'TAMARA' };
+  const originalEnv = process.env.PAYMENT_PROVIDER;
 
-  it('verifies webhook signature', () => {
-    process.env.STRIPE_WEBHOOK_SECRET = 'secret';
-    const payload = { id: 'evt_1' };
-    const raw = JSON.stringify(payload);
-    const crypto = require('crypto');
-    const sig = crypto.createHmac('sha256', 'secret').update(raw).digest('hex');
-    expect(provider.verifyWebhook(payload, sig, raw)).toBe(true);
+  afterEach(() => {
+    if (originalEnv === undefined) {
+      delete process.env.PAYMENT_PROVIDER;
+    } else {
+      process.env.PAYMENT_PROVIDER = originalEnv;
+    }
   });
 
-  it('parses successful webhook', () => {
-    const parsed = provider.parseWebhook({ data: { id: 'pi_1', status: 'succeeded', metadata: { paymentId: 'p1' } } });
-    expect(parsed.status).toBe('SUCCESS');
-    expect(parsed.paymentId).toBe('p1');
+  it('returns stripe when PAYMENT_PROVIDER=stripe', () => {
+    process.env.PAYMENT_PROVIDER = 'stripe';
+    const provider = factory.useFactory(stripe as any, paytabs as any, tabby as any, tamara as any);
+    expect(provider).toBe(stripe);
+  });
+
+  it('returns paytabs when PAYMENT_PROVIDER=paytabs', () => {
+    process.env.PAYMENT_PROVIDER = 'paytabs';
+    const provider = factory.useFactory(stripe as any, paytabs as any, tabby as any, tamara as any);
+    expect(provider).toBe(paytabs);
+  });
+
+  it('returns tabby when PAYMENT_PROVIDER=tabby', () => {
+    process.env.PAYMENT_PROVIDER = 'tabby';
+    const provider = factory.useFactory(stripe as any, paytabs as any, tabby as any, tamara as any);
+    expect(provider).toBe(tabby);
+  });
+
+  it('returns tamara when PAYMENT_PROVIDER=tamara', () => {
+    process.env.PAYMENT_PROVIDER = 'tamara';
+    const provider = factory.useFactory(stripe as any, paytabs as any, tabby as any, tamara as any);
+    expect(provider).toBe(tamara);
   });
 });

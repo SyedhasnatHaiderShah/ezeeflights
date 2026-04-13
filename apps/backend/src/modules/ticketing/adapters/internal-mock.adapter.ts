@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { BookingDetailsEntity } from '../../booking/entities/booking.entity';
 import { GdsCreatePnrResult, GdsIssueTicketResult, GdsProviderDriver } from '../providers/gds-provider.service';
+import { PnrProvider } from '../entities/ticketing.entity';
 
 @Injectable()
 export class InternalMockAdapter implements GdsProviderDriver {
-  provider = 'INTERNAL' as const;
+  provider: PnrProvider = 'INTERNAL';
 
   async createPNR(_booking: BookingDetailsEntity, preferredPnrCode: string): Promise<GdsCreatePnrResult> {
     return { pnrCode: preferredPnrCode };

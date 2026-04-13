@@ -20,7 +20,14 @@ export default function CheckoutPage() {
     queryFn: () => apiFetch('/payments/wallet/me'),
   });
 
-  const total = 1;
+  const bookingQuery = useQuery<{ totalAmount: number; currency: string }>({
+    queryKey: ['booking', bookingId],
+    queryFn: () => apiFetch(`/bookings/me/${bookingId}`),
+    enabled: !!bookingId,
+  });
+
+  const total = bookingQuery.data?.totalAmount ?? 0;
+  const currency = bookingQuery.data?.currency ?? 'AED';
   const walletBalance = walletQuery.data?.balance ?? 0;
   const walletApplied = useWallet ? Math.min(total, walletBalance) : 0;
 
@@ -35,7 +42,7 @@ export default function CheckoutPage() {
           bookingId,
           provider,
           amount: total,
-          currency: 'AED',
+          currency,
           useWalletAmount: walletApplied,
           paymentMethodId: 'pm_card_visa',
           successUrl: `${window.location.origin}/payment/success`,
