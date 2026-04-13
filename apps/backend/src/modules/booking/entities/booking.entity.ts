@@ -38,3 +38,67 @@ export interface BookingDetailsEntity extends BookingEntity {
   passengers: BookingPassengerEntity[];
   flights: BookingFlightEntity[];
 }
+
+export type TripType = 'flight' | 'hotel' | 'car' | 'transfer' | 'package';
+
+export interface TripSummaryEntity {
+  id: string;
+  type: TripType;
+  status: string;
+  confirmationCode: string;
+  currency: string;
+  total: number;
+  startDate: string;
+  endDate: string;
+  title: string;
+  subtitle: string;
+  createdAt: string;
+}
+
+export interface TripDocumentEntity {
+  fileName: string;
+  content: Buffer;
+}
+
+export interface TripDetailEntity extends TripSummaryEntity {
+  passengers: Array<{ fullName: string; type: string; seatNumber?: string }>;
+  flight?: {
+    origin: string;
+    destination: string;
+    departureAt: string;
+    arrivalAt: string;
+    pnr: string;
+    timeline: Array<{ label: string; value: string }>;
+  };
+  hotel?: {
+    propertyName: string;
+    checkInDate: string;
+    checkOutDate: string;
+    roomType: string;
+    address: string;
+    mapUrl: string;
+  };
+  car?: {
+    name: string;
+    pickupDatetime: string;
+    dropoffDatetime: string;
+  };
+  transfer?: {
+    pickupAddress: string;
+    dropoffAddress: string;
+    pickupDatetime: string;
+    flightNumber?: string;
+  };
+  package?: {
+    title: string;
+    destination: string;
+    durationDays: number;
+  };
+  policy: {
+    canCancel: boolean;
+    cancellationWindow: string;
+    refundEstimate: number;
+    isModifiable: boolean;
+  };
+  availableDocuments: Array<'ticket' | 'voucher' | 'insurance'>;
+}

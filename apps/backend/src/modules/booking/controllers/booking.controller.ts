@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CreateBookingDto } from '../dto/create-booking.dto';
 import { BookingService } from '../services/booking.service';
@@ -28,6 +29,42 @@ export class BookingController {
   @Post()
   createBooking(@Req() req: AuthenticatedRequest, @Body() dto: CreateBookingDto) {
     return this.service.create(req.user.userId, dto);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  myTrips(@Req() req: AuthenticatedRequest, @Query('type') type?: string, @Query('status') status?: string) {
+    return this.service.getMyTrips(req.user.userId, type, status);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('me/:id')
+  myTripDetail(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
+    return this.service.getTripById(req.user.userId, id);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('me/:id/document')
+  async tripDocument(
+    @Req() req: AuthenticatedRequest,
+    @Param('id') id: string,
+    @Query('docType') docType: 'ticket' | 'voucher' | 'insurance' = 'ticket',
+    @Res() res: Response,
+  ): Promise<void> {
+    const document = await this.service.getTripDocument(req.user.userId, id, docType);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${document.fileName}"`);
+    res.send(document.content);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Patch('me/:id/cancel')
+  cancelMyTrip(@Req() req: AuthenticatedRequest, @Param('id') id: string, @Body() body: { reason?: string } = {}) {
+    return this.service.cancelTrip(req.user.userId, id, body.reason);
   }
 
   @ApiBearerAuth()
