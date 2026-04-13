@@ -10,6 +10,12 @@ import { NotificationProvidersService } from './services/providers.service';
 import { NotificationProcessor } from './notification.processor';
 import { AdminGuard } from './guards/admin.guard';
 import { NotificationEventsListener } from './listeners/notification-events.listener';
+import { BookingTriggers } from './triggers/booking.triggers';
+import { PaymentTriggers } from './triggers/payment.triggers';
+import { FlightTriggers } from './triggers/flight.triggers';
+import { PriceAlertTriggers } from './triggers/price-alert.triggers';
+import { PriceAlertService } from './price-alerts/price-alert.service';
+import { PriceAlertCron } from './price-alerts/price-alert.cron';
 
 @Module({
   controllers: [NotificationController],
@@ -24,7 +30,13 @@ import { NotificationEventsListener } from './listeners/notification-events.list
     NotificationProcessor,
     AdminGuard,
     NotificationEventsListener,
+    BookingTriggers,
+    PaymentTriggers,
+    FlightTriggers,
+    PriceAlertTriggers,
+    PriceAlertService,
+    PriceAlertCron,
   ],
-  exports: [NotificationService],
+  exports: [NotificationService, BookingTriggers, PaymentTriggers, FlightTriggers, PriceAlertService],
 })
 export class NotificationModule {}

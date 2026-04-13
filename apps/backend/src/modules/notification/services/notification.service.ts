@@ -6,6 +6,7 @@ import { NotificationQueue } from '../queue/notification.queue';
 import { NotificationEntity } from '../entities/notification.entity';
 import { TemplateEngineService } from './template-engine.service';
 import { NotificationProvidersService } from './providers.service';
+import { cannedTemplates } from '../templates';
 
 @Injectable()
 export class NotificationService {
@@ -35,6 +36,30 @@ export class NotificationService {
     await this.repository.upsertQueue(notification.id, 0, new Date());
 
     return notification;
+  }
+
+  async sendEmail(to: string, templateName: string, variables: Record<string, unknown>): Promise<void> {
+    const template = this.getCannedTemplate(templateName);
+    const subject = this.templateEngine.render(template.subject, variables);
+    const html = this.templateEngine.render(template.html, variables);
+    const text = this.templateEngine.render(template.text, variables);
+    await this.providers.sendEmail(to, subject, html, text);
+  }
+
+  async sendSms(to: string, templateName: string, variables: Record<string, unknown>): Promise<void> {
+    const template = this.getCannedTemplate(templateName);
+    const body = this.templateEngine.render(template.sms, variables);
+    await this.providers.sendSms(to, body);
+  }
+
+  async sendWhatsApp(to: string, templateName: string, variables: Record<string, unknown>): Promise<void> {
+    const template = this.getCannedTemplate(templateName);
+    const body = this.templateEngine.render(template.whatsapp, variables);
+    await this.providers.sendWhatsApp(to, body);
+  }
+
+  async sendPush(_userId: string, _title: string, _body: string, _data?: Record<string, unknown>): Promise<void> {
+    return Promise.resolve();
   }
 
   getById(id: string) {
@@ -122,6 +147,14 @@ export class NotificationService {
     });
   }
 
+  private getCannedTemplate(templateName: string) {
+    const template = cannedTemplates[templateName];
+    if (!template) {
+      throw new NotFoundException(`Template not found: ${templateName}`);
+    }
+    return template;
+  }
+
   private async getRenderedMessage(notification: NotificationEntity): Promise<{ subject: string; body: string }> {
     const payload = notification.payload as Record<string, unknown>;
     const templateName = typeof payload.templateName === 'string' ? payload.templateName : null;
@@ -141,7 +174,7 @@ export class NotificationService {
 
     if (notification.type === 'EMAIL') {
       const to = this.getString(payload.email, 'email');
-      return this.providers.sendEmail(to, subject, body);
+      return this.providers.sendEmail(to, subject, body, body);
     }
 
     if (notification.type === 'SMS') {
