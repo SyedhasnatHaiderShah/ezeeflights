@@ -1,15 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString, IsUUID, Min } from 'class-validator';
+import { IsIn, IsNumber, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 
 export class EarnPointsDto {
   @ApiProperty()
   @IsUUID()
   userId!: string;
 
+  @ApiProperty({ enum: ['flight', 'hotel', 'car', 'package'], default: 'flight' })
+  @IsIn(['flight', 'hotel', 'car', 'package'])
+  bookingType!: 'flight' | 'hotel' | 'car' | 'package';
+
   @ApiProperty({ minimum: 0 })
   @IsNumber()
   @Min(0)
-  amount!: number;
+  bookingTotal!: number;
+
+  @ApiProperty({ default: 'USD' })
+  @IsString()
+  currency!: string;
 
   @ApiProperty({ required: false })
   @IsOptional()

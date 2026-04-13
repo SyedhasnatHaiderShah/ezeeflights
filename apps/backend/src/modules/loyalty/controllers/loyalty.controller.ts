@@ -37,6 +37,6 @@ export class LoyaltyController {
 
   @Post('earn')
   earn(@Body() dto: EarnPointsDto) {
-    return this.service.earnPoints(dto.userId, dto.amount, dto.referenceId);
+    return this.service.earnPoints(dto.userId, dto.bookingType, dto.bookingTotal, dto.currency, dto.referenceId);
   }
 }
