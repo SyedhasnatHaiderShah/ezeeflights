@@ -23,4 +23,13 @@ export class InitiatePaymentDto {
 
   @IsOptional()
   metadata?: Record<string, unknown>;
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  useWalletAmount?: number;
+
+  @IsOptional()
+  @IsString()
+  paymentMethodId?: string;
 }
+

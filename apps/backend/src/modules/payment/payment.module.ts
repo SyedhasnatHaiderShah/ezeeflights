@@ -11,6 +11,7 @@ import { TabbyProvider } from './providers/tabby.provider';
 import { TamaraProvider } from './providers/tamara.provider';
 import { PaymentRepository } from './repositories/payment.repository';
 import { PaymentService } from './services/payment.service';
+import { WalletService } from './wallet.service';
 
 @Module({
   imports: [NotificationModule, LoyaltyModule],
@@ -34,7 +35,17 @@ import { PaymentService } from './services/payment.service';
       ],
       inject: [StripeProvider, PaytabsProvider, TabbyProvider, TamaraProvider],
     },
+    {
+      provide: 'PAYMENT_PROVIDER_MAP',
+      useFactory: (drivers: Array<{ provider: string }>) => new Map(drivers.map((driver: { provider: string }) => [driver.provider, driver])),
+      inject: ['PAYMENT_PROVIDER_DRIVERS'],
+    },
+    {
+      provide: WalletService,
+      useFactory: (repository: PaymentRepository, providerMap: Map<string, any>) => new WalletService(repository, providerMap),
+      inject: [PaymentRepository, 'PAYMENT_PROVIDER_MAP'],
+    },
   ],
-  exports: [PaymentService],
+  exports: [PaymentService, WalletService],
 })
 export class PaymentModule {}
