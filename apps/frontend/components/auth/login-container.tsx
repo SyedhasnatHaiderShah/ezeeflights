@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoginForm } from "@/components/auth/login-form";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
+import { AuthImageGrid } from "@/components/auth/auth-image-grid";
 import { loginRequest } from "@/lib/api/auth-api";
 import { queryClient } from "@/lib/query/query-client";
 
@@ -63,57 +64,65 @@ export function LoginContainer() {
   };
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="space-y-8"
-    >
-      <motion.div variants={itemVariants}>
-        <LoginForm
-          email={email}
-          password={password}
-          onEmailChange={setEmail}
-          onPasswordChange={setPassword}
-          onSubmit={onSubmit}
-          disabled={busy}
-          error={error}
-        />
-      </motion.div>
+    <div className="flex flex-col md:flex-row items-stretch min-h-screen">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full md:w-1/2 lg:w-[45%] p-4 sm:p-12 space-y-5 flex flex-col justify-center"
+      >
+        <div className="w-full max-w-md mx-auto space-y-5">
+          <motion.div variants={itemVariants}>
+            <LoginForm
+              email={email}
+              password={password}
+              onEmailChange={setEmail}
+              onPasswordChange={setPassword}
+              onSubmit={onSubmit}
+              disabled={busy}
+              error={error}
+            />
+          </motion.div>
 
-      <motion.div variants={itemVariants} className="space-y-6">
-        <OAuthButtons />
+          <motion.div variants={itemVariants} className="space-y-5">
+            <OAuthButtons />
 
-        <p className="text-xs text-center font-medium text-muted-foreground/60 leading-relaxed px-4">
-          By continuing, you agree to our{" "}
-          <Link
-            href={"/terms" as any}
-            className="text-primary hover:underline font-semibold"
-          >
-            Terms of Use
-          </Link>{" "}
-          and{" "}
-          <Link
-            href={"/privacy" as any}
-            className="text-primary hover:underline font-semibold"
-          >
-            Privacy Policy
-          </Link>
-          .
-        </p>
+            <p className="text-xs text-center text-brand-dark/80 leading-relaxed px-4">
+              By continuing, you agree to our{" "}
+              <Link
+                href={"/terms" as any}
+                className="text-brand-blue hover:underline font-semibold"
+              >
+                Terms of Use
+              </Link>{" "}
+              and{" "}
+              <Link
+                href={"/privacy" as any}
+                className="text-brand-blue hover:underline font-semibold"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
 
-        <div className="pt-5 text-center border-t border-border/50">
-          <p className="text-xs text-muted-foreground font-medium">
-            New to Ezee Flights?{" "}
-            <Link
-              href={"/auth/signup" as any}
-              className="text-redmix hover:underline font-bold"
-            >
-              Create account
-            </Link>
-          </p>
+            <div className="pt-5 md:pt-10 text-center border-t border-border/50">
+              <p className="text-xs text-brand-dark/80 font-medium">
+                New to Ezee Flights?{" "}
+                <Link
+                  href={"/auth/signup" as any}
+                  className="text-redmix text-sm hover:underline font-bold"
+                >
+                  Create account
+                </Link>
+              </p>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
-    </motion.div>
+
+      <div className="hidden md:flex md:w-1/2 lg:w-[55%] bg-muted/5 border-l border-border/50 overflow-hidden">
+        <AuthImageGrid />
+      </div>
+    </div>
   );
 }

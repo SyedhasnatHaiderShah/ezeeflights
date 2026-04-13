@@ -36,32 +36,47 @@ export function DatePicker({
   defaultMonth,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
+  const timeoutRef = React.useRef<NodeJS.Timeout>();
+
+  // Cleanup timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
           disabled={disabled}
           aria-disabled={disabled}
           className={cn(
-            "w-full justify-between min-w-40 h-full px-4 py-2 bg-background hover:bg-muted transition-all group rounded-none border-border",
-            date && "bg-background",
+            "w-full justify-between h-full px-3 py-2 bg-transparent hover:bg-brand-red/5 transition-colors group rounded-none border-none shadow-none outline-none ring-0",
+            open && "bg-brand-red/5 z-10",
+            date && "bg-transparent",
             disabled && "opacity-50 cursor-not-allowed",
             className,
           )}
+          onMouseEnter={() => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            setOpen(true);
+          }}
+          onMouseLeave={() => {
+            timeoutRef.current = setTimeout(() => {
+              setOpen(false);
+            }, 150);
+          }}
         >
           <div className="flex flex-col items-start flex-1 min-w-0">
             <span className="text-[10px] font-semibold text-foreground capitalize leading-none mb-0.5 tracking-tight">
               {label}
             </span>
             <div className="flex items-center gap-1.5 w-full">
-              <CalendarIcon
-                className={cn(
-                  "h-3.5 w-3.5 shrink-0 transition-colors",
-                  date ? "text-foreground" : "text-foreground/60",
-                )}
-              />
+
               <span
                 className={cn(
                   "truncate font-semibold text-sm tracking-tight",
@@ -84,6 +99,14 @@ export function DatePicker({
         className="w-auto p-0 border border-border bg-background text-foreground shadow-2xl rounded-2xl overflow-hidden"
         align="start"
         sideOffset={10}
+        onMouseEnter={() => {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        }}
+        onMouseLeave={() => {
+          timeoutRef.current = setTimeout(() => {
+            setOpen(false);
+          }, 150);
+        }}
       >
         <Calendar
           mode="single"

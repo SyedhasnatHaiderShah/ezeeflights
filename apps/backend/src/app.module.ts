@@ -24,6 +24,9 @@ import { AiItineraryModule } from './modules/ai-itinerary/ai-itinerary.module';
 import { HybridEngineModule } from './modules/hybrid-engine/hybrid.module';
 import { DestinationModule } from './modules/destinations/destination.module';
 import { SupportModule } from './modules/support/support.module';
+import { InsuranceModule } from './modules/insurance/insurance.module';
+import { TransfersModule } from './modules/transfers/transfers.module';
+import { CarsModule } from './modules/cars/cars.module';
 
 @Module({
   imports: [
@@ -52,6 +55,9 @@ import { SupportModule } from './modules/support/support.module';
     HybridEngineModule,
     DestinationModule,
     SupportModule,
+    InsuranceModule,
+    TransfersModule,
+    CarsModule,
   ],
 })
 export class AppModule {}

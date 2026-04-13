@@ -114,15 +114,15 @@ export default function LandingPage() {
 
       <main className="flex-grow bg-background">
         <motion.div
-           variants={containerVariants}
-           initial="hidden"
-           animate="visible"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
           <motion.div variants={itemVariants}>
             <Hero />
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={itemVariants}
             className="max-w-[1400px] mx-auto px-6 md:px-12 w-full pb-16"
           >
@@ -135,9 +135,9 @@ export default function LandingPage() {
             <TopDestinations />
           </ScrollReveal>
 
-          <ScrollReveal minHeight="500px" rootMargin="500px">
+          {/* <ScrollReveal minHeight="500px" rootMargin="500px">
             <WhyChooseUs />
-          </ScrollReveal>
+          </ScrollReveal> */}
 
           <ScrollReveal minHeight="600px" rootMargin="600px">
             <SpecialOffers />

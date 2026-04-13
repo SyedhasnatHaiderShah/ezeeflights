@@ -103,6 +103,12 @@ const itemVariants = {
 
 export function MobileBottomNav() {
   const pathname = usePathname();
+
+  // Hide mobile nav on auth pages
+  if (pathname?.startsWith("/auth")) {
+    return null;
+  }
+
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -231,7 +237,7 @@ export function MobileBottomNav() {
                               <Link
                                 href={item.url as any}
                                 onClick={() => setIsOpen(false)}
-                                onPointerDown={(e) => e.stopPropagation()}
+                                onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
                                 className="flex flex-col items-center justify-start gap-3 group"
                                 style={{
                                   WebkitTapHighlightColor: "transparent",
@@ -270,7 +276,7 @@ export function MobileBottomNav() {
                             onClick={() =>
                               setTheme(theme === "dark" ? "light" : "dark")
                             }
-                            onPointerDown={(e) => e.stopPropagation()}
+                            onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
                             className="flex flex-col items-center justify-start gap-3 group"
                             style={{ WebkitTapHighlightColor: "transparent" }}
                           >
@@ -287,7 +293,7 @@ export function MobileBottomNav() {
                         <motion.div variants={itemVariants}>
                           <button
                             onClick={toggleFullScreen}
-                            onPointerDown={(e) => e.stopPropagation()}
+                            onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
                             className="flex flex-col items-center justify-start gap-3 group"
                             style={{ WebkitTapHighlightColor: "transparent" }}
                           >
