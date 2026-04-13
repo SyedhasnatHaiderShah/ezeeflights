@@ -10,8 +10,17 @@ export class LoyaltyEventsListener implements OnModuleInit {
   ) {}
 
   onModuleInit(): void {
-    this.events.on<{ userId: string; bookingId: string; amount: number }>('booking.confirmed', async (event) => {
-      await this.loyaltyService.earnPoints(event.userId, event.amount, event.bookingId);
-    });
+    this.events.on<{ userId: string; bookingId: string; amount: number; bookingType?: 'flight' | 'hotel' | 'car' | 'package'; currency?: string }>(
+      'booking.confirmed',
+      async (event) => {
+        await this.loyaltyService.earnPoints(
+          event.userId,
+          event.bookingType ?? 'flight',
+          event.amount,
+          event.currency ?? 'USD',
+          event.bookingId,
+        );
+      },
+    );
   }
 }
