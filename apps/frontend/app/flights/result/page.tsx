@@ -87,7 +87,8 @@ async function fetchFlights(params: URLSearchParams): Promise<FlightListItem[]> 
     });
     
     if (!res.ok) {
-      console.error(`❌ Flight search failed: ${res.status} ${res.statusText}`);
+      const errorBody = await res.json().catch(() => null);
+      console.error(`❌ Flight search failed: ${res.status} ${res.statusText}`, errorBody);
       return [];
     }
     
