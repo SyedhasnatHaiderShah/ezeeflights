@@ -27,6 +27,7 @@ import { SupportModule } from './modules/support/support.module';
 import { InsuranceModule } from './modules/insurance/insurance.module';
 import { TransfersModule } from './modules/transfers/transfers.module';
 import { CarsModule } from './modules/cars/cars.module';
+import { SeederModule } from './common/seeder/seeder.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { CarsModule } from './modules/cars/cars.module';
     InsuranceModule,
     TransfersModule,
     CarsModule,
+    SeederModule,
   ],
 })
 export class AppModule {}
