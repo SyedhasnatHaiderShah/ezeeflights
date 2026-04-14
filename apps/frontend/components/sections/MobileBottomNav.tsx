@@ -101,18 +101,15 @@ const itemVariants = {
   },
 } as const;
 
+import { useAuthSession } from "@/lib/hooks/use-auth-session";
+
 export function MobileBottomNav() {
   const pathname = usePathname();
-
-  // Hide mobile nav on auth pages
-  if (pathname?.startsWith("/auth")) {
-    return null;
-  }
-
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const [isFullScreen, setIsFullScreen] = React.useState(false);
+  const { data: session } = useAuthSession();
 
   React.useEffect(() => {
     setMounted(true);
@@ -126,6 +123,11 @@ export function MobileBottomNav() {
       document.removeEventListener("fullscreenchange", handleFullScreenChange);
     };
   }, []);
+
+  // Hide mobile nav on auth pages - must be AFTER all hooks
+  if (pathname?.startsWith("/auth")) {
+    return null;
+  }
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
@@ -164,14 +166,6 @@ export function MobileBottomNav() {
         <div className="pointer-events-none">
           <AppIcon icon={Icon} isActive={isActive} />
         </div>
-        {/* <span
-          className={cn(
-            "text-[10px] font-bold tracking-tight transition-colors duration-300",
-            isActive ? "text-primary shadow-sm" : "text-muted-foreground",
-          )}
-        >
-          {item.name}
-        </span> */}
       </Link>
     );
   };
@@ -209,7 +203,7 @@ export function MobileBottomNav() {
               </Drawer.Trigger>
 
               <Drawer.Portal>
-                <Drawer.Overlay className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm" />
+                <Drawer.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
                 <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[100] mt-24 flex h-[85vh] flex-col rounded-t-[24px] bg-background border-t shadow-2xl focus:outline-none appearance-none overflow-hidden">
                   <Drawer.Title className="sr-only">Main Menu</Drawer.Title>
                   <Drawer.Description className="sr-only">
@@ -227,11 +221,16 @@ export function MobileBottomNav() {
                       <div className="grid grid-cols-4 gap-y-10 gap-x-4">
                         {NAVIGATION_ITEMS.map((item) => {
                           const isActive = pathname === item.url;
+                          // Dynamic label for Sign in / Profile
+                          let displayTitle = item.title;
+                          if (item.url === "/profile") {
+                            displayTitle = session ? "Profile" : "Sign in / Profile";
+                          }
+
                           return (
                             <motion.div
                               key={item.title}
                               variants={itemVariants}
-                              // whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
                               <Link
@@ -264,12 +263,13 @@ export function MobileBottomNav() {
                                       : "text-muted-foreground group-hover:text-redmix",
                                   )}
                                 >
-                                  {item.title}
+                                  {displayTitle}
                                 </span>
                               </Link>
                             </motion.div>
                           );
                         })}
+
 
                         <motion.div variants={itemVariants}>
                           <button

@@ -9,6 +9,7 @@ import { queryClient } from "@/lib/query/query-client";
 
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
+import { useToast } from "@/lib/hooks/use-toast";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -36,6 +37,7 @@ const itemVariants: Variants = {
 
 export function RegisterContainer() {
   const router = useRouter();
+  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -54,10 +56,39 @@ export function RegisterContainer() {
         firstName: firstName || undefined,
         lastName: lastName || undefined,
       });
+
+      toast({
+        title: "Registration successful",
+        description: "Welcome! Your account has been created.",
+        variant: "success",
+      });
+
       await queryClient.invalidateQueries({ queryKey: ["auth-session"] });
-      router.push("/dashboard" as any);
-    } catch {
-      setError("Registration failed. Email may already be in use.");
+      router.push("/" as any);
+    } catch (err: any) {
+      let message = "Registration failed. Email may already be in use.";
+
+      // Try to parse structured errors from the backend
+      try {
+        const parsed = JSON.parse(err.message);
+        if (parsed.message) {
+          message = Array.isArray(parsed.message)
+            ? parsed.message[0]
+            : parsed.message;
+        }
+      } catch {
+        // Fallback to the raw error message if it's not JSON
+        if (err.message && !err.message.includes("{")) {
+          message = err.message;
+        }
+      }
+
+      setError(message);
+      toast({
+        title: "Registration Error",
+        description: message,
+        variant: "destructive",
+      });
     } finally {
       setBusy(false);
     }

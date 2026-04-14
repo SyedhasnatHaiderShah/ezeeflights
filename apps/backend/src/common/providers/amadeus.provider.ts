@@ -7,8 +7,8 @@ export class AmadeusProvider {
 
   constructor() {
     this.client = new Amadeus({
-      clientId: process.env.AMADEUS_CLIENT_ID ?? 'amadeus-client-id',
-      clientSecret: process.env.AMADEUS_CLIENT_SECRET ?? 'amadeus-client-secret',
+      clientId: process.env.AMADEUS_CLIENT_ID || 'amadeus-client-id',
+      clientSecret: process.env.AMADEUS_CLIENT_SECRET || 'amadeus-client-secret',
       hostname: process.env.AMADEUS_ENV === 'production' ? 'production' : 'test',
     });
   }

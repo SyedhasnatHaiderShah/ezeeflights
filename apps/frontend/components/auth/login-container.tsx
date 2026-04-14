@@ -53,7 +53,7 @@ export function LoginContainer() {
         router.push("/2fa" as any);
         return;
       }
-      router.push("/dashboard");
+      router.push("/");
     } catch {
       setError(
         "Sign-in failed. Check credentials or complete two-factor if required.",

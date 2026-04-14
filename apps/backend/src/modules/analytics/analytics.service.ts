@@ -100,18 +100,22 @@ export class AnalyticsService implements OnModuleInit {
   }
 
   private async syncAnalyticsBookings(targetDate?: string): Promise<void> {
-    await this.db.query(
-      `INSERT INTO analytics_bookings (booking_id, user_id, amount, currency, status, created_at)
-       SELECT b.id, b.user_id, b.total_amount, b.currency, b.status, b.created_at
-       FROM bookings b
-       WHERE ($1::date IS NULL OR b.created_at::date = $1::date)
-       ON CONFLICT (booking_id) DO UPDATE
-       SET user_id = EXCLUDED.user_id,
-           amount = EXCLUDED.amount,
-           currency = EXCLUDED.currency,
-           status = EXCLUDED.status,
-           created_at = LEAST(analytics_bookings.created_at, EXCLUDED.created_at)`,
-      [targetDate ?? null],
-    );
+    try {
+      await this.db.query(
+        `INSERT INTO analytics_bookings (booking_id, user_id, amount, currency, status, created_at)
+         SELECT b.id, b.user_id, b.total_amount, b.currency, b.status, b.created_at
+         FROM bookings b
+         WHERE ($1::date IS NULL OR b.created_at::date = $1::date)
+         ON CONFLICT (booking_id, created_at) DO UPDATE
+         SET user_id = EXCLUDED.user_id,
+             amount = EXCLUDED.amount,
+             currency = EXCLUDED.currency,
+             status = EXCLUDED.status`,
+        [targetDate ?? null],
+      );
+    } catch (error) {
+      // Prevent analytics sync from crashing the backend
+      console.error('Failed to sync analytics bookings:', error);
+    }
   }
 }
