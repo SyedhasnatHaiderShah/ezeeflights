@@ -46,11 +46,6 @@ const SpecialOffers = dynamic(
     ),
   { loading: () => <SectionSkeleton height={600} /> },
 );
-const WhyChooseUs = dynamic(
-  () =>
-    import("@/components/sections/WhyChooseUs").then((mod) => mod.WhyChooseUs),
-  { loading: () => <SectionSkeleton height={500} /> },
-);
 const PrecisionFeatures = dynamic(
   () =>
     import("@/components/sections/PrecisionFeatures").then(
@@ -72,7 +67,6 @@ function prefetchChunks() {
   const imports = [
     () => import("@/components/sections/TopDestinations"),
     () => import("@/components/sections/SpecialOffers"),
-    () => import("@/components/sections/WhyChooseUs"),
     () => import("@/components/sections/PrecisionFeatures"),
     () => import("@/components/sections/Newsletter"),
     () => import("@/components/sections/Footer"),
@@ -134,10 +128,6 @@ export default function LandingPage() {
           <ScrollReveal minHeight="600px" rootMargin="600px">
             <TopDestinations />
           </ScrollReveal>
-
-          {/* <ScrollReveal minHeight="500px" rootMargin="500px">
-            <WhyChooseUs />
-          </ScrollReveal> */}
 
           <ScrollReveal minHeight="600px" rootMargin="600px">
             <SpecialOffers />

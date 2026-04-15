@@ -313,30 +313,29 @@ export class AuthRepository {
     );
   }
 
-  async insertPasswordResetOtp(params: { email: string; code: string; expiresAt: Date }): Promise<void> {
+  async insertPasswordResetOtp(userId: string, otpHash: string, expiresAt: Date): Promise<void> {
     await this.db.query(
-      `INSERT INTO password_reset_otps (email, code, expires_at) VALUES ($1, $2, $3)`,
-      [params.email, params.code, params.expiresAt],
+      `INSERT INTO password_reset_otps (user_id, otp_hash, expires_at) VALUES ($1, $2, $3)`,
+      [userId, otpHash, expiresAt],
     );
   }
 
-  async findActivePasswordResetOtp(email: string, code: string): Promise<boolean> {
-    const row = await this.db.queryOne<{ one: number }>(
-      `SELECT 1 as one FROM password_reset_otps
-       WHERE lower(email) = lower($1) AND code = $2 AND consumed_at IS NULL AND expires_at > NOW()
+  async findActivePasswordResetOtp(userId: string, otpHash: string): Promise<{ id: string } | null> {
+    return this.db.queryOne<{ id: string }>(
+      `SELECT id FROM password_reset_otps
+       WHERE user_id = $1 AND otp_hash = $2 AND used = FALSE AND expires_at > NOW()
        LIMIT 1`,
-      [email, code],
+      [userId, otpHash],
     );
-    return !!row;
   }
 
-  async consumePasswordResetOtp(email: string, code: string): Promise<boolean> {
+  async consumePasswordResetOtp(id: string): Promise<boolean> {
     const row = await this.db.queryOne<{ id: string }>(
       `UPDATE password_reset_otps
-       SET consumed_at = NOW()
-       WHERE lower(email) = lower($1) AND code = $2 AND consumed_at IS NULL AND expires_at > NOW()
+       SET used = TRUE
+       WHERE id = $1 AND used = FALSE
        RETURNING id`,
-      [email, code],
+      [id],
     );
     return !!row;
   }

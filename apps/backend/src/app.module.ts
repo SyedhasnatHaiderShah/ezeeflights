@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './modules/auth/auth.module';
@@ -28,6 +28,9 @@ import { InsuranceModule } from './modules/insurance/insurance.module';
 import { TransfersModule } from './modules/transfers/transfers.module';
 import { CarsModule } from './modules/cars/cars.module';
 import { SeederModule } from './common/seeder/seeder.module';
+import { MigrationRunner } from './database/migration-runner';
+import { SeederService } from './common/seeder/seeder.service';
+import { PostgresClient } from './database/postgres.client';
 
 @Module({
   imports: [
@@ -61,5 +64,16 @@ import { SeederModule } from './common/seeder/seeder.module';
     CarsModule,
     SeederModule,
   ],
+  providers: [MigrationRunner, PostgresClient],
 })
-export class AppModule {}
+export class AppModule implements OnApplicationBootstrap {
+  constructor(
+    private readonly migrationRunner: MigrationRunner,
+    private readonly seederService: SeederService,
+  ) {}
+
+  async onApplicationBootstrap(): Promise<void> {
+    await this.migrationRunner.run();
+    await this.seederService.seedUsers();
+  }
+}

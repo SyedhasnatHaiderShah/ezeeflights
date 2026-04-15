@@ -97,19 +97,33 @@ export class BookingRepository {
   }
 
   async findById(id: string, userId?: string, txClient?: any): Promise<BookingDetailsEntity> {
-    const executor = txClient ?? this.db;
     const filters = userId ? 'AND b.user_id = $2' : '';
     const params = userId ? [id, userId] : [id];
 
-    const bookingRows = await executor.query(
-      `SELECT b.id, b.user_id as "userId", b.status, b.payment_status as "paymentStatus",
-          b.total_amount::float8 as "totalAmount", b.total_price::float8 as "totalPrice",
-          b.currency, b.created_at as "createdAt", b.updated_at as "updatedAt"
-       FROM bookings b
-       WHERE b.id = $1 ${filters}
-       LIMIT 1`,
-      params,
-    );
+    let bookingRows: BookingDetailsEntity[] = [];
+    if (txClient) {
+      const result = await txClient.query(
+        `SELECT b.id, b.user_id as "userId", b.status, b.payment_status as "paymentStatus",
+            b.total_amount::float8 as "totalAmount", b.total_price::float8 as "totalPrice",
+            b.currency, b.created_at as "createdAt", b.updated_at as "updatedAt"
+         FROM bookings b
+         WHERE b.id = $1 ${filters}
+         LIMIT 1`,
+        params,
+      );
+      bookingRows = result.rows ?? [];
+    } else {
+      const booking = await this.db.queryOne<BookingDetailsEntity>(
+        `SELECT b.id, b.user_id as "userId", b.status, b.payment_status as "paymentStatus",
+            b.total_amount::float8 as "totalAmount", b.total_price::float8 as "totalPrice",
+            b.currency, b.created_at as "createdAt", b.updated_at as "updatedAt"
+         FROM bookings b
+         WHERE b.id = $1 ${filters}
+         LIMIT 1`,
+        params,
+      );
+      bookingRows = booking ? [booking] : [];
+    }
 
     if (bookingRows.length === 0) {
       throw new NotFoundException('Booking not found');
@@ -118,7 +132,7 @@ export class BookingRepository {
     const booking = bookingRows[0] as BookingDetailsEntity;
 
     const [passengers, flights] = await Promise.all([
-      executor.query(
+      (txClient ?? this.db).query(
         `SELECT id, booking_id as "bookingId", full_name as "fullName", passport_number as "passportNumber",
             seat_number as "seatNumber", type, created_at as "createdAt", updated_at as "updatedAt"
          FROM booking_passengers
@@ -126,7 +140,7 @@ export class BookingRepository {
          ORDER BY created_at ASC`,
         [booking.id],
       ),
-      executor.query(
+      (txClient ?? this.db).query(
         `SELECT id, booking_id as "bookingId", flight_id as "flightId", price::float8 as price,
             created_at as "createdAt", updated_at as "updatedAt"
          FROM booking_flights
@@ -167,8 +181,8 @@ export class BookingRepository {
           COALESCE(tp.pnr_code, CONCAT('FLT-', UPPER(LEFT(REPLACE(b.id::text, '-', ''), 8)))) as "confirmationCode",
           b.currency,
           b.total_amount::float8 as total,
-          COALESCE(f.departure_time::text, b.created_at::text) as "startDate",
-          COALESCE(f.arrival_time::text, f.departure_time::text, b.created_at::text) as "endDate",
+          COALESCE(f.departure_at::text, b.created_at::text) as "startDate",
+          COALESCE(f.arrival_at::text, f.departure_at::text, b.created_at::text) as "endDate",
           COALESCE(CONCAT(f.departure_airport, ' → ', f.arrival_airport), 'Flight booking') as title,
           CONCAT(COALESCE(bp.count, 0), ' passenger(s)') as subtitle,
           b.created_at::text as "createdAt"
@@ -267,8 +281,8 @@ export class BookingRepository {
         SELECT b.id, 'flight'::text as type, LOWER(b.status) as status,
           COALESCE(tp.pnr_code, CONCAT('FLT-', UPPER(LEFT(REPLACE(b.id::text, '-', ''), 8)))) as "confirmationCode",
           b.currency, b.total_amount::float8 as total,
-          COALESCE(f.departure_time::text, b.created_at::text) as "startDate",
-          COALESCE(f.arrival_time::text, f.departure_time::text, b.created_at::text) as "endDate",
+          COALESCE(f.departure_at::text, b.created_at::text) as "startDate",
+          COALESCE(f.arrival_at::text, f.departure_at::text, b.created_at::text) as "endDate",
           COALESCE(CONCAT(f.departure_airport, ' → ', f.arrival_airport), 'Flight booking') as title,
           CONCAT(COALESCE(bp.count, 0), ' passenger(s)') as subtitle,
           b.created_at::text as "createdAt"
@@ -351,8 +365,8 @@ export class BookingRepository {
       }>(
         `SELECT f.departure_airport as origin,
             f.arrival_airport as destination,
-            f.departure_time::text as "departureAt",
-            f.arrival_time::text as "arrivalAt",
+            f.departure_at::text as "departureAt",
+            f.arrival_at::text as "arrivalAt",
             COALESCE(tp.pnr_code, CONCAT('PNR-', UPPER(LEFT(REPLACE($1::text, '-', ''), 6)))) as pnr
          FROM booking_flights bf
          JOIN flights f ON f.id = bf.flight_id

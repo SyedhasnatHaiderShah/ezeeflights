@@ -1,4 +1,4 @@
-export type LoyaltyTier = 'blue' | 'silver' | 'gold' | 'platinum';
+export type LoyaltyTier = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
 
 export type PointsTransactionType =
   | 'earned_flight'

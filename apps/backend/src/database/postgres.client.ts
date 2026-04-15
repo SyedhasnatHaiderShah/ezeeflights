@@ -1,9 +1,12 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
-import { Pool } from 'pg';
+import pg from 'pg';
+
+const { Pool } = pg;
+type TransactionClient = Awaited<ReturnType<InstanceType<typeof Pool>['connect']>>;
 
 @Injectable()
 export class PostgresClient implements OnModuleDestroy {
-  private readonly pool: any;
+  private readonly pool: InstanceType<typeof Pool>;
 
   constructor() {
     this.pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -19,7 +22,7 @@ export class PostgresClient implements OnModuleDestroy {
     return rows[0] ?? null;
   }
 
-  async withTransaction<T>(operation: (client: any) => Promise<T>): Promise<T> {
+  async withTransaction<T>(operation: (client: TransactionClient) => Promise<T>): Promise<T> {
     const client = await this.pool.connect();
     try {
       await client.query('BEGIN');

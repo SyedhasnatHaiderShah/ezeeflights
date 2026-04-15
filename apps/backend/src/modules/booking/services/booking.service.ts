@@ -5,7 +5,7 @@ import { UserService } from '../../user/services/user.service';
 import { CreateBookingDto } from '../dto/create-booking.dto';
 import { BookingRepository } from '../repositories/booking.repository';
 import { TripDetailEntity, TripDocumentEntity, TripSummaryEntity } from '../entities/booking.entity';
-import fs from 'fs';
+import * as fs from 'fs/promises';
 import path from 'path';
 
 @Injectable()
@@ -77,17 +77,18 @@ export class BookingService {
 
     const cacheDir = path.join(process.cwd(), 'tmp', 'booking-documents');
     const cacheFile = path.join(cacheDir, `${bookingId}-${docType}.pdf`);
-    if (fs.existsSync(cacheFile)) {
+    try {
+      await fs.access(cacheFile);
       return {
         fileName: `${docType}-${trip.confirmationCode}.pdf`,
-        content: fs.readFileSync(cacheFile),
+        content: await fs.readFile(cacheFile),
       };
-    }
+    } catch {}
 
-    fs.mkdirSync(cacheDir, { recursive: true });
+    await fs.mkdir(cacheDir, { recursive: true });
 
     const content = await this.buildTripDocument(trip, docType);
-    fs.writeFileSync(cacheFile, content);
+    await fs.writeFile(cacheFile, content);
 
     return {
       fileName: `${docType}-${trip.confirmationCode}.pdf`,

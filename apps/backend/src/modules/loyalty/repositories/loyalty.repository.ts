@@ -16,7 +16,7 @@ export class LoyaltyRepository {
   async getOrCreateAccount(userId: string): Promise<LoyaltyAccountEntity> {
     const row = await this.db.queryOne<LoyaltyAccountEntity>(
       `UPDATE users
-       SET loyalty_tier = COALESCE(loyalty_tier, 'blue'),
+       SET loyalty_tier = COALESCE(loyalty_tier, 'BRONZE'),
            loyalty_points = COALESCE(loyalty_points, 0),
            lifetime_points = COALESCE(lifetime_points, 0)
        WHERE id = $1
