@@ -137,7 +137,7 @@ export class CarService {
     return booking;
   }
 
-  getLocations(): Promise<CarLocation[]> {
-    return this.repository.findLocationList();
+  getLocations(query?: string): Promise<CarLocation[]> {
+    return this.repository.findLocationList(query);
   }
 }

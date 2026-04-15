@@ -47,6 +47,15 @@ export class BookingController {
     return this.service.getMyTrips(req.user.userId, type, status);
   }
 
+  @ApiOperation({ summary: 'List my bookings' })
+  @ApiResponse({ status: 200, description: 'Array of bookings' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('me/list')
+  myBookings(@Req() req: AuthenticatedRequest) {
+    return this.service.getUserBookings(req.user.userId);
+  }
+
   @ApiOperation({ summary: 'Get trip detail by ID' })
   @ApiParam({ name: 'id', description: 'Booking UUID' })
   @ApiResponse({ status: 200, description: 'Trip detail' })
@@ -122,12 +131,4 @@ export class BookingController {
     return this.bookingMgmtService.cancelBooking(id, req.user.userId, body, (req.user.roles ?? []).includes('admin'));
   }
 
-  @ApiOperation({ summary: 'List my bookings' })
-  @ApiResponse({ status: 200, description: 'Array of bookings' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Get('me/list')
-  myBookings(@Req() req: AuthenticatedRequest) {
-    return this.service.getUserBookings(req.user.userId);
-  }
 }

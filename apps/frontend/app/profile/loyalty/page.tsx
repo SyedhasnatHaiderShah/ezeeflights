@@ -5,9 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api/client';
 import { useAuthSession } from '@/lib/hooks/use-auth-session';
 
-type Tier = 'blue' | 'silver' | 'gold' | 'platinum';
+type Tier = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
 
-const TIER_ORDER: Tier[] = ['blue', 'silver', 'gold', 'platinum'];
+const TIER_ORDER: Tier[] = ['BRONZE', 'SILVER', 'GOLD', 'PLATINUM'];
 const TIER_COLORS: Record<Tier, string> = {
   blue: '#6B7280',
   silver: '#9CA3AF',
@@ -24,7 +24,7 @@ export default function LoyaltyPage() {
   const referrals = useQuery({ queryKey: ['loyalty-referrals'], queryFn: () => apiFetch<any[]>('/loyalty/referrals').catch(() => []), enabled: !!session.data });
   const milestones = useQuery({ queryKey: ['loyalty-milestones'], queryFn: () => apiFetch<any[]>('/loyalty/milestones').catch(() => []), enabled: !!session.data });
 
-  const currentTier = (account.data?.tier ?? 'blue') as Tier;
+  const currentTier = (account.data?.tier ?? 'BRONZE') as Tier;
   const points = account.data?.pointsBalance ?? 0;
 
   const nextTier = useMemo(() => TIER_ORDER[TIER_ORDER.indexOf(currentTier) + 1], [currentTier]);
@@ -70,7 +70,7 @@ export default function LoyaltyPage() {
         <table className="w-full text-sm">
           <thead><tr className="text-left text-slate-500"><th>Tier</th><th>Multiplier</th><th>Companion discount</th></tr></thead>
           <tbody>
-            {TIER_ORDER.map((tier) => <tr className="border-t" key={tier}><td className="py-2" style={{ color: TIER_COLORS[tier] }}>{tier.toUpperCase()}</td><td>{tier === 'blue' ? '1.0x' : tier === 'silver' ? '1.25x' : tier === 'gold' ? '1.5x' : '2.0x'}</td><td>{tier === 'blue' ? '0%' : tier === 'silver' ? '5%' : tier === 'gold' ? '10%' : '20%'}</td></tr>)}
+            {TIER_ORDER.map((tier) => <tr className="border-t" key={tier}><td className="py-2" style={{ color: TIER_COLORS[tier] }}>{tier.toUpperCase()}</td><td>{tier === 'BRONZE' ? '1.0x' : tier === 'SILVER' ? '1.25x' : tier === 'GOLD' ? '1.5x' : '2.0x'}</td><td>{tier === 'BRONZE' ? '0%' : tier === 'SILVER' ? '5%' : tier === 'GOLD' ? '10%' : '20%'}</td></tr>)}
           </tbody>
         </table>
       </div>

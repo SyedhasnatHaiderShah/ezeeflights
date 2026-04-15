@@ -1,13 +1,17 @@
 'use client';
 
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { DynamicItineraryView } from '@/components/hybrid/DynamicItineraryView';
 import { FlightOptionsList } from '@/components/hybrid/FlightOptionsList';
 import { HotelOptionsGrid } from '@/components/hybrid/HotelOptionsGrid';
 import { LivePriceCard } from '@/components/hybrid/LivePriceCard';
 import { generateLivePackage, recalculatePackagePrice } from '@/lib/api/hybrid-api';
+import { LocationSelector } from '@/components/ui/LocationSelector';
 
 export default function SmartTravelPlannerPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [destination, setDestination] = useState('Dubai');
   const [startDate, setStartDate] = useState('2026-06-10');
   const [endDate, setEndDate] = useState('2026-06-15');
@@ -16,13 +20,31 @@ export default function SmartTravelPlannerPage() {
   const [result, setResult] = useState<any>(null);
   const [selectedFlight, setSelectedFlight] = useState<any>(null);
   const [selectedHotel, setSelectedHotel] = useState<any>(null);
+  const [errors, setErrors] = useState<{ destination?: string; date?: string }>({});
 
   const tier = 'standard' as const;
 
   const activeOption = useMemo(() => result?.options?.[tier], [result]);
 
+  useEffect(() => {
+    const urlDestination = searchParams.get('destination');
+    const from = searchParams.get('from');
+    const to = searchParams.get('to');
+    if (urlDestination) setDestination(urlDestination);
+    if (from) setStartDate(from);
+    if (to) setEndDate(to);
+  }, [searchParams]);
+
   const onGenerate = async (event: FormEvent) => {
     event.preventDefault();
+    const nextErrors: { destination?: string; date?: string } = {};
+    if (!destination) nextErrors.destination = 'Destination is required';
+    if (new Date(startDate) >= new Date(endDate)) nextErrors.date = 'Start date must be before end date';
+    if (new Date(startDate) < new Date(new Date().toISOString().slice(0, 10))) nextErrors.date = 'Travel dates cannot be in the past';
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
+
+    router.replace(`?destination=${encodeURIComponent(destination)}&from=${startDate}&to=${endDate}`);
     const response = await generateLivePackage({
       destination,
       travelDates: { startDate, endDate },
@@ -67,9 +89,13 @@ export default function SmartTravelPlannerPage() {
       <h1 className="text-3xl font-bold">Smart Travel Planner</h1>
 
       <form className="grid gap-3 rounded-lg border bg-white p-4 md:grid-cols-3" onSubmit={onGenerate}>
-        <input className="rounded border p-2" value={destination} onChange={(e) => setDestination(e.target.value)} placeholder="Destination" />
+        <div>
+          <LocationSelector value={destination} onChange={(_id, label) => setDestination(label)} endpoint="/cars/locations" placeholder="Destination" />
+          {errors.destination && <p className="text-xs text-red-600">{errors.destination}</p>}
+        </div>
         <input className="rounded border p-2" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
         <input className="rounded border p-2" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+        {errors.date && <p className="text-xs text-red-600 md:col-span-3">{errors.date}</p>}
         <input className="rounded border p-2" type="number" value={travelers} onChange={(e) => setTravelers(Number(e.target.value))} min={1} />
         <input className="rounded border p-2" type="number" value={budget} onChange={(e) => setBudget(Number(e.target.value))} min={0} />
         <button className="rounded bg-indigo-600 px-4 py-2 text-white" type="submit">

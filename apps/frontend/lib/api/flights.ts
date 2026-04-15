@@ -1,0 +1,11 @@
+import { apiFetch } from './client';
+export type FlightSearchParams = Record<string, string | number | boolean | undefined>;
+export type Flight = Record<string, unknown>;
+export type FlightSearchResponse = { data: Flight[]; total?: number };
+export type FareRules = Record<string, unknown>;
+export type FareCalendar = Record<string, unknown>;
+const qs = (p: Record<string, unknown>) => new URLSearchParams(Object.entries(p).filter(([,v])=>v!==undefined).map(([k,v])=>[k,String(v)])).toString();
+export const searchFlights = (params: FlightSearchParams) => apiFetch<FlightSearchResponse>(`/flights/search?${qs(params)}`);
+export const getFlightDetails = (flightId: string) => apiFetch<Flight>(`/flights/${flightId}`);
+export const getFareRules = (offerId: string) => apiFetch<FareRules>(`/flights/fare-rules/${offerId}`);
+export const getFareCalendar = (origin: string, destination: string, month: string) => apiFetch<FareCalendar>(`/flights/fare-calendar?${qs({ origin, destination, month })}`);

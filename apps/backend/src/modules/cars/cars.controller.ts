@@ -49,8 +49,8 @@ export class CarsController {
   @ApiOperation({ summary: 'List pickup/dropoff locations' })
   @ApiResponse({ status: 200, description: 'Array of car rental locations' })
   @Get('locations')
-  getLocations() {
-    return this.service.getLocations();
+  getLocations(@Query('q') query?: string) {
+    return this.service.getLocations(query);
   }
 
   @ApiOperation({ summary: 'Get car details by ID' })

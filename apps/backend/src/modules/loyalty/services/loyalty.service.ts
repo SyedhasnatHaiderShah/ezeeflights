@@ -74,7 +74,7 @@ export class LoyaltyService {
     const currentBalance = pointsBalance ?? account.pointsBalance;
     const eligibleTier = tiers
       .filter((t) => currentLifetime >= t.minPointsRequired)
-      .at(-1)?.tier ?? 'blue';
+      .at(-1)?.tier ?? 'BRONZE';
 
     const updated = await this.repository.updateUserLoyalty(userId, currentBalance, currentLifetime, eligibleTier);
     if (!updated) throw new BadRequestException('Failed to update loyalty tier');

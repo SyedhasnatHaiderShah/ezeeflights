@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { LocationSelector } from '../ui/LocationSelector';
 
 export function CarSearchForm() {
   const router = useRouter();
@@ -26,8 +27,8 @@ export function CarSearchForm() {
         router.push(`/cars?${query.toString()}`);
       }}
     >
-      <input className="rounded border p-2" placeholder="Pickup location UUID" value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)} required />
-      <input className="rounded border p-2" placeholder="Dropoff location UUID" value={dropoffLocation} onChange={(e) => setDropoffLocation(e.target.value)} required />
+      <LocationSelector value={pickupLocation} onChange={(id) => setPickupLocation(id)} endpoint="/cars/locations" placeholder="Pickup location" />
+      <LocationSelector value={dropoffLocation} onChange={(id) => setDropoffLocation(id)} endpoint="/cars/locations" placeholder="Dropoff location" />
       <input className="rounded border p-2" type="date" value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} required />
       <input className="rounded border p-2" type="date" value={dropoffDate} onChange={(e) => setDropoffDate(e.target.value)} required />
       <select className="rounded border p-2" value={category} onChange={(e) => setCategory(e.target.value)}>

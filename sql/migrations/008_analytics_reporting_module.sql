@@ -1,21 +1,24 @@
 CREATE TABLE IF NOT EXISTS analytics_events (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID DEFAULT gen_random_uuid(),
   user_id UUID NULL,
   event_type VARCHAR(24) NOT NULL CHECK (event_type IN ('SEARCH', 'VIEW', 'BOOK', 'PAYMENT')),
   metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (id, created_at)
 ) PARTITION BY RANGE (created_at);
 
 CREATE TABLE IF NOT EXISTS analytics_events_default PARTITION OF analytics_events DEFAULT;
 
 CREATE TABLE IF NOT EXISTS analytics_bookings (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  booking_id UUID NOT NULL UNIQUE,
+  id UUID DEFAULT gen_random_uuid(),
+  booking_id UUID NOT NULL,
   user_id UUID NOT NULL,
   amount NUMERIC(14,2) NOT NULL,
   currency VARCHAR(8) NOT NULL,
   status VARCHAR(24) NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (id, created_at),
+  UNIQUE (booking_id, created_at)
 ) PARTITION BY RANGE (created_at);
 
 CREATE TABLE IF NOT EXISTS analytics_bookings_default PARTITION OF analytics_bookings DEFAULT;

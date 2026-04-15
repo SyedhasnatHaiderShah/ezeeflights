@@ -6,9 +6,15 @@ export class AmadeusProvider {
   private readonly client: InstanceType<typeof Amadeus>;
 
   constructor() {
+    if (!process.env.AMADEUS_CLIENT_ID) {
+      throw new Error('Missing required env var: AMADEUS_CLIENT_ID. Add it to your .env file.');
+    }
+    if (!process.env.AMADEUS_CLIENT_SECRET) {
+      throw new Error('Missing required env var: AMADEUS_CLIENT_SECRET. Add it to your .env file.');
+    }
     this.client = new Amadeus({
-      clientId: process.env.AMADEUS_CLIENT_ID ?? 'amadeus-client-id',
-      clientSecret: process.env.AMADEUS_CLIENT_SECRET ?? 'amadeus-client-secret',
+      clientId: process.env.AMADEUS_CLIENT_ID,
+      clientSecret: process.env.AMADEUS_CLIENT_SECRET,
       hostname: process.env.AMADEUS_ENV === 'production' ? 'production' : 'test',
     });
   }
@@ -20,10 +26,6 @@ export class AmadeusProvider {
     travelers: number;
     currency?: string;
   }): Promise<Record<string, unknown>[]> {
-    if (!process.env.AMADEUS_CLIENT_ID || !process.env.AMADEUS_CLIENT_SECRET) {
-      return [];
-    }
-
     const response = await this.client.shopping.flightOffersSearch.get({
       originLocationCode: params.origin,
       destinationLocationCode: params.destination,
@@ -36,10 +38,6 @@ export class AmadeusProvider {
   }
 
   async getFlightPrice(offerId: string): Promise<Record<string, unknown>> {
-    if (!process.env.AMADEUS_CLIENT_ID || !process.env.AMADEUS_CLIENT_SECRET) {
-      return {};
-    }
-
     const response = await this.client.shopping.flightOffers.pricing.post({
       data: {
         type: 'flight-offers-pricing',
@@ -51,10 +49,6 @@ export class AmadeusProvider {
   }
 
   async bookFlight(order: Record<string, unknown>): Promise<Record<string, unknown>> {
-    if (!process.env.AMADEUS_CLIENT_ID || !process.env.AMADEUS_CLIENT_SECRET) {
-      return {};
-    }
-
     const response = await this.client.booking.flightOrders.post(order);
     return (response.data ?? {}) as Record<string, unknown>;
   }

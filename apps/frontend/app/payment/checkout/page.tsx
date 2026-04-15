@@ -8,6 +8,7 @@ import { PaymentProvider } from '@/components/payment/types';
 import { CheckoutSummary } from '@/components/payment/CheckoutSummary';
 import { useQuery } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api/client';
+import { initiatePayment } from '@/lib/api/payments';
 
 export default function CheckoutPage() {
   const [provider, setProvider] = useState<PaymentProvider>('STRIPE');
@@ -34,24 +35,16 @@ export default function CheckoutPage() {
   const startPayment = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/v1/payments/initiate', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          bookingId,
-          provider,
-          amount: total,
-          currency,
-          useWalletAmount: walletApplied,
-          paymentMethodId: 'pm_card_visa',
-          successUrl: `${window.location.origin}/payment/success`,
-          failureUrl: `${window.location.origin}/payment/failed`,
-        }),
-      });
-
-      if (!res.ok) throw new Error('Payment initiation failed');
-      const data = (await res.json()) as { redirectUrl?: string; requiresAction?: boolean; paymentId: string };
+      const data = (await initiatePayment({
+        bookingId: String(bookingId),
+        provider,
+        amount: total,
+        currency,
+        useWalletAmount: walletApplied,
+        paymentMethodId: 'pm_card_visa',
+        successUrl: `${window.location.origin}/payment/success`,
+        failureUrl: `${window.location.origin}/payment/failed`,
+      })) as { redirectUrl?: string; requiresAction?: boolean; paymentId: string };
       if (data.requiresAction && data.redirectUrl) {
         window.location.href = data.redirectUrl;
         return;

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 import * as path from 'path';
 import { randomBytes } from 'crypto';
 import { CalculatePremiumDto, PurchasePolicyDto, SubmitClaimDto } from './dto/insurance.dto';
@@ -169,7 +169,7 @@ export class InsuranceService {
     paymentId: string;
   }): Promise<string> {
     const storagePath = process.env.INSURANCE_DOCS_STORAGE_PATH ?? path.join(process.cwd(), 'tmp', 'insurance-policies');
-    fs.mkdirSync(storagePath, { recursive: true });
+    await fs.mkdir(storagePath, { recursive: true });
 
     const filePath = path.join(storagePath, `${data.policyNumber}.pdf`);
     const lines = [
@@ -207,7 +207,7 @@ export class InsuranceService {
     }
     pdf += `trailer << /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF`;
 
-    fs.writeFileSync(filePath, Buffer.from(pdf, 'utf8'));
+    await fs.writeFile(filePath, Buffer.from(pdf, 'utf8'));
     return filePath;
   }
 }

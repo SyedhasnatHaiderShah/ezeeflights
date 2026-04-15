@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { randomBytes } from 'crypto';
+import { createHash, randomBytes, randomInt } from 'crypto';
 import { Request, Response } from 'express';
 import { generatePlainBackupCodes, hashBackupCode } from '../../../common/crypto/backup-code';
 import { decryptField, encryptField } from '../../../common/crypto/field-encryption';
@@ -456,10 +456,11 @@ export class AuthService {
       return { ok: true };
     }
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const code = randomInt(100000, 1000000).toString();
+    const otpHash = createHash('sha256').update(code).digest('hex');
     const expiresAt = new Date(Date.now() + 300_000); // 5 minutes
 
-    await this.repo.insertPasswordResetOtp({ email: dto.email, code, expiresAt });
+    await this.repo.insertPasswordResetOtp(user.id, otpHash, expiresAt);
 
     await this.notificationService.send({
       userId: user.id,
@@ -473,7 +474,12 @@ export class AuthService {
   }
 
   async verifyOtp(dto: VerifyOtpDto) {
-    const valid = await this.repo.findActivePasswordResetOtp(dto.email, dto.code);
+    const user = await this.repo.findUserByEmail(dto.email);
+    if (!user) {
+      throw new UnauthorizedException('Invalid or expired verification code');
+    }
+    const otpHash = createHash('sha256').update(dto.code).digest('hex');
+    const valid = await this.repo.findActivePasswordResetOtp(user.id, otpHash);
     if (!valid) {
       throw new UnauthorizedException('Invalid or expired verification code');
     }
@@ -481,7 +487,13 @@ export class AuthService {
   }
 
   async resetPassword(dto: ResetPasswordDto) {
-    const consumed = await this.repo.consumePasswordResetOtp(dto.email, dto.code);
+    const user = await this.repo.findUserByEmail(dto.email);
+    if (!user) {
+      throw new UnauthorizedException('Invalid or expired verification code');
+    }
+    const otpHash = createHash('sha256').update(dto.code).digest('hex');
+    const otpRecord = await this.repo.findActivePasswordResetOtp(user.id, otpHash);
+    const consumed = otpRecord ? await this.repo.consumePasswordResetOtp(otpRecord.id) : false;
     if (!consumed) {
       throw new UnauthorizedException('Invalid or expired verification code');
     }

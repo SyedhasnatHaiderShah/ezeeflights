@@ -132,7 +132,7 @@ export function RegisterForm({
           </motion.div>
         </div>
 
-        {error && (
+        {/* {error && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -142,7 +142,7 @@ export function RegisterForm({
               {error}
             </p>
           </motion.div>
-        )}
+        )} */}
 
         <motion.div variants={formItemVariants} className="pt-1">
           <Button

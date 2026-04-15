@@ -27,7 +27,7 @@ import {
   Star,
   Compass,
   MessageSquare,
-  LucideIcon
+  LucideIcon,
 } from "lucide-react";
 import EzeeFlightsLogo from "@/components/ezee-flights-logo";
 
@@ -65,7 +65,7 @@ const NAVIGATION_GROUPS: NavigationGroup[] = [
       { name: "Southwest Airlines", url: "/southwest-airlines", icon: Plane },
       { name: "Delta Airlines", url: "/delta-airlines", icon: Plane },
       { name: "Aeromexico Airlines", url: "/aeromexico-airlines", icon: Plane },
-    ].map(a => ({ title: a.name, url: a.url, icon: a.icon })),
+    ].map((a) => ({ title: a.name, url: a.url, icon: a.icon })),
   },
   {
     label: "Account",
@@ -91,18 +91,15 @@ const NAVIGATION_GROUPS: NavigationGroup[] = [
   },
 ];
 
+import { useAuthSession } from "@/lib/hooks/use-auth-session";
+
 export function AppSidebar() {
   const { isOpen, close, open } = useSidebarStore();
   const currentPath = usePathname();
-
-  // Hide sidebar on auth pages
-  if (currentPath?.startsWith("/auth")) {
-    return null;
-  }
-
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useAuthSession();
 
   useEffect(() => {
     setMounted(true);
@@ -120,7 +117,10 @@ export function AppSidebar() {
   // Click outside to close (mobile and desktop)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
         close();
       }
     };
@@ -129,6 +129,11 @@ export function AppSidebar() {
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen, close]);
+
+  // Hide sidebar on auth pages - must be AFTER all hooks
+  if (currentPath?.startsWith("/auth")) {
+    return null;
+  }
 
   const getNavClassName = (active: boolean) =>
     active
@@ -161,7 +166,7 @@ export function AppSidebar() {
         className={cn(
           "fixed top-0 bottom-0 left-0 z-[70] w-[280px] bg-background/95 backdrop-blur-md border-r shadow-2xl flex flex-col",
           "transition-transform duration-300 ease-in-out lg:duration-400",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? "translate-x-0" : "-translate-x-full",
         )}
         onMouseLeave={() => {
           // Only auto-close on mouse leave for desktop and if it's currently open
@@ -172,7 +177,11 @@ export function AppSidebar() {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b h-20">
-          <Link href="/" onClick={close} className="flex gap-0.5 group shrink-0">
+          <Link
+            href="/"
+            onClick={close}
+            className="flex gap-0.5 group shrink-0"
+          >
             <EzeeFlightsLogo
               isDarkMode={mounted && theme === "dark"}
               className="w-28 h-auto"
@@ -201,6 +210,12 @@ export function AppSidebar() {
                   <ul className="space-y-1">
                     {group.items.map((item) => {
                       const isActive = currentPath === item.url;
+                      // Dynamic label for Sign in / Profile
+                      let displayTitle = item.title;
+                      if (item.url === "/profile") {
+                        displayTitle = session ? "Profile" : "Sign in / Profile";
+                      }
+                      
                       return (
                         <li key={item.title}>
                           <Link
@@ -208,17 +223,19 @@ export function AppSidebar() {
                             onClick={close}
                             className={cn(
                               "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
-                              getNavClassName(isActive)
+                              getNavClassName(isActive),
                             )}
                           >
                             <item.icon
                               className={cn(
                                 "h-5 w-5 flex-shrink-0",
-                                isActive ? "text-white" : "text-muted-foreground"
+                                isActive
+                                  ? "text-white"
+                                  : "text-muted-foreground",
                               )}
                             />
                             <span className="text-sm font-medium">
-                              {item.title}
+                              {displayTitle}
                             </span>
                           </Link>
                         </li>
@@ -227,6 +244,7 @@ export function AppSidebar() {
                   </ul>
                 </div>
               ))}
+
 
               {/* Theme Toggle within Preferences */}
               <div className="pt-2">
@@ -249,7 +267,7 @@ export function AppSidebar() {
                         "w-4 h-4 rounded-full transition-all duration-300 shadow-sm",
                         mounted && theme === "dark"
                           ? "bg-primary translate-x-5"
-                          : "bg-background translate-x-0"
+                          : "bg-background translate-x-0",
                       )}
                     />
                   </div>

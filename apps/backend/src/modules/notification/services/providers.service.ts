@@ -1,4 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import sgMail from '@sendgrid/mail';
+import axios from 'axios';
+import twilio from 'twilio';
+import { appLogger } from '../../../common/logging/winston';
 
 export type NotificationChannel = 'email' | 'sms' | 'whatsapp';
 
@@ -45,47 +49,60 @@ export class NotificationProvidersService {
 
   private async sendEmailBySendGrid(to: string, subject: string, html: string, text: string) {
     if (!process.env.SENDGRID_API_KEY) {
-      return { provider: 'sendgrid-mock', to, subject, html, text, status: 'mocked' };
+      appLogger.warn('SendGrid not configured');
+      return { provider: 'sendgrid', status: 'skipped' };
     }
 
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const from = process.env.SENDGRID_FROM_EMAIL ?? process.env.EMAIL_FROM;
+    if (!from) {
+      appLogger.warn('SendGrid from email is missing');
+      return { provider: 'sendgrid', status: 'skipped' };
+    }
+    await sgMail.send({ to, from, subject, html, text });
     return {
       provider: 'sendgrid',
-      apiKeyPresent: true,
-      from: process.env.SENDGRID_FROM_EMAIL ?? process.env.EMAIL_FROM ?? 'no-reply@ezeeflights.local',
-      to,
-      subject,
-      html,
-      text,
-      status: 'queued',
+      status: 'sent',
     };
   }
 
   private async sendSmsByTwilio(to: string, body: string) {
-    if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE) {
-      return { provider: 'twilio-mock', to, body, status: 'mocked' };
+    if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) {
+      appLogger.warn('Twilio not configured');
+      return { provider: 'twilio', status: 'skipped' };
     }
 
+    const from = process.env.TWILIO_FROM_NUMBER ?? process.env.TWILIO_PHONE;
+    if (!from) {
+      appLogger.warn('Twilio from number missing');
+      return { provider: 'twilio', status: 'skipped' };
+    }
+
+    const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+    const response = await client.messages.create({ to, from, body });
     return {
       provider: 'twilio',
-      accountSid: process.env.TWILIO_ACCOUNT_SID,
-      from: process.env.TWILIO_PHONE,
-      to,
-      body,
-      status: 'queued',
+      status: response.status ?? 'sent',
+      id: response.sid,
     };
   }
 
   private async sendWhatsAppByMetaCloudApi(to: string, body: string) {
-    if (!process.env.META_WHATSAPP_ACCESS_TOKEN || !process.env.META_WHATSAPP_PHONE_NUMBER_ID) {
-      return { provider: 'meta-cloud-api-mock', to, body, status: 'mocked' };
+    const token = process.env.META_WHATSAPP_TOKEN ?? process.env.META_WHATSAPP_ACCESS_TOKEN;
+    const phoneId = process.env.META_WHATSAPP_PHONE_ID ?? process.env.META_WHATSAPP_PHONE_NUMBER_ID;
+    if (!token || !phoneId) {
+      appLogger.warn('Meta WhatsApp not configured');
+      return { provider: 'meta-cloud-api', status: 'skipped' };
     }
 
+    const response = await axios.post(
+      `https://graph.facebook.com/v18.0/${phoneId}/messages`,
+      { messaging_product: 'whatsapp', to, type: 'text', text: { body } },
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
     return {
       provider: 'meta-cloud-api',
-      phoneNumberId: process.env.META_WHATSAPP_PHONE_NUMBER_ID,
-      to,
-      body,
-      status: 'queued',
+      status: response.status === 200 ? 'sent' : 'queued',
     };
   }
 }

@@ -17,12 +17,12 @@ interface SearchProps {
 }
 
 /** Map backend FlightEntity shape to the FlightListItem shape the UI expects. */
-function toFlightListItem(entity: Record<string, unknown>): FlightListItem {
-  const depAt = String(entity.departureAt ?? "");
-  const arrAt = String(entity.arrivalAt ?? "");
+function toFlightListItem(entity: any): FlightListItem {
+  const depAt = entity.departureAt ? new Date(entity.departureAt).toISOString() : "";
+  const arrAt = entity.arrivalAt ? new Date(entity.arrivalAt).toISOString() : "";
   const durationMins = Number(entity.duration ?? 0);
-  const airlineName = String(entity.airline ?? "");
-  const airlineCode = String(entity.airlineCode ?? "");
+  const airlineName = String(entity.airline ?? "Unknown Airline");
+  const airlineCode = String(entity.airlineCode ?? "XX");
 
   const segment = {
     departureDate: depAt,
@@ -44,7 +44,7 @@ function toFlightListItem(entity: Record<string, unknown>): FlightListItem {
     airline: { id: 0, code: airlineCode, name: airlineName },
     operatingAirline: { id: 0, code: airlineCode, name: airlineName },
     flightNo: String(entity.flightNumber ?? ""),
-    equipmentType: "",
+    equipmentType: "Boeing 787",
     baggageAllowance: "23kg",
     elapsedTime: `${Math.floor(durationMins / 60)}h ${durationMins % 60}m`,
     totalTime: `${Math.floor(durationMins / 60)}h ${durationMins % 60}m`,
@@ -79,13 +79,25 @@ async function fetchFlights(params: URLSearchParams): Promise<FlightListItem[]> 
     "http://localhost:4000/v1";
 
   try {
-    const res = await fetch(`${apiBase}/flights/search?${params.toString()}`, {
+    const url = `${apiBase}/flights/search?${params.toString()}`;
+    console.log(`📡 Fetching flights from: ${url}`);
+    
+    const res = await fetch(url, {
       cache: "no-store",
     });
-    if (!res.ok) return [];
-    const data = (await res.json()) as Record<string, unknown>[];
+    
+    if (!res.ok) {
+      const errorBody = await res.json().catch(() => null);
+      console.error(`❌ Flight search failed: ${res.status} ${res.statusText}`, errorBody);
+      return [];
+    }
+    
+    const data = await res.json();
+    console.log(`✅ Received ${Array.isArray(data) ? data.length : 0} flights from backend`);
+    
     return Array.isArray(data) ? data.map(toFlightListItem) : [];
-  } catch {
+  } catch (error) {
+    console.error("🚨 Error fetching flights:", error);
     return [];
   }
 }
@@ -116,6 +128,7 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
     page: unwrappedParams.page ?? "1",
     limit: unwrappedParams.limit ?? "20",
   });
+
   if (cabinClass) apiParams.set("cabinClass", cabinClass.toUpperCase().replace(/ /g, "_"));
 
   const query = new URLSearchParams({

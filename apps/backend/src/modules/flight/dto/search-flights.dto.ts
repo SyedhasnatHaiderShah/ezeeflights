@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsInt, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class SearchFlightsDto {
   @ApiProperty({ example: 'DXB', description: 'Origin airport IATA code or city' })
@@ -21,6 +22,7 @@ export class SearchFlightsDto {
 
   @ApiPropertyOptional({ example: 0, description: 'Maximum number of stops (0=direct)', minimum: 0, maximum: 3 })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(0)
   @Max(3)
@@ -28,12 +30,14 @@ export class SearchFlightsDto {
 
   @ApiPropertyOptional({ example: 200, description: 'Minimum price filter', minimum: 0 })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   minPrice?: number;
 
   @ApiPropertyOptional({ example: 1500, description: 'Maximum price filter', minimum: 0 })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   @Min(0)
   maxPrice?: number;
@@ -50,12 +54,14 @@ export class SearchFlightsDto {
 
   @ApiPropertyOptional({ example: 1, description: 'Page number', minimum: 1, default: 1 })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   page = 1;
 
   @ApiPropertyOptional({ example: 20, description: 'Results per page', minimum: 1, maximum: 100, default: 20 })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   @Max(100)

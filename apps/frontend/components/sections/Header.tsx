@@ -47,6 +47,7 @@ const itemVariants = {
 } as const;
 
 import { Drawer } from "vaul";
+import { useRouter } from "next/navigation";
 
 const NotificationContent = () => (
   <div className="flex flex-col h-full bg-background rounded-t-2xl sm:rounded-none">
@@ -122,13 +123,37 @@ const FavoriteContent = () => (
   </div>
 );
 
+import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { logoutRequest } from "@/lib/api/auth-api";
+import { useQueryClient } from "@tanstack/react-query";
+
 export function Header() {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const [isNotifDrawerOpen, setIsNotifDrawerOpen] = React.useState(false);
   const [isFavoriteDrawerOpen, setIsFavoriteDrawerOpen] = React.useState(false);
+  const router = useRouter();
   const toggleSidebar = useSidebarStore((state) => state.toggle);
+  const { data: session, isLoading, refetch } = useAuthSession();
+  const queryClient = useQueryClient();
+
+  // Debugging auth session
+  React.useEffect(() => {
+    if (session) console.log("Header Session Detected:", session);
+  }, [session]);
+
+  const handleLogout = async () => {
+    try {
+      await logoutRequest();
+      // Invalidate the session query to update the UI
+      queryClient.invalidateQueries({ queryKey: ["auth-session"] });
+      queryClient.invalidateQueries({ queryKey: ["profile-me"] });
+      router.push("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   React.useEffect(() => {
     setMounted(true);
@@ -266,14 +291,6 @@ export function Header() {
 
           {/* Desktop-only Utilities */}
           <div className="hidden md:flex items-center gap-2 md:gap-4">
-            {/* Ask AI Pill */}
-            {/* <AppIcon
-              icon={Sparkles}
-              label="Ask AI"
-              className="hidden sm:flex"
-              onClick={() => console.log("AI search open")}
-            /> */}
-
             {/* Favorites Heart (Dropdown) */}
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
@@ -311,22 +328,58 @@ export function Header() {
             {/* User Profile */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div>
+                <div className="cursor-pointer">
                   <AppIcon icon={User} isFill />
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem className="font-semibold">
-                  Sign in
-                </DropdownMenuItem>
-                <DropdownMenuItem>Trips</DropdownMenuItem>
-                <div className="h-px bg-brand-gray my-1" />
-                <DropdownMenuItem>Preferences</DropdownMenuItem>
+                {isLoading ? (
+                  <div className="p-4 space-y-2">
+                    <div className="h-4 w-24 bg-muted animate-pulse rounded" />
+                    <div className="h-4 w-16 bg-muted animate-pulse rounded" />
+                  </div>
+                ) : session ? (
+                  <>
+                    <DropdownMenuItem
+                      className="font-semibold cursor-pointer"
+                      onClick={() => router.push("/profile")}
+                    >
+                      Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer"
+                      onClick={() => router.push("/profile?tab=trips")}
+                    >
+                      My Trips
+                    </DropdownMenuItem>
+                    <div className="h-px bg-border my-1" />
+                    <DropdownMenuItem 
+                      className="text-red-600 focus:text-red-600 cursor-pointer"
+                      onClick={handleLogout}
+                    >
+                      Sign out
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem
+                      className="font-semibold cursor-pointer"
+                      onClick={() => router.push("/auth/login")}
+                    >
+                      Sign in / Sign up
+                    </DropdownMenuItem>
+                    <div className="h-px bg-border my-1" />
+                    <DropdownMenuItem onClick={() => router.push("/support")}>
+                      Help
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
       </div>
     </header>
+
   );
 }

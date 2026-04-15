@@ -1,11 +1,8 @@
 /** Origin of the Nest API (no /v1). Server-side only in production when possible. */
 export function internalApiOrigin(): string {
   const explicit = process.env.INTERNAL_API_BASE_URL;
-  if (explicit) {
-    return explicit.replace(/\/$/, '');
-  }
-  const pub = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/v1';
-  return pub.replace(/\/v1\/?$/, '').replace(/\/$/, '') || 'http://localhost:4000';
+  const raw = explicit || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000/v1';
+  return raw.replace(/\/v1\/?$/, '').replace(/\/$/, '') || 'http://localhost:4000';
 }
 
 /** Full URL for a versioned API path, e.g. `auth/login` -> `http://host:4000/v1/auth/login` */
