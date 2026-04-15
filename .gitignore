@@ -5,3 +5,4 @@ dist
 coverage
 .next
 npm-debug.log*
+IMPLEMENTATION_PLAN.md

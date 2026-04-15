@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { modifyBookingSchema, refundBookingSchema } from './dto/bookingMgmt.dto';
 import { BookingMgmtService } from './bookingMgmt.service';
@@ -8,12 +8,16 @@ interface AuthenticatedRequest {
   user: { userId: string; roles?: string[] };
 }
 
-@ApiTags('booking-management')
+@ApiTags('Booking Management')
 @Controller({ path: 'bookings', version: '1' })
 export class BookingMgmtController {
   constructor(private readonly service: BookingMgmtService) {}
 
   @ApiOperation({ summary: 'Modify booking date or passenger details' })
+  @ApiParam({ name: 'id', description: 'Booking UUID' })
+  @ApiResponse({ status: 200, description: 'Booking modified' })
+  @ApiResponse({ status: 400, description: 'Invalid modification payload' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch(':id/modify')
@@ -23,6 +27,10 @@ export class BookingMgmtController {
   }
 
   @ApiOperation({ summary: 'Process full/partial refund for booking' })
+  @ApiParam({ name: 'id', description: 'Booking UUID' })
+  @ApiResponse({ status: 200, description: 'Refund processed' })
+  @ApiResponse({ status: 400, description: 'Invalid refund payload' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post(':id/refund')
@@ -32,6 +40,9 @@ export class BookingMgmtController {
   }
 
   @ApiOperation({ summary: 'Get booking change, refund and action history' })
+  @ApiParam({ name: 'id', description: 'Booking UUID' })
+  @ApiResponse({ status: 200, description: 'Booking history events' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get(':id/history')

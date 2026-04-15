@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { InvoiceService } from './invoice.service';
@@ -43,19 +43,24 @@ interface AuthenticatedRequest {
   user: { userId: string };
 }
 
-@ApiTags('billing')
+@ApiTags('Billing')
 @Controller({ path: 'invoices', version: '1' })
 export class InvoiceController {
   constructor(private readonly service: InvoiceService) {}
 
+  @ApiOperation({ summary: 'Generate invoice for booking' })
+  @ApiResponse({ status: 201, description: 'Invoice generated' })
+  @ApiResponse({ status: 400, description: 'Validation error' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Generate invoice for booking' })
   @Post('generate')
   generate(@Req() req: AuthenticatedRequest, @Body() dto: GenerateInvoiceDto) {
     return this.service.generateFromBooking(dto.bookingId, req.user.userId);
   }
 
+  @ApiOperation({ summary: 'List invoices for a user' })
+  @ApiParam({ name: 'userId', description: 'User UUID' })
+  @ApiResponse({ status: 200, description: 'Array of invoices' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('user/:userId')
@@ -63,6 +68,10 @@ export class InvoiceController {
     return this.service.listByUser(userId, req.user.userId);
   }
 
+  @ApiOperation({ summary: 'Get invoice by ID' })
+  @ApiParam({ name: 'id', description: 'Invoice UUID' })
+  @ApiResponse({ status: 200, description: 'Invoice details' })
+  @ApiResponse({ status: 404, description: 'Invoice not found' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get(':id')
@@ -70,6 +79,10 @@ export class InvoiceController {
     return this.service.getInvoiceById(id, req.user.userId);
   }
 
+  @ApiOperation({ summary: 'Record payment against an invoice' })
+  @ApiParam({ name: 'id', description: 'Invoice UUID' })
+  @ApiResponse({ status: 200, description: 'Payment recorded' })
+  @ApiResponse({ status: 400, description: 'Validation error' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post(':id/pay')
@@ -77,6 +90,10 @@ export class InvoiceController {
     return this.service.recordPayment(id, req.user.userId, dto);
   }
 
+  @ApiOperation({ summary: 'Create refund for an invoice' })
+  @ApiParam({ name: 'id', description: 'Invoice UUID' })
+  @ApiResponse({ status: 200, description: 'Refund created' })
+  @ApiResponse({ status: 400, description: 'Validation error' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post(':id/refund')
