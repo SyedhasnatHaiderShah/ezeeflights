@@ -1,7 +1,5 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
-import pg from 'pg';
-
-const { Pool } = pg;
+import { Pool } from 'pg';
 type TransactionClient = Awaited<ReturnType<InstanceType<typeof Pool>['connect']>>;
 
 @Injectable()
