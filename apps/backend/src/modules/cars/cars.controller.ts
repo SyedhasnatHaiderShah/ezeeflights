@@ -37,8 +37,8 @@ export class CarsController {
   }
 
   @Get('locations')
-  getLocations() {
-    return this.service.getLocations();
+  getLocations(@Query('q') query?: string) {
+    return this.service.getLocations(query);
   }
 
   @Get(':id')

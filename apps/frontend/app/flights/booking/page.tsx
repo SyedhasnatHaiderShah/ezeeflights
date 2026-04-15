@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PassengerForm } from '@/components/flights/PassengerForm';
 import { AncillarySelector } from '@/components/flights/SeatMap/AncillarySelector';
 import { SeatMap } from '@/components/flights/SeatMap/SeatMap';
@@ -23,12 +23,30 @@ export default function BookingPage() {
   const [passengers, setPassengers] = useState([{ fullName: '', passportNumber: '', seatNumber: '1A', type: 'ADULT' as const }]);
   const [bookingIdState, setBookingIdState] = useState<string>('');
   const [step, setStep] = useState(0);
+  const [activePassengerIndex, setActivePassengerIndex] = useState(0);
   const [seatMap, setSeatMap] = useState<any | null>(null);
   const [ancillaryOptions, setAncillaryOptions] = useState<any[]>([]);
   const [error, setError] = useState('');
 
   const firstFlight = selectedFlightIds[0];
   const seatTotal = useMemo(() => Object.values(selectedSeats).reduce((sum, v) => sum + v.price, 0), [selectedSeats]);
+
+  useEffect(() => {
+    if (selectedFlightIds.length === 0) {
+      router.replace('/flights/search');
+    }
+  }, [router, selectedFlightIds.length]);
+
+  useEffect(() => {
+    const listener = (event: BeforeUnloadEvent) => {
+      if (step > 0 && step < 3) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', listener);
+    return () => window.removeEventListener('beforeunload', listener);
+  }, [step]);
 
   const nextFromPassengers = async () => {
     setPassengersInStore(passengers);
@@ -45,6 +63,9 @@ export default function BookingPage() {
   };
 
   const reserveSeats = async () => {
+    if (passengers.some((_, idx) => !selectedSeats[idx]?.seatCode)) {
+      throw new Error('Select seats for all passengers before continuing.');
+    }
     for (const [passengerIndex, seat] of Object.entries(selectedSeats)) {
       const m = /^([0-9]+)([A-Z])$/.exec(seat.seatCode);
       if (!m) continue;
@@ -76,12 +97,26 @@ export default function BookingPage() {
 
       {step === 0 && <PassengerForm passengers={passengers} setPassengers={setPassengers} />}
       {step === 1 && seatMap && (
-        <SeatMap
-          seatMapData={seatMap.seatMapData}
-          selectedSeat={selectedSeats[0]?.seatCode}
-          passengerIndex={0}
-          onSelect={(code, price) => setSeat(0, code, price)}
-        />
+        <div className="space-y-3">
+          <div className="flex flex-wrap gap-2">
+            {passengers.map((p, i) => (
+              <button
+                key={`${p.fullName}-${i}`}
+                type="button"
+                onClick={() => setActivePassengerIndex(i)}
+                className={`rounded border px-3 py-1 text-sm ${activePassengerIndex === i ? 'bg-slate-900 text-white' : ''}`}
+              >
+                Passenger {i + 1}: {p.fullName || 'Unnamed'}
+              </button>
+            ))}
+          </div>
+          <SeatMap
+            seatMapData={seatMap.seatMapData}
+            selectedSeat={selectedSeats[activePassengerIndex]?.seatCode}
+            passengerIndex={activePassengerIndex}
+            onSelect={(code, price) => setSeat(activePassengerIndex, code, price)}
+          />
+        </div>
       )}
       {step === 2 && (
         <AncillarySelector

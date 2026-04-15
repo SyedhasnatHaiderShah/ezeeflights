@@ -1,22 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-google-oauth20';
+import { appLogger } from '../../../common/logging/winston';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor() {
     const clientID = process.env.GOOGLE_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    const callbackURL = process.env.GOOGLE_CALLBACK_URL;
     if (!clientID) {
-      // Passport requires a non-empty clientID; use a placeholder when OAuth
-      // is not configured — the google auth routes will be disabled at runtime.
-      super({ clientID: 'disabled', clientSecret: 'disabled', callbackURL: 'http://localhost/disabled', scope: [] });
+      appLogger.warn('Google OAuth is not configured. Set GOOGLE_CLIENT_ID/GOOGLE_CLIENT_SECRET/GOOGLE_CALLBACK_URL.');
+      super({ clientID: 'google-oauth-disabled', clientSecret: 'google-oauth-disabled', callbackURL: 'urn:ietf:wg:oauth:2.0:oob', scope: [] });
+      return;
+    }
+    if (!clientSecret || !callbackURL) {
+      appLogger.warn('Google OAuth is partially configured. Missing GOOGLE_CLIENT_SECRET or GOOGLE_CALLBACK_URL.');
+      super({ clientID: 'google-oauth-disabled', clientSecret: 'google-oauth-disabled', callbackURL: 'urn:ietf:wg:oauth:2.0:oob', scope: [] });
       return;
     }
     super({
       clientID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
-      callbackURL:
-        process.env.GOOGLE_CALLBACK_URL ?? 'http://localhost:4000/v1/auth/google/callback',
+      clientSecret,
+      callbackURL,
       scope: ['email', 'profile'],
     });
   }

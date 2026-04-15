@@ -40,6 +40,13 @@ export class BookingController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
+  @Get('me/list')
+  myBookings(@Req() req: AuthenticatedRequest) {
+    return this.service.getUserBookings(req.user.userId);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get('me/:id')
   myTripDetail(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.service.getTripById(req.user.userId, id);
@@ -89,10 +96,4 @@ export class BookingController {
     return this.bookingMgmtService.cancelBooking(id, req.user.userId, body, (req.user.roles ?? []).includes('admin'));
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Get('me/list')
-  myBookings(@Req() req: AuthenticatedRequest) {
-    return this.service.getUserBookings(req.user.userId);
-  }
 }

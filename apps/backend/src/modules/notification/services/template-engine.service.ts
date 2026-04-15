@@ -14,6 +14,6 @@ export class TemplateEngineService {
       return value === undefined || value === null ? '' : String(value);
     });
 
-    return compiled.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '').replace(/<[^>]*>/g, '');
+    return compiled.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
   }
 }

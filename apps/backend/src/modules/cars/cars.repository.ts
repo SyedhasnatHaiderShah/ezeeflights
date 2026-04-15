@@ -224,7 +224,13 @@ export class CarRepository {
     return created;
   }
 
-  async findLocationList(): Promise<CarLocation[]> {
+  async findLocationList(query?: string): Promise<CarLocation[]> {
+    const params: unknown[] = [];
+    let where = '';
+    if (query?.trim()) {
+      params.push(`%${query.trim()}%`);
+      where = `WHERE name ILIKE $1 OR city ILIKE $1`;
+    }
     return this.db.query<CarLocation>(
       `SELECT id,
           vendor_id as "vendorId",
@@ -239,7 +245,9 @@ export class CarRepository {
           operating_hours as "operatingHours",
           created_at as "createdAt"
       FROM car_locations
+      ${where}
       ORDER BY city ASC, name ASC`,
+      params,
     );
   }
 

@@ -13,7 +13,10 @@ export class StripeProvider extends BaseProvider implements PaymentProviderDrive
 
   constructor() {
     super();
-    this.client = new Stripe(process.env.STRIPE_SECRET_KEY ?? 'sk_test_placeholder');
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error('Missing required env var: STRIPE_SECRET_KEY. Add it to your .env file.');
+    }
+    this.client = new Stripe(process.env.STRIPE_SECRET_KEY);
   }
 
   async createPaymentIntent(amount: number, currency: string, metadata: Record<string, unknown>): Promise<PaymentIntent> {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 import * as path from 'path';
 
 interface PdfInvoiceModel {
@@ -18,12 +18,12 @@ interface PdfInvoiceModel {
 export class PdfGeneratorService {
   async generateInvoicePdf(data: PdfInvoiceModel): Promise<string> {
     const storagePath = process.env.BILLING_PDF_STORAGE_PATH ?? path.join(process.cwd(), 'tmp', 'invoices');
-    fs.mkdirSync(storagePath, { recursive: true });
+    await fs.mkdir(storagePath, { recursive: true });
 
     const filePath = path.join(storagePath, `${data.invoiceNumber}.pdf`);
     const contentLines = this.buildContentLines(data);
     const pdf = this.buildPdf(contentLines.join('\n'));
-    fs.writeFileSync(filePath, pdf);
+    await fs.writeFile(filePath, pdf);
 
     return filePath;
   }
@@ -44,7 +44,7 @@ export class PdfGeneratorService {
       `Subtotal: ${subtotal.toFixed(2)} ${data.currency}`,
       `VAT (5% UAE): ${data.vatAmount.toFixed(2)} ${data.currency}`,
       `Total: ${data.totalAmount.toFixed(2)} ${data.currency}`,
-      'Supplier VAT TRN: UAE-TRN-PLACEHOLDER',
+      `Supplier VAT TRN: ${process.env.SUPPLIER_VAT_TRN ?? 'Not Registered'}`,
     ];
 
     return lines.map((line) => line.replace(/[()\\]/g, ''));

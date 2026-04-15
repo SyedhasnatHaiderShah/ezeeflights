@@ -7,6 +7,7 @@ import { NotificationEntity } from '../entities/notification.entity';
 import { TemplateEngineService } from './template-engine.service';
 import { NotificationProvidersService } from './providers.service';
 import { cannedTemplates } from '../templates';
+import { appLogger } from '../../../common/logging/winston';
 
 @Injectable()
 export class NotificationService {
@@ -58,8 +59,46 @@ export class NotificationService {
     await this.providers.sendWhatsApp(to, body);
   }
 
-  async sendPush(_userId: string, _title: string, _body: string, _data?: Record<string, unknown>): Promise<void> {
-    return Promise.resolve();
+  async sendPush(userId: string, title: string, body: string, data?: Record<string, unknown>): Promise<void> {
+    if (!process.env.FIREBASE_PROJECT_ID) {
+      appLogger.warn('Firebase push is not configured');
+      return;
+    }
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const admin = require('firebase-admin');
+      if (admin.apps.length === 0) {
+        const privateKey = (process.env.FIREBASE_PRIVATE_KEY ?? '').replace(/\\n/g, '\n');
+        if (!privateKey || !process.env.FIREBASE_CLIENT_EMAIL) {
+          appLogger.warn('Firebase credentials missing for push');
+          return;
+        }
+        admin.initializeApp({
+          credential: admin.credential.cert({
+            projectId: process.env.FIREBASE_PROJECT_ID,
+            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+            privateKey,
+          }),
+        });
+      }
+
+      const user = await this.userRepository.findById(userId);
+      const token = (user as { pushToken?: string | null })?.pushToken;
+      if (!token) {
+        appLogger.warn(`Push token missing for user ${userId}`);
+        return;
+      }
+
+      await admin.messaging().send({
+        token,
+        notification: { title, body },
+        data: Object.entries(data ?? {}).reduce<Record<string, string>>((acc, [k, v]) => ({ ...acc, [k]: String(v) }), {}),
+      });
+    } catch (error) {
+      const err = error as Error;
+      appLogger.warn(`Push notification failed: ${err.message}`);
+    }
   }
 
   getById(id: string) {
