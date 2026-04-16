@@ -42,15 +42,15 @@ export function AirlinesFilter({ initialAirlines = [] }: Props) {
   };
 
   return (
-    <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
-      <div className="p-3 bg-brand-dark/[0.02] border-b border-border/50 flex items-center justify-between">
+    <div className="filter-card">
+      <div className="filter-card-header flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Plane className="w-3 h-3 text-brand-dark/40" />
-          <h3 className="text-xs font-bold text-brand-dark ">Airlines</h3>
+          <h3 className="filter-card-title">Airlines</h3>
         </div>
       </div>
 
-      <div className="p-3 space-y-3">
+      <div className="filter-card-body space-y-3">
         <div className="flex items-center justify-between text-xs font-bold  text-brand-dark-light/80 border-b border-border/40 pb-2 mb-0.5">
           <div className="flex gap-2">
             <button

@@ -45,7 +45,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
       <motion.aside
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="w-full lg:w-64 flex-shrink-0 space-y-3"
+        className="flight-filters-sidebar w-full lg:w-64 flex-shrink-0 space-y-3 [--filter-title-size:0.875rem] [--filter-body-size:0.75rem]"
       >
         <SmartFilters />
         <QuickFilters />
@@ -59,7 +59,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
 
       <main className="flex-1 space-y-4">
         {/* Priceline Ad Banner */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
@@ -87,7 +87,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
               Book Now
             </button>
           </div>
-        </motion.div>
+        </motion.div> */}
 
         {/* Dynamic Results Content with Sorting Tabs */}
         <Suspense fallback={<FlightResultSkeleton />}>

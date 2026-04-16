@@ -92,7 +92,7 @@ export function FlightResultContent({
           >
             <p
               className={cn(
-                "text-xs font-bold uppercase tracking-tight transition-colors",
+                "text-xs font-semibold transition-colors",
                 activeTab === "cheapest"
                   ? "text-brand-dark"
                   : "text-brand-dark-light/80 group-hover:text-brand-dark-light/60",
@@ -100,7 +100,7 @@ export function FlightResultContent({
             >
               Cheapest
             </p>
-            <p className="text-sm font-black text-brand-dark mt-0.5">
+            <p className="text-sm font-semibold text-brand-dark mt-0.5">
               ${cheapestPrice.toLocaleString()}
             </p>
           </TabsTrigger>
@@ -111,7 +111,7 @@ export function FlightResultContent({
           >
             <p
               className={cn(
-                "text-xs font-bold uppercase tracking-tight flex items-center justify-center gap-1.5 transition-colors",
+                "text-xs font-semibold  flex items-center justify-center gap-1.5 transition-colors",
                 activeTab === "best"
                   ? "text-brand-dark"
                   : "text-brand-dark-light/80 group-hover:text-brand-dark-light/60",
@@ -120,7 +120,7 @@ export function FlightResultContent({
               Best{" "}
               <Info className="w-3 h-3 text-brand-dark-light/80 dark:text-brand-dark-light/20" />
             </p>
-            <p className="text-sm font-black text-brand-dark mt-0.5">
+            <p className="text-sm font-semibold text-brand-dark mt-0.5">
               ${bestPrice.toLocaleString()}
             </p>
           </TabsTrigger>
@@ -131,7 +131,7 @@ export function FlightResultContent({
           >
             <p
               className={cn(
-                "text-xs font-bold uppercase tracking-tight transition-colors",
+                "text-xs font-semibold  transition-colors",
                 activeTab === "quickest"
                   ? "text-brand-dark"
                   : "text-brand-dark-light/80 group-hover:text-brand-dark-light/60",
@@ -139,7 +139,7 @@ export function FlightResultContent({
             >
               Quickest
             </p>
-            <p className="text-sm font-black text-brand-dark-light mt-0.5">
+            <p className="text-sm font-semibold text-brand-dark-light mt-0.5">
               {quickestDuration}
             </p>
           </TabsTrigger>

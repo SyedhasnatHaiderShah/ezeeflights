@@ -209,32 +209,32 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   }
 
   .dark {
-    --background: 223 32% 9%;
-    --foreground: 229 30% 91%;
-    --card: 219 21% 13%;
-    --card-foreground: 229 30% 91%;
-    --popover: 219 21% 13%;
-    --popover-foreground: 229 30% 91%;
-    --primary: 230 100% 86%;
-    --primary-foreground: 223 100% 26%;
-    --secondary: 223 13% 22%;
-    --secondary-foreground: 229 30% 91%;
-    --muted: 219 23% 12%;
-    --muted-foreground: 233 8% 59%;
-    --accent: 223 13% 22%;
-    --accent-foreground: 229 30% 91%;
-    --destructive: 356 100% 50%;
+    --background: 222 27% 11%;
+    --foreground: 220 22% 93%;
+    --card: 222 23% 15%;
+    --card-foreground: 220 22% 93%;
+    --popover: 222 23% 15%;
+    --popover-foreground: 220 22% 93%;
+    --primary: 221 92% 76%;
+    --primary-foreground: 222 47% 12%;
+    --secondary: 222 18% 20%;
+    --secondary-foreground: 220 22% 93%;
+    --muted: 223 17% 18%;
+    --muted-foreground: 220 12% 70%;
+    --accent: 223 17% 20%;
+    --accent-foreground: 220 22% 93%;
+    --destructive: 0 76% 58%;
     --destructive-foreground: 0 100% 99%;
-    --border: 232 10% 30%;
-    --input: 232 10% 30%;
-    --ring: 230 100% 86%;
-    --surface-container-low: 219 23% 12%;
-    --surface-container-lowest: 222 40% 6%;
-    --surface-container-highest: 223 13% 22%;
+    --border: 223 12% 27%;
+    --input: 223 12% 27%;
+    --ring: 221 92% 76%;
+    --surface-container-low: 222 22% 14%;
+    --surface-container-lowest: 222 30% 9%;
+    --surface-container-highest: 222 16% 22%;
 
-    --brand-dark: #f8f9fa;
-    --brand-dark-light: #cbd5e1;
-    --brand-blue: #7dd3fc;
+    --brand-dark: #e6edf5;
+    --brand-dark-light: #b6c3d1;
+    --brand-blue: #93c5fd;
   }
 }
 
@@ -316,6 +316,39 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
 
   .bg-redmix {
     @apply bg-gradient-to-tl from-brand-red to-brand-red-light shadow-sm;
+  }
+
+  .flight-filters-sidebar {
+    --filter-title-size: 0.875rem;
+    --filter-body-size: 0.75rem;
+  }
+
+  .flight-filters-sidebar .filter-card {
+    @apply rounded-2xl border border-border/60 bg-card/95 overflow-hidden;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  }
+
+  .dark .flight-filters-sidebar .filter-card {
+    @apply bg-card border-border/70;
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.45);
+  }
+
+  .flight-filters-sidebar .filter-card-header {
+    @apply px-3.5 py-2.5 bg-brand-dark/3 border-b border-border/50;
+  }
+
+  .dark .flight-filters-sidebar .filter-card-header {
+    @apply bg-muted/45 border-border/60;
+  }
+
+  .flight-filters-sidebar .filter-card-title {
+    font-size: var(--filter-title-size);
+    @apply font-semibold tracking-wide text-brand-dark;
+  }
+
+  .flight-filters-sidebar .filter-card-body {
+    @apply p-3.5;
+    font-size: var(--filter-body-size);
   }
 
   /* Consolidation for Clean Tab Triggers */

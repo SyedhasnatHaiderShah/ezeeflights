@@ -78,7 +78,7 @@ export function AppImage({
       )}
     >
       <div className={cn(
-        "absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full",
+        "absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full",
         isCompact ? "animate-shimmer-fast" : "animate-shimmer"
       )} />
     </div>

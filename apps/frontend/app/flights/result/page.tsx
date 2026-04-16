@@ -10,7 +10,8 @@ import {
 } from "@/components/ai/GeminiRecommendations";
 import { FloatingSearchButton } from "@/components/search/FloatingSearchButton";
 import { FlightSearchContainer } from "./FlightSearchContainer";
-import { FlightListItem } from "@/lib/types/flight-api";
+import { FlightListItem, FlightSegment } from "@/lib/types/flight-api";
+import flightDataJson from "@/flight-data.json";
 
 interface SearchProps {
   searchParams: Promise<Record<string, string | undefined>>;
@@ -72,6 +73,68 @@ function toFlightListItem(entity: any): FlightListItem {
   };
 }
 
+/** Convert mock JSON segment to FlightSegment format */
+function mapMockSegment(seg: any): FlightSegment {
+  return {
+    departureDate: seg.departureDate,
+    arrivalDate: seg.arrivalDate,
+    fromAirport: {
+      id: seg.fromAirport?.id ?? 0,
+      code: seg.fromAirport?.code ?? "",
+      name: seg.fromAirport?.name ?? "",
+      cityCode: seg.fromAirport?.cityCode ?? "",
+      cityName: seg.fromAirport?.cityName ?? "",
+    },
+    toAirport: {
+      id: seg.toAirport?.id ?? 0,
+      code: seg.toAirport?.code ?? "",
+      name: seg.toAirport?.name ?? "",
+      cityCode: seg.toAirport?.cityCode ?? "",
+      cityName: seg.toAirport?.cityName ?? "",
+    },
+    airline: {
+      id: seg.airline?.id ?? 0,
+      code: seg.airline?.code ?? "",
+      name: seg.airline?.name ?? "",
+    },
+    operatingAirline: {
+      id: seg.operatingAirline?.id ?? 0,
+      code: seg.operatingAirline?.code ?? "",
+      name: seg.operatingAirline?.name ?? "",
+    },
+    flightNo: seg.flightNo ?? "",
+    equipmentType: seg.equipmentType ?? "",
+    baggageAllowance: seg.baggageAllowance ?? "23kg",
+    elapsedTime: seg.elapsedTime ?? "0h 0m",
+    totalTime: seg.totalTime ?? "0h 0m",
+    cabinClass: seg.cabinClass ?? "ECONOMY",
+    isReturn: seg.isReturn ?? false,
+  };
+}
+
+/** Get mock flights from local JSON file */
+function getMockFlights(): FlightListItem[] {
+  try {
+    const flights = (flightDataJson as any).flightsList || [];
+    console.log(`📦 Loaded ${flights.length} mock flights from flight-data.json`);
+    
+    return flights.map((flight: any): FlightListItem => ({
+      flightId: flight.flightId,
+      airline: flight.airline,
+      currency: flight.currency,
+      totalTime: flight.totalTime,
+      totalCost: flight.totalCost,
+      stops: flight.stops,
+      outbound: (flight.outbound || []).map(mapMockSegment),
+      inbound: (flight.inbound || []).map(mapMockSegment),
+      flightFare: flight.flightFare,
+    }));
+  } catch (error) {
+    console.error("❌ Error loading mock flights:", error);
+    return [];
+  }
+}
+
 async function fetchFlights(params: URLSearchParams): Promise<FlightListItem[]> {
   const apiBase =
     process.env.INTERNAL_API_BASE_URL ??
@@ -89,16 +152,24 @@ async function fetchFlights(params: URLSearchParams): Promise<FlightListItem[]> 
     if (!res.ok) {
       const errorBody = await res.json().catch(() => null);
       console.error(`❌ Flight search failed: ${res.status} ${res.statusText}`, errorBody);
-      return [];
+      console.log("🔄 Falling back to mock flight data...");
+      return getMockFlights();
     }
     
     const data = await res.json();
     console.log(`✅ Received ${Array.isArray(data) ? data.length : 0} flights from backend`);
     
-    return Array.isArray(data) ? data.map(toFlightListItem) : [];
+    // If backend returns empty, use mock data
+    if (!Array.isArray(data) || data.length === 0) {
+      console.log("🔄 Backend returned empty, using mock flight data...");
+      return getMockFlights();
+    }
+    
+    return data.map(toFlightListItem);
   } catch (error) {
     console.error("🚨 Error fetching flights:", error);
-    return [];
+    console.log("🔄 Falling back to mock flight data due to error...");
+    return getMockFlights();
   }
 }
 
@@ -195,13 +266,13 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
             <div className="pt-12 border-t border-gray-200 dark:border-border mt-12 pb-20">
               <div className="flex items-center gap-4 mb-8">
                 <div className="p-2.5 rounded-xl bg-brand-dark text-white shadow-lg shadow-brand-dark/10">
-                  <Sparkles className="h-5 w-5 fill-white" />
+                  <Sparkles className="h-5 w-5 text-red-500" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-black text-brand-dark tracking-tight">
+                  <h2 className="text-2xl font-semibold text-brand-dark">
                     Aero Intelligence
                   </h2>
-                  <p className="text-xs font-bold text-brand-dark-light/40 uppercase tracking-widest mt-1">
+                  <p className="text-sm font-medium text-brand-dark-light/40 mt-1">
                     AI-powered travel insights for tactical discovery
                   </p>
                 </div>

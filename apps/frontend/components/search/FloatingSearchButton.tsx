@@ -53,7 +53,7 @@ export function FloatingSearchButton() {
             <div className="relative">
               <Search className="w-5 h-5 transition-transform group-hover:scale-110" />
               <motion.div
-                className="absolute inset-0 bg-white/20 rounded-full blur-md"
+                className="absolute inset-0 bg-redmix/20 rounded-full blur-md"
                 animate={{ scale: [1, 1.5, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
@@ -61,9 +61,6 @@ export function FloatingSearchButton() {
             <span className="font-bold text-sm tracking-wide hidden md:block">
               Modify Search
             </span>
-            
-            {/* Subtle gloss effect */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
           </button>
         </motion.div>
       )}

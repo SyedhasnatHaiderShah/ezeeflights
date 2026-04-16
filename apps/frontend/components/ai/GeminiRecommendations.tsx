@@ -48,8 +48,10 @@ export async function GeminiRecommendations({ destinationCode, searchParamsStrin
 
   if (!process.env.GEMINI_API_KEY) {
     return (
-      <div className="w-full bg-[#f2f3ff] dark:bg-muted/10 border-dashed border-2 border-border p-8 rounded-3xl mb-8 flex flex-col items-center justify-center text-center">
-        <Sparkles className="h-8 w-8 text-muted-foreground mb-3 opacity-50" />
+      <div className="w-full dark:bg-muted/10 border-dashed border-2 border-border p-5 rounded-3xl mb-8 flex flex-col items-center justify-center text-center">
+        <div className=" bg-white p-3 flex items-center justify-center rounded-full w-10 h-10">
+        <Sparkles className="h-8 w-8 text-red-500" />
+        </div>
         <h3 className="font-bold text-base text-foreground font-display">Aero Intelligence Offline</h3>
         <p className="font-medium text-sm text-muted-foreground w-full max-w-md mt-2">
           Unable to generate travel insights for {cityName}. Please configure your GEMINI_API_KEY.

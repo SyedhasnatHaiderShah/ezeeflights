@@ -29,12 +29,12 @@ export function TimeFilter() {
   };
 
   return (
-    <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
-      <div className="p-3 bg-brand-dark/[0.02] border-b border-border/50 flex items-center gap-2">
+    <div className="filter-card">
+      <div className="filter-card-header flex items-center gap-2">
         <Clock className="w-3 h-3 text-brand-dark/80" />
-        <h3 className="text-xs font-bold text-brand-dark ">Times</h3>
+        <h3 className="filter-card-title">Times</h3>
       </div>
-      <div className="p-3">
+      <div className="filter-card-body">
         <Tabs defaultValue="take-off" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-4 h-8 bg-muted/20 p-0.5 rounded-lg">
             <TabsTrigger

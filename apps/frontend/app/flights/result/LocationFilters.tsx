@@ -7,12 +7,12 @@ import { Globe, MapPin, Bus } from "lucide-react";
 
 export function LocationFilters() {
   return (
-    <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden divide-y divide-border/30">
+    <div className="filter-card divide-y divide-border/30">
       {/* Alliance */}
-      <div className="p-3 space-y-3">
-        <div className="flex items-center gap-2 mb-0.5">
+      <div className="filter-card-body space-y-3">
+        <div className="filter-card-header !px-0 !py-0 !bg-transparent !border-0 flex items-center gap-2 mb-0.5">
           <Globe className="w-3 h-3 text-brand-dark/40" />
-          <h3 className="text-xs font-bold text-brand-dark ">Alliance</h3>
+          <h3 className="filter-card-title">Alliance</h3>
         </div>
         <div className="flex items-center gap-2.5 px-0.5">
           <Checkbox
@@ -29,10 +29,10 @@ export function LocationFilters() {
       </div>
 
       {/* Airports */}
-      <div className="p-3 space-y-3">
-        <div className="flex items-center gap-2 mb-0.5">
+      <div className="filter-card-body space-y-3">
+        <div className="filter-card-header !px-0 !py-0 !bg-transparent !border-0 flex items-center gap-2 mb-0.5">
           <MapPin className="w-3 h-3 text-brand-dark/40" />
-          <h3 className="text-xs font-bold text-brand-dark ">Airports</h3>
+          <h3 className="filter-card-title">Airports</h3>
         </div>
 
         <div className="space-y-3 px-0.5">
@@ -112,10 +112,10 @@ export function LocationFilters() {
       </div>
 
       {/* Transportation options */}
-      <div className="p-3 space-y-3">
-        <div className="flex items-center gap-2 mb-0.5">
+      <div className="filter-card-body space-y-3">
+        <div className="filter-card-header !px-0 !py-0 !bg-transparent !border-0 flex items-center gap-2 mb-0.5">
           <Bus className="w-3 h-3 text-brand-dark/40" />
-          <h3 className="text-xs font-bold text-brand-dark ">Transportation</h3>
+          <h3 className="filter-card-title">Transportation</h3>
         </div>
         <div className="space-y-2.5 px-0.5">
           <div className="flex items-center justify-between">

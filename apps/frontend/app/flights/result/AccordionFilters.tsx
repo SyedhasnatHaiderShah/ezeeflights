@@ -22,21 +22,21 @@ export function AccordionFilters() {
   };
 
   return (
-    <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
+    <div className="filter-card">
       <Accordion type="multiple" className="w-full">
         {/* Price */}
         <AccordionItem value="price" className="border-b-0">
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none cursor-pointer">
             <div className="flex items-center gap-2">
               <Tag className="w-3 h-3 text-brand-dark/70" />
-              <span className="text-xs font-semibold text-brand-dark ">
+              <span className="filter-card-title">
                 Price
               </span>
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-3 pb-3 pt-0">
             <div className="space-y-2">
-              <div className="flex justify-between text-[9px] font-semibold text-brand-dark-light/70 px-0.5 ">
+              <div className="flex justify-between text-xs font-semibold text-brand-dark-light/70 px-0.5 ">
                 <span>${filters.priceRange[0].toLocaleString()}</span>
                 <span>${filters.priceRange[1].toLocaleString()}+</span>
               </div>
@@ -58,7 +58,7 @@ export function AccordionFilters() {
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none cursor-pointer">
             <div className="flex items-center gap-2">
               <MapPin className="w-3 h-3 text-brand-dark/80" />
-              <span className="text-[10px] font-semibold text-brand-dark ">
+              <span className="filter-card-title">
                 Layover airports
               </span>
             </div>
@@ -94,7 +94,7 @@ export function AccordionFilters() {
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none cursor-pointer">
             <div className="flex items-center gap-2">
               <Sofa className="w-3 h-3 text-brand-dark/40" />
-              <span className="text-xs font-semibold text-brand-dark ">
+              <span className="filter-card-title">
                 Cabin
               </span>
             </div>
@@ -132,7 +132,7 @@ export function AccordionFilters() {
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none cursor-pointer">
             <div className="flex items-center gap-2">
               <Star className="w-3 h-3 text-brand-dark/40" />
-              <span className="text-xs font-semibold text-brand-dark ">
+              <span className="filter-card-title">
                 Flight quality
               </span>
             </div>
@@ -168,7 +168,7 @@ export function AccordionFilters() {
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none">
             <div className="flex items-center gap-2">
               <Plane className="w-3 h-3 text-brand-dark/80" />
-              <span className="text-[10px] font-semibold text-brand-dark ">
+              <span className="filter-card-title">
                 Aircraft
               </span>
             </div>

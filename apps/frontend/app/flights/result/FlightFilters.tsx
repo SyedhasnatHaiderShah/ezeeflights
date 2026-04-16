@@ -38,15 +38,15 @@ export function FlightFilters() {
   }, [stops]);
 
   return (
-    <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
-      <div className="flex items-center gap-2 p-3 border-b border-gray-100 dark:border-border/50 bg-brand-dark/[0.02]">
+    <div className="filter-card">
+      <div className="filter-card-header flex items-center gap-2">
         <Filter className="w-3 h-3 text-brand-dark/40" />
-        <h3 className="text-xs font-semibold text-brand-dark ">
+        <h3 className="filter-card-title">
           Additional Filters
         </h3>
       </div>
 
-      <div className="p-3 space-y-4">
+      <div className="filter-card-body space-y-4">
         {/* Stops Dropdown */}
         <div className="space-y-1.5">
           <Label className="text-xs font-semibold  text-brand-dark-light/80 ml-0.5">
@@ -174,9 +174,9 @@ export function FlightFilters() {
         </div>
       </div>
 
-      <div className="p-3 border-t border-border/30 bg-brand-dark/[0.02] flex flex-col gap-2">
+      <div className="px-3.5 py-3 border-t border-border/30 bg-brand-dark/2 flex flex-col gap-2">
         <button 
-          className="w-full h-9 rounded-lg bg-brand-dark/[0.05] text-brand-dark text-xs font-bold hover:bg-brand-dark/[0.08] transition-all cursor-pointer"
+          className="w-full h-9 rounded-lg bg-brand-dark/5 text-brand-dark text-xs font-bold hover:bg-brand-dark/8 transition-all cursor-pointer"
           onClick={resetFilters}
         >
           Clear all filters

@@ -10,13 +10,13 @@ export function QuickFilters() {
   const { filters, setFilter } = useFlightFilterStore();
 
   return (
-    <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
-      <div className="p-3 space-y-4">
+    <div className="filter-card">
+      <div className="filter-card-body space-y-4">
         <div className="flex items-center justify-between space-x-2">
           <div className="flex flex-col space-y-0.5">
             <Label
               htmlFor="basic-tickets"
-              className="text-xs font-semibold cursor-pointer  text-brand-dark"
+              className="text-xs font-semibold cursor-pointer text-brand-dark"
             >
               Hide basic tickets
             </Label>
@@ -38,7 +38,7 @@ export function QuickFilters() {
           <div className="flex flex-col space-y-0.5">
             <Label
               htmlFor="book-kayak"
-              className="text-xs font-semibold cursor-pointer  text-brand-dark"
+              className="text-xs font-semibold cursor-pointer text-brand-dark"
             >
               Book on KAYAK
             </Label>

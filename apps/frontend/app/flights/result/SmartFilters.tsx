@@ -11,21 +11,21 @@ export function SmartFilters() {
   const { filters, setFilter } = useFlightFilterStore();
 
   return (
-    <div className="bg-white dark:bg-muted/10 rounded-xl border border-gray-200 dark:border-border shadow-sm overflow-hidden">
-      <div className="p-3 space-y-3">
+    <div className="filter-card">
+      <div className="filter-card-body space-y-3">
         {/* Smart Filters AI Section */}
         <div className="space-y-2.5">
-          <div className="flex items-center justify-center p-1 rounded-md bg-brand-dark/[0.03]">
+          <div className="flex items-center justify-center p-1.5 rounded-lg bg-brand-dark/[0.03] border border-border/40">
             <div className="flex items-center gap-1.5 text-brand-dark">
               <Sparkles className="w-3 h-3 fill-brand-dark" />
-              <span className="text-lg font-font">Aero Insights</span>
+              <span className="text-sm font-semibold tracking-wide">Aero Insights</span>
             </div>
           </div>
 
           <div className="rounded-xl transition-all">
             <div className="flex items-start gap-1.5 mb-2 pl-0.5">
               <Info className="w-4 h-4 text-brand-yellow mt-0.5" />
-              <p className="text-sm text-brand-dark-light/80 font-bold ">
+              <p className="text-xs text-brand-dark-light/80 font-semibold">
                 AI powered search.{" "}
                 <button className="text-brand-redmix cursor-pointer text-xs hover:underline underline-offset-2">
                   Learn more
