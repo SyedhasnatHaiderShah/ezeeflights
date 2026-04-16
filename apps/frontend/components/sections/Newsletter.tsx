@@ -82,7 +82,7 @@ export function Newsletter() {
                 type="email"
                 placeholder="Enter Your Email Address"
                 required
-                className="w-full h-full pl-12 pr-4 bg-transparent text-foreground placeholder:text-muted-foreground font-bold text-sm outline-none focus:bg-muted/10 transition-colors"
+                className="w-full h-full pl-12 pr-4 bg-transparent text-foreground placeholder:text-muted-foreground font-semibold text-xs outline-none focus:bg-muted/10 transition-colors"
                 draggable={false}
               />
             </div>
@@ -90,12 +90,12 @@ export function Newsletter() {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="h-12 md:h-14 px-10 rounded-none bg-brand-red hover:bg-brand-red/90 text-white text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center shrink-0 active:scale-95 cursor-pointer"
+              className="h-12 md:h-14 px-10 rounded-none bg-brand-red hover:bg-brand-red/90 text-white text-xs font-semibold transition-all duration-300 flex items-center justify-center shrink-0 active:scale-95 cursor-pointer"
             >
               Get Secret Deals
             </Button>
           </form>
-          <p className="text-[10px] text-center text-muted-foreground mt-4 font-medium opacity-70">
+          <p className="text-xs text-center text-muted-foreground mt-4 font-medium">
             By subscribing, you agree to our Terms of Service and Privacy Policy.
           </p>
         </div>

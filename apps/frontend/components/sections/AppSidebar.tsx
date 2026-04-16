@@ -92,6 +92,7 @@ const NAVIGATION_GROUPS: NavigationGroup[] = [
 ];
 
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
 
 export function AppSidebar() {
   const { isOpen, close, open } = useSidebarStore();
@@ -100,6 +101,7 @@ export function AppSidebar() {
   const [mounted, setMounted] = React.useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const { data: session } = useAuthSession();
+  const openAuthModal = useAuthModalStore((state) => state.open);
 
   useEffect(() => {
     setMounted(true);
@@ -216,6 +218,35 @@ export function AppSidebar() {
                         displayTitle = session ? "Profile" : "Sign in / Profile";
                       }
                       
+                      if (item.url === "/profile" && !session) {
+                        return (
+                          <li key={item.title}>
+                            <button
+                              onClick={() => {
+                                close();
+                                openAuthModal("login");
+                              }}
+                              className={cn(
+                                "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
+                                getNavClassName(isActive),
+                              )}
+                            >
+                              <item.icon
+                                className={cn(
+                                  "h-5 w-5 flex-shrink-0",
+                                  isActive
+                                    ? "text-white"
+                                    : "text-muted-foreground",
+                                )}
+                              />
+                              <span className="text-sm font-medium">
+                                {displayTitle}
+                              </span>
+                            </button>
+                          </li>
+                        );
+                      }
+
                       return (
                         <li key={item.title}>
                           <Link

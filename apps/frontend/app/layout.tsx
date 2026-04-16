@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { AppSidebar } from "@/components/sections/AppSidebar";
 import { Providers } from "@/components/shared/providers";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthModal } from "@/components/auth/auth-modal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -120,6 +121,7 @@ export default function RootLayout({
               {children}
               <MobileBottomNav />
             </div>
+            <AuthModal />
             <Toaster />
           </Providers>
         </ThemeProvider>

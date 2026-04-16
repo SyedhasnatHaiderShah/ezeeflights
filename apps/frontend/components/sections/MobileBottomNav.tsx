@@ -66,6 +66,11 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
   { title: "Saved", url: "/saved", icon: Heart },
   { title: "Sign in / Profile", url: "/profile", icon: User },
   { title: "Stays", url: "/stays", icon: Building2 },
+  { title: "Alaska", url: "/alaska-airlines", icon: Plane },
+  { title: "JetBlue", url: "/jetblue-airlines", icon: Plane },
+  { title: "Southwest", url: "/southwest-airlines", icon: Plane },
+  { title: "Delta", url: "/delta-airlines", icon: Plane },
+  { title: "Aeromexico", url: "/aeromexico-airlines", icon: Plane },
 ];
 
 const TOP_AIRLINES = [
@@ -102,6 +107,7 @@ const itemVariants = {
 } as const;
 
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
 
 export function MobileBottomNav() {
   const pathname = usePathname();
@@ -110,6 +116,7 @@ export function MobileBottomNav() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isFullScreen, setIsFullScreen] = React.useState(false);
   const { data: session } = useAuthSession();
+  const openAuthModal = useAuthModalStore((state) => state.open);
 
   React.useEffect(() => {
     setMounted(true);
@@ -148,6 +155,21 @@ export function MobileBottomNav() {
     const isActive =
       pathname === item.href ||
       (pathname?.startsWith(item.href) && item.href !== "/");
+
+    if (item.href === "/profile" && !session) {
+      return (
+        <button
+          key={item.name}
+          onClick={() => openAuthModal("login")}
+          className="flex flex-col items-center justify-center min-w-12 h-full space-y-1 relative group"
+          style={{ WebkitTapHighlightColor: "transparent" }}
+        >
+          <div className="pointer-events-none">
+            <AppIcon icon={Icon} isActive={isActive} />
+          </div>
+        </button>
+      );
+    }
 
     return (
       <Link
@@ -224,7 +246,51 @@ export function MobileBottomNav() {
                           // Dynamic label for Sign in / Profile
                           let displayTitle = item.title;
                           if (item.url === "/profile") {
-                            displayTitle = session ? "Profile" : "Sign in / Profile";
+                            displayTitle = session
+                              ? "Profile"
+                              : "Sign in / Profile";
+                          }
+
+                          if (item.url === "/profile" && !session) {
+                            return (
+                              <motion.div
+                                key={item.title}
+                                variants={itemVariants}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <button
+                                  onClick={() => {
+                                    setIsOpen(false);
+                                    openAuthModal("login");
+                                  }}
+                                  onPointerDown={(e: React.PointerEvent) =>
+                                    e.stopPropagation()
+                                  }
+                                  className="flex flex-col items-center justify-start gap-3 group w-full"
+                                  style={{
+                                    WebkitTapHighlightColor: "transparent",
+                                  }}
+                                >
+                                  <div
+                                    className={cn(
+                                      "w-12 h-12 flex items-center justify-center transition-all duration-300 border border-border/5",
+                                    )}
+                                  >
+                                    <AppIcon
+                                      icon={item.icon}
+                                      isActive={false}
+                                    />
+                                  </div>
+                                  <span
+                                    className={cn(
+                                      "text-xs font-semibold text-center leading-tight tracking-wider text-muted-foreground group-hover:text-redmix",
+                                    )}
+                                  >
+                                    {displayTitle}
+                                  </span>
+                                </button>
+                              </motion.div>
+                            );
                           }
 
                           return (
@@ -236,7 +302,9 @@ export function MobileBottomNav() {
                               <Link
                                 href={item.url as any}
                                 onClick={() => setIsOpen(false)}
-                                onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
+                                onPointerDown={(e: React.PointerEvent) =>
+                                  e.stopPropagation()
+                                }
                                 className="flex flex-col items-center justify-start gap-3 group"
                                 style={{
                                   WebkitTapHighlightColor: "transparent",
@@ -270,13 +338,14 @@ export function MobileBottomNav() {
                           );
                         })}
 
-
                         <motion.div variants={itemVariants}>
                           <button
                             onClick={() =>
                               setTheme(theme === "dark" ? "light" : "dark")
                             }
-                            onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
+                            onPointerDown={(e: React.PointerEvent) =>
+                              e.stopPropagation()
+                            }
                             className="flex flex-col items-center justify-start gap-3 group"
                             style={{ WebkitTapHighlightColor: "transparent" }}
                           >
@@ -293,7 +362,9 @@ export function MobileBottomNav() {
                         <motion.div variants={itemVariants}>
                           <button
                             onClick={toggleFullScreen}
-                            onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
+                            onPointerDown={(e: React.PointerEvent) =>
+                              e.stopPropagation()
+                            }
                             className="flex flex-col items-center justify-start gap-3 group"
                             style={{ WebkitTapHighlightColor: "transparent" }}
                           >
@@ -310,9 +381,12 @@ export function MobileBottomNav() {
                         </motion.div>
                       </div>
 
+                      {/* divider */}
+                      <div className="border-t border-border/90 shadow my-1" />
+
                       {/* Top Airlines Section */}
-                      <div className="flex flex-col gap-4">
-                        <h4 className="text-[10px] font-bold text-muted-foreground tracking-[0.2em] px-1">
+                      {/* <div className="flex flex-col gap-4">
+                        <h4 className="text-xs font-semibold text-muted-foreground px-1">
                           Top Airlines
                         </h4>
                         <div className="flex gap-2 flex-wrap">
@@ -324,20 +398,17 @@ export function MobileBottomNav() {
                               <Link
                                 href={airline.href as any}
                                 onClick={() => setIsOpen(false)}
-                                className="flex flex-col items-center gap-3 p-1 hover:bg-brand-red/5 hover:border-brand-red/20 transition-all text-xs font-semibold group"
+                                className="flex flex-col items-center gap-3 p-1 transition-all text-xs font-semibold group"
                               >
-                                <AppIcon
-                                  icon={Plane}
-                                  // className="w-3.5 h-3.5"
-                                />
-                                <span className="text-muted-foreground group-hover:text-foreground transition-colors">
+                                <AppIcon icon={Plane} />
+                                <span className="text-muted-foreground group-hover:text-redmix transition-colors">
                                   {airline.name}
                                 </span>
                               </Link>
                             </motion.div>
                           ))}
                         </div>
-                      </div>
+                      </div> */}
                     </motion.div>
                   </div>
                 </Drawer.Content>

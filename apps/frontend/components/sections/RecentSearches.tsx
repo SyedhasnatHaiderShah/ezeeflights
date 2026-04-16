@@ -131,11 +131,11 @@ export function RecentSearches() {
 
               {/* MD+ Meta (Horizontally) */}
               <div className="hidden md:flex flex-col gap-1 flex-1 border-l border-border/50 pl-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
+                <div className="flex items-center gap-2 text-sm text-foreground font-bold">
                   <Clock className="w-3.5 h-3.5" />
                   <span className="truncate">{search.dates}</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground/80">
+                <div className="flex items-center gap-2 text-xs text-foreground/80 font-semibold">
                   <Users className="w-3.5 h-3.5" />
                   <span className="truncate">
                     {search.travelers} · {search.class}
@@ -145,12 +145,12 @@ export function RecentSearches() {
 
               {/* Mobile-only Meta (Inline) */}
               <div className="flex md:hidden items-center gap-3 py-2 border-t border-border/30">
-                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground font-medium">
+                <div className="flex items-center gap-1.5 text-xs text-foreground font-bold">
                   <Clock className="w-3 h-3" />
                   <span>{search.dates}</span>
                 </div>
                 <div className="w-1 h-1 rounded-full bg-border" />
-                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground font-medium">
+                <div className="flex items-center gap-1.5 text-xs text-foreground/80 font-semibold">
                   <Users className="w-3 h-3" />
                   <span>{search.travelers}</span>
                 </div>
@@ -159,10 +159,10 @@ export function RecentSearches() {
               {/* Price + Action */}
               <div className="flex items-center justify-between sm:justify-end gap-4 lg:gap-6 pt-3 sm:pt-0 border-t sm:border-0 border-border/30">
                 <div className="text-left sm:text-right">
-                  <p className="text-2xl lg:text-3xl font-black text-foreground tracking-tighter leading-none">
+                  <p className="text-2xl lg:text-3xl font-semibold text-foreground tracking-tighter leading-none">
                     {search.price}
                   </p>
-                  <p className="text-[10px] font-bold text-brand-red uppercase tracking-wider mt-1 opacity-80">
+                  <p className="text-xs font-bold text-brand-red tracking-wider mt-1 opacity-80">
                     {search.tag}
                   </p>
                 </div>
@@ -184,7 +184,7 @@ export function RecentSearches() {
           <div className="flex flex-col lg:flex-row lg:items-center gap-4">
             <div className="flex items-center gap-2">
               <Plus className="w-4 h-4 text-brand-red" />
-              <p className="text-[13px] text-muted-foreground font-bold uppercase tracking-wider">
+              <p className="text-sm text-muted-foreground font-bold  tracking-wider">
                 Start new
               </p>
             </div>

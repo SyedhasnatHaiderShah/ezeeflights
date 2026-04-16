@@ -24,6 +24,7 @@ import {
 import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { AppIcon } from "@/components/ui/app-icon";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
 
 const menuVariants = {
   hidden: { opacity: 0, y: -10, scale: 0.95 },
@@ -133,6 +134,7 @@ export function Header() {
   const [mounted, setMounted] = React.useState(false);
   const [isNotifDrawerOpen, setIsNotifDrawerOpen] = React.useState(false);
   const [isFavoriteDrawerOpen, setIsFavoriteDrawerOpen] = React.useState(false);
+  const openAuthModal = useAuthModalStore((state) => state.open);
   const router = useRouter();
   const toggleSidebar = useSidebarStore((state) => state.toggle);
   const { data: session, isLoading, refetch } = useAuthSession();
@@ -346,14 +348,14 @@ export function Header() {
                     >
                       Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       className="cursor-pointer"
                       onClick={() => router.push("/profile?tab=trips")}
                     >
                       My Trips
                     </DropdownMenuItem>
                     <div className="h-px bg-border my-1" />
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       className="text-red-600 focus:text-red-600 cursor-pointer"
                       onClick={handleLogout}
                     >
@@ -364,7 +366,7 @@ export function Header() {
                   <>
                     <DropdownMenuItem
                       className="font-semibold cursor-pointer"
-                      onClick={() => router.push("/auth/login")}
+                      onClick={() => openAuthModal("login")}
                     >
                       Sign in / Sign up
                     </DropdownMenuItem>
@@ -380,6 +382,5 @@ export function Header() {
         </div>
       </div>
     </header>
-
   );
 }
