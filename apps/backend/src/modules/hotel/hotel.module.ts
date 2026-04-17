@@ -5,6 +5,7 @@ import { HotelRepository } from './repositories/hotel.repository';
 
 @Module({
   controllers: [HotelController],
-  providers: [HotelService, HotelRepository],
+  providers: [HotelService, HotelRepository, PostgresClient],
+  exports: [HotelService],
 })
 export class HotelModule {}
