@@ -8,26 +8,93 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: ezeeflights_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ezeeflights_test
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install backend deps
         run: cd apps/backend && npm ci
+
       - name: Install frontend deps
         run: cd apps/frontend && npm ci
-      - name: Backend tests
-        run: cd apps/backend && npm test
+
+      - name: Security scan
+        run: cd apps/backend && npm audit --audit-level=high
+
+      - name: Type check backend
+        run: cd apps/backend && npx tsc --noEmit
+
+      - name: Type check frontend
+        run: cd apps/frontend && npx tsc --noEmit
+
+      - name: Lint monorepo apps
+        run: npx eslint apps/backend/src apps/frontend/app --ext .ts,.tsx
+
+      - name: Run SQL migrations in order
+        run: |
+          for file in sql/migrations/*.sql; do
+            psql "$DATABASE_URL" -f "$file"
+          done
+
+      - name: Backend tests with coverage gate
+        run: cd apps/backend && npx jest --coverage --coverageThreshold='{"global":{"lines":70}}'
+
       - name: Backend build
         run: cd apps/backend && npm run build
+
       - name: Frontend build
         run: cd apps/frontend && npm run build
 
-  deploy-aws-ec2:
+  docker-build-and-push-ecr:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: test-and-build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - name: Deploy placeholder
-        run: echo "Add SSH + docker compose pull/up deployment on EC2 here"
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ECR_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - uses: aws-actions/amazon-ecr-login@v2
+        id: ecr-login
+
+      - name: Build and push backend image
+        env:
+          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          REPOSITORY: ${{ secrets.ECR_BACKEND_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -f infra/docker/backend.Dockerfile -t "$REGISTRY/$REPOSITORY:$IMAGE_TAG" .
+          docker push "$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+
+      - name: Build and push frontend image
+        env:
+          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          REPOSITORY: ${{ secrets.ECR_FRONTEND_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -f infra/docker/frontend.Dockerfile -t "$REGISTRY/$REPOSITORY:$IMAGE_TAG" .
+          docker push "$REGISTRY/$REPOSITORY:$IMAGE_TAG"

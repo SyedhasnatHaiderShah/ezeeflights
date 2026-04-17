@@ -1,18 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { CircuitBreakerService } from '../../../common/circuit-breaker/circuit-breaker.service';
 
 @Injectable()
 export class AiService {
-  naturalLanguageSearch(prompt: string) {
-    return {
-      prompt,
-      interpretedIntent: 'flight_search',
-      filters: {
-        origin: 'DXB',
-        destination: 'LHR',
-        date: new Date().toISOString().slice(0, 10),
-      },
-      provider: process.env.OPENAI_API_KEY ? 'openai-configured' : 'mock',
-    };
+  constructor(private readonly circuitBreaker: CircuitBreakerService) {}
+
+  async naturalLanguageSearch(prompt: string) {
+    return this.circuitBreaker.execute(
+      'openai',
+      async () => ({
+        prompt,
+        interpretedIntent: 'flight_search',
+        filters: {
+          origin: 'DXB',
+          destination: 'LHR',
+          date: new Date().toISOString().slice(0, 10),
+        },
+        provider: process.env.OPENAI_API_KEY ? 'openai-configured' : 'mock',
+      }),
+      async () => ({
+        prompt,
+        interpretedIntent: 'flight_search',
+        filters: {},
+        provider: 'fallback',
+      }),
+    );
   }
 
   pricePrediction(route: string) {
