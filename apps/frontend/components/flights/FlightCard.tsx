@@ -2,206 +2,125 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Heart, Share2, Luggage, ArrowRight } from "lucide-react";
+import { Plane, Wifi, UtensilsCrossed, PlugZap, Tv } from "lucide-react";
 import { useBookingFlowStore } from "@/lib/store/booking-flow-store";
 import { cn } from "@/lib/utils";
-import { AppImage } from "../ui/app-image";
 import { Button } from "../ui/button";
-import { FlightListItem, FlightSegment } from "@/lib/types/flight-api";
+import { FlightListItem } from "@/lib/types/flight-api";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
-interface Props {
-  flight: FlightListItem;
+interface Props { flight: FlightListItem; }
+
+function getBadge(flight: FlightListItem): { label: string; className: string } | null {
+  if (flight.totalCost < 400) return { label: "Cheapest", className: "bg-sky-100 text-sky-700" };
+  if (flight.totalTime < 420) return { label: "Fastest", className: "bg-brand-red/15 text-brand-red" };
+  if (flight.totalCost / Math.max(1, flight.totalTime) < 1.2) return { label: "Best Value", className: "bg-emerald-100 text-emerald-700" };
+  return null;
 }
 
-function FlightLeg({
-  segments,
-  isReturn = false,
-}: {
-  segments: FlightSegment[];
-  isReturn?: boolean;
-}) {
-  if (!segments || segments.length === 0) return null;
-
-  const firstSeg = segments[0];
-  const lastSeg = segments[segments.length - 1];
-  const stops = segments.length - 1;
-
-  const departureDate = new Date(firstSeg.departureDate);
-  const arrivalDate = new Date(lastSeg.arrivalDate);
-
-  const durationMinutes = segments.reduce(
-    (acc, seg) => acc + parseInt(seg.elapsedTime || "0"),
-    0,
-  );
-  let totalMinutes = durationMinutes;
-  for (let i = 0; i < segments.length - 1; i++) {
-    const arr = new Date(segments[i].arrivalDate).getTime();
-    const dep = new Date(segments[i + 1].departureDate).getTime();
-    totalMinutes += Math.round((dep - arr) / 60000);
-  }
-
-  const h = Math.floor(totalMinutes / 60);
-  const m = totalMinutes % 60;
-  const durationText = `${h}h ${m > 0 ? `${m}m` : ""}`;
-
-  const formatTime = (date: Date) =>
-    date.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-    });
-
-  return (
-    <div className="flex items-center gap-4 md:gap-6 py-3">
-      {/* Airline Logo */}
-      <div className="w-24 h-8 relative bg-white dark:bg-brand-dark overflow-hidden">
-        <AppImage
-          src={
-            firstSeg.airline.code
-              ? `https://www.kayak.com/rimg/provider-logos/airlines/v/${firstSeg.airline.code}.png`
-              : ""
-          }
-          alt={firstSeg.airline.name ?? "Airline"}
-          fill
-          className="object-contain  px-0"
-        />
-      </div>
-
-      {/* Flight Info */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-3">
-          {/* Departure */}
-          <div className="text-center min-w-14">
-            <span
-              suppressHydrationWarning
-              className="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100"
-            >
-              {formatTime(departureDate)}
-            </span>
-            <p className="text-xs font-semibold text-gray-500 mt-0.5">
-              {firstSeg.fromAirport.code}
-            </p>
-          </div>
-
-          {/* Flight Path */}
-          <div className="flex-1 flex flex-col items-center min-w-16">
-            <span
-              className={cn(
-                "text-[10px] md:text-xs font-semibold uppercase tracking-wide",
-                stops === 0
-                  ? "text-emerald-600 dark:text-emerald-400"
-                  : "text-amber-600 dark:text-amber-400",
-              )}
-            >
-              {stops === 0 ? "Nonstop" : `${stops} stop${stops > 1 ? "s" : ""}`}
-            </span>
-            <div className="w-full flex items-center gap-1 my-1">
-              <div className="h-px flex-1 bg-gray-300 dark:bg-gray-600" />
-              <ArrowRight className="w-3.5 h-3.5 text-gray-400" />
-              <div className="h-px flex-1 bg-gray-300 dark:bg-gray-600" />
-            </div>
-            <span className="text-[10px] md:text-xs text-gray-500 font-medium">
-              {durationText}
-            </span>
-          </div>
-
-          {/* Arrival */}
-          <div className="text-center min-w-14">
-            <span
-              suppressHydrationWarning
-              className="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100"
-            >
-              {formatTime(arrivalDate)}
-            </span>
-            <p className="text-xs font-semibold text-gray-500 mt-0.5">
-              {lastSeg.toAirport.code}
-            </p>
-          </div>
-        </div>
-
-        {/* Airline Name */}
-        <p className="text-xs text-gray-500 mt-2 font-medium">
-          {firstSeg.airline.name ?? "Other"} • {firstSeg.cabinClass}
-        </p>
-      </div>
-    </div>
-  );
-}
+const fmtTime = (iso: string) => new Date(iso).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+const duration = (mins: number) => `${Math.floor(mins / 60)}h ${mins % 60}m`;
 
 export function FlightCard({ flight }: Props) {
   const router = useRouter();
   const setFlights = useBookingFlowStore((state) => state.setFlights);
+  const badge = getBadge(flight);
+  const first = flight.outbound[0];
+  const last = flight.outbound[flight.outbound.length - 1];
+  const overnight = new Date(last.arrivalDate).getDate() !== new Date(first.departureDate).getDate();
+  const stops = Math.max(0, flight.outbound.length - 1);
 
-  const currencyMap: Record<string, string> = {
-    USD: "$",
-    GBP: "£",
-    EUR: "€",
-    PKR: "Rs",
-  };
-  const currencySymbol = currencyMap[flight.currency] || flight.currency;
+  const symbol = ({ USD: "$", GBP: "£", EUR: "€", PKR: "Rs" } as Record<string, string>)[flight.currency] || flight.currency;
+  const originalAmount = Math.round(flight.totalCost * 1.1);
 
   return (
-    <article className="group bg-white dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-lg hover:shadow-gray-200/50 dark:hover:shadow-gray-900/50 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
-      <div className="flex flex-col lg:flex-row">
-        {/* Main Content */}
-        <div className="flex-1 p-5 md:p-6">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
-              <button className="flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-red-500 transition-colors">
-                <Heart className="w-4 h-4" />
-                <span className="hidden sm:inline">Save</span>
-              </button>
-              <button className="flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-blue-500 transition-colors">
-                <Share2 className="w-4 h-4" />
-                <span className="hidden sm:inline">Share</span>
-              </button>
-            </div>
-            <div className="flex items-center gap-1.5 text-xs font-medium text-gray-500">
-              <Luggage className="w-4 h-4 text-gray-400" />
-              <span>{flight.outbound[0].baggageAllowance}</span>
-            </div>
-          </div>
-
-          {/* Flight Legs */}
-          <div className="flex flex-col">
-            <FlightLeg segments={flight.outbound} />
-            {flight.inbound && flight.inbound.length > 0 && (
-              <>
-                <div className="border-t border-gray-100 dark:border-gray-800" />
-                <FlightLeg segments={flight.inbound} isReturn />
-              </>
-            )}
+    <article className="rounded-2xl border border-border bg-card p-4 md:p-5 shadow-sm hover:shadow-md transition-all">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3 min-w-0">
+          <img src={`https://www.kayak.com/rimg/provider-logos/airlines/v/${first.airline.code ?? "XX"}.png`} alt={first.airline.name ?? "Airline"} className="h-8 w-8 object-contain" />
+          <div className="min-w-0">
+            <p className="font-semibold truncate">{first.airline.name ?? "Unknown Airline"}</p>
+            <p className="text-sm text-muted-foreground">{first.flightNo || `EF-${flight.flightId.slice(0, 6)}`}</p>
           </div>
         </div>
+        {badge && <span className={cn("rounded-full px-2.5 py-1 text-xs font-semibold", badge.className)}>{badge.label}</span>}
+      </div>
 
-        {/* Price & CTA Section */}
-        <div className="lg:w-56 shrink-0 border-t lg:border-t-0 lg:border-l border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30 p-5 md:p-6 flex flex-col justify-center">
-          <div className="flex lg:flex-col items-center lg:items-stretch gap-4 lg:gap-0 justify-between">
-            <div className="text-left lg:text-center lg:mb-4">
-              <p className="text-xs text-gray-500 font-medium mb-1">
-                Total price
-              </p>    
-              <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-                {currencySymbol}
-                {flight.totalCost.toLocaleString()}
-              </p>
-              <p className="text-[10px] text-gray-400 mt-1">
-                Ref: {flight.flightId.slice(0, 8)}
-              </p>
-            </div>
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
+        <div className="text-left">
+          <p className="text-2xl font-bold">{first.fromAirport.code}</p>
+          <p className="text-lg">{fmtTime(first.departureDate)}</p>
+        </div>
 
-            <Button
-              onClick={() => {
-                setFlights([flight.flightId]);
-                router.push(`/flights/booking?id=${flight.flightId}`);
-              }}
-              className="w-auto lg:w-full bg-red-600 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700 text-white font-semibold px-6 lg:px-4 py-2.5 lg:py-3 rounded-xl shadow-md hover:shadow-lg shadow-red-600/20 hover:shadow-red-600/30 transition-all duration-200 text-sm"
-            >
-              View Deal
-            </Button>
+        <div className="text-center min-w-[170px]">
+          <p className="text-sm font-semibold">{duration(flight.totalTime)}</p>
+          <div className="my-2 flex items-center gap-1">
+            <div className="h-px flex-1 border-t border-dashed border-border" />
+            <Plane className="h-4 w-4 text-brand-red" />
+            <div className="h-px flex-1 border-t border-dashed border-border" />
           </div>
+          <span className={cn("inline-flex rounded-full px-2 py-1 text-xs", stops === 0 ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700")}>
+            {stops === 0 ? "Non-stop" : `${stops} Stop${stops > 1 ? "s" : ""} - ${first.toAirport.code}`}
+          </span>
+        </div>
+
+        <div className="text-left md:text-right">
+          <p className="text-2xl font-bold">{last.toAirport.code}</p>
+          <p className="text-lg">{fmtTime(last.arrivalDate)}</p>
+          {overnight && <p className="text-xs text-muted-foreground">+1 day</p>}
         </div>
       </div>
+
+      <div className="mt-4 border-t border-border pt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <p className="text-xs text-muted-foreground">
+          {first.cabinClass} · {first.baggageAllowance || "1 bag"} · Non-refundable · On-time 91%
+        </p>
+        <div className="flex items-center gap-3">
+          <div className="text-right">
+            <p className="text-xs line-through text-muted-foreground">{symbol}{originalAmount.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-brand-red">{symbol}{Math.round(flight.totalCost).toLocaleString()}</p>
+          </div>
+          <Button
+            variant="outline"
+            className="border-brand-red text-brand-red hover:bg-brand-red hover:text-white"
+            onClick={() => {
+              setFlights([flight.flightId]);
+              router.push(`/flights/booking?id=${flight.flightId}`);
+            }}
+          >
+            Select →
+          </Button>
+        </div>
+      </div>
+
+      <Accordion type="single" collapsible className="mt-3 border-t border-border">
+        <AccordionItem value="details" className="border-b-0">
+          <AccordionTrigger className="py-3 text-sm">View details</AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-4 text-sm">
+              <div>
+                <p className="font-semibold mb-2">Fare breakdown</p>
+                <div className="grid grid-cols-2 gap-2 text-muted-foreground">
+                  <span>Base fare</span><span className="text-right">{symbol}{flight.flightFare.adultFare.toFixed(2)}</span>
+                  <span>Taxes</span><span className="text-right">{symbol}{flight.flightFare.adultTax.toFixed(2)}</span>
+                  <span className="font-semibold text-foreground">Total</span><span className="text-right font-semibold text-foreground">{symbol}{flight.flightFare.grandTotal.toFixed(2)}</span>
+                </div>
+              </div>
+              <div><p className="font-semibold">Full baggage policy</p><p className="text-muted-foreground">{first.baggageAllowance || "1 checked bag included"}. Extra bag fees may apply at airport.</p></div>
+              <div><p className="font-semibold">Cancellation policy</p><p className="text-muted-foreground">Non-refundable fare. Date changes subject to airline penalties and fare difference.</p></div>
+              <div>
+                <p className="font-semibold mb-1">Amenities</p>
+                <div className="flex flex-wrap gap-3 text-muted-foreground">
+                  <span className="inline-flex items-center gap-1"><UtensilsCrossed className="h-3.5 w-3.5" />Meal</span>
+                  <span className="inline-flex items-center gap-1"><Wifi className="h-3.5 w-3.5" />WiFi</span>
+                  <span className="inline-flex items-center gap-1"><PlugZap className="h-3.5 w-3.5" />Power</span>
+                  <span className="inline-flex items-center gap-1"><Tv className="h-3.5 w-3.5" />Entertainment</span>
+                </div>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </article>
   );
 }
