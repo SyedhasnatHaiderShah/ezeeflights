@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { PostgresClient } from '../../database/postgres.client';
 import { AuthController } from './controllers/auth.controller';
 import { AuthRepository } from './repositories/auth.repository';
 import { AuthService } from './services/auth.service';
@@ -26,7 +25,6 @@ import { RolesGuard } from './guards/roles.guard';
     AuthRepository,
     JwtStrategy,
     GoogleStrategy,
-    PostgresClient,
     RolesGuard,
     PermissionsGuard,
   ],

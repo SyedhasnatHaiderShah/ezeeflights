@@ -1,8 +1,9 @@
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 import { Pool, PoolClient, QueryResultRow } from 'pg';
 
 @Injectable()
 export class PostgresClient implements OnModuleDestroy {
+  private readonly logger = new Logger(PostgresClient.name);
   private readonly pool: Pool;
 
   constructor() {
@@ -31,6 +32,18 @@ export class PostgresClient implements OnModuleDestroy {
       throw error;
     } finally {
       client.release();
+    }
+  }
+
+
+
+  async ping(): Promise<boolean> {
+    try {
+      await this.pool.query('SELECT 1');
+      return true;
+    } catch (error) {
+      this.logger.error('Database ping failed');
+      return false;
     }
   }
 

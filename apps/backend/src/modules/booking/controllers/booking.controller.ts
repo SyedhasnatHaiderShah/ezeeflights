@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Get, Headers, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { BookingService } from '../services/booking.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CreateBookingDto } from '../dto/create-booking.dto';
@@ -9,7 +9,7 @@ interface AuthenticatedRequest {
 }
 
 @ApiTags('booking')
-@Controller({ path: 'booking', version: '1' })
+@Controller({ path: 'bookings', version: '1' })
 export class BookingController {
   constructor(private readonly service: BookingService) {}
 
@@ -19,10 +19,18 @@ export class BookingController {
   }
 
   @ApiBearerAuth()
+  @ApiHeader({ name: 'Idempotency-Key', required: true })
   @UseGuards(JwtAuthGuard)
   @Post()
-  createBooking(@Req() req: AuthenticatedRequest, @Body() dto: CreateBookingDto) {
-    return this.service.create(req.user.userId, dto);
+  createBooking(
+    @Req() req: AuthenticatedRequest,
+    @Body() dto: CreateBookingDto,
+    @Headers('idempotency-key') idempotencyKey?: string,
+  ) {
+    if (!idempotencyKey) {
+      throw new BadRequestException('Idempotency-Key header is required');
+    }
+    return this.service.create(req.user.userId, dto, idempotencyKey);
   }
 
   @ApiBearerAuth()

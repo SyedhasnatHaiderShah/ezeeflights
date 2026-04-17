@@ -1,13 +1,23 @@
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { Logger, LogLevel, ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
-import { appLogger } from './common/logging/winston';
 import { AppModule } from './app.module';
 
+function resolveLogLevels(): LogLevel[] {
+  const env = process.env.NODE_ENV ?? 'development';
+  if (env === 'production') {
+    return ['error', 'warn', 'log'];
+  }
+  if (env === 'test') {
+    return ['error', 'warn'];
+  }
+  return ['error', 'warn', 'log', 'debug', 'verbose'];
+}
+
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { logger: resolveLogLevels() });
 
   app.use(
     helmet({
@@ -30,8 +40,9 @@ async function bootstrap(): Promise<void> {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      transform: true,
       forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
     }),
   );
 
@@ -47,7 +58,7 @@ async function bootstrap(): Promise<void> {
 
   const port = process.env.PORT ?? 4000;
   await app.listen(port);
-  appLogger.info(`Listening on port ${port}`);
+  Logger.log(`Listening on port ${port}`, 'Bootstrap');
 }
 
 bootstrap();
