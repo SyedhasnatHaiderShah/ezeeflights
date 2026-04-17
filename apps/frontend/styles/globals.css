@@ -496,3 +496,19 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
     --tw-enter-translate-x: 0.5rem;
   }
 }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 rgba(197, 42, 40, 0.35); }
+  50% { box-shadow: 0 0 30px rgba(197, 42, 40, 0.45); }
+}
+
+@layer utilities {
+  .text-hero { font-size: clamp(2rem, 5vw, 4.25rem); line-height: 1.08; }
+  .text-section { font-size: clamp(1.6rem, 3.5vw, 3rem); }
+  .animate-pulse-glow { animation: pulse-glow 2s infinite; }
+}
