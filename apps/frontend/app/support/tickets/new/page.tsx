@@ -1,11 +1,18 @@
 import { CreateTicketForm } from '@/components/support/CreateTicketForm';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 
 export default function NewSupportTicketPage() {
   return (
     <section className="space-y-4">
-      <h1 className="text-2xl font-bold">Create Support Ticket</h1>
-      <p className="text-sm text-slate-600">Share all relevant details so our agents can resolve your issue faster.</p>
-      <CreateTicketForm />
+      <Card>
+        <CardHeader>
+          <CardTitle>Create Support Ticket</CardTitle>
+          <CardDescription>Share all relevant details so our agents can resolve your issue faster.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <CreateTicketForm />
+        </CardContent>
+      </Card>
     </section>
   );
 }

@@ -7,6 +7,8 @@ import { TicketReplyBox } from '@/components/support/TicketReplyBox';
 import { TicketThread } from '@/components/support/TicketThread';
 import { SupportTicket } from '@/components/support/types';
 import { apiFetch } from '@/lib/api/client';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 export default function TicketDetailPage() {
   const params = useParams<{ id: string }>();
@@ -40,23 +42,37 @@ export default function TicketDetailPage() {
 
   return (
     <section className="space-y-4">
-      <div className="rounded-lg border bg-white p-5">
-        <h1 className="text-xl font-bold">{data?.subject ?? 'Ticket'}</h1>
-        <p className="mt-1 text-sm text-slate-600">{data?.ticketNumber} · {data?.status.replace('_', ' ')}</p>
-        {remainingHours !== null && <p className="mt-2 text-sm text-indigo-700">SLA timer: {remainingHours}h remaining</p>}
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl">{data?.subject ?? 'Ticket'}</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            {data?.ticketNumber} · {data?.status.replace('_', ' ')}
+          </p>
+          {remainingHours !== null && (
+            <p className="text-sm font-medium text-primary">SLA timer: {remainingHours}h remaining</p>
+          )}
+        </CardHeader>
+      </Card>
 
       {data?.messages && <TicketThread messages={data.messages} />}
 
-      {data?.status !== 'closed' && data?.status !== 'resolved' && <TicketReplyBox onSubmit={(payload) => replyMutation.mutateAsync(payload)} />}
+      {data?.status !== 'closed' && data?.status !== 'resolved' && (
+        <TicketReplyBox onSubmit={(payload) => replyMutation.mutateAsync(payload)} />
+      )}
 
       {data?.status === 'resolved' && (
-        <div className="space-y-3">
-          <button className="rounded bg-emerald-700 px-4 py-2 text-white" onClick={() => closeMutation.mutate({})} type="button">
-            Mark as resolved & close
-          </button>
-          <SatisfactionRating onSubmit={(rating, comment) => closeMutation.mutateAsync({ rating, comment })} />
-        </div>
+        <Card>
+          <CardContent className="pt-6 space-y-3">
+            <Button
+              variant="brand-red"
+              onClick={() => closeMutation.mutate({})}
+              type="button"
+            >
+              Mark as resolved &amp; close
+            </Button>
+            <SatisfactionRating onSubmit={(rating, comment) => closeMutation.mutateAsync({ rating, comment })} />
+          </CardContent>
+        </Card>
       )}
     </section>
   );

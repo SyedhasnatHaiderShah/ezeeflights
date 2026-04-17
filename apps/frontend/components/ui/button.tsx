@@ -55,21 +55,22 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant, size, shimmer = true, asChild = false, children, ...props }, ref) => {
         const Comp = asChild ? Slot : "button";
+        const effectiveShimmer = asChild ? false : shimmer;
         return (
             <Comp
-                className={cn(buttonVariants({ variant, size, shimmer, className }))}
+                className={cn(buttonVariants({ variant, size, shimmer: effectiveShimmer, className }))}
                 ref={ref}
                 {...props}
             >
-                {shimmer && (
-                  <div className="shimmer-effect" />
-                )}
                 {asChild ? (
                   children
                 ) : (
-                  <span className={cn("inline-flex items-center gap-2", shimmer && "relative z-10")}>
-                    {children}
-                  </span>
+                  <>
+                    {effectiveShimmer && <div className="shimmer-effect" />}
+                    <span className={cn("inline-flex items-center gap-2", effectiveShimmer && "relative z-10")}>
+                      {children}
+                    </span>
+                  </>
                 )}
             </Comp>
         );

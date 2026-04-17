@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { TicketCard } from '@/components/support/TicketCard';
 import { SupportTicket } from '@/components/support/types';
 import { apiFetch } from '@/lib/api/client';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function SupportTicketsPage() {
   const tickets = useQuery({
@@ -15,13 +17,21 @@ export default function SupportTicketsPage() {
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">My Support Tickets</h1>
-        <Link className="rounded bg-slate-900 px-4 py-2 text-white" href="/support/tickets/new">New ticket</Link>
+        <h1 className="text-2xl font-bold text-foreground font-display">My Support Tickets</h1>
+        <Button variant="brand-red" asChild>
+          <Link href="/support/tickets/new">New Ticket</Link>
+        </Button>
       </div>
 
       <div className="space-y-3">
         {tickets.data?.map((ticket) => <TicketCard key={ticket.id} ticket={ticket} />)}
-        {tickets.data?.length === 0 && <p className="rounded border bg-white p-4 text-sm text-slate-600">No tickets yet.</p>}
+        {tickets.data?.length === 0 && (
+          <Card>
+            <CardContent className="py-6 text-sm text-muted-foreground text-center">
+              No tickets yet.
+            </CardContent>
+          </Card>
+        )}
       </div>
     </section>
   );
