@@ -1,318 +1,120 @@
-"use client";
+import Link from "next/link";
+import { Apple, Facebook, Instagram, Linkedin, Play, Twitter, Youtube, type LucideIcon } from "lucide-react";
+import EzeeFlightsLogo from "@/components/ezee-flights-logo";
+import { cn } from "@/lib/utils";
 
-import React, { useState } from "react";
-import Image from "next/image";
-import { Phone, Mail, MapPin, Copy, Check } from "lucide-react";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-} from "@/components/ui/brand-icons";
-import { AppIcon } from "@/components/ui/app-icon";
-import { AppImage } from "../ui/app-image";
+const companyLinks = ["About Us", "Careers", "Press", "Blog", "Contact Us"];
 
-import { motion } from "framer-motion";
+const productLinks = [
+  { label: "Flights", href: "/flights" },
+  { label: "Hotels", href: "/hotels" },
+  { label: "Cars", href: "/cars" },
+  { label: "Packages", href: "/packages" },
+  { label: "Insurance", href: "/insurance" },
+  { label: "Transfers", href: "/transfers" },
+];
+
+const supportLinks = [
+  "FAQ",
+  "Help Center",
+  "Track Booking",
+  "Refunds Policy",
+  "Terms of Service",
+  "Privacy Policy",
+];
+
+const socialIcons = [Facebook, Instagram, Twitter, Linkedin, Youtube] as const;
+
+function AppButton({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
+  return (
+    <button className="inline-flex w-full items-center gap-2 rounded-lg bg-black px-3 py-2 text-left text-white transition hover:opacity-90">
+      <Icon className="h-4 w-4" />
+      <div>
+        <p className="text-[10px] text-white/70">Download on</p>
+        <p className="text-sm font-semibold leading-tight">{label}</p>
+      </div>
+    </button>
+  );
+}
 
 export function Footer() {
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  const handleCopy = (text: string, id: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
-
-  const companyLinks = [
-    { name: "About Us", href: "#" },
-    { name: "Contact Us", href: "#" },
-    { name: "Deals", href: "/deals" },
-    { name: "Experience", href: "/experience" },
-    { name: "Journeys", href: "/journeys" },
-    { name: "Reviews", href: "/reviews" },
-    { name: "Terms and conditions", href: "#" },
-    { name: "Privacy Policy", href: "#" },
-    { name: "Cookie Policy", href: "#" },
-    { name: "Transaction & Refund Policy", href: "#" },
-    { name: "FAQ", href: "#" },
-    { name: "Blog", href: "#" },
-  ];
-
-  const topAirlines = [
-    { name: "Alaska Airlines", href: "/alaska-airlines" },
-    { name: "JetBlue Airlines", href: "/jetblue-airlines" },
-    { name: "Southwest Airlines", href: "/southwest-airlines" },
-    { name: "Delta Airlines", href: "/delta-airlines" },
-    { name: "Aeromexico Airlines", href: "/aeromexico-airlines" },
-  ];
-
-  const globalSites = [
-    { name: "UK", flag: "/uk.png", href: "https://www.uk.ezeeflights.com/" },
-    { name: "CA", flag: "/ca.png", href: "https://www.ezeeflights.ca/" },
-    { name: "AE", flag: "/ae.png", href: "https://www.ezeeflights.ae/" },
-  ];
-
-  const socialLinks = [
-    { icon: Facebook, href: "#" },
-    { icon: Twitter, href: "#" },
-    { icon: Instagram, href: "#" },
-    { icon: Linkedin, href: "#" },
-  ];
-
   return (
-    <footer className="w-full bg-[#f9fafb] dark:bg-background pt-12 pb-8 px-6 md:px-12 border-t border-border mt-auto font-sans transition-colors duration-300">
-      <div className="max-w-7xl mx-auto">
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10 mb-12">
-          {/* Company Column */}
+    <footer className="mt-auto border-t border-border bg-card">
+      <div className="mx-auto max-w-screen-2xl px-6 py-10">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
           <div className="space-y-4">
-            <h3 className="text-[#0d2353] dark:text-foreground text-lg font-bold font-display">
-              Company
-            </h3>
-            <ul className="space-y-2">
-              {companyLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-[#4b5563] dark:text-muted-foreground hover:text-[#c52a28] transition-colors text-xs font-medium"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Top Airlines Column */}
-          <div className="space-y-4">
-            <h3 className="text-[#0d2353] dark:text-foreground text-lg font-bold font-display">
-              Top Airlines
-            </h3>
-            <ul className="space-y-2">
-              {topAirlines.map((airline) => (
-                <li key={airline.name}>
-                  <a
-                    href={airline.href}
-                    className="text-[#4b5563] dark:text-muted-foreground hover:text-[#c52a28] transition-colors text-xs font-medium"
-                  >
-                    {airline.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Column */}
-          <div className="space-y-5">
-            <h3 className="text-[#0d2353] dark:text-foreground text-lg font-bold font-display">
-              Contact
-            </h3>
-
-            {/* USA Contact */}
-            <div className="flex gap-4 items-start group">
-              <div className="w-8 h-8 rounded-full bg-white dark:bg-secondary/40 shadow-md overflow-hidden shrink-0 mt-0.5 relative">
-                <Image
-                  src="/usa.png"
-                  alt="USA Flag"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="space-y-1 flex-grow">
-                <p className="text-[#4b5563] dark:text-muted-foreground text-xs leading-tight font-medium">
-                  945 Taraval Street, San Francisco, CA 94116 United States of
-                  America
-                </p>
-                <div className="flex items-center gap-2 group/item">
-                  <div className="flex items-center gap-2 text-[#4b5563] dark:text-muted-foreground hover:text-[#c52a28] transition-colors">
-                    <AppIcon icon={Phone} className="w-8 h-8" />
-                    <span className="text-xs font-bold">+1-888-604-0198</span>
-                  </div>
-                  <button
-                    onClick={() => handleCopy("+1-888-604-0198", "usa-phone")}
-                    className="p-1.5 rounded-md hover:bg-muted transition-all opacity-0 group-hover/item:opacity-100 active:scale-90"
-                    title="Copy to clipboard"
-                  >
-                    {copiedId === "usa-phone" ? (
-                      <Check className="w-3.5 h-3.5 text-green-500" />
-                    ) : (
-                      <Copy className="w-3.5 h-3.5 text-muted-foreground" />
-                    )}
-                  </button>
-                </div>
-                <p className="text-xs text-[#6b7280] font-medium">
-                  (24×7 Available)
-                </p>
-              </div>
-            </div>
-
-            {/* UAE Contact */}
-            <div className="flex gap-4 items-start group">
-              <div className="w-8 h-8 rounded-full bg-white dark:bg-secondary/40 shadow-md overflow-hidden shrink-0 mt-0.5 relative">
-                <Image
-                  src="/ae.png"
-                  alt="UAE Flag"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="space-y-1 flex-grow">
-                <p className="text-[#4b5563] dark:text-muted-foreground text-xs leading-tight font-medium">
-                  17th floor 1703 Venture Zone Business Center Fahidi Heights
-                  Khalid Bin Al Waleed Street Bur Dubai 44320
-                </p>
-                <div className="flex items-center gap-2 group/item">
-                  <div className="flex items-center gap-2 text-[#4b5563] dark:text-muted-foreground hover:text-[#c52a28] transition-colors">
-                    <AppIcon icon={Phone} className="w-8 h-8" />
-                    <span className="text-xs font-bold">+971-04-254-3652</span>
-                  </div>
-                  <button
-                    onClick={() => handleCopy("+971-04-254-3652", "uae-phone")}
-                    className="p-1.5 rounded-md hover:bg-muted transition-all opacity-0 group-hover/item:opacity-100 active:scale-90"
-                    title="Copy to clipboard"
-                  >
-                    {copiedId === "uae-phone" ? (
-                      <Check className="w-3.5 h-3.5 text-green-500" />
-                    ) : (
-                      <Copy className="w-3.5 h-3.5 text-muted-foreground" />
-                    )}
-                  </button>
-                </div>
-                <p className="text-xs text-[#6b7280] font-medium">
-                  (24×7 Available)
-                </p>
-              </div>
-            </div>
-
-            {/* Email */}
-            <div className="flex items-center justify-between group/email pt-2">
-              <div className="flex items-center gap-3">
-                <AppIcon icon={Mail} />
-                <span className="text-xs font-bold tracking-tight text-[#4b5563] dark:text-muted-foreground group-hover/email:text-[#c52a28] transition-colors">
-                  sales@ezeeflights.com
-                </span>
-              </div>
-              <button
-                onClick={() => handleCopy("sales@ezeeflights.com", "email")}
-                className="p-1.5 rounded-md hover:bg-muted transition-all opacity-0 group-hover/email:opacity-100 active:scale-90"
-                title="Copy to clipboard"
-              >
-                {copiedId === "email" ? (
-                  <Check className="w-3.5 h-3.5 text-green-500" />
-                ) : (
-                  <Copy className="w-3.5 h-3.5 text-muted-foreground" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Follow Us Column */}
-          <div className="space-y-5">
-            <h3 className="text-[#0d2353] dark:text-foreground text-lg font-bold font-display">
-              Follow Us
-            </h3>
-            <div className="flex gap-3">
-              {socialLinks.map((social, idx) => (
-                <AppIcon key={idx} icon={social.icon} asChild>
-                  <a
-                    href={social.href}
-                    aria-label={`Follow us on ${social.icon.displayName || "social media"}`}
-                  />
-                </AppIcon>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Global Sites & Payment Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 py-8 border-t border-gray-200 dark:border-border">
-          {/* Our Global Sites */}
-          <div className="space-y-4">
-            <h4 className="text-[#0d2353] dark:text-foreground text-lg font-bold font-display">
-              Our Global Sites
-            </h4>
-            <div className="flex gap-4">
-              {globalSites.map((site) => (
+            <EzeeFlightsLogo isDarkMode={false} className="h-auto w-36" />
+            <p className="text-sm text-muted-foreground">Your journey begins with us</p>
+            <div className="flex items-center gap-2">
+              {socialIcons.map((Icon, index) => (
                 <a
-                  key={site.name}
-                  href={site.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-white dark:bg-secondary/40 shadow-md overflow-hidden hover:scale-110 hover:-translate-y-1 transition-all duration-300 relative"
-                  title={`${site.name} Website`}
+                  key={`social-${index}`}
+                  href="#"
+                  aria-label="Social link"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-muted text-muted-foreground transition hover:bg-brand-red hover:text-white"
                 >
-                  <Image
-                    src={site.flag}
-                    alt={`${site.name} Flag`}
-                    fill
-                    className="object-cover"
-                  />
+                  <Icon className="h-4 w-4" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Trusted Logos Banner - Adaptive Scrolling (Mobile Only) */}
-          <div className="relative w-full max-w-2xl h-16 md:h-12 transition-all duration-300 overflow-hidden">
-            {/* Mobile View: Scrolling Marquee */}
-            <div className="block md:hidden">
-              {/* Soft Edge Masking for mobile - Pure CSS gradients that match theme */}
-              <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#f9fafb] dark:from-background to-transparent z-10 pointer-events-none" />
-              <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#f9fafb] dark:from-background to-transparent z-10 pointer-events-none" />
+          <div>
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground">Company</h3>
+            <ul className="space-y-2">
+              {companyLinks.map((label) => (
+                <li key={label}>
+                  <Link href="#" className="text-sm text-muted-foreground transition hover:text-foreground">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-              <motion.div
-                className="flex w-fit h-full items-center"
-                animate={{ x: [0, -672] }}
-                transition={{
-                  duration: 25,
-                  repeat: Infinity,
-                  ease: "linear",
-                  repeatType: "loop",
-                }}
-              >
-                {[0, 1].map((i) => (
-                  <div
-                    key={i}
-                    className="relative w-[672px] h-10 flex-shrink-0 mx-4 mix-blend-multiply dark:mix-blend-screen dark:invert dark:brightness-[1.2] dark:hue-rotate-180 dark:contrast-[1.25]"
-                  >
-                    <AppImage
-                      src="/logos-banner-new.jpg"
-                      alt="Payment & Trust Logos Mobile"
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                ))}
-              </motion.div>
-            </div>
+          <div>
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground">Products</h3>
+            <ul className="space-y-2">
+              {productLinks.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="text-sm text-muted-foreground transition hover:text-foreground">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Desktop View: Static Centered Banner */}
-            <div className="hidden md:block relative w-full h-full mix-blend-multiply dark:mix-blend-screen dark:invert dark:brightness-[1.2] dark:hue-rotate-180 dark:contrast-[1.25]">
-              <AppImage
-                src="/logos-banner-new.jpg"
-                alt="Payment & Trust Logos Desktop"
-                fill
-                className="object-contain"
-                priority
-              />
+          <div>
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground">Support</h3>
+            <ul className="space-y-2">
+              {supportLinks.map((label) => (
+                <li key={label}>
+                  <Link href="#" className="text-sm text-muted-foreground transition hover:text-foreground">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground">Get the App</h3>
+            <p className="text-sm text-muted-foreground">Download our app</p>
+            <div className="space-y-2">
+              <AppButton icon={Apple} label="App Store" />
+              <AppButton icon={Play} label="Google Play" />
             </div>
+            <span className="inline-flex rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground">
+              4.9★ · 100K+ Downloads
+            </span>
           </div>
         </div>
 
-        {/* Description & Copyright */}
-        <div className="pt-8 border-t border-gray-200 dark:border-border text-center space-y-4">
-          <p className="text-xs text-[#4b5563] dark:text-muted-foreground leading-relaxed max-w-7xl mx-auto font-medium">
-            Ezee Flights is an ISO 9001:2015 certified, world-leading platform
-            for booking the cheapest flights online. With our lowest fare
-            guarantee and unbeatable value, you can explore the world's most
-            popular destinations within your budget! Ezee Flights provides
-            trusted travel services worldwide, helping you discover new places
-            with confidence and ease.
-          </p>
-          <p className="text-[#4b5563] dark:text-muted-foreground text-xs font-medium">
-            Copyright ©{new Date().getFullYear()} Ezeeflights. All Rights
-            Reserved. Ezeeflights is a part of Ezeewellness.
-          </p>
+        <div className="mt-8 flex flex-col gap-3 border-t border-border pt-4 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
+          <p>© 2025 EzeeFlights. All rights reserved.</p>
+          <p className={cn("text-center")}>Visa · Mastercard · Amex · PayPal · Stripe</p>
+          <p className="text-right">🔒 SSL Secured</p>
         </div>
       </div>
     </footer>

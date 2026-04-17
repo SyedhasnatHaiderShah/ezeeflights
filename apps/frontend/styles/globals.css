@@ -169,9 +169,78 @@
       transform: scale(0.95);
     }
   }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(-8px);
+    }
+    50% {
+      transform: translateY(8px);
+    }
+  }
+
+  @keyframes counter-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(197, 42, 40, 0.35);
+    }
+    50% {
+      box-shadow: 0 0 0 12px rgba(197, 42, 40, 0);
+    }
+  }
+
+  @keyframes ken-burns {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.1);
+    }
+  }
   --color-redmix: #c52a28;
   --color-redmix-light: #f73b37;
   --color-redmix-dark: #a12220;
+
+  --shadow-xs: 0 1px 2px rgba(13, 35, 83, 0.06);
+  --shadow-sm: 0 4px 12px rgba(13, 35, 83, 0.08);
+  --shadow-md: 0 10px 30px rgba(13, 35, 83, 0.12);
+  --shadow-lg: 0 20px 45px rgba(13, 35, 83, 0.16);
+  --shadow-hero: 0 28px 60px rgba(13, 35, 83, 0.22);
+
+  --gradient-hero: linear-gradient(135deg, #0d2353 0%, #304cb2 100%);
+  --gradient-brand: linear-gradient(135deg, #c52a28 0%, #e54d4b 100%);
+  --gradient-gold: linear-gradient(135deg, #ffbf27 0%, #ff9c00 100%);
+  --gradient-overlay: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent);
+
+  --text-hero: clamp(2.5rem, 4vw, 4rem);
+  --text-section: clamp(1.75rem, 3vw, 2.5rem);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-counter-up: counter-up 700ms ease-out forwards;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-pulse-glow: pulse-glow 2.5s ease-in-out infinite;
+  --animate-ken-burns: ken-burns 8s ease-in-out infinite alternate;
 }
 
 /* bg-gradient-to-r from-brand-red to-brand-red-light for a smooth horizontal gradient.
@@ -295,6 +364,50 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   /* Glassmorphism Rule */
   .glass {
     @apply bg-background/80 backdrop-blur-xl border border-white/20;
+  }
+
+  .bg-gradient-hero {
+    background-image: var(--gradient-hero);
+  }
+
+  .bg-gradient-brand {
+    background-image: var(--gradient-brand);
+  }
+
+  .bg-gradient-gold {
+    background-image: var(--gradient-gold);
+  }
+
+  .bg-gradient-overlay {
+    background-image: var(--gradient-overlay);
+  }
+
+  .text-hero {
+    font-size: var(--text-hero);
+  }
+
+  .text-section {
+    font-size: var(--text-section);
+  }
+
+  .animate-float {
+    animation: var(--animate-float);
+  }
+
+  .animate-counter-up {
+    animation: var(--animate-counter-up);
+  }
+
+  .animate-marquee {
+    animation: var(--animate-marquee);
+  }
+
+  .animate-pulse-glow {
+    animation: var(--animate-pulse-glow);
+  }
+
+  .animate-ken-burns {
+    animation: var(--animate-ken-burns);
   }
 
   /* No-Line rule */
