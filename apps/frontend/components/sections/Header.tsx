@@ -93,7 +93,8 @@ export function Header() {
 
   React.useEffect(() => {
     setMounted(true);
-    const dismissed = window.sessionStorage.getItem("header-promo-dismissed") === "1";
+    const dismissed =
+      window.sessionStorage.getItem("header-promo-dismissed") === "1";
     setPromoDismissed(dismissed);
     const onScroll = () => setIsScrolled(window.scrollY > 20);
     onScroll();
@@ -113,7 +114,10 @@ export function Header() {
     router.push("/");
   };
 
-  const displayName = [session?.firstName, session?.lastName].filter(Boolean).join(" ") || session?.email || "User";
+  const displayName =
+    [session?.firstName, session?.lastName].filter(Boolean).join(" ") ||
+    session?.email ||
+    "User";
   const userInitial = displayName.trim().charAt(0).toUpperCase();
 
   return (
@@ -153,7 +157,8 @@ export function Header() {
 
           <nav className="hidden items-center gap-1 md:flex">
             {navTabs.map((tab) => {
-              const isActive = pathname === tab.href || pathname?.startsWith(`${tab.href}/`);
+              const isActive =
+                pathname === tab.href || pathname?.startsWith(`${tab.href}/`);
               const Icon = tab.icon;
               return (
                 <Link
@@ -200,7 +205,10 @@ export function Header() {
                       </Link>
                     ))}
                   </div>
-                  <Link href="/deals" className="group relative overflow-hidden rounded-xl">
+                  <Link
+                    href="/deals"
+                    className="group relative overflow-hidden rounded-xl"
+                  >
                     <Image
                       src="/logos-banner-new.jpg"
                       alt="Featured deals"
@@ -210,8 +218,12 @@ export function Header() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-3 text-white">
-                      <p className="text-xs uppercase tracking-wide text-white/80">Featured</p>
-                      <p className="text-sm font-semibold">Explore top travel bundles</p>
+                      <p className="text-xs uppercase tracking-wide text-white/80">
+                        Featured
+                      </p>
+                      <p className="text-sm font-semibold">
+                        Explore top travel bundles
+                      </p>
                     </div>
                   </Link>
                 </div>
@@ -228,7 +240,10 @@ export function Header() {
             />
 
             <div className="md:hidden">
-              <Drawer.Root open={isNotifDrawerOpen} onOpenChange={setIsNotifDrawerOpen}>
+              <Drawer.Root
+                open={isNotifDrawerOpen}
+                onOpenChange={setIsNotifDrawerOpen}
+              >
                 <Drawer.Trigger asChild>
                   <button className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
                     <Bell className="h-5 w-5" />
@@ -237,7 +252,9 @@ export function Header() {
                 <Drawer.Portal>
                   <Drawer.Overlay className="fixed inset-0 z-[70] bg-black/45 backdrop-blur-sm" />
                   <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[80] overflow-hidden rounded-t-2xl border-t bg-background">
-                    <Drawer.Title className="sr-only">Notifications</Drawer.Title>
+                    <Drawer.Title className="sr-only">
+                      Notifications
+                    </Drawer.Title>
                     <NotificationContent />
                   </Drawer.Content>
                 </Drawer.Portal>
@@ -245,7 +262,10 @@ export function Header() {
             </div>
 
             <div className="md:hidden">
-              <Drawer.Root open={isFavoriteDrawerOpen} onOpenChange={setIsFavoriteDrawerOpen}>
+              <Drawer.Root
+                open={isFavoriteDrawerOpen}
+                onOpenChange={setIsFavoriteDrawerOpen}
+              >
                 <Drawer.Trigger asChild>
                   <button className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
                     <Heart className="h-5 w-5" />
@@ -268,7 +288,10 @@ export function Header() {
                     <Bell className="h-5 w-5" />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-[360px] p-0 overflow-hidden">
+                <DropdownMenuContent
+                  align="end"
+                  className="w-[360px] p-0 overflow-hidden"
+                >
                   <NotificationContent />
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -281,7 +304,10 @@ export function Header() {
                     <Heart className="h-5 w-5" />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-[360px] p-0 overflow-hidden">
+                <DropdownMenuContent
+                  align="end"
+                  className="w-[360px] p-0 overflow-hidden"
+                >
                   <FavoriteContent />
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -308,10 +334,19 @@ export function Header() {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-52">
-                  <DropdownMenuItem onClick={() => router.push("/profile")}>Profile</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/my-trips")}>My Trips</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/wallet")}>Wallet</DropdownMenuItem>
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={handleLogout}>
+                  <DropdownMenuItem onClick={() => router.push("/profile")}>
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/my-trips")}>
+                    My Trips
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/wallet")}>
+                    Wallet
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="text-red-600 focus:text-red-600"
+                    onClick={handleLogout}
+                  >
                     Sign out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -344,21 +379,34 @@ export function Header() {
         </div>
       </div>
 
+      {/* Promo Strip */}
       {!isScrolled && !promoDismissed && (
         <div className="border-b border-brand-yellow/40 bg-brand-yellow/10">
-          <div className="mx-auto flex h-9 max-w-screen-2xl items-center justify-between px-4 text-xs sm:px-6 sm:text-sm">
-            <div className="flex items-center gap-2 text-foreground">
-              <span>🔥 Flash Deals Active — Save up to 40% this week</span>
-              <Link href="/deals" className="font-semibold text-brand-red hover:underline">
+          <div className="mx-auto flex min-h-[2.25rem] max-w-screen-2xl items-center justify-between gap-3 px-4 py-2 sm:h-9 sm:px-6 sm:py-0">
+            <div className="flex flex-1 flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] leading-snug text-foreground xs:text-xs sm:text-sm">
+              <span className="font-medium">
+                {/* Shorter text for tiny screens, full text for larger ones */}
+                <span className="inline md:hidden">
+                  🔥 Flash Deals: Up to 40% Off
+                </span>
+                <span className="hidden md:inline">
+                  🔥 Flash Deals Active — Save up to 40% this week
+                </span>
+              </span>
+              <Link
+                href="/deals"
+                className="whitespace-nowrap font-bold text-brand-red hover:underline"
+              >
                 See Deals →
               </Link>
             </div>
+
             <button
               aria-label="Dismiss deals strip"
               onClick={dismissPromo}
-              className="rounded p-1 text-muted-foreground transition hover:bg-brand-yellow/30 hover:text-foreground"
+              className="flex-shrink-0 rounded-md p-1 text-muted-foreground transition hover:bg-brand-yellow/30 hover:text-foreground"
             >
-              <X className="h-3.5 w-3.5" />
+              <X className="h-4 w-4" />
             </button>
           </div>
         </div>

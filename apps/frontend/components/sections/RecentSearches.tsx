@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import {
   Plane,
   Hotel,
@@ -72,10 +73,10 @@ const MOCK_SEARCHES: MockSearch[] = [
 ];
 
 const CATEGORIES = [
-  { id: "flights", icon: Plane, label: "Flights" },
-  { id: "stays", icon: Hotel, label: "Stays" },
-  { id: "cars", icon: Car, label: "Cars" },
-  { id: "packages", icon: Package, label: "Packages" },
+  { id: "flights", icon: Plane, label: "Flights", href: "/flights" as const },
+  { id: "stays", icon: Hotel, label: "Stays", href: "/hotels" as const },
+  { id: "cars", icon: Car, label: "Cars", href: "/cars" as const },
+  { id: "packages", icon: Package, label: "Packages", href: "/packages" as const },
 ];
 
 export function RecentSearches() {
@@ -191,13 +192,14 @@ export function RecentSearches() {
 
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
               {CATEGORIES.map((cat) => (
-                <AppIcon
-                  key={cat.id}
-                  icon={cat.icon}
-                  label={cat.label}
-                  isFill={false}
-                  className="h-10 sm:h-9 px-3.5 text-[12px] bg-card border-border hover:border-brand-red/50 transition-all shadow-sm w-full sm:w-auto"
-                />
+                <Link key={cat.id} href={cat.href} className="w-full sm:w-auto">
+                  <AppIcon
+                    icon={cat.icon}
+                    label={cat.label}
+                    isFill={false}
+                    className="h-10 sm:h-9 px-3.5 text-[12px] bg-card border-border hover:border-brand-red/50 transition-all shadow-sm w-full sm:w-auto"
+                  />
+                </Link>
               ))}
             </div>
           </div>

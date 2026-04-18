@@ -4,6 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BookingSearchForm } from '@/components/search/BookingSearchForm';
 import { LocationSelector } from '../ui/LocationSelector';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export function CarSearchForm() {
   const router = useRouter();
@@ -49,7 +56,7 @@ export function CarSearchForm() {
 
   return (
     <section className="space-y-4">
-      <div className="rounded-2xl border border-border/70 bg-card p-3 shadow-sm md:p-4">
+      <div className="rounded-2xl bg-card">
         <BookingSearchForm
           variant="car"
           labels={{
@@ -81,7 +88,7 @@ export function CarSearchForm() {
         />
       </div>
 
-      <div className="grid gap-3 rounded-xl border border-border/70 bg-card p-4 md:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-3 transition-all duration-200 hover:border-brand-red/30">
         <LocationSelector
           value={pickupLocation}
           onChange={(id, label) => {
@@ -90,6 +97,7 @@ export function CarSearchForm() {
           }}
           endpoint="/cars/locations"
           placeholder="Pick-up location ID"
+          className="hover:border-brand-red/40"
         />
         <LocationSelector
           value={dropoffLocation}
@@ -99,15 +107,21 @@ export function CarSearchForm() {
           }}
           endpoint="/cars/locations"
           placeholder="Drop-off location ID"
+          className="hover:border-brand-red/40"
         />
-        <select className="rounded border p-2 text-sm" value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="economy">Economy</option>
-          <option value="compact">Compact</option>
-          <option value="suv">SUV</option>
-          <option value="luxury">Luxury</option>
-          <option value="electric">Electric</option>
-          <option value="minivan">Minivan</option>
-        </select>
+        <Select value={category} onValueChange={setCategory}>
+          <SelectTrigger className="hover:border-brand-red/40">
+            <SelectValue placeholder="Select car category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="economy">Economy</SelectItem>
+            <SelectItem value="compact">Compact</SelectItem>
+            <SelectItem value="suv">SUV</SelectItem>
+            <SelectItem value="luxury">Luxury</SelectItem>
+            <SelectItem value="electric">Electric</SelectItem>
+            <SelectItem value="minivan">Minivan</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {pickupDate && dropoffDate && pickupDate >= dropoffDate && (
