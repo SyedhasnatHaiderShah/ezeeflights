@@ -1,208 +1,66 @@
 "use client";
 
 import * as React from "react";
-import {
-  Plane,
-  Hotel,
-  Car,
-  Package,
-  Search,
-  ArrowRight,
-  Clock,
-  Users,
-  Plus,
-  LucideIcon,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { AppIcon } from "../ui/app-icon";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface MockSearch {
   id: number;
-  type: string;
-  icon: LucideIcon;
   origin: string;
-  originCity: string;
   destination: string;
-  destinationCity: string;
-  dates: string;
-  travelers: string;
-  class: string;
-  tripType: string;
-  price: string;
-  tag: string;
-  accent: string;
-  accentText: string;
+  date: string;
+  price?: string;
+  flag: string;
 }
 
 const MOCK_SEARCHES: MockSearch[] = [
-  {
-    id: 1,
-    type: "flight",
-    icon: Plane,
-    origin: "SIN",
-    originCity: "Singapore",
-    destination: "LGK",
-    destinationCity: "Langkawi",
-    dates: "Mon 5/11 — Fri 5/15",
-    travelers: "1 traveler",
-    class: "Economy",
-    tripType: "Round-trip",
-    price: "$79",
-    tag: "Best deal",
-    accent: "#E8F4FF",
-    accentText: "#1c2652", // brand-blue
-  },
-  {
-    id: 2,
-    type: "flight",
-    icon: Plane,
-    origin: "SIN",
-    originCity: "Singapore",
-    destination: "MKZ",
-    destinationCity: "Malacca",
-    dates: "Sun 5/24 — Fri 5/29",
-    travelers: "1 traveler",
-    class: "Economy",
-    tripType: "Round-trip",
-    price: "$77",
-    tag: "Price drop",
-    accent: "#fef2f2", // brand-red light tint
-    accentText: "#c52a28", // brand-red
-  },
-];
-
-const CATEGORIES = [
-  { id: "flights", icon: Plane, label: "Flights" },
-  { id: "stays", icon: Hotel, label: "Stays" },
-  { id: "cars", icon: Car, label: "Cars" },
-  { id: "packages", icon: Package, label: "Packages" },
+  { id: 1, origin: "JFK", destination: "DXB", date: "May 11", price: "$599", flag: "🇺🇸" },
+  { id: 2, origin: "LHR", destination: "CDG", date: "May 18", price: "$121", flag: "🇬🇧" },
+  { id: 3, origin: "SIN", destination: "NRT", date: "Jun 02", price: "$488", flag: "🇸🇬" },
+  { id: 4, origin: "LAX", destination: "JFK", date: "Jun 21", price: "$260", flag: "🇺🇸" },
 ];
 
 export function RecentSearches() {
+  const [items, setItems] = React.useState(MOCK_SEARCHES);
+
   return (
-    <div className="w-full mt-8 lg:mt-12 h-auto md:min-h-[40dvh] md:pb-20 pb-5 lg:pb-0">
-      <div className="flex items-baseline justify-between mb-6 lg:mb-8 px-1">
-        <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-foreground">
-          Recent searches
-        </h2>
+    <section className="py-8">
+      <div className="mb-4 flex items-center justify-between">
+        <p className="text-sm font-medium text-muted-foreground">Recent Searches</p>
+        <button className="text-sm text-brand-red" type="button" onClick={() => setItems([])}>
+          Clear all
+        </button>
       </div>
 
-      <div className="flex flex-col gap-4 lg:gap-5">
-        {MOCK_SEARCHES.map((search, index) => (
-          <div
-            key={search.id}
-            className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-brand-red/20 hover:bg-muted/30 transition-all duration-300 shadow-sm hover:shadow-md"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-6 px-4 py-4 lg:px-6 lg:py-5 relative z-10">
-              <div className="flex items-center gap-4 lg:gap-6 flex-1">
-                <AppIcon
-                  icon={search.icon}
-                  isActive={true}
-                  isFill={true}
-                  className="w-10 h-10 lg:w-11 lg:h-11 shrink-0"
-                />
-
-                {/* Route */}
-                <div className="flex items-center gap-3 lg:gap-4 flex-1 min-w-0">
-                  <div className="min-w-0">
-                    <p className="text-[10px] lg:text-xs font-bold text-muted-foreground uppercase tracking-wider leading-none mb-1 lg:mb-2 truncate">
-                      {search.originCity}
-                    </p>
-                    <p className="text-xl lg:text-2xl font-bold text-foreground tracking-tighter leading-none">
-                      {search.origin}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-1.5 lg:gap-2 shrink-0">
-                    <div className="w-6 lg:w-10 h-0.5 bg-border rounded-full" />
-                    <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
-                  </div>
-
-                  <div className="min-w-0">
-                    <p className="text-[10px] lg:text-xs font-bold text-muted-foreground uppercase tracking-wider leading-none mb-1 lg:mb-2 truncate">
-                      {search.destinationCity}
-                    </p>
-                    <p className="text-xl lg:text-2xl font-bold text-foreground tracking-tighter leading-none">
-                      {search.destination}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* MD+ Meta (Horizontally) */}
-              <div className="hidden md:flex flex-col gap-1 flex-1 border-l border-border/50 pl-6">
-                <div className="flex items-center gap-2 text-sm text-foreground font-bold">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span className="truncate">{search.dates}</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-foreground/80 font-semibold">
-                  <Users className="w-3.5 h-3.5" />
-                  <span className="truncate">
-                    {search.travelers} · {search.class}
-                  </span>
-                </div>
-              </div>
-
-              {/* Mobile-only Meta (Inline) */}
-              <div className="flex md:hidden items-center gap-3 py-2 border-t border-border/30">
-                <div className="flex items-center gap-1.5 text-xs text-foreground font-bold">
-                  <Clock className="w-3 h-3" />
-                  <span>{search.dates}</span>
-                </div>
-                <div className="w-1 h-1 rounded-full bg-border" />
-                <div className="flex items-center gap-1.5 text-xs text-foreground/80 font-semibold">
-                  <Users className="w-3 h-3" />
-                  <span>{search.travelers}</span>
-                </div>
-              </div>
-
-              {/* Price + Action */}
-              <div className="flex items-center justify-between sm:justify-end gap-4 lg:gap-6 pt-3 sm:pt-0 border-t sm:border-0 border-border/30">
-                <div className="text-left sm:text-right">
-                  <p className="text-2xl lg:text-3xl font-semibold text-foreground tracking-tighter leading-none">
-                    {search.price}
-                  </p>
-                  <p className="text-xs font-bold text-brand-red tracking-wider mt-1 opacity-80">
-                    {search.tag}
-                  </p>
-                </div>
-
+      <div className="no-scrollbar overflow-x-auto">
+        <motion.div className="flex w-max gap-2 pb-2" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.05 } } }}>
+          <AnimatePresence>
+            {items.map((search) => (
+              <motion.div
+                key={search.id}
+                variants={{ hidden: { opacity: 0, x: 18 }, show: { opacity: 1, x: 0 } }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="group flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 shadow-xs hover:border-brand-red/30 hover:shadow-md transition-all"
+              >
+                <span className="text-sm">
+                  {search.flag} {search.origin}
+                </span>
+                <span>→</span>
+                <span className="text-sm font-semibold">{search.destination}</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="text-sm text-muted-foreground">{search.date}</span>
+                {search.price ? <span className="text-sm font-semibold">· {search.price}</span> : null}
                 <button
-                  className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white bg-gradient-to-tl from-brand-red to-brand-red-light shadow-lg shadow-brand-red/20 hover:shadow-brand-red/40 transition-all active:scale-95 shrink-0"
+                  type="button"
+                  className="ml-1 opacity-0 transition-opacity group-hover:opacity-100"
+                  onClick={() => setItems((prev) => prev.filter((s) => s.id !== search.id))}
                 >
-                  <Search className="w-5 h-5" strokeWidth={2.5} />
+                  ×
                 </button>
-              </div>
-            </div>
-          </div>
-        ))}
-
-        {/* New Search Section */}
-        <div
-          className="relative bg-muted/20 border border-dashed border-border rounded-2xl p-4 lg:px-6 lg:py-4 transition-all duration-300 group"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Plus className="w-4 h-4 text-brand-red" />
-              <p className="text-sm text-muted-foreground font-bold  tracking-wider">
-                Start new
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
-              {CATEGORIES.map((cat) => (
-                <AppIcon
-                  key={cat.id}
-                  icon={cat.icon}
-                  label={cat.label}
-                  isFill={false}
-                  className="h-10 sm:h-9 px-3.5 text-[12px] bg-card border-border hover:border-brand-red/50 transition-all shadow-sm w-full sm:w-auto"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }
