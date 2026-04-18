@@ -36,16 +36,20 @@ export function DatePicker({
   defaultMonth,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const timeoutRef = React.useRef<NodeJS.Timeout>();
 
   // Cleanup timeout on unmount
   React.useEffect(() => {
+    setMounted(true);
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
   }, []);
+
+  const hasDate = mounted && Boolean(date);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -80,10 +84,10 @@ export function DatePicker({
               <span
                 className={cn(
                   "truncate font-semibold text-sm tracking-tight",
-                  date ? "text-foreground" : "text-foreground/60",
+                  hasDate ? "text-foreground" : "text-foreground/60",
                 )}
               >
-                {date ? format(date, "EEE, MMM d") : open ? "" : "Choose date"}
+                {hasDate && date ? format(date, "EEE, MMM d") : open ? "" : "Choose date"}
               </span>
             </div>
           </div>

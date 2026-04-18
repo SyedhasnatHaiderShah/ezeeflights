@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import type { Route } from "next";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import {
@@ -35,7 +36,7 @@ import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
 
 interface NavigationItem {
   label: string;
-  href: string;
+  href: Route;
   icon: React.ComponentType<{ className?: string }>;
 }
 
@@ -124,6 +125,7 @@ export function AppSidebar() {
 
   const userName = [session?.firstName, session?.lastName].filter(Boolean).join(" ") || session?.email || "Traveler";
   const userInitial = userName.charAt(0).toUpperCase();
+  const isDarkMode = mounted && theme === "dark";
 
   return (
     <>
@@ -257,14 +259,14 @@ export function AppSidebar() {
               className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
             >
               <span className="flex items-center gap-3">
-                {mounted && theme === "dark" ? (
+                {isDarkMode ? (
                   <Moon className="h-4 w-4" />
                 ) : (
                   <Sun className="h-4 w-4" />
                 )}
                 Theme
               </span>
-              <span className="text-xs">{theme === "dark" ? "Dark" : "Light"}</span>
+              <span className="text-xs">{mounted ? (isDarkMode ? "Dark" : "Light") : "Theme"}</span>
             </button>
           </div>
         </div>

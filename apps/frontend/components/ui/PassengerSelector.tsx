@@ -195,7 +195,7 @@ export function PassengerSelector({
             </>
           )}
 
-          <button
+          {/* <button
             type="button"
             onClick={(e) => {
               e.preventDefault();
@@ -205,7 +205,7 @@ export function PassengerSelector({
             className="bg-redmix mt-4 w-full text-white py-2 rounded-sm text-xs font-semibold capitalize tracking-widest hover:bg-brand-red/90 transition-all hover:shadow-lg hover:shadow-brand-red/20"
           >
             Done
-          </button>
+          </button> */}
 
           <Popover.Arrow className="fill-background" />
         </Popover.Content>
