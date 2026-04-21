@@ -1,9 +1,38 @@
-import { apiFetch } from './client';
-export type LoyaltyAccount=Record<string,unknown>; export type LoyaltyTransaction=Record<string,unknown>; export type RedeemResult=Record<string,unknown>; export type Reward=Record<string,unknown>; export type TierBenefits=Record<string,unknown>;
-export const getAccount=()=>apiFetch<LoyaltyAccount>('/loyalty/me');
-export const getTransactions=(page=1,limit=20)=>apiFetch<LoyaltyTransaction[]>(`/loyalty/transactions?page=${page}&limit=${limit}`);
-export const redeemPoints=(points:number,bookingId?:string)=>apiFetch<RedeemResult>('/loyalty/redeem',{method:'POST',body:JSON.stringify({points,bookingId})});
-export const getRewards=()=>apiFetch<Reward[]>('/loyalty/rewards');
-export const getTierBenefits=(tier:string)=>apiFetch<TierBenefits>(`/loyalty/tier-benefits/${tier}`);
-export const getReferralCode=()=>apiFetch<{code:string}>('/loyalty/referral-code');
-export const applyReferralCode=(code:string)=>apiFetch<{pointsAwarded:number}>('/loyalty/apply-referral',{method:'POST',body:JSON.stringify({code})});
+import { useQuery } from "@tanstack/react-query";
+import { apiFetch } from "./client";
+
+export interface LoyaltyTier {
+  name: string;
+  minPoints: number;
+  benefits: string[];
+  color: string;
+}
+
+export function useLoyaltyProfile() {
+  return useQuery({
+    queryKey: ["loyalty", "profile"],
+    queryFn: () => apiFetch("/loyalty/profile"),
+  });
+}
+
+export function useLoyaltyTierBenefits() {
+  return useQuery({
+    queryKey: ["loyalty", "tier-benefits"],
+    queryFn: () => apiFetch<LoyaltyTier[]>("/loyalty/tier-benefits"),
+    staleTime: 60 * 60 * 1000,
+  });
+}
+
+export function useLoyaltyTransactions(page = 1) {
+  return useQuery({
+    queryKey: ["loyalty", "transactions", page],
+    queryFn: () => apiFetch(`/loyalty/transactions?page=${page}`),
+  });
+}
+
+export function useReferralCode() {
+  return useQuery({
+    queryKey: ["loyalty", "referral-code"],
+    queryFn: () => apiFetch<{ code: string }>("/loyalty/referral-code"),
+  });
+}

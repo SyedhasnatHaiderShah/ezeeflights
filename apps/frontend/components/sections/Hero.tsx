@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { BookingForm } from "@/components/booking-form";
 import { AppImage } from "@/components/ui/app-image";
 import { StatCounter } from "@/components/ui/stat-counter";
+import { usePublicStats } from "@/lib/api/stats";
 
 const DESTINATIONS = [
   { name: "Dubai", image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1800&auto=format&fit=crop" },
@@ -25,6 +26,7 @@ export function Hero({
   description = "Search 500+ airlines. Compare prices. Book in seconds.",
 }: HeroProps) {
   const [index, setIndex] = React.useState(0);
+  const { data: stats } = usePublicStats();
 
   React.useEffect(() => {
     const id = setInterval(() => setIndex((v) => (v + 1) % DESTINATIONS.length), 5000);
@@ -57,10 +59,10 @@ export function Hero({
         </div>
 
         <div className="mt-6 grid w-full grid-cols-2 gap-3 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur md:grid-cols-4">
-          <div className="text-center"><p className="text-2xl font-extrabold"><StatCounter value={2} suffix="M+" /></p><p className="text-xs text-white/80">Happy Travelers</p></div>
-          <div className="text-center md:border-l md:border-white/30"><p className="text-2xl font-extrabold"><StatCounter value={500} suffix="+" /></p><p className="text-xs text-white/80">Airlines</p></div>
-          <div className="text-center md:border-l md:border-white/30"><p className="text-2xl font-extrabold"><StatCounter value={150} suffix="+" /></p><p className="text-xs text-white/80">Countries</p></div>
-          <div className="text-center md:border-l md:border-white/30"><p className="text-2xl font-extrabold"><StatCounter value={49} suffix="/10★" /></p><p className="text-xs text-white/80">Rating</p></div>
+          <div className="text-center"><p className="text-2xl font-extrabold"><StatCounter value={stats?.totalTravelers ?? 2000000} suffix="+" /></p><p className="text-xs text-white/80">Happy Travelers</p></div>
+          <div className="text-center md:border-l md:border-white/30"><p className="text-2xl font-extrabold"><StatCounter value={stats?.airlinesCount ?? 500} suffix="+" /></p><p className="text-xs text-white/80">Airlines</p></div>
+          <div className="text-center md:border-l md:border-white/30"><p className="text-2xl font-extrabold"><StatCounter value={stats?.countriesCount ?? 150} suffix="+" /></p><p className="text-xs text-white/80">Countries</p></div>
+          <div className="text-center md:border-l md:border-white/30"><p className="text-2xl font-extrabold"><StatCounter value={stats?.avgRating ?? 4.9} suffix="★" /></p><p className="text-xs text-white/80">Rating</p></div>
         </div>
       </div>
 
