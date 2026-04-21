@@ -1,15 +1,49 @@
-export function TrustStrip() {
-  const items = ['IATA Accredited', '24/7 Global Support', 'Secure Payments', '4.8★ Traveler Rating'];
+"use client";
 
+import { motion } from "framer-motion";
+import { BadgeCheck, Lock, Headphones, Plane } from "lucide-react";
+
+const TRUST_ITEMS = [
+  { icon: BadgeCheck, label: "Best Price Guarantee", sublabel: "We match any lower price" },
+  { icon: Plane, label: "500+ Airlines", sublabel: "Domestic & international" },
+  { icon: Lock, label: "Secure Payments", sublabel: "256-bit SSL encryption" },
+  { icon: Headphones, label: "24/7 Support", sublabel: "Always here to help" },
+];
+
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
+export function TrustStrip() {
   return (
-    <div className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 backdrop-blur">
-      <ul className="grid gap-2 text-sm text-white/90 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((item) => (
-          <li key={item} className="rounded-lg bg-white/10 px-3 py-2 text-center font-medium">
-            {item}
-          </li>
+    <div className="border-y border-border bg-muted/30 py-4 dark:bg-muted/10">
+      <motion.ul
+        className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-center divide-x divide-border"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        {TRUST_ITEMS.map(({ icon: Icon, label, sublabel }) => (
+          <motion.li
+            key={label}
+            variants={itemVariants}
+            className="flex flex-1 flex-col items-center justify-center gap-0.5 px-6 py-2 text-center sm:flex-row sm:gap-2 sm:text-left"
+          >
+            <Icon className="h-5 w-5 shrink-0 text-brand-red" />
+            <div>
+              <p className="text-sm font-semibold text-foreground">{label}</p>
+              <p className="hidden text-xs text-muted-foreground sm:block">{sublabel}</p>
+            </div>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
     </div>
   );
 }

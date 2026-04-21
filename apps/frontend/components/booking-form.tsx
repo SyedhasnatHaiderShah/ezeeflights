@@ -120,20 +120,7 @@ export function BookingForm({ defaultTab = "flights", heroMode = true }: { defau
             <div className="lg:col-span-2 rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={departDate} setDate={setDepartDate} label="Depart" className="rounded-2xl h-14" /></div>
             <div className="lg:col-span-2 rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={returnDate} setDate={setReturnDate} label="Return" disabled={tripType === "one-way"} className="rounded-2xl h-14" /></div>
             <div className="lg:col-span-4 rounded-2xl border border-white/20 bg-white/5 min-h-14"><PassengerSelector passengers={passengers} onChange={(k, v) => setPassengers((p) => ({ ...p, [k]: v }))} cabinClass={cabinClass} onCabinChange={setCabinClass} className="rounded-2xl h-14" /></div>
-            <div className="lg:col-span-3 flex items-center rounded-2xl border border-white/20 px-3 bg-white/5">
-              <select
-                value={cabinClass}
-                onChange={(e) => setCabinClass(e.target.value)}
-                className={cn("h-10 w-full bg-transparent text-sm outline-none", heroMode ? "text-white" : "text-foreground")}
-              >
-                {"Economy,Premium,Business,First".split(",").map((option) => (
-                  <option key={option} value={option} className="text-foreground">
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-8">
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.02 }}
