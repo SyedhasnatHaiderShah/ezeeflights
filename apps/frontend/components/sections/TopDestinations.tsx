@@ -9,7 +9,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useFeaturedDestinations } from "@/lib/api/destinations";
 
 export function TopDestinations() {
-  const { data: destinations = [], isLoading } = useFeaturedDestinations(10);
+  const { data, isLoading } = useFeaturedDestinations(10);
+  const destinations = React.useMemo(() => Array.isArray(data) ? data : [], [data]);
   const regions = React.useMemo(() => ["ALL", ...new Set(destinations.map((d) => d.region))], [destinations]);
   const [active, setActive] = React.useState("ALL");
   const filtered = active === "ALL" ? destinations : destinations.filter((d) => d.region === active);
@@ -31,8 +32,17 @@ export function TopDestinations() {
             <AnimatePresence mode="popLayout">
               {filtered.map((dest, idx) => (
                 <motion.div key={dest.slug} layout initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className={idx === 0 ? "lg:row-span-2" : ""}>
-                  <GradientCard href={`/cities/${dest.slug}`} imageSrc={dest.imageUrl} imageAlt={dest.name} className={idx === 0 ? "h-[560px]" : "h-[260px]"}>
-                    <div className="flex items-center justify-between"><div><p className="text-xl font-bold text-white">{dest.flag} {dest.name}</p><Badge variant="gold" className="mt-2">From {dest.currency} {dest.fromPrice}</Badge></div></div>
+                  <GradientCard href={`/cities/${dest.slug}`} imageSrc={dest.heroImage} imageAlt={dest.name} className={idx === 0 ? "h-[560px]" : "h-[260px]"}>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xl font-bold text-white">
+                          {dest.code ? String.fromCodePoint(...[...dest.code.toUpperCase()].map(c => 127397 + c.charCodeAt(0))) : "📍"} {dest.name}
+                        </p>
+                        {dest.fromPrice && (
+                          <Badge variant="gold" className="mt-2">From {dest.currency || "USD"} {dest.fromPrice}</Badge>
+                        )}
+                      </div>
+                    </div>
                     <div className="mt-4 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0"><span className="inline-flex rounded-full bg-white/20 px-3 py-1 text-sm text-white backdrop-blur">Explore →</span></div>
                   </GradientCard>
                 </motion.div>

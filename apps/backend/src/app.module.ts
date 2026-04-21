@@ -28,6 +28,7 @@ import { InsuranceModule } from './modules/insurance/insurance.module';
 import { TransfersModule } from './modules/transfers/transfers.module';
 import { CarsModule } from './modules/cars/cars.module';
 import { SeederModule } from './common/seeder/seeder.module';
+import { PublicModule } from './modules/public/public.module';
 import { MigrationRunner } from './database/migration-runner';
 import { SeederService } from './common/seeder/seeder.service';
 import { PostgresClient } from './database/postgres.client';
@@ -63,6 +64,7 @@ import { PostgresClient } from './database/postgres.client';
     TransfersModule,
     CarsModule,
     SeederModule,
+    PublicModule,
   ],
   providers: [MigrationRunner, PostgresClient],
 })

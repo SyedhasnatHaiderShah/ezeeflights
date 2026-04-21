@@ -34,7 +34,9 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
     throw new Error(message || `API error (${response.status})`);
   }
 
-  return response.json() as Promise<T>;
+  const data = await response.json();
+  console.log(`[API] ${path} ->`, data);
+  return data as T;
 }
 
 /** Same as apiFetch — access token is read from HttpOnly cookies by the BFF. */

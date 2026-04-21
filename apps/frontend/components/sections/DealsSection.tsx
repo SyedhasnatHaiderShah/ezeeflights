@@ -13,13 +13,20 @@ import { useFeaturedDeals } from "@/lib/api/deals";
 
 export function DealsSection() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start", slidesToScroll: 1 });
-  const { data: deals = [], isLoading } = useFeaturedDeals(8);
+  const { data, isLoading } = useFeaturedDeals(8);
+  const deals = React.useMemo(() => Array.isArray(data) ? data : [], [data]);
 
   return (
     <section className="py-14">
       <div className="mx-auto max-w-[1200px] px-6">
         <SectionHeader eyebrow="LIMITED TIME" title="Flight Deals" subtitle="Prices updated daily — grab them before they're gone" ctaLabel="All deals" ctaHref="/deals" />
-        {isLoading ? <div className="grid gap-4 md:grid-cols-3">{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-[360px] w-full rounded-2xl" />)}</div> : (
+        {isLoading ? (
+          <div className="grid gap-4 md:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="h-[360px] w-full rounded-2xl" />
+            ))}
+          </div>
+        ) : deals.length > 0 ? (
           <div className="relative">
             <button onClick={() => emblaApi?.scrollPrev()} className="absolute -left-4 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card md:flex hover:text-brand-red"><ChevronLeft className="h-4 w-4" /></button>
             <button onClick={() => emblaApi?.scrollNext()} className="absolute -right-4 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card md:flex hover:text-brand-red"><ChevronRight className="h-4 w-4" /></button>
@@ -46,7 +53,7 @@ export function DealsSection() {
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </section>
   );

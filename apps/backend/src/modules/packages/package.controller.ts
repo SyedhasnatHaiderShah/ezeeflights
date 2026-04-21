@@ -108,6 +108,23 @@ export class PackageController {
     return this.service.list(parsed, false);
   }
 
+  @Get('deals/featured')
+  async featuredDeals(@Query('limit') limit?: number) {
+    console.log(`[BACKEND] featuredDeals called with limit=${limit}`);
+    const { data } = await this.service.list({ limit: limit || 8, page: 1 }, false);
+    return data.map((pkg) => ({
+      id: pkg.id,
+      type: 'package',
+      title: pkg.title,
+      destinationCity: pkg.destination,
+      price: pkg.basePrice,
+      originalPrice: Math.round(pkg.basePrice * 1.2),
+      savingPercent: 20,
+      imageUrl: pkg.thumbnailUrl || 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800',
+      isFlashSale: false,
+    }));
+  }
+
   @ApiOperation({ summary: 'Get package by slug (public)' })
   @ApiParam({ name: 'slug', description: 'Package URL slug' })
   @ApiResponse({ status: 200, description: 'Package details with itinerary' })
