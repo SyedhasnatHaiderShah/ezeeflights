@@ -39,6 +39,7 @@ import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
 import { logoutRequest } from "@/lib/api/auth-api";
 import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
+import { useMarkAllRead, useMarkRead, useNotifications, useUnreadCount } from "@/lib/api/notifications";
 
 const navTabs = [
   { label: "Flights", href: "/flights", icon: Plane },
@@ -54,16 +55,29 @@ const moreLinks = [
   { label: "Destinations", href: "/destinations", icon: MapPinned },
 ] as const;
 
-const NotificationContent = () => (
-  <div className="flex h-full min-h-[320px] flex-col bg-background">
-    <div className="border-b p-4">
-      <h2 className="text-lg font-semibold">Notifications</h2>
+const NotificationContent = () => {
+  const { data: notifications = [] } = useNotifications({ page: 1, limit: 10 });
+  const { data: unread } = useUnreadCount();
+  const markRead = useMarkRead();
+  const markAll = useMarkAllRead();
+
+  return (
+    <div className="flex h-full min-h-[320px] flex-col bg-background">
+      <div className="flex items-center justify-between border-b p-4">
+        <h2 className="text-lg font-semibold">Notifications ({unread?.count ?? 0})</h2>
+        <button className="text-xs text-brand-red" onClick={() => markAll.mutate()}>Mark all read</button>
+      </div>
+      <div className="flex-1 overflow-auto p-3">
+        {notifications.length === 0 ? <div className="flex h-full items-center justify-center p-6 text-center text-sm text-muted-foreground">All caught up! Check back later for new alerts.</div> : notifications.map((notification) => (
+          <button key={notification.id} className={`mb-2 w-full rounded-lg border p-3 text-left ${notification.isRead ? "opacity-70" : "bg-muted/40"}`} onClick={() => markRead.mutate(notification.id)}>
+            <p className="text-sm font-semibold">{notification.title}</p>
+            <p className="text-xs text-muted-foreground">{notification.body}</p>
+          </button>
+        ))}
+      </div>
     </div>
-    <div className="flex flex-1 items-center justify-center p-6 text-center text-sm text-muted-foreground">
-      All caught up! Check back later for new alerts.
-    </div>
-  </div>
-);
+  );
+};
 
 const FavoriteContent = () => (
   <div className="flex h-full min-h-[320px] flex-col bg-background">
@@ -246,7 +260,7 @@ export function Header() {
               >
                 <Drawer.Trigger asChild>
                   <button className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
-                    <Bell className="h-5 w-5" />
+                    <div className="relative"><Bell className="h-5 w-5" /><span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-brand-red" /></div>
                   </button>
                 </Drawer.Trigger>
                 <Drawer.Portal>
