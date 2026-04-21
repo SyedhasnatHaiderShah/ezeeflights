@@ -11,9 +11,9 @@ import { useFeaturedDestinations } from "@/lib/api/destinations";
 export function TopDestinations() {
   const { data, isLoading } = useFeaturedDestinations(10);
   const destinations = React.useMemo(() => Array.isArray(data) ? data : [], [data]);
-  const regions = React.useMemo(() => ["ALL", ...new Set(destinations.map((d) => d.region))], [destinations]);
+  const regions = React.useMemo(() => ["ALL", ...new Set(destinations.map((d) => d.region || "OTHER"))], [destinations]);
   const [active, setActive] = React.useState("ALL");
-  const filtered = active === "ALL" ? destinations : destinations.filter((d) => d.region === active);
+  const filtered = active === "ALL" ? destinations : destinations.filter((d) => (d.region || "OTHER") === active);
 
   return (
     <section className="py-14">
@@ -27,12 +27,12 @@ export function TopDestinations() {
 
         {isLoading ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">{Array.from({ length: 8 }).map((_, idx) => <Skeleton key={idx} className={`w-full rounded-2xl ${idx === 0 ? "h-[560px]" : "h-[260px]"}`} />)}</div>
-        ) : (
+        ) : filtered.length > 0 ? (
           <motion.div layout className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence mode="popLayout">
               {filtered.map((dest, idx) => (
                 <motion.div key={dest.slug} layout initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className={idx === 0 ? "lg:row-span-2" : ""}>
-                  <GradientCard href={`/cities/${dest.slug}`} imageSrc={dest.heroImage} imageAlt={dest.name} className={idx === 0 ? "h-[560px]" : "h-[260px]"}>
+                  <GradientCard href={`/cities/${dest.slug}`} imageSrc={dest.heroImage || dest.imageUrl || "https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&q=80&w=1200"} imageAlt={dest.name} className={idx === 0 ? "h-[560px]" : "h-[260px]"}>
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-xl font-bold text-white">
@@ -49,7 +49,7 @@ export function TopDestinations() {
               ))}
             </AnimatePresence>
           </motion.div>
-        )}
+        ) : <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">No featured destinations yet. Run backend mock seed to load destination data.</p>}
       </div>
     </section>
   );

@@ -35,7 +35,7 @@ export function DealsSection() {
                 {deals.map((deal) => (
                   <article key={deal.id} className="group min-w-0 flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
                     <div className="h-full w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 group-hover:scale-[1.02] group-hover:border-brand-red/30 group-hover:shadow-lg">
-                      <div className="relative h-[200px]"><AppImage src={deal.imageUrl} alt={deal.title} fill className="object-cover" /><div className="absolute inset-0 bg-linear-to-t from-black/35 via-black/5 to-transparent" />
+                      <div className="relative h-[200px]"><AppImage src={deal.imageUrl || "https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&q=80&w=1000"} alt={deal.title} fill className="object-cover" /><div className="absolute inset-0 bg-linear-to-t from-black/35 via-black/5 to-transparent" />
                       <div className="absolute left-3 top-3 flex max-w-[calc(100%-7.5rem)] flex-col items-start gap-1.5">
                         {deal.isFlashSale ? <Badge variant="brand" size="sm" className="tracking-wide">FLASH SALE</Badge> : null}{deal.expiresAt ? 
                         <CountdownTimer
@@ -53,7 +53,7 @@ export function DealsSection() {
               </div>
             </div>
           </div>
-        ) : null}
+        ) : <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">No featured deals yet. Run backend mock seed to populate package deals.</p>}
       </div>
     </section>
   );
