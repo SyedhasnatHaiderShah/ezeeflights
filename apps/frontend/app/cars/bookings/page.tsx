@@ -1,11 +1,13 @@
+import { CarExtrasPanel } from '@/components/cars/CarExtrasPanel';
 import { getMyCarBookings } from '@/lib/api/cars';
 
 export default async function CarBookingsPage() {
   const bookings = await getMyCarBookings();
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-6">
       <h1 className="text-2xl font-bold">My Car Bookings</h1>
+      <CarExtrasPanel />
       <div className="space-y-3">
         {bookings.map((booking) => (
           <article key={booking.id} className="rounded-xl border bg-white p-4">

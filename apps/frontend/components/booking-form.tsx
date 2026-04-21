@@ -20,9 +20,10 @@ const TABS = [
   { id: "packages", icon: Package, label: "Packages" },
 ]
 
-export function BookingForm() {
+export function BookingForm({ defaultTab = "flights" }: { defaultTab?: "flights" | "stays" | "cars" | "packages" | "hotels" }) {
   const router = useRouter()
-  const [activeTab, setActiveTab] = React.useState("flights")
+  const initialTab = defaultTab === "hotels" ? "stays" : defaultTab
+  const [activeTab, setActiveTab] = React.useState(initialTab)
 
   const [origin, setOrigin] = React.useState("")
   const [destination, setDestination] = React.useState("")
@@ -83,9 +84,9 @@ export function BookingForm() {
   return (
     <div className="w-full">
       <Tabs.Root 
-        defaultValue="flights" 
+        defaultValue={initialTab} 
         className="w-full"
-        onValueChange={(val) => setActiveTab(val)}
+        onValueChange={(val) => setActiveTab(val as "flights" | "stays" | "cars" | "packages")}
       >
         <Tabs.List
           className="flex items-center gap-1 mb-6 overflow-x-auto no-scrollbar scroll-smooth"
