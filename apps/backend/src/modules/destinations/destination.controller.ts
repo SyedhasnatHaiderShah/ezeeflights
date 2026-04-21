@@ -30,6 +30,21 @@ export class DestinationController {
     return this.destinationService.getDestinations();
   }
 
+  @ApiOperation({ summary: 'Get featured destinations' })
+  @ApiResponse({ status: 200, description: 'Array of featured destinations' })
+  @Get('destinations/featured')
+  featured(@Query('limit') limit?: number) {
+    return this.destinationService.getFeaturedDestinations(limit);
+  }
+
+  @ApiOperation({ summary: 'Get destination themes' })
+  @ApiResponse({ status: 200, description: 'Array of themes' })
+  @Get('destinations/themes')
+  themes() {
+    console.log('[BACKEND] destinations/themes called');
+    return this.destinationService.getThemes();
+  }
+
   @ApiOperation({ summary: 'Get destinations by country' })
   @ApiParam({ name: 'country', description: 'Country name or code' })
   @ApiResponse({ status: 200, description: 'Array of destinations in country' })

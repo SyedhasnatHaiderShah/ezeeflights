@@ -8,19 +8,19 @@ export class DestinationRepository {
   constructor(private readonly db: PostgresClient) {}
 
   listCountries() {
-    return this.db.query<CountryEntity>(`SELECT id,name,code,description,hero_image as "heroImage",created_at as "createdAt" FROM countries ORDER BY name ASC`);
+    return this.db.query<CountryEntity>(`SELECT id,name,code,description,region,hero_image as "heroImage",created_at as "createdAt" FROM countries ORDER BY name ASC`);
   }
 
   findCountryByCode(code: string) {
     return this.db.queryOne<CountryEntity>(
-      `SELECT id,name,code,description,hero_image as "heroImage",created_at as "createdAt" FROM countries WHERE LOWER(code)=LOWER($1) LIMIT 1`,
+      `SELECT id,name,code,description,region,hero_image as "heroImage",created_at as "createdAt" FROM countries WHERE LOWER(code)=LOWER($1) LIMIT 1`,
       [code],
     );
   }
 
   listCitiesByCountry(countryId: string) {
     return this.db.query<CityEntity>(
-      `SELECT id,country_id as "countryId",name,slug,description,latitude::float8 as latitude,longitude::float8 as longitude,hero_image as "heroImage"
+      `SELECT id,country_id as "countryId",name,slug,description,latitude::float8 as latitude,longitude::float8 as longitude,hero_image as "heroImage",is_featured as "isFeatured"
        FROM cities WHERE country_id = $1 ORDER BY name ASC`,
       [countryId],
     );
@@ -28,9 +28,21 @@ export class DestinationRepository {
 
   findCityBySlug(slug: string) {
     return this.db.queryOne<CityEntity>(
-      `SELECT id,country_id as "countryId",name,slug,description,latitude::float8 as latitude,longitude::float8 as longitude,hero_image as "heroImage"
+      `SELECT id,country_id as "countryId",name,slug,description,latitude::float8 as latitude,longitude::float8 as longitude,hero_image as "heroImage",is_featured as "isFeatured"
        FROM cities WHERE slug = $1 LIMIT 1`,
       [slug],
+    );
+  }
+
+  listFeaturedCities(limit = 10) {
+    return this.db.query<CityEntity & { country: string; code: string; region: string }>(
+      `SELECT c.id, c.country_id as "countryId", c.name, c.slug, c.description, c.latitude::float8 as latitude, c.longitude::float8 as longitude, c.hero_image as "heroImage", c.is_featured as "isFeatured",
+              co.name as "country", co.code as "code", co.region
+       FROM cities c
+       INNER JOIN countries co ON co.id = c.country_id
+       WHERE c.is_featured = TRUE
+       LIMIT $1`,
+      [limit],
     );
   }
 

@@ -5,6 +5,7 @@ export interface CountryEntity {
   name: string;
   code: string;
   description: string | null;
+  region: string | null;
   heroImage: string | null;
   createdAt: Date;
 }
@@ -18,6 +19,7 @@ export interface CityEntity {
   latitude: number;
   longitude: number;
   heroImage: string | null;
+  isFeatured: boolean;
 }
 
 export interface AttractionEntity {
