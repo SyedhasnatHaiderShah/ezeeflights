@@ -27,8 +27,18 @@ export function DealsSection() {
               <div className="flex gap-4">
                 {deals.map((deal) => (
                   <article key={deal.id} className="group min-w-0 flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
-                    <div className="h-full w-[280px] max-w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 group-hover:scale-[1.02] group-hover:border-brand-red/30 group-hover:shadow-lg">
-                      <div className="relative h-[200px]"><AppImage src={deal.imageUrl} alt={deal.title} fill className="object-cover" /><div className="absolute left-3 top-3 flex items-center gap-2">{deal.isFlashSale ? <Badge variant="brand">FLASH SALE</Badge> : null}{deal.expiresAt ? <CountdownTimer expiresAt={new Date(deal.expiresAt)} /> : null}</div><div className="absolute right-3 top-3"><Badge variant="gold">Save {deal.savingPercent}%</Badge></div></div>
+                    <div className="h-full w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 group-hover:scale-[1.02] group-hover:border-brand-red/30 group-hover:shadow-lg">
+                      <div className="relative h-[200px]"><AppImage src={deal.imageUrl} alt={deal.title} fill className="object-cover" /><div className="absolute inset-0 bg-linear-to-t from-black/35 via-black/5 to-transparent" />
+                      <div className="absolute left-3 top-3 flex max-w-[calc(100%-7.5rem)] flex-col items-start gap-1.5">
+                        {deal.isFlashSale ? <Badge variant="brand" size="sm" className="tracking-wide">FLASH SALE</Badge> : null}{deal.expiresAt ? 
+                        <CountdownTimer
+                          compact
+                          className="gap-1"
+                          expiresAt={new Date(deal.expiresAt)}
+                        /> : null}
+                      </div><div className="absolute right-3 top-3">
+                        <Badge variant="gold" size="sm" className="whitespace-nowrap">Save {deal.savingPercent}%</Badge>
+                      </div></div>
                       <div className="p-4"><h3 className="font-bold text-foreground">{deal.title}</h3><p className="text-sm text-muted-foreground">{deal.originCity ? `${deal.originCity} → ` : ""}{deal.destinationCity}{deal.airline ? ` · ${deal.airline}` : ""}</p><PriceTag amount={deal.price} originalAmount={deal.originalPrice} currency="USD" className="mt-3" /><button className="mt-3 w-full rounded-xl bg-brand-red py-2.5 text-sm font-semibold text-white">Book Now →</button></div>
                     </div>
                   </article>

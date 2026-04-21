@@ -22,6 +22,8 @@ interface DatePickerProps {
   disabled?: boolean;
   calendarDisabled?: any;
   defaultMonth?: Date;
+  glassPopover?: boolean;
+  openOnHover?: boolean;
 }
 
 export function DatePicker({
@@ -34,6 +36,8 @@ export function DatePicker({
   disabled = false,
   calendarDisabled,
   defaultMonth,
+  glassPopover = false,
+  openOnHover = true,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
@@ -66,10 +70,12 @@ export function DatePicker({
             className,
           )}
           onMouseEnter={() => {
+            if (!openOnHover) return;
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
             setOpen(true);
           }}
           onMouseLeave={() => {
+            if (!openOnHover) return;
             timeoutRef.current = setTimeout(() => {
               setOpen(false);
             }, 150);
@@ -100,19 +106,37 @@ export function DatePicker({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-auto p-0 border border-border bg-background text-foreground shadow-2xl rounded-2xl overflow-hidden"
+        className={cn(
+          "w-auto overflow-hidden rounded-2xl border p-0 text-foreground shadow-2xl",
+          glassPopover
+            ? "border-white/20 bg-white/10 backdrop-blur-2xl"
+            : "border-border bg-background",
+        )}
         align="start"
         sideOffset={10}
         onMouseEnter={() => {
+          if (!openOnHover) return;
           if (timeoutRef.current) clearTimeout(timeoutRef.current);
         }}
         onMouseLeave={() => {
+          if (!openOnHover) return;
           timeoutRef.current = setTimeout(() => {
             setOpen(false);
           }, 150);
         }}
       >
         <Calendar
+          className={glassPopover ? "bg-transparent" : undefined}
+          classNames={
+            glassPopover
+              ? {
+                  button_previous:
+                    "pointer-events-auto h-8 w-8 rounded-full border border-white/20 bg-white/10 text-foreground shadow-sm transition-all hover:bg-white/20 hover:text-foreground",
+                  button_next:
+                    "pointer-events-auto h-8 w-8 rounded-full border border-white/20 bg-white/10 text-foreground shadow-sm transition-all hover:bg-white/20 hover:text-foreground",
+                }
+              : undefined
+          }
           mode="single"
           selected={date}
           onSelect={(d) => {

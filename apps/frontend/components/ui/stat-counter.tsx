@@ -10,6 +10,7 @@ interface StatCounterProps {
   label?: string;
   duration?: number;
   className?: string;
+  valueClassName?: string;
 }
 
 export function StatCounter({
@@ -19,6 +20,7 @@ export function StatCounter({
   label,
   duration = 2000,
   className,
+  valueClassName,
 }: StatCounterProps) {
   const [displayValue, setDisplayValue] = React.useState(0);
   const [hasAnimated, setHasAnimated] = React.useState(false);
@@ -60,13 +62,18 @@ export function StatCounter({
   }, [duration, hasAnimated, value]);
 
   return (
-    <div ref={containerRef} className={cn("space-y-1", className)}>
-      <p className="text-4xl font-bold text-foreground animate-counter-up">
+    <div ref={containerRef} className={cn("inline-flex flex-col", className)}>
+      <span
+        className={cn(
+          "text-3xl font-bold text-foreground animate-counter-up",
+          valueClassName,
+        )}
+      >
         {prefix}
         {displayValue.toLocaleString()}
         {suffix}
-      </p>
-      <p className="text-sm text-muted-foreground">{label}</p>
+      </span>
+      {label && <p className="text-sm text-muted-foreground">{label}</p>}
     </div>
   );
 }

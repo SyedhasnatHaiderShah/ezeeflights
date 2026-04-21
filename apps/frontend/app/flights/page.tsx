@@ -1,6 +1,6 @@
-import { FlightsSearchContainer } from '@/components/containers/flights-search-container';
 import { Header } from '@/components/sections/Header';
 import { Footer } from '@/components/sections/Footer';
+import { Hero } from '@/components/sections/Hero';
 import { SupportFaqAccordion } from '@/components/support/SupportFaqAccordion';
 
 const flightFaqs = [
@@ -23,18 +23,20 @@ export default function FlightsPage() {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Header />
 
-      <main className="flex-1 pt-20">
-        <section className="border-b border-border/60 bg-linear-to-b from-brand-yellow/10 via-transparent to-transparent">
-          <div className="mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-6 md:py-14">
-            <div className="mb-6 max-w-2xl space-y-2">
-              <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Find your next flight</h1>
-              <p className="text-sm text-muted-foreground md:text-base">
-                Compare routes, schedules, and fares in one place. Start with your route and date to explore live availability.
-              </p>
-            </div>
-            <FlightsSearchContainer />
-          </div>
-        </section>
+      <main className="flex-1">
+        <Hero
+          defaultTab="flights"
+          badgeText="✈ #1 Flight Booking Platform"
+          title={
+            <>
+              Find Your Perfect{' '}
+              <span className="bg-linear-to-r from-brand-red to-brand-yellow bg-clip-text text-transparent">
+                Journey
+              </span>
+            </>
+          }
+          description="Compare routes, schedules, and fares in one place. Start with your route and date to explore live availability."
+        />
 
         <section className="mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-6 md:py-14">
           <div className="mx-auto max-w-3xl rounded-2xl border border-border/70 bg-card p-5 md:p-8">

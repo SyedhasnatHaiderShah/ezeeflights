@@ -60,6 +60,8 @@ interface LocationInputProps {
   icon?: LucideIcon;
   className?: string;
   shimmer?: boolean;
+  glassPopover?: boolean;
+  openOnHover?: boolean;
 }
 
 export function LocationInput({
@@ -71,6 +73,8 @@ export function LocationInput({
   icon: Icon = MapPin,
   className,
   shimmer = true,
+  glassPopover = false,
+  openOnHover = true,
 }: LocationInputProps) {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState(value || "");
@@ -142,10 +146,12 @@ export function LocationInput({
             }
           }}
           onMouseEnter={() => {
+            if (!openOnHover) return;
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
             setOpen(true);
           }}
           onMouseLeave={() => {
+            if (!openOnHover) return;
             timeoutRef.current = setTimeout(() => {
               setOpen(false);
             }, 150);
@@ -193,7 +199,12 @@ export function LocationInput({
 
       <Popover.Portal>
         <Popover.Content
-          className="w-[var(--radix-popover-trigger-width)] bg-background border border-border shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] rounded-md overflow-hidden z-50"
+          className={cn(
+            "z-50 w-(--radix-popover-trigger-width) overflow-hidden rounded-md border shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)]",
+            glassPopover
+              ? "border-white/20 bg-white/10 text-foreground backdrop-blur-2xl"
+              : "border-border bg-background",
+          )}
           sideOffset={0}
           align="start"
           onOpenAutoFocus={(e) => e.preventDefault()}
@@ -204,20 +215,29 @@ export function LocationInput({
           }}
           onEscapeKeyDown={() => setOpen(false)}
           onMouseEnter={() => {
+            if (!openOnHover) return;
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
           }}
           onMouseLeave={() => {
+            if (!openOnHover) return;
             timeoutRef.current = setTimeout(() => {
               setOpen(false);
             }, 150);
           }}
         >
-          <div className="p-2 bg-muted/30 border-b border-border">
+          <div
+            className={cn(
+              "border-b p-2",
+              glassPopover
+                ? "border-white/15 bg-white/5"
+                : "border-border bg-muted/30",
+            )}
+          >
             <span className="text-xs font-medium text-foreground/80 px-1">
               {inputValue ? "Search Results" : "Recent or Popular"}
             </span>
           </div>
-          <div className="max-h-[320px] overflow-y-auto no-scrollbar">
+          <div className="max-h-80 overflow-y-auto no-scrollbar">
             {(() => {
               const filtered = SUGGESTIONS.filter((s) => {
                 if (!inputValue) return true;
