@@ -5,52 +5,33 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { adminFetch, getAdminToken } from '@/lib/api/admin-api';
 
-const menu = [
-  { href: '/admin/executive', label: 'Executive', roles: ['SUPER_ADMIN', 'FINANCE'] },
-  { href: '/admin/revenue', label: 'Revenue Intel', roles: ['SUPER_ADMIN', 'FINANCE'] },
-  { href: '/admin/operations', label: 'Operations', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT'] },
-  { href: '/admin/finance', label: 'Finance Ops', roles: ['SUPER_ADMIN', 'FINANCE'] },
-  { href: '/admin/monitoring', label: 'Monitoring', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT'] },
-  { href: '/admin/dashboard', label: 'Dashboard', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT', 'MARKETING'] },
-  { href: '/admin/users', label: 'Users', roles: ['SUPER_ADMIN', 'ADMIN'] },
-  { href: '/admin/bookings', label: 'Bookings', roles: ['SUPER_ADMIN', 'ADMIN', 'SUPPORT'] },
-  { href: '/admin/payments', label: 'Payments', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] },
-  { href: '/admin/analytics', label: 'Analytics', roles: ['SUPER_ADMIN', 'ADMIN', 'MARKETING'] },
-  { href: '/admin/settings', label: 'Settings', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] },
-  { href: '/admin/logs', label: 'Logs', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] },
-  { href: '/admin/ai-packages', label: 'AI Packages', roles: ['SUPER_ADMIN', 'ADMIN', 'MARKETING'] },
-];
+const groupedMenu = {
+  OVERVIEW: [{ href: '/admin/dashboard', label: 'Dashboard', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT', 'MARKETING'] }],
+  OPERATIONS: [{ href: '/admin/bookings', label: 'Bookings', roles: ['SUPER_ADMIN', 'ADMIN', 'SUPPORT'] }, { href: '/admin/operations', label: 'Operations', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT'] }],
+  MANAGEMENT: [{ href: '/admin/users', label: 'Users', roles: ['SUPER_ADMIN', 'ADMIN'] }, { href: '/admin/payments', label: 'Payments', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] }],
+  SYSTEM: [{ href: '/admin/settings', label: 'Settings', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] }, { href: '/admin/logs', label: 'Logs', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] }],
+} as const;
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [role, setRole] = useState<string>('');
+  const [collapsed, setCollapsed] = useState(false);
 
-  useEffect(() => {
-    const token = getAdminToken();
-    if (!token) {
-      router.replace('/admin/login');
-      return;
-    }
-    adminFetch<{ roleName: string }>('/me').then((me) => setRole(me.roleName)).catch(() => {
-      localStorage.removeItem('admin_access_token');
-      router.replace('/admin/login');
-    });
-  }, [router]);
+  useEffect(() => { const token = getAdminToken(); if (!token) { router.replace('/admin/login'); return; } adminFetch<{ roleName: string }>('/me').then((me) => setRole(me.roleName)).catch(() => { localStorage.removeItem('admin_access_token'); router.replace('/admin/login'); }); }, [router]);
 
-  const items = useMemo(() => menu.filter((i) => i.roles.includes(role)), [role]);
+  const sections = useMemo(() => Object.entries(groupedMenu).map(([k, items]) => [k, items.filter((i) => i.roles.includes(role as any))] as const), [role]);
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-64 border-r p-4 bg-slate-50">
-        <h2 className="font-bold mb-4">Admin Control Center</h2>
-        <nav className="space-y-2">
-          {items.map((item) => (
-            <Link key={item.href} href={item.href} className={`block rounded px-2 py-1 ${pathname === item.href ? 'bg-slate-200 font-semibold' : ''}`}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+    <div className="flex min-h-screen bg-slate-50">
+      <aside className={`${collapsed ? 'w-20' : 'w-72'} bg-[#072f66] p-4 text-white transition-all`}>
+        <button onClick={() => setCollapsed((v) => !v)} className="mb-4 rounded border border-white/30 px-2 py-1 text-xs">{collapsed ? '>>' : 'Collapse'}</button>
+        {sections.map(([group, items]) => (
+          <div key={group} className="mb-5">
+            {!collapsed && <h3 className="mb-2 text-xs font-bold tracking-widest text-white/60">{group}</h3>}
+            <nav className="space-y-1">{items.map((item) => <Link key={item.href} href={item.href} className={`block rounded px-2 py-2 text-sm ${pathname === item.href ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'}`}>{collapsed ? item.label[0] : item.label}</Link>)}</nav>
+          </div>
+        ))}
       </aside>
       <main className="flex-1 p-6">{children}</main>
     </div>

@@ -36,6 +36,7 @@ export function CreateTicketForm({ onCreated }: { onCreated?: () => void | Promi
   const [description, setDescription] = useState('');
   const [bookingId, setBookingId] = useState('');
   const [attachment, setAttachment] = useState('');
+  const [dragOver, setDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
 
   return (
@@ -117,13 +118,17 @@ export function CreateTicketForm({ onCreated }: { onCreated?: () => void | Promi
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="attachment">Attachment filename <span className="text-muted-foreground font-normal">(optional)</span></Label>
-        <Input
-          id="attachment"
-          placeholder="e.g. invoice.pdf"
-          value={attachment}
-          onChange={(e) => setAttachment(e.target.value)}
-        />
+        <Label htmlFor="attachment">Attachment <span className="text-muted-foreground font-normal">(optional)</span></Label>
+        <div
+          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e) => { e.preventDefault(); setDragOver(false); const file = e.dataTransfer.files?.[0]; if (file) setAttachment(file.name); }}
+          className={cn('rounded-xl border-2 border-dashed p-4 text-center text-sm', dragOver ? 'border-brand-red bg-brand-red/5' : 'border-border')}
+        >
+          <p>Drag & drop file here</p>
+          <p className="my-2 text-xs text-muted-foreground">or enter filename manually</p>
+          <Input id="attachment" placeholder="e.g. invoice.pdf" value={attachment} onChange={(e) => setAttachment(e.target.value)} />
+        </div>
       </div>
 
       <Button variant="brand-red" type="submit" disabled={loading} className="w-full">
