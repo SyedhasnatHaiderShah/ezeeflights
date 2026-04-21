@@ -33,7 +33,7 @@ export function Reviews() {
   return (
     <section className="bg-[#0d2353] py-14" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className="mx-auto max-w-[1200px] px-6">
-        <SectionHeader eyebrow="TESTIMONIALS" title="What Travelers Say" light />
+        <SectionHeader eyebrow="TESTIMONIALS" title="What Travelers Say" className="[&_h2]:text-white [&_p]:text-white/70" />
 
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex gap-4">

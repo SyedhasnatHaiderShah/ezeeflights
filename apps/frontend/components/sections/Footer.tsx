@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const companyLinks = ["About Us", "Careers", "Press", "Blog", "Contact Us"];
 
-const productLinks = [
+const productLinks: Array<{ label: string; href: string }> = [
   { label: "Flights", href: "/flights" },
   { label: "Hotels", href: "/hotels" },
   { label: "Cars", href: "/cars" },
@@ -77,7 +77,7 @@ export function Footer() {
             <ul className="space-y-2">
               {productLinks.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-muted-foreground transition hover:text-foreground">
+                  <Link href={item.href as never} className="text-sm text-muted-foreground transition hover:text-foreground">
                     {item.label}
                   </Link>
                 </li>

@@ -88,7 +88,7 @@ export function MobileBottomNav() {
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={item.href as never}
               className="relative flex min-h-12 min-w-12 flex-col items-center justify-center gap-1 rounded-2xl"
             >
               {content}

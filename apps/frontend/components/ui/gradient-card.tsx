@@ -48,7 +48,7 @@ export function GradientCard({
 
   if (href) {
     return (
-      <Link href={href} className={commonClassName}>
+      <Link href={href as never} className={commonClassName}>
         {content}
       </Link>
     );

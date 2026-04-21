@@ -46,7 +46,7 @@ export function TopDestinations() {
           <AnimatePresence mode="popLayout">
             {filtered.map((dest, idx) => (
               <motion.div key={dest.slug} layout initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className={idx === 0 ? "lg:row-span-2" : ""}>
-                <GradientCard href={`/cities/${dest.slug}`} image={dest.image} title={dest.name} className={idx === 0 ? "h-[560px]" : "h-[260px]"}>
+                <GradientCard href={`/cities/${dest.slug}`} imageSrc={dest.image} imageAlt={dest.name} className={idx === 0 ? "h-[560px]" : "h-[260px]"}>
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xl font-bold text-white">{dest.flag} {dest.name}</p>

@@ -41,7 +41,7 @@ export function SectionHeader({
       {subtitle && <p className="max-w-2xl text-muted-foreground">{subtitle}</p>}
       {ctaLabel && ctaHref && (
         <Link
-          href={ctaHref}
+          href={ctaHref as never}
           className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-red"
         >
           {ctaLabel}

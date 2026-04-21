@@ -7,7 +7,7 @@ interface StatCounterProps {
   value: number;
   suffix?: string;
   prefix?: string;
-  label: string;
+  label?: string;
   duration?: number;
   className?: string;
 }
