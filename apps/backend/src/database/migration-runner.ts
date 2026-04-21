@@ -17,7 +17,7 @@ export class MigrationRunner {
         )`,
       );
 
-      const migrationsPath = path.resolve(__dirname, '../../../../sql/migrations');
+      const migrationsPath = path.resolve(__dirname, '../../../../../sql/migrations');
       const files = (await readdir(migrationsPath))
         .filter((file) => file.endsWith('.sql'))
         .sort((a, b) => a.localeCompare(b));
