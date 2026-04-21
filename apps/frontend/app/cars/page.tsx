@@ -1,23 +1,15 @@
 import { CarCard } from '@/components/cars/CarCard';
 import { CarSearchForm } from '@/components/cars/CarSearchForm';
-import { Header } from '@/components/sections/Header';
 import { Footer } from '@/components/sections/Footer';
-import { SupportFaqAccordion } from '@/components/support/SupportFaqAccordion';
+import { Header } from '@/components/sections/Header';
 import { searchCars } from '@/lib/api/cars';
 
-const carFaqs = [
-  {
-    q: 'Can I return the car to a different location?',
-    a: 'Yes. Select a separate drop-off location in the car search section before you run the search.',
-  },
-  {
-    q: 'What documents do I need at pickup?',
-    a: 'Most providers require a valid driving license, passport or ID, and a payment card in the main driver name.',
-  },
-  {
-    q: 'Are taxes and fees included in the price?',
-    a: 'Base rates are shown in search results. Final totals including location-specific fees appear during booking.',
-  },
+const categories = [
+  { name: 'Economy', icon: '🚗', price: 39 },
+  { name: 'SUV', icon: '🚙', price: 62 },
+  { name: 'Luxury', icon: '🏎️', price: 129 },
+  { name: 'Van', icon: '🚐', price: 74 },
+  { name: 'Convertible', icon: '🏁', price: 99 },
 ];
 
 export default async function CarsPage({ searchParams }: { searchParams: Record<string, string | undefined> }) {
@@ -38,49 +30,47 @@ export default async function CarsPage({ searchParams }: { searchParams: Record<
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Header />
-
       <main className="flex-1 pt-20">
-        <section className="border-b border-border/60 bg-linear-to-b from-emerald-100/20 via-transparent to-transparent">
-          <div className="mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-6 md:py-14">
+        <section className="relative overflow-hidden border-b border-border/60">
+          <div className="absolute inset-0 opacity-25">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2200&q=80" alt="Open road" className="h-full w-full object-cover" />
+          </div>
+          <div className="relative mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-6 md:py-14">
             <div className="mb-6 max-w-2xl space-y-2">
-              <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Rent a car for your next trip</h1>
-              <p className="text-sm text-muted-foreground md:text-base">
-                Pick your locations and dates, compare categories, and find the best car rental option in minutes.
-              </p>
+              <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Rent a Car Anywhere</h1>
+              <p className="text-sm text-muted-foreground md:text-base">Find the right car category at the right rate for any route.</p>
             </div>
-
-            <CarSearchForm />
-
-            <div className="mt-6 grid gap-4 md:grid-cols-[280px_1fr]">
-              <aside className="space-y-3 rounded-xl border border-border/70 bg-card p-4">
-                <h2 className="font-semibold">Filters</h2>
-                <p className="text-sm text-muted-foreground">
-                  Use URL params to apply extra filters: `category`, `transmission`, `max_price`, `unlimited_mileage`.
-                </p>
-              </aside>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {cars.map((car) => (
-                  <CarCard key={car.id} car={car} />
-                ))}
-                {hasSearch && cars.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">No cars found for selected criteria.</p>
-                ) : null}
-              </div>
+            <div className="rounded-2xl border border-border/70 bg-background/95 p-4 backdrop-blur">
+              <CarSearchForm />
             </div>
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-6 md:py-14">
-          <div className="mx-auto max-w-3xl rounded-2xl border border-border/70 bg-card p-5 md:p-8">
-            <h2 className="mb-2 text-xl font-semibold md:text-2xl">Car rental FAQs</h2>
-            <p className="mb-5 text-sm text-muted-foreground md:text-base">
-              Key things to know before choosing your vehicle.
-            </p>
-            <SupportFaqAccordion faqs={carFaqs} />
+        <section className="mx-auto w-full max-w-screen-2xl px-4 py-8 md:px-6 md:py-10">
+          <h2 className="mb-4 text-xl font-semibold">Browse by category</h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {categories.map((category) => (
+              <article key={category.name} className="rounded-xl border border-border/70 bg-card p-4">
+                <p className="text-2xl">{category.icon}</p>
+                <p className="mt-2 font-semibold">{category.name}</p>
+                <p className="text-sm text-muted-foreground">From ${category.price}/day</p>
+              </article>
+            ))}
           </div>
         </section>
+
+        {hasSearch && (
+          <section className="mx-auto w-full max-w-screen-2xl px-4 pb-10 md:px-6 md:pb-14">
+            <h2 className="mb-4 text-xl font-semibold">Available cars</h2>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {cars.map((car) => (
+                <CarCard key={car.id} car={car} />
+              ))}
+              {cars.length === 0 ? <p className="text-sm text-muted-foreground">No cars found for selected criteria.</p> : null}
+            </div>
+          </section>
+        )}
       </main>
-
       <Footer />
     </div>
   );
