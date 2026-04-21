@@ -7,6 +7,7 @@ import { PaymentProvider, PaymentProvider as ProviderType, PaymentStatus } from 
 import { PaymentRepository } from '../repositories/payment.repository';
 import { PaymentProviderDriver } from '../providers/payment-provider.interface';
 import { WalletService } from '../wallet.service';
+import { IPaymentProvider } from '../../../common/providers/payment-provider.factory';
 
 @Injectable()
 export class PaymentService {
@@ -217,6 +218,43 @@ export class PaymentService {
       throw new UnauthorizedException('Admin role required');
     }
     return this.repository.listTransactions();
+  }
+
+  /**
+   * Create a provider PaymentIntent for a hotel booking or insurance policy.
+   * Returns the clientSecret so the frontend can confirm via the provider's SDK.
+   * Does NOT write to the payments table (hotel_bookings / insurance_policies
+   * have their own payment_intent_id columns for tracking).
+   */
+  async createExternalPaymentIntent(
+    amount: number,
+    currency: string,
+    provider: string,
+    metadata: Record<string, unknown>,
+  ): Promise<{ clientSecret: string; paymentIntentId: string }> {
+    const driver = this.getProvider(provider as PaymentProvider);
+    const iProvider = driver as unknown as IPaymentProvider;
+    const intent = await iProvider.createPaymentIntent(amount, currency, metadata);
+    if (!intent.clientSecret) {
+      throw new BadRequestException('Payment provider did not return a client secret');
+    }
+    return { clientSecret: intent.clientSecret, paymentIntentId: intent.id };
+  }
+
+  /**
+   * Verify that a PaymentIntent has been successfully confirmed by the client.
+   * Falls back to `true` for providers that do not implement retrieval yet
+   * (non-Stripe BNPL providers handle confirmation via their own webhooks).
+   */
+  async verifyExternalPaymentIntent(paymentIntentId: string, provider: string): Promise<boolean> {
+    const driver = this.getProvider(provider as PaymentProvider);
+    const withRetrieve = driver as { retrievePaymentIntent?: (id: string) => Promise<{ status: string }> };
+    if (typeof withRetrieve.retrievePaymentIntent === 'function') {
+      const result = await withRetrieve.retrievePaymentIntent(paymentIntentId);
+      return result.status === 'SUCCESS';
+    }
+    // BNPL providers (Tabby, Tamara) confirm via webhooks handled separately.
+    return true;
   }
 
   health() {

@@ -36,4 +36,6 @@ export interface HotelBookingEntity {
   updatedAt: Date;
   rooms?: HotelBookingRoomEntity[];
   guests?: HotelBookingGuestEntity[];
+  /** Stripe / provider PaymentIntent id — set after initiating payment */
+  paymentIntentId?: string;
 }

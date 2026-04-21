@@ -120,6 +120,15 @@ export class StripeProvider extends BaseProvider implements PaymentProviderDrive
     };
   }
 
+  /**
+   * Retrieve a PaymentIntent from Stripe and return its mapped status.
+   * Used to verify client-side confirmations for hotel and insurance payments.
+   */
+  async retrievePaymentIntent(paymentIntentId: string): Promise<{ status: 'PENDING' | 'SUCCESS' | 'FAILED' | 'REFUNDED' }> {
+    const intent = await this.client.paymentIntents.retrieve(paymentIntentId);
+    return { status: this.mapIntentStatus(intent.status) };
+  }
+
   createWebhookEvent(payload: Buffer, signature: string): WebhookEvent {
     const secret = process.env.STRIPE_WEBHOOK_SECRET;
     if (!secret) {

@@ -1,23 +1,31 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { randomBytes } from 'crypto';
 import { UserService } from '../user/services/user.service';
 import { CreateTransferBookingDto, SearchTransferDto } from './transfers.dto';
 import { TransferBooking, TransferVehicle } from './transfers.entity';
 import { TransfersRepository } from './transfers.repository';
 
-const ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-function nanoid(size = 21): string {
-  let id = '';
-  for (let i = 0; i < size; i += 1) {
-    id += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
-  }
-  return id;
+/** Cryptographically-safe confirmation code generator (no Math.random). */
+function generateConfirmationCode(size = 8): string {
+  const ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const bytes = randomBytes(size);
+  return Array.from(bytes)
+    .map((b) => ALPHABET[b % ALPHABET.length])
+    .join('');
 }
 
 @Injectable()
 class HybridFlightTrackingService {
-  async getDelayMinutes(_flightNumber: string): Promise<number> {
-    return Math.floor(Math.random() * 30);
+  /**
+   * Returns the flight delay in minutes, or null when live tracking data is
+   * unavailable.  A real implementation would call AviationStack, FlightAware,
+   * or a similar API here.
+   *
+   * TODO: Integrate a real flight-tracking API (AviationStack / FlightAware).
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async getDelayMinutes(_flightNumber: string): Promise<number | null> {
+    return null;
   }
 }
 
@@ -55,7 +63,7 @@ export class TransfersService {
       throw new BadRequestException('Selected vehicle cannot fit luggage count');
     }
 
-    const confirmationCode = `TRF-${nanoid(8).toUpperCase()}`;
+    const confirmationCode = `TRF-${generateConfirmationCode(8)}`;
     const booking = await this.repository.createBooking(userId, dto, vehicle.price, vehicle.currency, confirmationCode);
 
     if (dto.flightNumber) {
@@ -77,11 +85,23 @@ export class TransfersService {
     return this.repository.cancelBooking(bookingId, userId);
   }
 
-  async trackFlight(flightNumber: string): Promise<{ flightNumber: string; delayedByMinutes: number; updatedBookings: number }> {
+  async trackFlight(flightNumber: string): Promise<{
+    flightNumber: string;
+    delayedByMinutes: number | null;
+    delayStatus: 'unknown' | 'on_time' | 'delayed';
+    updatedBookings: number;
+  }> {
     const delayedByMinutes = await this.flightTrackingService.getDelayMinutes(flightNumber);
+
+    if (delayedByMinutes === null) {
+      // Live tracking not yet integrated — leave existing pickup times unchanged
+      return { flightNumber, delayedByMinutes: null, delayStatus: 'unknown', updatedBookings: 0 };
+    }
+
     const delayedPickup = new Date(Date.now() + delayedByMinutes * 60 * 1000).toISOString();
     const updatedBookings = await this.repository.updatePickupDatetimeByFlightNumber(flightNumber, delayedPickup);
-    return { flightNumber, delayedByMinutes, updatedBookings };
+    const delayStatus = delayedByMinutes > 0 ? 'delayed' : 'on_time';
+    return { flightNumber, delayedByMinutes, delayStatus, updatedBookings };
   }
 
   listRoutes(originIata?: string, destinationCity?: string) {

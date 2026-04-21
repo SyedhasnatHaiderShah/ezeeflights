@@ -59,6 +59,22 @@ export class PurchasePolicyDto extends CalculatePremiumDto {
   paymentProvider?: string;
 }
 
+export class ConfirmInsurancePolicyDto {
+  @ApiProperty({
+    example: 'pi_3Nbk...',
+    description: 'PaymentIntent id returned by the provider after client-side confirmation',
+  })
+  @IsString()
+  paymentIntentId!: string;
+
+  @ApiProperty({
+    example: 'STRIPE',
+    description: 'Payment provider used during policy initiation',
+  })
+  @IsString()
+  provider!: string;
+}
+
 export class SubmitClaimDto {
   @ApiProperty({ format: 'uuid', description: 'Policy UUID to claim against' })
   @IsUUID()

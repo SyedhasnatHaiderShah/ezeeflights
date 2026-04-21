@@ -49,6 +49,76 @@ export class InsuranceRepository {
     );
   }
 
+  /** Shared SELECT columns for all policy queries */
+  private readonly policyColumns = `
+    id, user_id as "userId", plan_id as "planId", policy_number as "policyNumber", status,
+    start_date as "startDate", end_date as "endDate", destination_countries as "destinationCountries",
+    traveler_details as "travelerDetails", adventure_sports_addon as "adventureSportsAddon",
+    total_premium::float as "totalPremium", currency, payment_id as "paymentId",
+    payment_intent_id as "paymentIntentId",
+    policy_document_url as "policyDocumentUrl", provider_policy_ref as "providerPolicyRef",
+    cancelled_at as "cancelledAt", created_at as "createdAt"`;
+
+  /**
+   * Create a policy in 'pending_payment' status with no PDF yet.
+   * The policy will be activated by activatePolicy() after payment is confirmed.
+   */
+  createPendingPolicy(params: {
+    userId: string;
+    planId: string;
+    policyNumber: string;
+    bookingId?: string;
+    startDate: string;
+    endDate: string;
+    destinationCountries: string[];
+    travelerDetails: unknown[];
+    adventureSportsAddon: boolean;
+    totalPremium: number;
+    currency: string;
+    paymentIntentId: string;
+    providerPolicyRef: string;
+  }): Promise<InsurancePolicy | null> {
+    return this.db.queryOne<InsurancePolicy>(
+      `INSERT INTO insurance_policies (
+         user_id, plan_id, booking_id, policy_number, status, start_date, end_date,
+         destination_countries, traveler_details, adventure_sports_addon,
+         total_premium, currency, payment_intent_id, provider_policy_ref
+       )
+       VALUES ($1, $2, $3, $4, 'pending_payment', $5, $6, $7::jsonb, $8::jsonb, $9, $10, $11, $12, $13)
+       RETURNING ${this.policyColumns}`,
+      [
+        params.userId,
+        params.planId,
+        params.bookingId ?? null,
+        params.policyNumber,
+        params.startDate,
+        params.endDate,
+        JSON.stringify(params.destinationCountries),
+        JSON.stringify(params.travelerDetails),
+        params.adventureSportsAddon,
+        params.totalPremium,
+        params.currency,
+        params.paymentIntentId,
+        params.providerPolicyRef,
+      ],
+    );
+  }
+
+  /**
+   * Activate a pending policy: set status='active', store the PDF url.
+   */
+  activatePolicy(id: string, policyDocumentUrl: string): Promise<InsurancePolicy | null> {
+    return this.db.queryOne<InsurancePolicy>(
+      `UPDATE insurance_policies
+       SET status = 'active',
+           policy_document_url = $2
+       WHERE id = $1
+         AND status = 'pending_payment'
+       RETURNING ${this.policyColumns}`,
+      [id, policyDocumentUrl],
+    );
+  }
+
   createPolicy(params: {
     userId: string;
     planId: string;
@@ -99,12 +169,7 @@ export class InsuranceRepository {
 
   getPoliciesByUser(userId: string): Promise<InsurancePolicy[]> {
     return this.db.query<InsurancePolicy>(
-      `SELECT id, user_id as "userId", plan_id as "planId", policy_number as "policyNumber", status,
-          start_date as "startDate", end_date as "endDate", destination_countries as "destinationCountries",
-          traveler_details as "travelerDetails", adventure_sports_addon as "adventureSportsAddon",
-          total_premium::float as "totalPremium", currency, payment_id as "paymentId",
-          policy_document_url as "policyDocumentUrl", provider_policy_ref as "providerPolicyRef",
-          cancelled_at as "cancelledAt", created_at as "createdAt"
+      `SELECT ${this.policyColumns}
        FROM insurance_policies
        WHERE user_id = $1
        ORDER BY created_at DESC`,
@@ -114,12 +179,7 @@ export class InsuranceRepository {
 
   getPolicyById(id: string, userId: string): Promise<InsurancePolicy | null> {
     return this.db.queryOne<InsurancePolicy>(
-      `SELECT id, user_id as "userId", plan_id as "planId", policy_number as "policyNumber", status,
-          start_date as "startDate", end_date as "endDate", destination_countries as "destinationCountries",
-          traveler_details as "travelerDetails", adventure_sports_addon as "adventureSportsAddon",
-          total_premium::float as "totalPremium", currency, payment_id as "paymentId",
-          policy_document_url as "policyDocumentUrl", provider_policy_ref as "providerPolicyRef",
-          cancelled_at as "cancelledAt", created_at as "createdAt"
+      `SELECT ${this.policyColumns}
        FROM insurance_policies
        WHERE id = $1 AND user_id = $2
        LIMIT 1`,
@@ -131,13 +191,8 @@ export class InsuranceRepository {
     return this.db.queryOne<InsurancePolicy>(
       `UPDATE insurance_policies
        SET status = 'cancelled', cancelled_at = NOW()
-       WHERE id = $1 AND user_id = $2
-       RETURNING id, user_id as "userId", plan_id as "planId", policy_number as "policyNumber", status,
-          start_date as "startDate", end_date as "endDate", destination_countries as "destinationCountries",
-          traveler_details as "travelerDetails", adventure_sports_addon as "adventureSportsAddon",
-          total_premium::float as "totalPremium", currency, payment_id as "paymentId",
-          policy_document_url as "policyDocumentUrl", provider_policy_ref as "providerPolicyRef",
-          cancelled_at as "cancelledAt", created_at as "createdAt"`,
+       WHERE id = $1 AND user_id = $2 AND status != 'cancelled'
+       RETURNING ${this.policyColumns}`,
       [id, userId],
     );
   }

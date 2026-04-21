@@ -75,8 +75,5 @@ export class CreateHotelBookingDto {
   @Type(() => CreateHotelBookingGuestDto)
   guests!: CreateHotelBookingGuestDto[];
 
-  @ApiPropertyOptional({ example: 'STRIPE', description: 'Payment provider to use' })
-  @IsOptional()
-  @IsString()
-  paymentProvider?: string;
+  // paymentProvider removed — initiate payment separately via POST /hotel-bookings/:id/pay
 }

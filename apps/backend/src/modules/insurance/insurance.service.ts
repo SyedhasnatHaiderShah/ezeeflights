@@ -2,13 +2,17 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { randomBytes } from 'crypto';
-import { CalculatePremiumDto, PurchasePolicyDto, SubmitClaimDto } from './dto/insurance.dto';
+import { CalculatePremiumDto, ConfirmInsurancePolicyDto, PurchasePolicyDto, SubmitClaimDto } from './dto/insurance.dto';
 import { CoverageLevel, InsuranceClaim, InsurancePlan, InsurancePlanType, InsurancePolicy, PremiumBreakdown } from './insurance.entity';
 import { InsuranceRepository } from './insurance.repository';
+import { PaymentService } from '../payment/services/payment.service';
 
 @Injectable()
 export class InsuranceService {
-  constructor(private readonly repository: InsuranceRepository) {}
+  constructor(
+    private readonly repository: InsuranceRepository,
+    private readonly paymentService: PaymentService,
+  ) {}
 
   getPlans(planType?: InsurancePlanType, coverageLevel?: CoverageLevel): Promise<InsurancePlan[]> {
     return this.repository.getPlans(planType, coverageLevel);
@@ -38,7 +42,9 @@ export class InsuranceService {
         : Number(((plan.priceAnnual ?? 0) * travelerCount).toFixed(2));
 
     const adventureSportsPremium =
-      adventureSports && plan.adventureSportsAddonPrice ? Number((plan.adventureSportsAddonPrice * travelerCount).toFixed(2)) : 0;
+      adventureSports && plan.adventureSportsAddonPrice
+        ? Number((plan.adventureSportsAddonPrice * travelerCount).toFixed(2))
+        : 0;
 
     return {
       planId,
@@ -51,28 +57,35 @@ export class InsuranceService {
     };
   }
 
-  async purchasePolicy(userId: string, dto: PurchasePolicyDto): Promise<InsurancePolicy> {
+  /**
+   * Step 1 of the insurance purchase flow.
+   *
+   * Creates an insurance policy in 'pending_payment' status and initiates a
+   * real PaymentIntent with the chosen provider.  Returns the clientSecret so
+   * the frontend can confirm payment via the provider SDK (e.g. Stripe.js).
+   *
+   * The policy PDF is NOT generated yet — that happens in confirmPolicy().
+   */
+  async purchasePolicy(userId: string, dto: PurchasePolicyDto): Promise<{
+    policyId: string;
+    policyNumber: string;
+    clientSecret: string;
+    paymentIntentId: string;
+    premium: PremiumBreakdown;
+  }> {
     const premium = await this.calculatePremium(dto.planId, dto.startDate, dto.endDate, dto.travelers, dto.adventureSports ?? false);
     const policyNumber = this.generatePolicyNumber();
+    const provider = dto.paymentProvider ?? 'STRIPE';
 
-    const paymentIntent = {
-      id: `ins_pay_${randomBytes(8).toString('hex')}`,
-      provider: dto.paymentProvider ?? 'mock-insurance-provider',
-      status: 'created',
-    };
+    // Create the real PaymentIntent — no randomBytes mock
+    const { clientSecret, paymentIntentId } = await this.paymentService.createExternalPaymentIntent(
+      premium.totalPremium,
+      premium.currency,
+      provider,
+      { bookingType: 'insurance', policyNumber, userId },
+    );
 
-    const policyPdfPath = await this.generatePolicyPdf({
-      policyNumber,
-      planId: dto.planId,
-      startDate: dto.startDate,
-      endDate: dto.endDate,
-      travelerCount: dto.travelers.length,
-      totalPremium: premium.totalPremium,
-      currency: premium.currency,
-      paymentId: paymentIntent.id,
-    });
-
-    const policy = await this.repository.createPolicy({
+    const policy = await this.repository.createPendingPolicy({
       userId,
       planId: dto.planId,
       bookingId: dto.bookingId,
@@ -84,13 +97,56 @@ export class InsuranceService {
       adventureSportsAddon: dto.adventureSports ?? false,
       totalPremium: premium.totalPremium,
       currency: premium.currency,
-      paymentId: paymentIntent.id,
-      policyDocumentUrl: policyPdfPath,
+      paymentIntentId,
       providerPolicyRef: `PROV-${randomBytes(6).toString('hex').toUpperCase()}`,
     });
 
     if (!policy) throw new BadRequestException('Failed to create insurance policy');
-    return policy;
+
+    return { policyId: policy.id, policyNumber, clientSecret, paymentIntentId, premium };
+  }
+
+  /**
+   * Step 2 of the insurance purchase flow.
+   *
+   * Verifies that the PaymentIntent has been successfully confirmed by the
+   * client, then generates the policy PDF and transitions the policy to 'active'.
+   */
+  async confirmPolicy(policyId: string, userId: string, dto: ConfirmInsurancePolicyDto): Promise<InsurancePolicy> {
+    const policy = await this.getPolicyById(policyId, userId);
+
+    if (policy.status === 'active') {
+      throw new BadRequestException('Policy is already active');
+    }
+    if (policy.status !== 'pending_payment') {
+      throw new BadRequestException(`Cannot confirm a policy with status '${policy.status}'`);
+    }
+
+    // Guard: the intent id must match what we stored during initiation
+    if (policy.paymentIntentId && policy.paymentIntentId !== dto.paymentIntentId) {
+      throw new BadRequestException('Payment intent id does not match the one issued for this policy');
+    }
+
+    const succeeded = await this.paymentService.verifyExternalPaymentIntent(dto.paymentIntentId, dto.provider);
+    if (!succeeded) {
+      throw new BadRequestException('Payment has not been completed by the provider');
+    }
+
+    // Generate the policy PDF now that payment is confirmed
+    const policyPdfPath = await this.generatePolicyPdf({
+      policyNumber: policy.policyNumber,
+      planId: policy.planId,
+      startDate: policy.startDate,
+      endDate: policy.endDate,
+      travelerCount: policy.travelerDetails.length,
+      totalPremium: policy.totalPremium,
+      currency: policy.currency,
+      paymentIntentId: dto.paymentIntentId,
+    });
+
+    const activated = await this.repository.activatePolicy(policyId, policyPdfPath);
+    if (!activated) throw new NotFoundException('Policy not found or already activated');
+    return activated;
   }
 
   getMyPolicies(userId: string): Promise<InsurancePolicy[]> {
@@ -152,7 +208,6 @@ export class InsuranceService {
     if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
       throw new BadRequestException('Invalid travel dates');
     }
-
     const days = Math.ceil((end.getTime() - start.getTime()) / 86400000) + 1;
     if (days <= 0) throw new BadRequestException('End date must be on or after start date');
     return days;
@@ -166,7 +221,7 @@ export class InsuranceService {
     travelerCount: number;
     totalPremium: number;
     currency: string;
-    paymentId: string;
+    paymentIntentId: string;
   }): Promise<string> {
     const storagePath = process.env.INSURANCE_DOCS_STORAGE_PATH ?? path.join(process.cwd(), 'tmp', 'insurance-policies');
     await fs.mkdir(storagePath, { recursive: true });
@@ -180,7 +235,7 @@ export class InsuranceService {
       `End Date: ${data.endDate}`,
       `Traveler Count: ${data.travelerCount}`,
       `Premium: ${data.totalPremium.toFixed(2)} ${data.currency}`,
-      `Payment Id: ${data.paymentId}`,
+      `Payment Reference: ${data.paymentIntentId}`,
     ];
 
     const safeText = lines.map((line) => line.replace(/[()\\]/g, '')).join('\n');

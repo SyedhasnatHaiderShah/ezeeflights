@@ -1,6 +1,6 @@
 export type InsurancePlanType = 'single_trip' | 'annual_multi_trip';
 export type CoverageLevel = 'basic' | 'standard' | 'premium';
-export type InsuranceStatus = 'active' | 'expired' | 'cancelled' | 'claimed';
+export type InsuranceStatus = 'pending_payment' | 'active' | 'expired' | 'cancelled' | 'claimed';
 export type ClaimStatus = 'submitted' | 'under_review' | 'approved' | 'rejected' | 'paid';
 
 export interface InsuranceProvider {
@@ -46,6 +46,8 @@ export interface InsurancePolicy {
   totalPremium: number;
   currency: string;
   paymentId: string | null;
+  /** Provider PaymentIntent id stored during initiation, verified on confirmation */
+  paymentIntentId: string | null;
   policyDocumentUrl: string | null;
   providerPolicyRef: string | null;
   cancelledAt: string | null;

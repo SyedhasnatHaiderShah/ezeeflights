@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CalculatePremiumDto, PurchasePolicyDto, SubmitClaimDto } from './dto/insurance.dto';
+import { CalculatePremiumDto, ConfirmInsurancePolicyDto, PurchasePolicyDto, SubmitClaimDto } from './dto/insurance.dto';
 import { CoverageLevel, InsurancePlanType } from './insurance.entity';
 import { InsuranceService } from './insurance.service';
 
@@ -40,14 +40,34 @@ export class InsuranceController {
     return this.service.calculatePremiumFromDto(dto);
   }
 
-  @ApiOperation({ summary: 'Purchase an insurance policy' })
-  @ApiResponse({ status: 201, description: 'Policy purchased' })
-  @ApiResponse({ status: 400, description: 'Validation error' })
+  @ApiOperation({ summary: 'Initiate insurance policy purchase — returns clientSecret for provider confirmation' })
+  @ApiResponse({
+    status: 201,
+    description: 'Returns { policyId, policyNumber, clientSecret, paymentIntentId, premium }. ' +
+      'Use the clientSecret with the provider SDK to confirm payment, then call POST /policies/:id/confirm.',
+  })
+  @ApiResponse({ status: 400, description: 'Validation error or premium calculation failure' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post('policies')
   purchasePolicy(@Req() req: AuthenticatedRequest, @Body() dto: PurchasePolicyDto) {
     return this.service.purchasePolicy(req.user.userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Confirm insurance policy after client-side payment confirmation' })
+  @ApiParam({ name: 'id', description: 'Policy UUID returned from POST /policies' })
+  @ApiResponse({ status: 201, description: 'Policy activated and PDF generated' })
+  @ApiResponse({ status: 400, description: 'Payment not completed, intent mismatch, or policy not pending' })
+  @ApiResponse({ status: 404, description: 'Policy not found' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Post('policies/:id/confirm')
+  confirmPolicy(
+    @Req() req: AuthenticatedRequest,
+    @Param('id') id: string,
+    @Body() dto: ConfirmInsurancePolicyDto,
+  ) {
+    return this.service.confirmPolicy(id, req.user.userId, dto);
   }
 
   @ApiOperation({ summary: 'Get my insurance policies' })

@@ -125,7 +125,8 @@ export class HotelBookingRepository {
           hb.payment_status as "paymentStatus",
           hb.currency,
           hb.created_at as "createdAt",
-          hb.updated_at as "updatedAt"
+          hb.updated_at as "updatedAt",
+          hb.payment_intent_id as "paymentIntentId"
        FROM hotel_bookings hb
        WHERE hb.id = $1 ${filters}
        LIMIT 1`,
@@ -196,6 +197,13 @@ export class HotelBookingRepository {
     );
 
     return this.findById(id, userId);
+  }
+
+  async storePaymentIntentId(id: string, paymentIntentId: string): Promise<void> {
+    await this.db.query(
+      `UPDATE hotel_bookings SET payment_intent_id = $2, updated_at = NOW() WHERE id = $1`,
+      [id, paymentIntentId],
+    );
   }
 
   async markPaymentStatus(id: string, paymentStatus: 'PENDING' | 'PAID' | 'FAILED'): Promise<void> {
