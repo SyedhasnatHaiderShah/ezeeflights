@@ -1,104 +1,31 @@
 "use client";
 
-import * as React from "react";
-import { Mail, ShieldCheck, Zap, HandCoins } from "lucide-react";
-import { Button } from "../ui/button";
-
-const STEPS = [
-  {
-    icon: Zap,
-    title: "Instant Fare Alerts",
-    desc: "Be the first to book price drops on your favorite routes."
-  },
-  {
-    icon: ShieldCheck,
-    title: "Exclusive Promos",
-    desc: "Unlock secret member-only codes for up to 30% extra savings."
-  },
-  {
-    icon: HandCoins,
-    title: "Refund Priority",
-    desc: "Subscribers get priority processing for changes and refunds."
-  }
-];
-
-const renderStep = (step: any, i: number) => (
-  <div key={i} className="bg-card border border-border/60 rounded-2xl p-4 flex flex-col items-center text-center gap-3 h-full w-full shadow-sm">
-    <div className="w-10 h-10 rounded-xl bg-brand-red/10 flex items-center justify-center text-brand-red shrink-0">
-      <step.icon className="w-5 h-5" />
-    </div>
-    <div>
-      <h4 className="font-black text-sm text-foreground mb-1">{step.title}</h4>
-      <p className="text-[11px] font-medium text-muted-foreground leading-snug line-clamp-2">{step.desc}</p>
-    </div>
-  </div>
-);
+import { Checkbox } from "@/components/ui/checkbox";
+import { AppImage } from "@/components/ui/app-image";
 
 export function Newsletter() {
   return (
-    <section className="w-full bg-muted dark:bg-background border-y border-border py-14 transition-colors duration-300 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
-        {/* Header Section */}
-         <div className="mb-10 text-center space-y-1">
-          <h2 className="text-2xl font-black text-foreground lg:text-3xl tracking-tight">
-            Stay Updated
-          </h2>
-          <p className="text-xs text-muted-foreground font-black tracking-[0.2em] uppercase">
-             Join 100k+ Travelers
-          </p>
+    <section className="relative py-20">
+      <div className="absolute inset-0">
+        <AppImage src="https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=1600&auto=format&fit=crop" alt="Travel" fill className="object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 to-black/75" />
+      </div>
+      <div className="relative z-10 mx-auto max-w-3xl px-6 text-center text-white">
+        <p className="text-xs font-bold tracking-[0.2em]">✉ STAY IN THE LOOP</p>
+        <h2 className="mt-2 text-section text-4xl font-bold">Get the Best Deals in Your Inbox</h2>
+        <p className="mt-3 text-white/80">Join 2M+ travelers who never miss a deal</p>
+
+        <form className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-[1fr_auto]" onSubmit={(e) => e.preventDefault()}>
+          <input type="email" placeholder="Enter your email" className="h-12 rounded-xl border border-white/30 bg-white/20 px-4 text-white placeholder:text-white/60 outline-none focus:bg-white/30" />
+          <button className="h-12 rounded-xl bg-brand-yellow px-6 font-bold text-gray-900 hover:bg-brand-yellow/90">Subscribe</button>
+        </form>
+
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-white/70">
+          <label className="flex items-center gap-2"><Checkbox defaultChecked />Flights</label>
+          <label className="flex items-center gap-2"><Checkbox defaultChecked />Hotels</label>
+          <label className="flex items-center gap-2"><Checkbox defaultChecked />Packages</label>
         </div>
-
-        {/* Benefits Container */}
-        <div className="relative mb-12 max-w-5xl mx-auto">
-          {/* Mobile: Native CSS Scroll */}
-          <div className="lg:hidden w-full overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex gap-4 px-4 pb-6 w-max">
-              {STEPS.map((step, i) => (
-                <div key={i} className="w-[80vw] sm:w-[320px] shrink-0 snap-start">
-                  {renderStep(step, i)}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Desktop: Static Grid */}
-          <div className="hidden lg:grid grid-cols-3 gap-6">
-            {STEPS.map(renderStep)}
-          </div>
-        </div>
-
-        {/* Subscription Form */}
-        <div className="max-w-xl mx-auto">
-          <form
-            className="flex flex-col sm:flex-row w-full shadow-2xl rounded-2xl sm:rounded-full overflow-hidden border border-border bg-background"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            {/* Input Area */}
-            <div className="flex-grow relative h-12 md:h-14">
-              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                <Mail className="h-4 w-4 text-muted-foreground" />
-              </div>
-              <input
-                type="email"
-                placeholder="Enter Your Email Address"
-                required
-                className="w-full h-full pl-12 pr-4 bg-transparent text-foreground placeholder:text-muted-foreground font-semibold text-xs outline-none focus:bg-muted/10 transition-colors"
-                draggable={false}
-              />
-            </div>
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="h-12 md:h-14 px-10 rounded-none bg-brand-red hover:bg-brand-red/90 text-white text-xs font-semibold transition-all duration-300 flex items-center justify-center shrink-0 active:scale-95 cursor-pointer"
-            >
-              Get Secret Deals
-            </Button>
-          </form>
-          <p className="text-xs text-center text-muted-foreground mt-4 font-medium">
-            By subscribing, you agree to our Terms of Service and Privacy Policy.
-          </p>
-        </div>
+        <p className="mt-3 text-xs text-white/50">Unsubscribe anytime · No spam · Privacy protected</p>
       </div>
     </section>
   );

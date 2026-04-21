@@ -1,142 +1,66 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { AppImage } from "@/components/ui/app-image";
+import { AnimatePresence, motion } from "framer-motion";
+import { GradientCard } from "@/components/ui/gradient-card";
+import { SectionHeader } from "@/components/ui/section-header";
+import { Badge } from "@/components/ui/badge";
 
-interface Destination {
-  id: number;
-  name: string;
-  image: string;
-}
+const FILTERS = ["ALL", "ASIA", "EUROPE", "AMERICAS", "MIDDLE EAST", "AFRICA"] as const;
 
-const DESTINATIONS: Destination[] = [
-  {
-    id: 1,
-    name: "Los Angeles",
-    image:
-      "https://images.unsplash.com/photo-1534430480872-3498386e7a56?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 2,
-    name: "Atlanta",
-    image:
-      "https://images.unsplash.com/photo-1575917649705-5b59aaa12e6b?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 3,
-    name: "New York",
-    image:
-      "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 4,
-    name: "Fort Lauderdale",
-    image:
-      "https://images.unsplash.com/photo-1596250410216-1ac77dc208e3?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 5,
-    name: "Washington D.C.",
-    image:
-      "https://images.unsplash.com/photo-1617581629397-a72507c3de9e?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 6,
-    name: "London",
-    image:
-      "https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 7,
-    name: "Spain",
-    image:
-      "https://images.unsplash.com/photo-1543783207-ec64e4d95325?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: 8,
-    name: "France",
-    image:
-      "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800&auto=format&fit=crop",
-  },
+const DESTINATIONS = [
+  { name: "Dubai", region: "MIDDLE EAST", price: 499, flag: "🇦🇪", slug: "dubai", image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=1200&auto=format&fit=crop" },
+  { name: "Maldives", region: "ASIA", price: 699, flag: "🇲🇻", slug: "maldives", image: "https://images.unsplash.com/photo-1578922746465-3a80a228f223?q=80&w=1200&auto=format&fit=crop" },
+  { name: "Paris", region: "EUROPE", price: 459, flag: "🇫🇷", slug: "paris", image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=1200&auto=format&fit=crop" },
+  { name: "London", region: "EUROPE", price: 430, flag: "🇬🇧", slug: "london", image: "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=1200&auto=format&fit=crop" },
+  { name: "Tokyo", region: "ASIA", price: 580, flag: "🇯🇵", slug: "tokyo", image: "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?q=80&w=1200&auto=format&fit=crop" },
+  { name: "New York", region: "AMERICAS", price: 310, flag: "🇺🇸", slug: "new-york", image: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?q=80&w=1200&auto=format&fit=crop" },
+  { name: "Bali", region: "ASIA", price: 520, flag: "🇮🇩", slug: "bali", image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1200&auto=format&fit=crop" },
+  { name: "Istanbul", region: "EUROPE", price: 470, flag: "🇹🇷", slug: "istanbul", image: "https://images.unsplash.com/photo-1527838832700-5059252407fa?q=80&w=1200&auto=format&fit=crop" },
+  { name: "Singapore", region: "ASIA", price: 540, flag: "🇸🇬", slug: "singapore", image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=1200&auto=format&fit=crop" },
+  { name: "Rome", region: "EUROPE", price: 480, flag: "🇮🇹", slug: "rome", image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=1200&auto=format&fit=crop" },
 ];
 
-const DestinationCard = React.memo(function DestinationCard({
-  dest,
-}: {
-  dest: Destination;
-}) {
-  return (
-    <Link
-      href={
-        `/destinations/${dest.name.toLowerCase().replace(/\s+/g, "-")}` as any
-      }
-      className="group flex items-center gap-4 p-3 rounded-2xl bg-card border border-border/50 hover:border-brand-red/20 hover:bg-brand-red/[0.02] hover:shadow-xl transition-all duration-500 w-full"
-    >
-      <div className="relative w-16 h-16 lg:w-20 lg:h-20 shrink-0 overflow-hidden rounded-xl shadow-inner">
-        <AppImage
-          src={dest.image}
-          alt={dest.name}
-          fill
-          isCompact={true}
-          sizes="(max-width: 768px) 64px, 80px"
-          className="object-cover transition-transform duration-700 group-hover:scale-115"
-        />
-      </div>
-      <div className="flex flex-col min-w-0 flex-1">
-        <h3 className="text-[15px] lg:text-lg font-bold text-foreground truncate group-hover:text-brand-red transition-colors duration-300">
-          {dest.name}
-        </h3>
-        <p className="text-[11px] font-bold text-muted-foreground/70 uppercase tracking-widest mt-0.5">
-          Explore Deals
-        </p>
-        <div className="w-0 h-[2px] bg-brand-red mt-2 transition-all duration-500 group-hover:w-8 rounded-full" />
-      </div>
-    </Link>
-  );
-});
-
 export function TopDestinations() {
+  const [active, setActive] = React.useState<(typeof FILTERS)[number]>("ALL");
+  const filtered = active === "ALL" ? DESTINATIONS : DESTINATIONS.filter((d) => d.region === active);
+
   return (
-    <section className="py-12 lg:py-20 bg-background relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex items-end flex-wrap justify-between mb-8 lg:mb-12 text-foreground">
-          <div className="space-y-1">
-            <h2 className="text-2xl lg:text-4xl font-black tracking-tighter">
-              Top Destinations
-            </h2>
-            <p className="text-sm text-muted-foreground font-medium">
-              Discover the most popular places to fly this season
-            </p>
-          </div>
-          <Link
-            href="/destinations"
-            className="text-xs font-black text-brand-red hover:text-brand-red/80 uppercase tracking-[0.2em] transition-colors border-b-2 border-brand-red/20 pb-0.5"
-          >
-            Explore All
-          </Link>
-        </div>
+    <section className="py-14">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <SectionHeader eyebrow="EXPLORE THE WORLD" title="Top Destinations" ctaLabel="View all" ctaHref="/destinations" />
 
-        {/* Native Scroll for Mobile — zero touch interference */}
-        <div className="md:hidden">
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-6 px-6 pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-            {DESTINATIONS.map((dest) => (
-              <div
-                key={dest.id}
-                className="w-[85vw] max-w-[320px] shrink-0 snap-start"
-              >
-                <DestinationCard dest={dest} />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Static Grid — md+ screens */}
-        <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-6">
-          {DESTINATIONS.map((dest) => (
-            <DestinationCard key={dest.id} dest={dest} />
+        <div className="mb-6 flex flex-wrap gap-2">
+          {FILTERS.map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setActive(filter)}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold ${active === filter ? "bg-brand-red text-white" : "bg-muted text-muted-foreground"}`}
+            >
+              {filter}
+            </button>
           ))}
         </div>
+
+        <motion.div layout className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((dest, idx) => (
+              <motion.div key={dest.slug} layout initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className={idx === 0 ? "lg:row-span-2" : ""}>
+                <GradientCard href={`/cities/${dest.slug}`} image={dest.image} title={dest.name} className={idx === 0 ? "h-[560px]" : "h-[260px]"}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xl font-bold text-white">{dest.flag} {dest.name}</p>
+                      <Badge variant="gold" className="mt-2">From ${dest.price}</Badge>
+                    </div>
+                  </div>
+                  <div className="mt-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+                    <span className="inline-flex rounded-full bg-white/20 px-3 py-1 text-sm text-white backdrop-blur">Explore →</span>
+                  </div>
+                </GradientCard>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );

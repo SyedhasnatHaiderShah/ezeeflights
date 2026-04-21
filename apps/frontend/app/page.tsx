@@ -2,99 +2,42 @@
 
 import * as React from "react";
 import dynamic from "next/dynamic";
-
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { RecentSearches } from "@/components/sections/RecentSearches";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
-import { motion } from "framer-motion";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  },
-};
-
-const TopDestinations = dynamic(
-  () =>
-    import("@/components/sections/TopDestinations").then(
-      (mod) => mod.TopDestinations,
-    ),
-  { loading: () => <SectionSkeleton height={600} /> },
-);
-const SpecialOffers = dynamic(
-  () =>
-    import("@/components/sections/SpecialOffers").then(
-      (mod) => mod.SpecialOffers,
-    ),
-  { loading: () => <SectionSkeleton height={600} /> },
-);
-const PrecisionFeatures = dynamic(
-  () =>
-    import("@/components/sections/PrecisionFeatures").then(
-      (mod) => mod.PrecisionFeatures,
-    ),
-  { loading: () => <SectionSkeleton height={500} /> },
-);
-const Newsletter = dynamic(
-  () =>
-    import("@/components/sections/Newsletter").then((mod) => mod.Newsletter),
-  { loading: () => <SectionSkeleton height={400} /> },
-);
-const Footer = dynamic(
-  () => import("@/components/sections/Footer").then((mod) => mod.Footer),
-  { loading: () => <SectionSkeleton height={300} /> },
-);
+const TopDestinations = dynamic(() => import("@/components/sections/TopDestinations").then((m) => m.TopDestinations), { loading: () => <SectionSkeleton height={620} /> });
+const DealsSection = dynamic(() => import("@/components/sections/DealsSection").then((m) => m.DealsSection), { loading: () => <SectionSkeleton height={520} /> });
+const PopularPackages = dynamic(() => import("@/components/sections/PopularPackages").then((m) => m.PopularPackages), { loading: () => <SectionSkeleton height={560} /> });
+const ExploreByTheme = dynamic(() => import("@/components/sections/ExploreByTheme").then((m) => m.ExploreByTheme), { loading: () => <SectionSkeleton height={450} /> });
+const WhyChooseUs = dynamic(() => import("@/components/sections/WhyChooseUs").then((m) => m.WhyChooseUs), { loading: () => <SectionSkeleton height={420} /> });
+const AirlinePartners = dynamic(() => import("@/components/sections/AirlinePartners").then((m) => m.AirlinePartners), { loading: () => <SectionSkeleton height={360} /> });
+const Reviews = dynamic(() => import("@/components/sections/Reviews").then((m) => m.Reviews), { loading: () => <SectionSkeleton height={500} /> });
+const Newsletter = dynamic(() => import("@/components/sections/Newsletter").then((m) => m.Newsletter), { loading: () => <SectionSkeleton height={420} /> });
+const TrustStrip = dynamic(() => import("@/components/sections/TrustStrip").then((m) => m.TrustStrip), { loading: () => <SectionSkeleton height={120} /> });
+const Footer = dynamic(() => import("@/components/sections/Footer").then((m) => m.Footer), { loading: () => <SectionSkeleton height={300} /> });
 
 function prefetchChunks() {
   const imports = [
     () => import("@/components/sections/TopDestinations"),
-    () => import("@/components/sections/SpecialOffers"),
-    () => import("@/components/sections/PrecisionFeatures"),
+    () => import("@/components/sections/DealsSection"),
+    () => import("@/components/sections/PopularPackages"),
+    () => import("@/components/sections/ExploreByTheme"),
+    () => import("@/components/sections/AirlinePartners"),
     () => import("@/components/sections/Newsletter"),
     () => import("@/components/sections/Footer"),
   ];
 
-  const schedule =
-    typeof window !== "undefined" && "requestIdleCallback" in window
-      ? (fn: () => void) =>
-          (window as any).requestIdleCallback(fn, { timeout: 3000 })
-      : (fn: () => void) => setTimeout(fn, 1000);
+  const schedule = typeof window !== "undefined" && "requestIdleCallback" in window
+    ? (fn: () => void) => (window as any).requestIdleCallback(fn, { timeout: 3000 })
+    : (fn: () => void) => setTimeout(fn, 1000);
 
-  schedule(() => {
-    imports.forEach((fn) => {
-      try {
-        fn();
-      } catch {}
-    });
-  });
+  schedule(() => imports.forEach((fn) => fn().catch(() => null)));
 }
 
 function SectionSkeleton({ height }: { height: number }) {
-  return (
-    <div
-      aria-hidden="true"
-      style={{ minHeight: height }}
-      className="w-full animate-pulse bg-muted/30 rounded-lg"
-    />
-  );
+  return <div aria-hidden style={{ minHeight: height }} className="w-full animate-pulse rounded-lg bg-muted/30" />;
 }
 
 export default function LandingPage() {
@@ -103,49 +46,24 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Header />
-
-      <main className="flex-grow bg-background">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.div variants={itemVariants}>
-            <Hero />
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="max-w-[1400px] mx-auto px-6 md:px-12 w-full pb-16"
-          >
-            <RecentSearches />
-          </motion.div>
-        </motion.div>
-
-        <div className="space-y-0">
-          <ScrollReveal minHeight="600px" rootMargin="600px">
-            <TopDestinations />
-          </ScrollReveal>
-
-          <ScrollReveal minHeight="600px" rootMargin="600px">
-            <SpecialOffers />
-          </ScrollReveal>
-
-          <ScrollReveal minHeight="500px" rootMargin="600px">
-            <PrecisionFeatures />
-          </ScrollReveal>
-
-          <ScrollReveal minHeight="400px" rootMargin="600px">
-            <Newsletter />
-          </ScrollReveal>
+      <main className="flex-grow">
+        <Hero />
+        <TrustStrip />
+        <div className="mx-auto w-full max-w-[1400px] px-6 md:px-12">
+          <RecentSearches />
         </div>
+        <ScrollReveal><TopDestinations /></ScrollReveal>
+        <ScrollReveal><DealsSection /></ScrollReveal>
+        <ScrollReveal><PopularPackages /></ScrollReveal>
+        <ScrollReveal><ExploreByTheme /></ScrollReveal>
+        <ScrollReveal><WhyChooseUs /></ScrollReveal>
+        <ScrollReveal><AirlinePartners /></ScrollReveal>
+        <ScrollReveal><Reviews /></ScrollReveal>
+        <ScrollReveal><Newsletter /></ScrollReveal>
       </main>
-
-      <ScrollReveal minHeight="300px" rootMargin="400px">
-        <Footer />
-      </ScrollReveal>
+      <ScrollReveal><Footer /></ScrollReveal>
     </div>
   );
 }
