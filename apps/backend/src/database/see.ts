@@ -1,5 +1,7 @@
 import { Pool } from 'pg';
-import type { PoolClient as PgPoolClient } from 'pg';
+
+// Derive the PoolClient type from Pool.connect() to avoid TS2709 (namespace vs type conflict in @types/pg)
+type PgPoolClient = Awaited<ReturnType<Pool['connect']>>;
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 

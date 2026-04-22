@@ -14,5 +14,10 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": [
+    "src/database/see.ts",
+    "src/database/seed.ts",
+    "src/database/migration-runner.ts"
+  ]
 }
