@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Noto_Sans } from "next/font/google";
+import { headers } from "next/headers";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import { MobileBottomNav } from "@/components/sections/MobileBottomNav";
@@ -8,6 +9,8 @@ import { AppSidebar } from "@/components/sections/AppSidebar";
 import { Providers } from "@/components/shared/providers";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthModal } from "@/components/auth/auth-modal";
+import { CorrelationProvider } from "@/lib/correlation/correlation-context";
+import { CORRELATION_HEADER } from "@/lib/correlation/correlation-id";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -91,11 +94,17 @@ export const viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
+// Async layout so we can read the middleware-injected x-correlation-id header.
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // The middleware injects the session correlation ID into request headers.
+  // Passing it here avoids a client-side cookie read on first paint.
+  const headersList = await headers();
+  const sessionId = headersList.get(CORRELATION_HEADER) ?? "";
+
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body
@@ -112,18 +121,20 @@ export default function RootLayout({
           enableSystem={false}
           // disableTransitionOnChange={false}
         >
-          {/* Include the Providers for React Query, etc */}
-          <Providers>
-            {/* Include the Sidebar globally */}
-            <AppSidebar />
+          <CorrelationProvider sessionId={sessionId}>
+            {/* Include the Providers for React Query, etc */}
+            <Providers>
+              {/* Include the Sidebar globally */}
+              <AppSidebar />
 
-            <div className="relative flex flex-col min-h-screen">
-              {children}
-              <MobileBottomNav />
-            </div>
-            <AuthModal />
-            <Toaster />
-          </Providers>
+              <div className="relative flex flex-col min-h-screen">
+                {children}
+                <MobileBottomNav />
+              </div>
+              <AuthModal />
+              <Toaster />
+            </Providers>
+          </CorrelationProvider>
         </ThemeProvider>
       </body>
     </html>

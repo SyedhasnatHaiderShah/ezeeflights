@@ -2,19 +2,17 @@
 
 import { FormEvent, useState } from 'react';
 import { apiFetch } from '@/lib/api/client';
-import { useAuthStore } from '@/lib/store/auth-store';
 
 export function TemplateEditor() {
-  const token = useAuthStore((state) => state.accessToken);
   const [message, setMessage] = useState('');
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
 
+    // Auth is handled via HttpOnly cookie — no client-side token needed.
     await apiFetch('/notifications/templates', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify({
         name: form.get('name'),
         type: form.get('type'),

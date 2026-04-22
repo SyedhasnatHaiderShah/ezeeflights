@@ -20,7 +20,7 @@ export default function ExecutiveDashboardPage() {
           ))}
           <div className="rounded border p-3 bg-white md:col-span-3">
             <h2 className="font-semibold mb-2">SLA Alerts</h2>
-            <p className="text-sm">Breaches: {q.data?.operations?.slaBreaches ?? 0}</p>
+            <p className="text-sm">Breaches: {(q.data?.operations as Record<string, unknown>)?.['slaBreaches'] as number ?? 0}</p>
           </div>
         </div>
       )}

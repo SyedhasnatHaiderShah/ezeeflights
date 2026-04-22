@@ -1,13 +1,16 @@
+// Sentry MUST be imported before anything else — required for v10+ auto-instrumentation
+import './instrument';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { Logger } from 'nestjs-pino';
 import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
-import { appLogger } from './common/logging/winston';
 import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useLogger(app.get(Logger));
 
   app.use(
     helmet({
@@ -41,6 +44,10 @@ async function bootstrap(): Promise<void> {
     .setDescription('AI-powered OTA platform APIs')
     .setVersion('1.0.0')
     .addBearerAuth()
+    .addApiKey(
+      { type: 'apiKey', in: 'header', name: 'x-correlation-id', description: 'Optional correlation ID for request tracing' },
+      'correlation-id',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
@@ -48,7 +55,7 @@ async function bootstrap(): Promise<void> {
 
   const port = process.env.PORT ?? 4000;
   await app.listen(port);
-  appLogger.info(`Listening on port ${port}`);
+  app.get(Logger).log(`Listening on port ${port}`, 'Bootstrap');
 }
 
 bootstrap();

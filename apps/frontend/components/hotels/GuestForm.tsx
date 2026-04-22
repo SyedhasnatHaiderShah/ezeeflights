@@ -8,7 +8,9 @@ interface Props {
 }
 
 export function GuestForm({ roomIds, onSubmit }: Props) {
-  const [guests, setGuests] = useState([{ fullName: '', age: 30, type: 'ADULT' as const, roomId: roomIds[0] ?? '' }]);
+  const [guests, setGuests] = useState<Array<{ fullName: string; age: number; type: 'ADULT' | 'CHILD'; roomId: string }>>([
+    { fullName: '', age: 30, type: 'ADULT', roomId: roomIds[0] ?? '' },
+  ]);
 
   return (
     <form

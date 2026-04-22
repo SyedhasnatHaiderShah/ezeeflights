@@ -2,7 +2,6 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api/client';
-import { useAuthStore } from '@/lib/store/auth-store';
 import { NotificationTable } from '@/components/notifications/NotificationTable';
 
 interface NotificationLog {
@@ -14,20 +13,11 @@ interface NotificationLog {
 }
 
 export default function NotificationsAdminPage() {
-  const token = useAuthStore((state) => state.accessToken);
-
+  // Auth is handled server-side via HttpOnly cookie — no client-side token needed.
   const logsQuery = useQuery({
-    queryKey: ['notification-logs', token],
-    queryFn: () =>
-      apiFetch<NotificationLog[]>('/notifications/logs', {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-    enabled: Boolean(token),
+    queryKey: ['notification-logs'],
+    queryFn: () => apiFetch<NotificationLog[]>('/notifications/logs'),
   });
-
-  if (!token) {
-    return <p className="rounded border bg-amber-50 p-3">Admin token required.</p>;
-  }
 
   return (
     <section className="space-y-3">

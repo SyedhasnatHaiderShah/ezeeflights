@@ -9,7 +9,8 @@
       "Bash(node -e \"const path = require\\('path'\\); console.log\\(path.resolve\\('H:/Personal/ezeeflights/apps/backend/src/database', '../../../../sql/migrations'\\)\\)\")",
       "Bash(node -e \"const path = require\\('path'\\); console.log\\(path.resolve\\('H:/Personal/ezeeflights/apps/backend/dist/src/database', '../../../../sql/migrations'\\)\\)\")",
       "Bash(psql -h localhost -U postgres -d ezeeflights -c ' *)",
-      "PowerShell($env:PGPASSWORD = 'Hasnat543@!'; & 'C:\\\\Program Files\\\\PostgreSQL\\\\17\\\\bin\\\\psql.exe' -h localhost -U postgres -d ezeeflights -c \"SELECT version FROM schema_migrations LIMIT 5;\" 2>&1)"
+      "PowerShell($env:PGPASSWORD = 'Hasnat543@!'; & 'C:\\\\Program Files\\\\PostgreSQL\\\\17\\\\bin\\\\psql.exe' -h localhost -U postgres -d ezeeflights -c \"SELECT version FROM schema_migrations LIMIT 5;\" 2>&1)",
+      "Bash(npm install *)"
     ]
   }
 }

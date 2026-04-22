@@ -2,7 +2,6 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api/client';
-import { useAuthStore } from '@/lib/store/auth-store';
 import { TemplateEditor } from '@/components/notifications/TemplateEditor';
 
 interface Template {
@@ -14,15 +13,10 @@ interface Template {
 }
 
 export default function NotificationTemplatesPage() {
-  const token = useAuthStore((state) => state.accessToken);
-
+  // Auth is handled server-side via HttpOnly cookie — no client-side token needed.
   const templateQuery = useQuery({
-    queryKey: ['notification-templates', token],
-    queryFn: () =>
-      apiFetch<Template[]>('/notifications/templates', {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-    enabled: Boolean(token),
+    queryKey: ['notification-templates'],
+    queryFn: () => apiFetch<Template[]>('/notifications/templates'),
   });
 
   return (

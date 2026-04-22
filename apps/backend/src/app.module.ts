@@ -1,6 +1,12 @@
-import { Module, OnApplicationBootstrap } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, OnApplicationBootstrap } from '@nestjs/common';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { AppLoggerModule } from './common/logger/logger.module';
+import { AppSentryModule } from './common/sentry/sentry.module';
+import { CorrelationIdMiddleware } from './common/middleware/correlation-id.middleware';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { AuthModule } from './modules/auth/auth.module';
 import { FlightModule } from './modules/flight/flight.module';
 import { UserModule } from './modules/user/user.module';
@@ -34,6 +40,8 @@ import { PostgresClient } from './database/postgres.client';
 
 @Module({
   imports: [
+    AppLoggerModule,
+    AppSentryModule,
     ConfigModule.forRoot({ isGlobal: true }),
     EventsModule,
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 120 }]),
@@ -64,13 +72,22 @@ import { PostgresClient } from './database/postgres.client';
     CarsModule,
     SeederModule,
   ],
-  providers: [MigrationRunner, PostgresClient],
+  providers: [
+    MigrationRunner,
+    PostgresClient,
+    { provide: APP_FILTER, useClass: AllExceptionsFilter },
+    { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
+  ],
 })
-export class AppModule implements OnApplicationBootstrap {
+export class AppModule implements OnApplicationBootstrap, NestModule {
   constructor(
     private readonly migrationRunner: MigrationRunner,
     private readonly seederService: SeederService,
   ) {}
+
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(CorrelationIdMiddleware).forRoutes('*');
+  }
 
   async onApplicationBootstrap(): Promise<void> {
     await this.migrationRunner.run();

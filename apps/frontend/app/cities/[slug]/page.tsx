@@ -4,9 +4,15 @@ import { CategoryFilter } from '@/components/destinations/CategoryFilter';
 import { DestinationHero } from '@/components/destinations/DestinationHero';
 import { getAiRecommendations, getCity } from '@/lib/api/destinations-api';
 
+interface CityPageData {
+  city: { name: string; description: string; heroImage: string };
+  topAttractions: Array<{ id: string }>;
+}
+
 export default async function CityLandingPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [cityData, aiData] = await Promise.all([getCity(slug), getAiRecommendations(slug)]);
+  const [rawCity, aiData] = await Promise.all([getCity(slug), getAiRecommendations(slug)]);
+  const cityData = rawCity as CityPageData;
 
   return (
     <section className="space-y-6">
@@ -14,7 +20,7 @@ export default async function CityLandingPage({ params }: { params: Promise<{ sl
       <CategoryFilter />
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {cityData.topAttractions.map((attraction: any) => <AttractionCard key={attraction.id} attraction={attraction} />)}
+          {cityData.topAttractions.map((attraction) => <AttractionCard key={attraction.id} attraction={attraction} />)}
         </div>
         <AIRecommendationsPanel items={aiData.slice(0, 5)} />
       </div>
