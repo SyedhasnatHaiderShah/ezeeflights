@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Drawer } from "vaul";
 import { motion } from "framer-motion";
@@ -93,8 +93,11 @@ const FavoriteContent = () => (
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const queryClient = useQueryClient();
   const { theme, setTheme } = useTheme();
+  
+  const currentTab = searchParams.get("tab") || "flights";
   const toggleSidebar = useSidebarStore((state) => state.toggle);
   const openAuthModal = useAuthModalStore((state) => state.open);
   const { data: session, isLoading } = useAuthSession();
@@ -172,7 +175,9 @@ export function Header() {
           <nav className="hidden items-center gap-1 md:flex">
             {navTabs.map((tab) => {
               const isActive =
-                pathname === tab.href || pathname?.startsWith(`${tab.href}/`);
+                pathname === tab.href || 
+                pathname?.startsWith(`${tab.href}/`) ||
+                (pathname === "/" && currentTab === tab.label.toLowerCase());
               const Icon = tab.icon;
               return (
                 <Link
@@ -199,25 +204,52 @@ export function Header() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="relative flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground">
+                <button 
+                  className={cn(
+                    "relative flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors",
+                    moreLinks.some(link => 
+                      pathname === link.href || 
+                      (pathname === "/" && currentTab === link.label.toLowerCase())
+                    )
+                      ? "text-brand-red"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
                   <Briefcase className="h-4 w-4" />
                   More
                   <ChevronDown className="h-4 w-4" />
+                  <span
+                    className={cn(
+                      "absolute bottom-0 left-0 h-0.5 w-full origin-left bg-brand-red transition-transform duration-300",
+                      moreLinks.some(link => 
+                        pathname === link.href || 
+                        (pathname === "/" && currentTab === link.label.toLowerCase())
+                      ) ? "scale-x-100" : "scale-x-0",
+                    )}
+                  />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="center" className="w-[560px] p-4">
                 <div className="grid grid-cols-[1.2fr_1fr] gap-4">
                   <div className="grid grid-cols-2 gap-2">
-                    {moreLinks.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className="flex items-center gap-2 rounded-lg border border-border/70 p-3 text-sm font-medium text-foreground transition hover:bg-muted"
-                      >
-                        <item.icon className="h-4 w-4 text-brand-red" />
-                        {item.label}
-                      </Link>
-                    ))}
+                      {moreLinks.map((item) => {
+                        const isSubActive = 
+                          pathname === item.href || 
+                          (pathname === "/" && currentTab === item.label.toLowerCase());
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={cn(
+                              "flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition hover:bg-muted",
+                              isSubActive ? "border-brand-red/30 bg-brand-red/5 text-brand-red" : "border-border/70 text-foreground"
+                            )}
+                          >
+                            <item.icon className={cn("h-4 w-4", isSubActive ? "text-brand-red" : "text-brand-red")} />
+                            {item.label}
+                          </Link>
+                        );
+                      })}
                   </div>
                   <Link
                     href="/deals"

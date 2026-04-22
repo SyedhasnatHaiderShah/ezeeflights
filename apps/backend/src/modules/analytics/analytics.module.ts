@@ -8,9 +8,11 @@ import { AnalyticsRoutes } from './analytics.routes';
 import { AnalyticsService } from './analytics.service';
 import { EventTrackerService } from './eventTracker.service';
 
+import { PublicStatsController } from './public-stats.controller';
+
 @Module({
   imports: [EventsModule],
-  controllers: [AnalyticsRoutes],
+  controllers: [AnalyticsRoutes, PublicStatsController],
   providers: [
     PostgresClient,
     RolesGuard,

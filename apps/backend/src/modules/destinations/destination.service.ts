@@ -10,6 +10,21 @@ export class DestinationService {
     return this.repository.listCountries();
   }
 
+  getFeaturedDestinations(limit = 10) {
+    return this.repository.listFeaturedCities(limit);
+  }
+
+  getThemes() {
+    return [
+      { slug: 'beach', label: 'Beach', emoji: '🏖️', count: 12 },
+      { slug: 'mountain', label: 'Mountain', emoji: '⛰️', count: 8 },
+      { slug: 'city', label: 'City Break', emoji: '🏙️', count: 24 },
+      { slug: 'culture', label: 'Culture', emoji: '🏛️', count: 15 },
+      { slug: 'adventure', label: 'Adventure', emoji: '🌋', count: 10 },
+      { slug: 'luxury', label: 'Luxury', emoji: '💎', count: 6 },
+    ];
+  }
+
   async getCountryDestinations(country: string) {
     const row = await this.repository.findCountryByCode(country);
     if (!row) throw new NotFoundException('Country not found');

@@ -1,7 +1,7 @@
-import { BookingForm } from '@/components/booking-form';
 import { HotelCard } from '@/components/hotels/HotelCard';
 import { Footer } from '@/components/sections/Footer';
 import { Header } from '@/components/sections/Header';
+import { Hero } from '@/components/sections/Hero';
 
 const topHotels = [
   { id: 'ht-1', name: 'Royal Palm Resort', city: 'Dubai', country: 'UAE', rating: 4.8, minPricePerNight: 189, currency: 'USD' },
@@ -9,35 +9,24 @@ const topHotels = [
   { id: 'ht-3', name: 'Mayfair Skyline', city: 'London', country: 'UK', rating: 4.7, minPricePerNight: 215, currency: 'USD' },
 ];
 
-const heroImages = [
-  'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=80',
-  'https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=2000&q=80',
-  'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=2000&q=80',
-];
-
 export default function HotelsLandingPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Header />
-      <main className="flex-1 pt-20">
-        <section className="relative overflow-hidden border-b border-border/60">
-          <div className="absolute inset-0 grid grid-cols-3 opacity-25">
-            {heroImages.map((src) => (
-              <div key={src} className="relative h-full w-full">
-                <img src={src} alt="Luxury hotel" className="h-full w-full object-cover" />
-              </div>
-            ))}
-          </div>
-          <div className="relative mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-6 md:py-14">
-            <div className="mb-6 max-w-2xl space-y-2">
-              <h1 className="text-3xl font-bold tracking-tight md:text-5xl">Find Your Perfect Stay</h1>
-              <p className="text-sm text-muted-foreground md:text-base">Search top stays, compare offers, and book your next hotel in minutes.</p>
-            </div>
-            <div className="rounded-2xl border border-border/70 bg-background/95 p-4 backdrop-blur">
-              <BookingForm defaultTab="hotels" />
-            </div>
-          </div>
-        </section>
+      <main className="flex-1">
+        <Hero
+          defaultTab="hotels"
+          badgeText="🏨 #1 Hotel Booking Platform"
+          title={
+            <>
+              Find Your Perfect{' '}
+              <span className="bg-linear-to-r from-brand-red to-brand-yellow bg-clip-text text-transparent">
+                Stay
+              </span>
+            </>
+          }
+          description="Compare hotels, discover great rates, and book your next stay in minutes."
+        />
 
         <section className="mx-auto w-full max-w-screen-2xl space-y-8 px-4 py-8 md:px-6 md:py-12">
           <div>

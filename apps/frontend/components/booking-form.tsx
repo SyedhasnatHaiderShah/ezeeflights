@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
-import { useRouter } from "next/navigation";
+import { format, isBefore, startOfDay } from "date-fns";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowRightLeft } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,6 +10,7 @@ import { LocationInput } from "@/components/ui/location-input";
 import { DatePicker } from "@/components/ui/date-picker";
 import { PassengerSelector } from "@/components/ui/PassengerSelector";
 import { CounterInput } from "@/components/ui/CounterInput";
+import { TimePicker } from "@/components/ui/time-picker";
 import { cn } from "@/lib/utils";
 
 const TABS = [
@@ -24,20 +25,73 @@ const TRIP_TYPES = ["one-way", "round-trip", "multi-city"] as const;
 
 type TabType = (typeof TABS)[number]["id"];
 
-export function BookingForm({ defaultTab = "flights", heroMode = true }: { defaultTab?: TabType; heroMode?: boolean }) {
+export function BookingForm({
+  defaultTab = "flights",
+  heroMode = true,
+}: {
+  defaultTab?: TabType;
+  heroMode?: boolean;
+}) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = React.useState<TabType>(defaultTab);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  
+  // URL-persistent tab state
+  const activeTab = (searchParams.get("tab") as TabType) || defaultTab;
+  
+  const handleTabChange = (tab: TabType) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", tab);
+    router.push(`${pathname}?${params.toString()}` as any, { scroll: false });
+  };
+
   const [origin, setOrigin] = React.useState("");
   const [destination, setDestination] = React.useState("");
   const [departDate, setDepartDate] = React.useState<Date | undefined>();
   const [returnDate, setReturnDate] = React.useState<Date | undefined>();
-  const [tripType, setTripType] = React.useState<(typeof TRIP_TYPES)[number]>("round-trip");
+  const [transferTime, setTransferTime] = React.useState("12:00");
+  const [tripType, setTripType] =
+    React.useState<(typeof TRIP_TYPES)[number]>("round-trip");
   const [cabinClass, setCabinClass] = React.useState("Economy");
-  const [passengers, setPassengers] = React.useState({ adults: 2, children: 0, infants: 0 });
+  const [passengers, setPassengers] = React.useState({
+    adults: 2,
+    children: 0,
+    infants: 0,
+  });
   const [rooms, setRooms] = React.useState(1);
   const [guests, setGuests] = React.useState(2);
   const [driverAge, setDriverAge] = React.useState(30);
   const [swapRotate, setSwapRotate] = React.useState(0);
+
+  const handleDepartDateChange = (nextDepartDate: Date | undefined) => {
+    setDepartDate(nextDepartDate);
+
+    if (!nextDepartDate) return;
+
+    setReturnDate((prevReturnDate) => {
+      if (!prevReturnDate) return prevReturnDate;
+      return isBefore(startOfDay(prevReturnDate), startOfDay(nextDepartDate))
+        ? nextDepartDate
+        : prevReturnDate;
+    });
+  };
+
+  const handleReturnDateChange = (nextReturnDate: Date | undefined) => {
+    if (!nextReturnDate) {
+      setReturnDate(undefined);
+      return;
+    }
+
+    if (
+      departDate &&
+      isBefore(startOfDay(nextReturnDate), startOfDay(departDate))
+    ) {
+      setReturnDate(departDate);
+      return;
+    }
+
+    setReturnDate(nextReturnDate);
+  };
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -55,7 +109,7 @@ export function BookingForm({ defaultTab = "flights", heroMode = true }: { defau
 
   const cardClass = heroMode
     ? "bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-hero p-2 sm:p-3"
-    : "bg-card border border-border rounded-3xl shadow-md p-4";
+    : "bg-card border border-border rounded-3xl shadow-md p-3";
 
   const activeTabClass = heroMode
     ? "data-[state=active]:bg-white data-[state=active]:text-brand-red"
@@ -63,16 +117,23 @@ export function BookingForm({ defaultTab = "flights", heroMode = true }: { defau
 
   return (
     <div className={cn("w-full", cardClass)}>
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as TabType)}>
-        <TabsList className={cn("mb-4 h-auto w-full justify-start gap-2 bg-transparent p-0", heroMode ? "text-white" : "text-muted-foreground")}>
+      <Tabs value={activeTab} onValueChange={(v) => handleTabChange(v as TabType)}>
+        <TabsList
+          className={cn(
+            "mb-4 h-auto w-full justify-start gap-2 bg-transparent p-0",
+            heroMode ? "text-white" : "text-muted-foreground",
+          )}
+        >
           {TABS.map((tab) => (
             <TabsTrigger
               key={tab.id}
               value={tab.id}
               className={cn(
-                "rounded-2xl px-3 py-2 text-xs sm:text-sm font-semibold shadow-none",
+                "rounded-md px-3 py-2 text-xs sm:text-sm font-semibold shadow-none",
                 activeTabClass,
-                heroMode ? "text-white/70 hover:text-white" : "text-muted-foreground",
+                heroMode
+                  ? "text-white/70 hover:text-white"
+                  : "text-muted-foreground",
               )}
             >
               {tab.label}
@@ -101,8 +162,17 @@ export function BookingForm({ defaultTab = "flights", heroMode = true }: { defau
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-2">
-            <div className="lg:col-span-3 rounded-2xl border border-white/20 bg-white/5 min-h-14"><LocationInput value={origin} onChange={setOrigin} placeholder="From where?" className="rounded-2xl" /></div>
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,0.6fr)_minmax(0,1.6fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,1.8fr)_minmax(0,1.9fr)]">
+            <div className="rounded-md border border-white/20 bg-white/5 h-14">
+              <LocationInput
+                value={origin}
+                onChange={setOrigin}
+                placeholder="From where?"
+                className="rounded-md"
+                glassPopover={heroMode}
+                openOnHover={false}
+              />
+            </div>
             <motion.button
               type="button"
               whileTap={{ rotate: 180 }}
@@ -112,20 +182,67 @@ export function BookingForm({ defaultTab = "flights", heroMode = true }: { defau
                 setOrigin(destination);
                 setDestination(origin);
               }}
-              className={cn("lg:col-span-1 h-14 rounded-2xl border flex items-center justify-center", heroMode ? "border-white/25 text-white" : "border-border")}
+              className={cn(
+                "h-14 rounded-md border flex items-center justify-center",
+                heroMode ? "border-white/25 text-white" : "border-border",
+              )}
             >
               <ArrowRightLeft className="h-4 w-4" />
             </motion.button>
-            <div className="lg:col-span-3 rounded-2xl border border-white/20 bg-white/5 min-h-14"><LocationInput value={destination} onChange={setDestination} placeholder="Where to?" className="rounded-2xl" /></div>
-            <div className="lg:col-span-2 rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={departDate} setDate={setDepartDate} label="Depart" className="rounded-2xl h-14" /></div>
-            <div className="lg:col-span-2 rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={returnDate} setDate={setReturnDate} label="Return" disabled={tripType === "one-way"} className="rounded-2xl h-14" /></div>
-            <div className="lg:col-span-4 rounded-2xl border border-white/20 bg-white/5 min-h-14"><PassengerSelector passengers={passengers} onChange={(k, v) => setPassengers((p) => ({ ...p, [k]: v }))} cabinClass={cabinClass} onCabinChange={setCabinClass} className="rounded-2xl h-14" /></div>
-            <div className="lg:col-span-8">
+            <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+              <LocationInput
+                value={destination}
+                onChange={setDestination}
+                placeholder="Where to?"
+                className="rounded-md"
+                glassPopover={heroMode}
+                openOnHover={false}
+              />
+            </div>
+            <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+              <DatePicker
+                date={departDate}
+                setDate={handleDepartDateChange}
+                label="Depart"
+                className="rounded-md h-14"
+                glassPopover={heroMode}
+                openOnHover={false}
+              />
+            </div>
+            <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+              <DatePicker
+                date={returnDate}
+                setDate={handleReturnDateChange}
+                label="Return"
+                disabled={tripType === "one-way"}
+                calendarDisabled={
+                  departDate
+                    ? (date: Date) =>
+                        isBefore(startOfDay(date), startOfDay(departDate))
+                    : undefined
+                }
+                className="rounded-md h-14"
+                glassPopover={heroMode}
+                openOnHover={false}
+              />
+            </div>
+            <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+              <PassengerSelector
+                passengers={passengers}
+                onChange={(k, v) => setPassengers((p) => ({ ...p, [k]: v }))}
+                cabinClass={cabinClass}
+                onCabinChange={setCabinClass}
+                className="rounded-md h-14"
+                glassPopover={heroMode}
+                openOnHover={false}
+              />
+            </div>
+            <div>
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.02 }}
                 onClick={handleSearch}
-                className="h-14 w-full rounded-2xl bg-brand-red text-white font-semibold shadow-lg animate-pulse-glow"
+                className="h-14 w-full rounded-md bg-redmix text-sm font-semibold text-white shadow-lg transition-colors hover:bg-brand-red-light"
               >
                 Search Flights →
               </motion.button>
@@ -133,34 +250,260 @@ export function BookingForm({ defaultTab = "flights", heroMode = true }: { defau
           </div>
         </TabsContent>
 
-        <TabsContent value="hotels" className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2">
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><LocationInput value={destination} onChange={setDestination} placeholder="City" className="rounded-2xl" /></div>
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={departDate} setDate={setDepartDate} label="Check-in" className="rounded-2xl h-14" /></div>
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={returnDate} setDate={setReturnDate} label="Check-out" className="rounded-2xl h-14" /></div>
-          <div className="flex items-center justify-between rounded-2xl border border-white/20 px-3 bg-white/5"><span className={cn("text-sm", heroMode ? "text-white" : "text-foreground")}>Guests</span><CounterInput value={guests} onChange={setGuests} min={1} max={10} /></div>
-          <div className="flex items-center justify-between rounded-2xl border border-white/20 px-3 bg-white/5"><span className={cn("text-sm", heroMode ? "text-white" : "text-foreground")}>Rooms</span><CounterInput value={rooms} onChange={setRooms} min={1} max={6} /></div>
+        <TabsContent
+          value="hotels"
+          className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2"
+        >
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <LocationInput
+              value={destination}
+              onChange={setDestination}
+              placeholder="City"
+              className="rounded-md"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <DatePicker
+              date={departDate}
+              setDate={setDepartDate}
+              label="Check-in"
+              className="rounded-md h-14"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <DatePicker
+              date={returnDate}
+              setDate={setReturnDate}
+              label="Check-out"
+              className="rounded-md h-14"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
+            <span
+              className={cn(
+                "text-sm",
+                heroMode ? "text-white" : "text-foreground",
+              )}
+            >
+              Guests
+            </span>
+            <CounterInput
+              value={guests}
+              onChange={setGuests}
+              min={1}
+              max={10}
+            />
+          </div>
+          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
+            <span
+              className={cn(
+                "text-sm",
+                heroMode ? "text-white" : "text-foreground",
+              )}
+            >
+              Rooms
+            </span>
+            <CounterInput value={rooms} onChange={setRooms} min={1} max={6} />
+          </div>
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            onClick={handleSearch}
+            className="h-14 w-full rounded-md bg-redmix text-sm font-semibold text-white shadow-lg transition-colors hover:bg-brand-red-light"
+          >
+            Search Hotels →
+          </motion.button>
         </TabsContent>
 
-        <TabsContent value="cars" className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><LocationInput value={origin} onChange={setOrigin} placeholder="Pickup location" className="rounded-2xl" /></div>
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={departDate} setDate={setDepartDate} label="Pickup date" className="rounded-2xl h-14" /></div>
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={returnDate} setDate={setReturnDate} label="Dropoff date" className="rounded-2xl h-14" /></div>
-          <div className="flex items-center justify-between rounded-2xl border border-white/20 px-3 bg-white/5"><span className={cn("text-sm", heroMode ? "text-white" : "text-foreground")}>Driver age</span><CounterInput value={driverAge} onChange={setDriverAge} min={18} max={75} /></div>
+        <TabsContent
+          value="cars"
+          className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2"
+        >
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <LocationInput
+              value={origin}
+              onChange={setOrigin}
+              placeholder="Pickup location"
+              className="rounded-md"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <DatePicker
+              date={departDate}
+              setDate={setDepartDate}
+              label="Pickup date"
+              className="rounded-md h-14"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <DatePicker
+              date={returnDate}
+              setDate={setReturnDate}
+              label="Dropoff date"
+              className="rounded-md h-14"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
+            <span
+              className={cn(
+                "text-sm",
+                heroMode ? "text-white" : "text-foreground",
+              )}
+            >
+              Driver age
+            </span>
+            <CounterInput
+              value={driverAge}
+              onChange={setDriverAge}
+              min={18}
+              max={75}
+            />
+          </div>
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            onClick={handleSearch}
+            className="h-14 w-full rounded-md bg-redmix text-sm font-semibold text-white shadow-lg transition-colors hover:bg-brand-red-light"
+          >
+            Search Cars →
+          </motion.button>
         </TabsContent>
 
-        <TabsContent value="packages" className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><LocationInput value={destination} onChange={setDestination} placeholder="Destination" className="rounded-2xl" /></div>
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={departDate} setDate={setDepartDate} label="Start date" className="rounded-2xl h-14" /></div>
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={returnDate} setDate={setReturnDate} label="End date" className="rounded-2xl h-14" /></div>
-          <div className="flex items-center justify-between rounded-2xl border border-white/20 px-3 bg-white/5"><span className={cn("text-sm", heroMode ? "text-white" : "text-foreground")}>Travelers</span><CounterInput value={guests} onChange={setGuests} min={1} max={12} /></div>
+        <TabsContent
+          value="packages"
+          className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2"
+        >
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <LocationInput
+              value={destination}
+              onChange={setDestination}
+              placeholder="Destination"
+              className="rounded-md"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <DatePicker
+              date={departDate}
+              setDate={setDepartDate}
+              label="Start date"
+              className="rounded-md h-14"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <DatePicker
+              date={returnDate}
+              setDate={setReturnDate}
+              label="End date"
+              className="rounded-md h-14"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
+            <span
+              className={cn(
+                "text-sm",
+                heroMode ? "text-white" : "text-foreground",
+              )}
+            >
+              Travelers
+            </span>
+            <CounterInput
+              value={guests}
+              onChange={setGuests}
+              min={1}
+              max={12}
+            />
+          </div>
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            onClick={handleSearch}
+            className="h-14 w-full rounded-md bg-redmix text-sm font-semibold text-white shadow-lg transition-colors hover:bg-brand-red-light"
+          >
+            Search Packages →
+          </motion.button>
         </TabsContent>
 
-        <TabsContent value="transfers" className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2">
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><LocationInput value={origin} onChange={setOrigin} placeholder="From" className="rounded-2xl" /></div>
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><LocationInput value={destination} onChange={setDestination} placeholder="To" className="rounded-2xl" /></div>
-          <div className="rounded-2xl border border-white/20 bg-white/5 min-h-14"><DatePicker date={departDate} setDate={setDepartDate} label="Date" className="rounded-2xl h-14" /></div>
-          <input type="time" className={cn("h-14 rounded-2xl border border-white/20 px-3 bg-white/5", heroMode ? "text-white" : "text-foreground")} />
-          <div className="flex items-center justify-between rounded-2xl border border-white/20 px-3 bg-white/5"><span className={cn("text-sm", heroMode ? "text-white" : "text-foreground")}>Passengers</span><CounterInput value={guests} onChange={setGuests} min={1} max={8} /></div>
+        <TabsContent
+          value="transfers"
+          className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2"
+        >
+          <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+            <LocationInput
+              value={origin}
+              onChange={setOrigin}
+              placeholder="From"
+              className="rounded-md"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <LocationInput
+              value={destination}
+              onChange={setDestination}
+              placeholder="To"
+              className="rounded-md"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <DatePicker
+              date={departDate}
+              setDate={setDepartDate}
+              label="Date"
+              className="rounded-md h-14"
+              glassPopover={heroMode}
+              openOnHover={false}
+            />
+          </div>
+          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <TimePicker
+              value={transferTime}
+              onChange={setTransferTime}
+              heroMode={heroMode}
+              label="Time"
+              openOnHover={false}
+              glassPopover={heroMode}
+            />
+          </div>
+          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 h-14 bg-white/5">
+            <span
+              className={cn(
+                "text-sm",
+                heroMode ? "text-white" : "text-foreground",
+              )}
+            >
+              Passengers
+            </span>
+            <CounterInput value={guests} onChange={setGuests} min={1} max={8} />
+          </div>
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            onClick={handleSearch}
+            className="h-14 w-full rounded-md bg-redmix text-sm font-semibold text-white shadow-lg transition-colors hover:bg-brand-red-light"
+          >
+            Search Transfers →
+          </motion.button>
         </TabsContent>
       </Tabs>
     </div>

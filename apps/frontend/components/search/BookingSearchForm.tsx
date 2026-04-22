@@ -143,7 +143,6 @@ export function BookingSearchForm({
   setTripType,
   handleSearch,
 }: BookingSearchFormProps) {
-
   // Debug log to show form data
   React.useEffect(() => {
     console.log("🔍 BookingSearchForm Data Update:", {
@@ -154,9 +153,18 @@ export function BookingSearchForm({
       departDate: departDate?.toISOString(),
       returnDate: returnDate?.toISOString(),
       passengers,
-      cabinClass
+      cabinClass,
     });
-  }, [variant, tripType, origin, destination, departDate, returnDate, passengers, cabinClass]);
+  }, [
+    variant,
+    tripType,
+    origin,
+    destination,
+    departDate,
+    returnDate,
+    passengers,
+    cabinClass,
+  ]);
 
   const defaults = VARIANT_DEFAULTS[variant] ?? VARIANT_DEFAULTS.flight;
   const resolvedFlags = {

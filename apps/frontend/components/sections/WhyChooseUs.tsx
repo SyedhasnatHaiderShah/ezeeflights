@@ -47,8 +47,8 @@ const renderFeature = (feature: Feature, idx: number) => (
     <div className="shrink-0">
       <AppIcon
         icon={feature.icon}
-        isFill={true}
-        isActive={true}
+        // isFill={true}
+        // isActive={true}
         className="w-11 h-11 pointer-events-none"
       />
     </div>

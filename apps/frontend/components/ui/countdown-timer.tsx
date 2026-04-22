@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 interface CountdownTimerProps {
   expiresAt: Date;
   className?: string;
+  compact?: boolean;
 }
 
 interface TimeParts {
@@ -28,8 +29,14 @@ const getTimeLeft = (expiresAt: Date): TimeParts => {
 
 const pad = (value: number) => String(value).padStart(2, "0");
 
-export function CountdownTimer({ expiresAt, className }: CountdownTimerProps) {
-  const [timeLeft, setTimeLeft] = React.useState<TimeParts>(() => getTimeLeft(expiresAt));
+export function CountdownTimer({
+  expiresAt,
+  className,
+  compact = false,
+}: CountdownTimerProps) {
+  const [timeLeft, setTimeLeft] = React.useState<TimeParts>(() =>
+    getTimeLeft(expiresAt),
+  );
 
   React.useEffect(() => {
     const interval = window.setInterval(() => {
@@ -50,10 +57,23 @@ export function CountdownTimer({ expiresAt, className }: CountdownTimerProps) {
     <div className={cn("flex items-center gap-2", className)}>
       {units.map((unit, index) => (
         <React.Fragment key={unit}>
-          <span className="rounded-lg bg-brand-red px-2.5 py-1.5 text-sm font-semibold text-white">
+          <span
+            className={cn(
+              "bg-brand-red font-semibold text-white",
+              compact
+                ? "rounded-md px-2 py-1 text-xs"
+                : "rounded-lg px-2.5 py-1.5 text-sm",
+            )}
+          >
             {unit}
           </span>
-          {index < units.length - 1 && <span className="text-brand-red">:</span>}
+          {index < units.length - 1 && (
+            <span
+              className={cn("text-brand-red", compact && "text-xs font-bold")}
+            >
+              :
+            </span>
+          )}
         </React.Fragment>
       ))}
     </div>
