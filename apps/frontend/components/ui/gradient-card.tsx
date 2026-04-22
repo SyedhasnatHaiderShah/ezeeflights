@@ -27,9 +27,12 @@ export function GradientCard({
   className,
   aspectRatio = "4/3",
 }: GradientCardProps) {
+  const hasCustomAspect = className?.includes("aspect-");
+  const hasCustomHeight = className?.includes("h-");
+
   const commonClassName = cn(
     "group relative block overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-lg",
-    ratioClassMap[aspectRatio],
+    !hasCustomAspect && !hasCustomHeight && ratioClassMap[aspectRatio],
     className,
   );
 
