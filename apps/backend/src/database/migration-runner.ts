@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { readdir, readFile } from 'fs/promises';
 import * as path from 'path';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
 import { appLogger } from '../common/logging/winston';
 import { PostgresClient } from './postgres.client';
 
@@ -27,7 +31,7 @@ export class MigrationRunner {
         )`,
       );
 
-      const migrationsPath = path.resolve(__dirname, '../../../../../sql/migrations');
+      const migrationsPath = path.resolve(__dirname, '../../../../sql/migrations');
       let files = (await readdir(migrationsPath))
         .filter((file) => file.endsWith('.sql'))
         .sort((a, b) => a.localeCompare(b));

@@ -1,13 +1,13 @@
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
-import { Pool } from 'pg';
-type TransactionClient = Awaited<ReturnType<InstanceType<typeof Pool>['connect']>>;
+import { Injectable, OnModuleDestroy } from "@nestjs/common";
+import * as pg from "pg";
+type TransactionClient = pg.PoolClient;
 
 @Injectable()
 export class PostgresClient implements OnModuleDestroy {
-  private readonly pool: InstanceType<typeof Pool>;
+  private readonly pool: pg.Pool;
 
   constructor() {
-    this.pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    this.pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
   }
 
   async query<T>(text: string, params: unknown[] = []): Promise<T[]> {
@@ -20,15 +20,17 @@ export class PostgresClient implements OnModuleDestroy {
     return rows[0] ?? null;
   }
 
-  async withTransaction<T>(operation: (client: TransactionClient) => Promise<T>): Promise<T> {
+  async withTransaction<T>(
+    operation: (client: TransactionClient) => Promise<T>,
+  ): Promise<T> {
     const client = await this.pool.connect();
     try {
-      await client.query('BEGIN');
+      await client.query("BEGIN");
       const result = await operation(client);
-      await client.query('COMMIT');
+      await client.query("COMMIT");
       return result;
     } catch (error) {
-      await client.query('ROLLBACK');
+      await client.query("ROLLBACK");
       throw error;
     } finally {
       client.release();

@@ -1,4 +1,4 @@
-CREATE EXTENSION IF NOT EXISTS postgis;
+-- CREATE EXTENSION IF NOT EXISTS postgis;
 
 CREATE TABLE IF NOT EXISTS countries (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -87,6 +87,6 @@ CREATE INDEX IF NOT EXISTS idx_events_city_start_date ON events(city_id, start_d
 CREATE INDEX IF NOT EXISTS idx_wishlist_user_created ON user_wishlist(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_attraction_reviews_attraction_created ON attraction_reviews(attraction_id, created_at DESC);
 
--- Geo indexes for map and distance queries
-CREATE INDEX IF NOT EXISTS idx_attractions_geo ON attractions USING GIST ((ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)));
-CREATE INDEX IF NOT EXISTS idx_cities_geo ON cities USING GIST ((ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)));
+-- Geo indexes for map and distance queries (requires PostGIS)
+-- CREATE INDEX IF NOT EXISTS idx_attractions_geo ON attractions USING GIST ((ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)));
+-- CREATE INDEX IF NOT EXISTS idx_cities_geo ON cities USING GIST ((ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)));
