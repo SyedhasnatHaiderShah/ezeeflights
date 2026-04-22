@@ -90,7 +90,7 @@ const FavoriteContent = () => (
   </div>
 );
 
-export function Header() {
+export function Header({ transparent = false }: { transparent?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -137,6 +137,8 @@ export function Header() {
     "User";
   const userInitial = displayName.trim().charAt(0).toUpperCase();
 
+  const isTransparent = transparent && !isScrolled;
+
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <div
@@ -144,7 +146,9 @@ export function Header() {
           "border-b transition-all duration-300",
           isScrolled
             ? "bg-background shadow-sm border-border"
-            : "bg-background/95 backdrop-blur-md border-transparent",
+            : isTransparent
+              ? "bg-white/10 backdrop-blur-md border-white/10 text-white"
+              : "bg-background/95 backdrop-blur-md border-transparent",
         )}
       >
         <div className="mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6">
@@ -152,21 +156,27 @@ export function Header() {
             <button
               aria-label="Toggle sidebar"
               onClick={toggleSidebar}
-              className="hidden rounded-lg p-2 text-muted-foreground transition hover:bg-muted hover:text-foreground md:inline-flex"
+              className={cn(
+                "hidden rounded-lg p-2 transition md:inline-flex",
+                isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
             >
               <PanelLeft className="h-5 w-5" />
             </button>
             <button
               aria-label="Toggle sidebar"
               onClick={toggleSidebar}
-              className="rounded-lg p-2 text-muted-foreground transition hover:bg-muted hover:text-foreground md:hidden"
+              className={cn(
+                "rounded-lg p-2 transition md:hidden",
+                isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
             >
               <PanelLeft className="h-5 w-5" />
             </button>
 
             <Link href="/" className="flex items-center">
               <EzeeFlightsLogo
-                isDarkMode={mounted && theme === "dark"}
+                isDarkMode={(mounted && theme === "dark") || isTransparent}
                 className="h-auto w-32"
               />
             </Link>
@@ -187,7 +197,9 @@ export function Header() {
                     "relative flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors",
                     isActive
                       ? "text-brand-red"
-                      : "text-muted-foreground hover:text-foreground",
+                      : isTransparent
+                        ? "text-white/80 hover:text-white"
+                        : "text-muted-foreground hover:text-foreground",
                   )}
                 >
                   <Icon className="h-4 w-4" />
@@ -212,7 +224,9 @@ export function Header() {
                       (pathname === "/" && currentTab === link.label.toLowerCase())
                     )
                       ? "text-brand-red"
-                      : "text-muted-foreground hover:text-foreground"
+                      : isTransparent
+                        ? "text-white/80 hover:text-white"
+                        : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   <Briefcase className="h-4 w-4" />
@@ -281,7 +295,10 @@ export function Header() {
             <AppIcon
               icon={Sparkles}
               label="Ask Ezee"
-              className="hidden sm:flex"
+              className={cn(
+                "hidden sm:flex",
+                isTransparent && "bg-white/10 text-white border-white/20 hover:bg-white/20"
+              )}
               onClick={() => router.push("/support")}
             />
 
@@ -291,7 +308,10 @@ export function Header() {
                 onOpenChange={setIsNotifDrawerOpen}
               >
                 <Drawer.Trigger asChild>
-                  <button className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
+                  <button className={cn(
+                    "rounded-lg p-2 transition",
+                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted"
+                  )}>
                     <div className="relative"><Bell className="h-5 w-5" /><span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-brand-red" /></div>
                   </button>
                 </Drawer.Trigger>
@@ -313,7 +333,10 @@ export function Header() {
                 onOpenChange={setIsFavoriteDrawerOpen}
               >
                 <Drawer.Trigger asChild>
-                  <button className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
+                  <button className={cn(
+                    "rounded-lg p-2 transition",
+                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted"
+                  )}>
                     <Heart className="h-5 w-5" />
                   </button>
                 </Drawer.Trigger>
@@ -330,7 +353,10 @@ export function Header() {
             <div className="hidden md:block">
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                  <button className="rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground">
+                  <button className={cn(
+                    "rounded-lg p-2 transition",
+                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}>
                     <Bell className="h-5 w-5" />
                   </button>
                 </DropdownMenuTrigger>
@@ -346,7 +372,10 @@ export function Header() {
             <div className="hidden md:block">
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                  <button className="rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground">
+                  <button className={cn(
+                    "rounded-lg p-2 transition",
+                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}>
                     <Heart className="h-5 w-5" />
                   </button>
                 </DropdownMenuTrigger>
@@ -361,7 +390,10 @@ export function Header() {
 
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="hidden rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground md:inline-flex"
+              className={cn(
+                "hidden rounded-lg p-2 transition md:inline-flex",
+                isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
             >
               {mounted && theme === "dark" ? (
                 <Sun className="h-5 w-5" />
@@ -402,20 +434,28 @@ export function Header() {
                 <div className="hidden items-center gap-2 md:flex">
                   <button
                     onClick={() => openAuthModal("login")}
-                    className="rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
+                    className={cn(
+                      "rounded-full border px-4 py-2 text-sm font-medium transition",
+                      isTransparent 
+                        ? "border-white/20 bg-white/5 text-white hover:bg-white/10" 
+                        : "border-border bg-transparent text-foreground hover:bg-muted"
+                    )}
                   >
                     Sign in
                   </button>
                   <button
                     onClick={() => openAuthModal("register")}
-                    className="rounded-full bg-gradient-to-r from-brand-red to-brand-red-light px-4 py-2 text-sm font-semibold text-white"
+                    className="rounded-full bg-gradient-to-r from-brand-red to-brand-red-light px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110 shadow-lg"
                   >
                     Sign up
                   </button>
                 </div>
                 <button
                   onClick={() => openAuthModal("login")}
-                  className="rounded-lg p-2 text-muted-foreground hover:bg-muted md:hidden"
+                  className={cn(
+                    "rounded-lg p-2 transition md:hidden",
+                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted"
+                  )}
                 >
                   <User className="h-5 w-5" />
                 </button>

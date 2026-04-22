@@ -4,6 +4,7 @@ import { googleOAuthUrl } from "@/lib/api/auth-api";
 
 import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "@/components/shared/SocialAuth";
+import { Apple } from "lucide-react";
 
 export function OAuthButtons() {
   return (
@@ -17,17 +18,24 @@ export function OAuthButtons() {
         </div>
         <span className="flex-1 border-t border-border" />
       </div>
-
-      <Button
-        variant="outline"
-        className="w-full h-11 rounded-xl flex items-center justify-center gap-3 border-border text-foreground font-semibold hover:bg-muted/50 transition-all shadow-sm"
-        onClick={() => {
-          window.location.href = googleOAuthUrl();
-        }}
-      >
-        <GoogleIcon className="w-4 h-4" />
-        <span className="text-sm">Google</span>
-      </Button>
+      <div className=" flex gap-1 ">
+        <Button
+          variant="outline"
+          className="w-1/2 h-11 cursor-pointer rounded-xl flex items-center justify-center gap-3 border-border text-foreground font-semibold hover:bg-muted/50 transition-all shadow-sm"
+          onClick={() => {
+            window.location.href = googleOAuthUrl();
+          }}
+        >
+          <GoogleIcon className="w-4 h-4" />
+          <span className="text-sm">Google</span>
+        </Button>
+        <Button
+          type="button"
+          className="h-11 w-1/2 rounded-xl cursor-pointer bg-black text-white hover:bg-black/90"
+        >
+          <Apple className="h-4 w-4" /> Apple
+        </Button>
+      </div>
     </div>
   );
 }

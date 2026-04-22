@@ -223,7 +223,7 @@ export function AuthModal() {
                       Already have an account?{" "}
                       <button
                         onClick={() => setView("login")}
-                        className="text-redmix hover:underline font-bold"
+                        className="text-redmix hover:underline font-bold cursor-pointer"
                       >
                         Sign in
                       </button>

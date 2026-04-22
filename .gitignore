@@ -2,7 +2,9 @@ node_modules
 dist
 .env
 dist
+test
 coverage
 .next
 npm-debug.log*
 IMPLEMENTATION_PLAN.md
+*.tsbuildinfo

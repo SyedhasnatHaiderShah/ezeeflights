@@ -11,6 +11,7 @@ interface SectionHeaderProps {
   ctaHref?: string;
   align?: "left" | "center";
   className?: string;
+  titleClassName?: string;
 }
 
 export function SectionHeader({
@@ -21,6 +22,7 @@ export function SectionHeader({
   ctaHref,
   align = "left",
   className,
+  titleClassName,
 }: SectionHeaderProps) {
   return (
     <div
@@ -35,7 +37,12 @@ export function SectionHeader({
           {eyebrow}
         </p>
       )}
-      <h2 className="text-[length:var(--text-section)] font-bold leading-tight text-foreground">
+      <h2
+        className={cn(
+          "text-[length:var(--text-section)] font-bold leading-tight text-foreground",
+          titleClassName,
+        )}
+      >
         {title}
       </h2>
       {subtitle && <p className="max-w-2xl text-muted-foreground">{subtitle}</p>}

@@ -9,6 +9,7 @@
     "target": "es2021",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "src",
     "baseUrl": "./",
     "incremental": true,
     "strict": true,
@@ -18,6 +19,7 @@
   "exclude": [
     "src/database/see.ts",
     "src/database/seed.ts",
+    "src/database/seed-reviews.ts",
     "src/database/migration-runner.ts"
   ]
 }

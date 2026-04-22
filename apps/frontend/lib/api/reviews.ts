@@ -45,7 +45,7 @@ export function useFeaturedReviews(limit = 8) {
 export function useReviews(filters?: { rating?: number; category?: string; verified?: boolean; page?: number; limit?: number }) {
   return useQuery({
     queryKey: ["reviews", "list", filters],
-    queryFn: () => apiFetch<ReviewsResponse>(`/reviews${qs(filters)}`),
+    queryFn: () => apiFetch<Review[] | ReviewsResponse>(`/reviews/all${qs(filters)}`),
     staleTime: 30 * 1000,
   });
 }
@@ -54,6 +54,14 @@ export function useReviewStats() {
   return useQuery({
     queryKey: ["reviews", "stats"],
     queryFn: () => apiFetch<ReviewStats>("/reviews/stats"),
+    staleTime: 60 * 1000,
+  });
+}
+
+export function useAllReviews(filters?: { rating?: number; category?: string; verified?: boolean; page?: number; limit?: number }) {
+  return useQuery({
+    queryKey: ["reviews", "all", filters],
+    queryFn: () => apiFetch<Review[] | ReviewsResponse>(`/reviews/all${qs(filters)}`),
     staleTime: 60 * 1000,
   });
 }

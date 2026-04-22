@@ -47,7 +47,7 @@ export default function LandingPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <Header />
+      <Header transparent />
       <main className="flex-grow">
         <Hero />
         <TrustStrip />

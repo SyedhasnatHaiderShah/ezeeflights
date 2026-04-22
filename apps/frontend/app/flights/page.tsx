@@ -21,7 +21,7 @@ const flightFaqs = [
 export default function FlightsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <Header />
+      <Header transparent />
 
       <main className="flex-1">
         <Hero
