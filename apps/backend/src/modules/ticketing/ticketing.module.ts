@@ -14,8 +14,10 @@ import { TicketRepository } from './repositories/ticket.repository';
 import { PnrService } from './services/pnr.service';
 import { TicketService } from './services/ticket.service';
 
+import { FlightModule } from '../flight/flight.module';
+
 @Module({
-  imports: [BookingModule, NotificationModule, UserModule],
+  imports: [BookingModule, NotificationModule, UserModule, FlightModule],
   controllers: [PnrController],
   providers: [
     PostgresClient,

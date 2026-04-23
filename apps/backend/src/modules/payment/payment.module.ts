@@ -14,6 +14,8 @@ import { PaymentRepository } from './repositories/payment.repository';
 import { PaymentService } from './services/payment.service';
 import { WalletService } from './wallet.service';
 
+import { MockProvider } from './providers/mock.provider';
+
 @Module({
   imports: [NotificationModule, LoyaltyModule],
   controllers: [PaymentController, LegacyPaymentController],
@@ -25,16 +27,18 @@ import { WalletService } from './wallet.service';
     PaytabsProvider,
     TabbyProvider,
     TamaraProvider,
+    MockProvider,
     PostgresClient,
     {
       provide: 'PAYMENT_PROVIDER_DRIVERS',
-      useFactory: (stripe: StripeProvider, paytabs: PaytabsProvider, tabby: TabbyProvider, tamara: TamaraProvider) => [
+      useFactory: (stripe: StripeProvider, paytabs: PaytabsProvider, tabby: TabbyProvider, tamara: TamaraProvider, mock: MockProvider) => [
         stripe,
         paytabs,
         tabby,
         tamara,
+        mock,
       ],
-      inject: [StripeProvider, PaytabsProvider, TabbyProvider, TamaraProvider],
+      inject: [StripeProvider, PaytabsProvider, TabbyProvider, TamaraProvider, MockProvider],
     },
     {
       provide: 'PAYMENT_PROVIDER_MAP',

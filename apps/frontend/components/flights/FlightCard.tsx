@@ -46,6 +46,7 @@ export function FlightCard({ flight }: Props) {
         {badge && <span className={cn("rounded-full px-2.5 py-1 text-xs font-semibold", badge.className)}>{badge.label}</span>}
       </div>
 
+      {/* Outbound Leg */}
       <div className="mt-4 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
         <div className="text-left">
           <p className="text-2xl font-bold">{first.fromAirport.code}</p>
@@ -53,7 +54,7 @@ export function FlightCard({ flight }: Props) {
         </div>
 
         <div className="text-center min-w-[170px]">
-          <p className="text-sm font-semibold">{duration(flight.totalTime)}</p>
+          <p className="text-sm font-semibold">{duration(flight.outbound.reduce((acc, s) => acc + (parseInt(s.elapsedTime) || 0), 0) || flight.totalTime)}</p>
           <div className="my-2 flex items-center gap-1">
             <div className="h-px flex-1 border-t border-dashed border-border" />
             <Plane className="h-4 w-4 text-brand-red" />
@@ -70,6 +71,36 @@ export function FlightCard({ flight }: Props) {
           {overnight && <p className="text-xs text-muted-foreground">+1 day</p>}
         </div>
       </div>
+
+      {/* Inbound Leg (Return) */}
+      {flight.inbound.length > 0 && (
+        <>
+          <div className="my-4 border-t border-dashed border-border" />
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4">
+            <div className="text-left">
+              <p className="text-2xl font-bold">{flight.inbound[0].fromAirport.code}</p>
+              <p className="text-lg">{fmtTime(flight.inbound[0].departureDate)}</p>
+            </div>
+
+            <div className="text-center min-w-[170px]">
+              <p className="text-sm font-semibold">{duration(flight.inbound.reduce((acc, s) => acc + (parseInt(s.elapsedTime) || 0), 0) || 0)}</p>
+              <div className="my-2 flex items-center gap-1">
+                <div className="h-px flex-1 border-t border-dashed border-border" />
+                <Plane className="h-4 w-4 text-brand-red rotate-180" />
+                <div className="h-px flex-1 border-t border-dashed border-border" />
+              </div>
+              <span className={cn("inline-flex rounded-full px-2 py-1 text-xs", flight.inbound.length === 1 ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700")}>
+                {flight.inbound.length === 1 ? "Non-stop" : `${flight.inbound.length - 1} Stop(s)`}
+              </span>
+            </div>
+
+            <div className="text-left md:text-right">
+              <p className="text-2xl font-bold">{flight.inbound[flight.inbound.length - 1].toAirport.code}</p>
+              <p className="text-lg">{fmtTime(flight.inbound[flight.inbound.length - 1].arrivalDate)}</p>
+            </div>
+          </div>
+        </>
+      )}
 
       <div className="mt-4 border-t border-border pt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-xs text-muted-foreground">

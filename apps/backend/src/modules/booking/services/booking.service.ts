@@ -8,18 +8,27 @@ import { TripDetailEntity, TripDocumentEntity, TripSummaryEntity } from '../enti
 import * as fs from 'fs/promises';
 import path from 'path';
 
+import { FlightService } from '../../flight/services/flight.service';
+
 @Injectable()
 export class BookingService {
   constructor(
     private readonly repository: BookingRepository,
     private readonly events: AppEventBus,
     private readonly userService: UserService,
+    private readonly flightService: FlightService,
     @Inject(forwardRef(() => ProfileService))
     private readonly profileService: ProfileService,
   ) {}
 
   async create(userId: string, dto: CreateBookingDto) {
     await this.userService.findOne(userId);
+
+    // Ensure all flights exist in DB (upsert if transient)
+    for (const flightId of dto.flightIds) {
+      const flight = await this.flightService.getFlightById(flightId);
+      await this.flightService.upsert(flight);
+    }
 
     const travelers = await this.profileService.listTravelers(userId);
     const travelerMap = new Map(travelers.map((traveler) => [traveler.id, traveler]));

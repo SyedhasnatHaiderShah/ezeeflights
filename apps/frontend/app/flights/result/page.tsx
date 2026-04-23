@@ -11,42 +11,79 @@ interface SearchProps {
 }
 
 function toFlightListItem(entity: any): FlightListItem {
-  const depAt = entity.departureAt ? new Date(entity.departureAt).toISOString() : "";
-  const arrAt = entity.arrivalAt ? new Date(entity.arrivalAt).toISOString() : "";
-  const durationMins = Number(entity.duration ?? 0);
-  const airlineName = String(entity.airline ?? "Unknown Airline");
-  const airlineCode = String(entity.airlineCode ?? "XX");
-
-  const segment = {
-    departureDate: depAt,
-    arrivalDate: arrAt,
-    fromAirport: { id: 0, code: String(entity.departureAirport ?? ""), name: String(entity.departureAirport ?? ""), cityCode: String(entity.departureAirport ?? ""), cityName: String(entity.departureAirport ?? "") },
-    toAirport: { id: 0, code: String(entity.arrivalAirport ?? ""), name: String(entity.arrivalAirport ?? ""), cityCode: String(entity.arrivalAirport ?? ""), cityName: String(entity.arrivalAirport ?? "") },
-    airline: { id: 0, code: airlineCode, name: airlineName },
-    operatingAirline: { id: 0, code: airlineCode, name: airlineName },
-    flightNo: String(entity.flightNumber ?? ""),
-    equipmentType: "Boeing 787",
-    baggageAllowance: "23kg",
-    elapsedTime: `${Math.floor(durationMins / 60)}h ${durationMins % 60}m`,
-    totalTime: `${Math.floor(durationMins / 60)}h ${durationMins % 60}m`,
-    cabinClass: String(entity.cabinClass ?? "ECONOMY"),
-    isReturn: false,
+  const rawSegments = Array.isArray(entity.rawSegments) ? entity.rawSegments : [];
+  
+  const mapSegment = (s: any) => {
+    const durationMins = parseInt(s.FlightTime) || 0;
+    return {
+      departureDate: s.DepartureTime,
+      arrivalDate: s.ArrivalTime,
+      fromAirport: { id: 0, code: String(s.Origin || ""), name: String(s.Origin || ""), cityCode: String(s.Origin || ""), cityName: String(s.Origin || "") },
+      toAirport: { id: 0, code: String(s.Destination || ""), name: String(s.Destination || ""), cityCode: String(s.Destination || ""), cityName: String(s.Destination || "") },
+      airline: { id: 0, code: String(s.Carrier || ""), name: String(s.Carrier || "") },
+      operatingAirline: { id: 0, code: String(s.Carrier || ""), name: String(s.Carrier || "") },
+      flightNo: String(s.FlightNumber || ""),
+      equipmentType: "Boeing 787",
+      baggageAllowance: "23kg",
+      elapsedTime: `${Math.floor(durationMins / 60)}h ${durationMins % 60}m`,
+      totalTime: `${Math.floor(durationMins / 60)}h ${durationMins % 60}m`,
+      cabinClass: String(entity.cabinClass ?? "ECONOMY"),
+      isReturn: s.Group > 0,
+    };
   };
+
+  const outbound = rawSegments.filter(s => s.Group === 0 || s.Group === '0' || !s.Group).map(mapSegment);
+  const inbound = rawSegments.filter(s => s.Group > 0 || s.Group === '1').map(mapSegment);
+
+  // Fallback for one-way or missing group data
+  if (outbound.length === 0 && rawSegments.length > 0) {
+    outbound.push(...rawSegments.map(mapSegment));
+  }
 
   const baseFare = Number(entity.baseFare ?? 0);
   const tax = Math.round(baseFare * 0.12 * 100) / 100;
 
-  return { flightId: String(entity.id ?? ""), airline: { id: 0, code: airlineCode, name: airlineName }, currency: String(entity.currency ?? "USD"), totalTime: durationMins, totalCost: baseFare + tax, stops: Number(entity.stops ?? 0), outbound: [segment], inbound: [], flightFare: { adultFare: baseFare, adultTax: tax, grandTotal: baseFare + tax } };
+  return {
+    flightId: String(entity.id ?? ""),
+    airline: { id: 0, code: String(entity.airlineCode || ""), name: String(entity.airline || "") },
+    currency: String(entity.currency || "USD"),
+    totalTime: Number(entity.duration || 0),
+    totalCost: baseFare + tax,
+    stops: Number(entity.stops || 0),
+    outbound,
+    inbound,
+    flightFare: { adultFare: baseFare, adultTax: tax, grandTotal: baseFare + tax }
+  };
 }
 
 function mapMockSegment(seg: any): FlightSegment {
   return {
     departureDate: seg.departureDate,
     arrivalDate: seg.arrivalDate,
-    fromAirport: { id: seg.fromAirport?.id ?? 0, code: seg.fromAirport?.code ?? "", name: seg.fromAirport?.name ?? "", cityCode: seg.fromAirport?.cityCode ?? "", cityName: seg.fromAirport?.cityName ?? "" },
-    toAirport: { id: seg.toAirport?.id ?? 0, code: seg.toAirport?.code ?? "", name: seg.toAirport?.name ?? "", cityCode: seg.toAirport?.cityCode ?? "", cityName: seg.toAirport?.cityName ?? "" },
-    airline: { id: seg.airline?.id ?? 0, code: seg.airline?.code ?? "", name: seg.airline?.name ?? "" },
-    operatingAirline: { id: seg.operatingAirline?.id ?? 0, code: seg.operatingAirline?.code ?? "", name: seg.operatingAirline?.name ?? "" },
+    fromAirport: {
+      id: seg.fromAirport?.id ?? 0,
+      code: seg.fromAirport?.code ?? "",
+      name: seg.fromAirport?.name ?? "",
+      cityCode: seg.fromAirport?.cityCode ?? "",
+      cityName: seg.fromAirport?.cityName ?? "",
+    },
+    toAirport: {
+      id: seg.toAirport?.id ?? 0,
+      code: seg.toAirport?.code ?? "",
+      name: seg.toAirport?.name ?? "",
+      cityCode: seg.toAirport?.cityCode ?? "",
+      cityName: seg.toAirport?.cityName ?? "",
+    },
+    airline: {
+      id: seg.airline?.id ?? 0,
+      code: seg.airline?.code ?? "",
+      name: seg.airline?.name ?? "",
+    },
+    operatingAirline: {
+      id: seg.operatingAirline?.id ?? 0,
+      code: seg.operatingAirline?.code ?? "",
+      name: seg.operatingAirline?.name ?? "",
+    },
     flightNo: seg.flightNo ?? "",
     equipmentType: seg.equipmentType ?? "",
     baggageAllowance: seg.baggageAllowance ?? "23kg",
@@ -60,27 +97,36 @@ function mapMockSegment(seg: any): FlightSegment {
 function getMockFlights(): FlightListItem[] {
   try {
     const flights = (flightDataJson as any).flightsList || [];
-    return flights.map((flight: any): FlightListItem => ({
-      flightId: flight.flightId,
-      airline: flight.airline,
-      currency: flight.currency,
-      totalTime: flight.totalTime,
-      totalCost: flight.totalCost,
-      stops: flight.stops,
-      outbound: (flight.outbound || []).map(mapMockSegment),
-      inbound: (flight.inbound || []).map(mapMockSegment),
-      flightFare: flight.flightFare,
-    }));
+    return flights.map(
+      (flight: any): FlightListItem => ({
+        flightId: flight.flightId,
+        airline: flight.airline,
+        currency: flight.currency,
+        totalTime: flight.totalTime,
+        totalCost: flight.totalCost,
+        stops: flight.stops,
+        outbound: (flight.outbound || []).map(mapMockSegment),
+        inbound: (flight.inbound || []).map(mapMockSegment),
+        flightFare: flight.flightFare,
+      }),
+    );
   } catch {
     return [];
   }
 }
 
-async function fetchFlights(params: URLSearchParams): Promise<FlightListItem[]> {
-  const apiBase = process.env.INTERNAL_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000/v1";
+async function fetchFlights(
+  params: URLSearchParams,
+): Promise<FlightListItem[]> {
+  const apiBase =
+    process.env.INTERNAL_API_BASE_URL ??
+    process.env.NEXT_PUBLIC_API_BASE_URL ??
+    "http://localhost:4000/v1";
 
   try {
-    const res = await fetch(`${apiBase}/flights/search?${params.toString()}`, { cache: "no-store" });
+    const res = await fetch(`${apiBase}/flights/search?${params.toString()}`, {
+      cache: "no-store",
+    });
     if (!res.ok) return getMockFlights();
     const data = await res.json();
     if (!Array.isArray(data) || data.length === 0) return getMockFlights();
@@ -90,7 +136,11 @@ async function fetchFlights(params: URLSearchParams): Promise<FlightListItem[]> 
   }
 }
 
-async function FlightResultsWrapper({ searchParams }: { searchParams: URLSearchParams }) {
+async function FlightResultsWrapper({
+  searchParams,
+}: {
+  searchParams: URLSearchParams;
+}) {
   const flights = await fetchFlights(searchParams);
   return <FlightSearchContainer initialFlights={flights} />;
 }
@@ -99,7 +149,8 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
   const unwrappedParams = await searchParams;
   const origin = unwrappedParams.org ?? "LHE";
   const destination = unwrappedParams.des ?? "DXB";
-  const departureDate = unwrappedParams.dDate ?? new Date().toISOString().slice(0, 10);
+  const departureDate =
+    unwrappedParams.dDate ?? new Date().toISOString().slice(0, 10);
   const returnDate = unwrappedParams.rDate;
   const adt = unwrappedParams.adt ?? "1";
   const chd = unwrappedParams.chd ?? "0";
@@ -107,8 +158,20 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
   const cabinClass = unwrappedParams.class ?? "Economy";
   const tripType = unwrappedParams.trip ?? "round-trip";
 
-  const apiParams = new URLSearchParams({ origin, destination, departureDate, page: unwrappedParams.page ?? "1", limit: unwrappedParams.limit ?? "20" });
-  if (cabinClass) apiParams.set("cabinClass", cabinClass.toUpperCase().replace(/ /g, "_"));
+  const apiParams = new URLSearchParams({
+    origin,
+    destination,
+    departureDate,
+    adults: adt,
+    children: chd,
+    infants: inf,
+    page: unwrappedParams.page ?? "1",
+    limit: unwrappedParams.limit ?? "20",
+  });
+
+  if (returnDate) apiParams.set("returnDate", returnDate);
+  if (cabinClass)
+    apiParams.set("cabinClass", cabinClass.toUpperCase().replace(/ /g, "_"));
 
   return (
     <>
@@ -122,7 +185,13 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
           passengers={`${adt} Adult`}
           cabinClass={cabinClass}
         />
-        <Suspense fallback={<div className="max-w-[1240px] mx-auto px-4 py-8"><FlightResultSkeleton /></div>}>
+        <Suspense
+          fallback={
+            <div className="max-w-[1240px] mx-auto px-4 py-8">
+              <FlightResultSkeleton />
+            </div>
+          }
+        >
           <FlightResultsWrapper searchParams={apiParams} />
         </Suspense>
       </div>

@@ -14,4 +14,5 @@ export interface FlightEntity {
   currency: 'USD' | 'AED' | 'EUR' | 'GBP';
   seatsAvailable: number;
   createdAt: Date;
+  rawSegments?: any;
 }

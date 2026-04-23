@@ -82,4 +82,48 @@ export class FlightRepository {
 
     return rows[0] ?? null;
   }
+
+  async upsert(flight: Partial<FlightEntity>): Promise<void> {
+    const query = `
+      INSERT INTO flights (
+        id, airline, airline_code, flight_number,
+        departure_airport, arrival_airport,
+        departure_at, arrival_at,
+        duration_minutes, stops, cabin_class,
+        base_fare, currency, seats_available
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+      ON CONFLICT (id) DO UPDATE SET
+        airline = EXCLUDED.airline,
+        airline_code = EXCLUDED.airline_code,
+        flight_number = EXCLUDED.flight_number,
+        departure_airport = EXCLUDED.departure_airport,
+        arrival_airport = EXCLUDED.arrival_airport,
+        departure_at = EXCLUDED.departure_at,
+        arrival_at = EXCLUDED.arrival_at,
+        duration_minutes = EXCLUDED.duration_minutes,
+        stops = EXCLUDED.stops,
+        cabin_class = EXCLUDED.cabin_class,
+        base_fare = EXCLUDED.base_fare,
+        currency = EXCLUDED.currency,
+        seats_available = EXCLUDED.seats_available
+    `;
+
+    await this.db.query(query, [
+      flight.id,
+      flight.airline,
+      flight.airlineCode,
+      flight.flightNumber,
+      flight.departureAirport,
+      flight.arrivalAirport,
+      flight.departureAt,
+      flight.arrivalAt,
+      flight.duration || 0,
+      flight.stops || 0,
+      flight.cabinClass,
+      flight.baseFare,
+      flight.currency,
+      flight.seatsAvailable || 9,
+    ]);
+  }
 }

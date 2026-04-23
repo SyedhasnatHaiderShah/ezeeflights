@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AmadeusProvider } from '../../common/providers';
+import { TravelportProvider } from '../../common/providers';
 import { FlightController } from './controllers/flight.controller';
 import { FlightService } from './services/flight.service';
 import { FlightRepository } from './repositories/flight.repository';
@@ -11,7 +11,7 @@ import { AncillariesRepository } from './repositories/ancillaries.repository';
 
 @Module({
   controllers: [FlightController],
-  providers: [FlightService, FlightRepository, SeatMapService, SeatMapRepository, AncillariesService, AncillariesRepository, PostgresClient, AmadeusProvider],
-  exports: [FlightService],
+  providers: [FlightService, FlightRepository, SeatMapService, SeatMapRepository, AncillariesService, AncillariesRepository, PostgresClient, TravelportProvider],
+  exports: [FlightService, TravelportProvider],
 })
 export class FlightModule { }

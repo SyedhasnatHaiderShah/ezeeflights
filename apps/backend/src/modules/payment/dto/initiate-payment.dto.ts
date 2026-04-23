@@ -7,8 +7,8 @@ export class InitiatePaymentDto {
   @IsUUID()
   bookingId!: string;
 
-  @ApiProperty({ enum: ['STRIPE', 'PAYTABS', 'TABBY', 'TAMARA'], description: 'Payment provider' })
-  @IsEnum(['STRIPE', 'PAYTABS', 'TABBY', 'TAMARA'])
+  @ApiProperty({ enum: ['STRIPE', 'PAYTABS', 'TABBY', 'TAMARA', 'MOCK'], description: 'Payment provider' })
+  @IsEnum(['STRIPE', 'PAYTABS', 'TABBY', 'TAMARA', 'MOCK'])
   provider!: PaymentProvider;
 
   @ApiProperty({ example: 299.99, description: 'Amount to charge', minimum: 0.01 })

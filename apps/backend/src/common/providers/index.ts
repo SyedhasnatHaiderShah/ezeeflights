@@ -5,3 +5,4 @@ export * from './paytabs.provider';
 export * from './stripe.provider';
 export * from './tabby.provider';
 export * from './tamara.provider';
+export * from './travelport.provider';

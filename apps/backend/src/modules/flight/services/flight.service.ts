@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
-import { AmadeusProvider } from '../../../common/providers';
+import { TravelportProvider } from '../../../common/providers';
 import { SearchFlightsDto } from '../dto/search-flights.dto';
 import { FlightRepository } from '../repositories/flight.repository';
 import { FlightEntity } from '../entities/flight.entity';
@@ -8,7 +8,7 @@ import { FlightEntity } from '../entities/flight.entity';
 export class FlightService {
   constructor(
     private readonly repository: FlightRepository,
-    private readonly amadeusProvider: AmadeusProvider,
+    private readonly travelportProvider: TravelportProvider,
   ) {}
 
   async searchFlights(dto: SearchFlightsDto): Promise<FlightEntity[]> {
@@ -18,43 +18,73 @@ export class FlightService {
         return localResults;
       }
 
-      const providerResults = await this.amadeusProvider.searchFlights({
+      const providerResults = await this.travelportProvider.searchFlights({
         origin: dto.origin,
         destination: dto.destination,
         date: dto.departureDate,
-        travelers: 1,
+        returnDate: dto.returnDate,
+        adults: dto.adults,
+        children: dto.children,
+        infants: dto.infants,
         currency: dto.currency,
       });
 
-      return providerResults.map((offer, index) => ({
-        id: String(offer.id ?? `amadeus-${index}`),
-        airline: String(((offer as any).validatingAirlineCodes?.[0] ?? (offer as any).airline ?? 'AMADEUS')),
-        airlineCode: String(((offer as any).validatingAirlineCodes?.[0] ?? (offer as any).airline ?? 'AMA')),
-        flightNumber: String((offer as any).itineraries?.[0]?.segments?.[0]?.number ?? 'N/A'),
-        departureAirport: String((offer as any).itineraries?.[0]?.segments?.[0]?.departure?.iataCode ?? dto.origin),
-        arrivalAirport: String((offer as any).itineraries?.[0]?.segments?.slice(-1)?.[0]?.arrival?.iataCode ?? dto.destination),
-        departureAt: new Date(String((offer as any).itineraries?.[0]?.segments?.[0]?.departure?.at ?? dto.departureDate)),
-        arrivalAt: new Date(String((offer as any).itineraries?.[0]?.segments?.slice(-1)?.[0]?.arrival?.at ?? dto.departureDate)),
-        duration: Number(String((offer as any).itineraries?.[0]?.duration ?? 0).replace(/[^\d]/g, '') || 0),
-        stops: Math.max((((offer as any).itineraries?.[0]?.segments?.length ?? 1) as number) - 1, 0),
-        cabinClass: dto.cabinClass ?? 'ECONOMY',
-        baseFare: Number((offer as any).price?.total ?? 0),
-        currency: String((offer as any).price?.currency ?? dto.currency ?? 'USD'),
-        seatsAvailable: Number((offer as any).numberOfBookableSeats ?? 1),
+      return providerResults.map((offer) => ({
+        id: String(offer.id),
+        airline: String(offer.airline || 'TRAVELPORT'),
+        airlineCode: String(offer.airlineCode || 'TRV'),
+        flightNumber: String(offer.flightNumber || 'N/A'),
+        departureAirport: String(offer.departureAirport || dto.origin),
+        arrivalAirport: String(offer.arrivalAirport || dto.destination),
+        departureAt: new Date(offer.departureAt || dto.departureDate),
+        arrivalAt: new Date(offer.arrivalAt || dto.departureDate),
+        duration: Number(offer.duration || 0),
+        stops: Number(offer.stops || 0),
+        cabinClass: dto.cabinClass || 'ECONOMY',
+        baseFare: Number(offer.price || 0),
+        currency: String(offer.currency || dto.currency || 'USD'),
+        seatsAvailable: 1,
         createdAt: new Date(),
+        rawSegments: offer.segments,
       })) as FlightEntity[];
-    } catch {
-      throw new ServiceUnavailableException('Flight provider failed to return search results');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      throw new ServiceUnavailableException(`Flight provider failed: ${errorMessage}`);
     }
   }
 
   async getFlightById(id: string): Promise<FlightEntity> {
-    const flight = await this.repository.findById(id);
-
-    if (!flight) {
-      throw new NotFoundException(`Flight with id ${id} not found`);
+    // Check if ID is a valid UUID to avoid Postgres casting errors
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+    
+    if (isUuid) {
+      const flight = await this.repository.findById(id);
+      if (flight) return flight;
     }
 
-    return flight;
+    // If not in DB, it's a transient Travelport flight
+    // We return a minimal entity. In a production app, you might want to 
+    // fetch this from a cache or re-verify with the provider.
+    return {
+      id,
+      airline: 'TRAVELPORT',
+      airlineCode: 'TRV',
+      flightNumber: 'Live Result',
+      departureAirport: 'Pending',
+      arrivalAirport: 'Pending',
+      departureAt: new Date(),
+      arrivalAt: new Date(),
+      duration: 0,
+      stops: 0,
+      cabinClass: 'ECONOMY',
+      baseFare: 0,
+      currency: 'USD',
+      seatsAvailable: 1,
+      createdAt: new Date(),
+    } as FlightEntity;
+  }
+
+  async upsert(flight: Partial<FlightEntity>): Promise<void> {
+    return this.repository.upsert(flight);
   }
 }

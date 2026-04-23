@@ -66,4 +66,30 @@ export class SearchFlightsDto {
   @Min(1)
   @Max(100)
   limit = 20;
+
+  @ApiPropertyOptional({ example: '2025-08-10', description: 'Return date (ISO date string)' })
+  @IsOptional()
+  @IsDateString()
+  returnDate?: string;
+
+  @ApiPropertyOptional({ example: 1, description: 'Number of adults', minimum: 1, default: 1 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  adults = 1;
+
+  @ApiPropertyOptional({ example: 0, description: 'Number of children', minimum: 0, default: 0 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(0)
+  children = 0;
+
+  @ApiPropertyOptional({ example: 0, description: 'Number of infants', minimum: 0, default: 0 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(0)
+  infants = 0;
 }

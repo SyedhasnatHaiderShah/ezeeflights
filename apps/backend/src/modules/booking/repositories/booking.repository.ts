@@ -11,10 +11,12 @@ export class BookingRepository {
   async create(userId: string, dto: CreateBookingDto): Promise<BookingDetailsEntity> {
     const duplicateSeats = new Set<string>();
     for (const passenger of dto.passengers) {
-      if (duplicateSeats.has(passenger.seatNumber)) {
-        throw new BadRequestException(`Duplicate seat in request: ${passenger.seatNumber}`);
+      if (passenger.seatNumber) {
+        if (duplicateSeats.has(passenger.seatNumber)) {
+          throw new BadRequestException(`Duplicate seat in request: ${passenger.seatNumber}`);
+        }
+        duplicateSeats.add(passenger.seatNumber);
       }
-      duplicateSeats.add(passenger.seatNumber);
     }
 
     return this.db.withTransaction(async (client) => {
@@ -150,8 +152,8 @@ export class BookingRepository {
       ),
     ]);
 
-    booking.passengers = passengers;
-    booking.flights = flights;
+    booking.passengers = 'rows' in passengers ? passengers.rows : passengers;
+    booking.flights = 'rows' in flights ? flights.rows : flights;
 
     return booking;
   }

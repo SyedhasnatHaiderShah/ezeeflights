@@ -194,22 +194,16 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   key={tab.href}
                   href={tab.href}
                   className={cn(
-                    "relative flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors",
+                    "relative flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full",
                     isActive
-                      ? "text-brand-red"
+                      ? "text-white bg-brand-red/90 shadow-lg shadow-brand-red/20"
                       : isTransparent
-                        ? "text-white/80 hover:text-white"
-                        : "text-muted-foreground hover:text-foreground",
+                        ? "text-white/70 hover:text-white hover:bg-white/10"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
                   )}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className={cn("h-4 w-4", isActive ? "text-white" : "text-brand-red")} />
                   {tab.label}
-                  <span
-                    className={cn(
-                      "absolute bottom-0 left-0 h-0.5 w-full origin-left bg-brand-red transition-transform duration-300",
-                      isActive ? "scale-x-100" : "scale-x-0",
-                    )}
-                  />
                 </Link>
               );
             })}

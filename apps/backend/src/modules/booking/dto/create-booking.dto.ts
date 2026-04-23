@@ -9,6 +9,7 @@ import {
   IsUUID,
   Matches,
   ValidateNested,
+  ValidateIf,
 } from 'class-validator';
 import { PassengerType } from '../entities/booking.entity';
 
@@ -21,10 +22,10 @@ class PassengerDto {
   @IsString()
   passportNumber!: string;
 
-  @ApiProperty({ example: '12A' })
+  @ApiPropertyOptional({ example: '12A' })
+  @IsOptional()
   @IsString()
-  @Matches(/^[0-9]{1,2}[A-Z]$/, { message: 'seatNumber must look like 12A' })
-  seatNumber!: string;
+  seatNumber?: string;
 
   @ApiProperty({ enum: ['ADULT', 'CHILD', 'INFANT'] })
   @IsEnum(['ADULT', 'CHILD', 'INFANT'])

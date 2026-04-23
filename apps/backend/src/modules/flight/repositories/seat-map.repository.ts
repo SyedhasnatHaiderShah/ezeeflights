@@ -43,12 +43,30 @@ export class SeatMapRepository {
 
       const existing = await client.query(
         `SELECT id FROM seat_selections
-         WHERE flight_id = $1 AND seat_row = $2 AND seat_column = $3 AND status IN ('reserved', 'occupied')
+         WHERE flight_id = $1 AND seat_row = $2 AND seat_column = $3 
+           AND status IN ('reserved', 'occupied')
+           AND booking_id <> $4
          LIMIT 1 FOR UPDATE`,
-        [flightId, row, col],
+        [flightId, row, col, bookingId],
       );
       if (existing.rows[0]) {
-        throw new BadRequestException('Seat is not available');
+        throw new BadRequestException('Seat is already reserved by another passenger');
+      }
+
+      // Check if this passenger already has a seat selection for this flight
+      const passengerExisting = await client.query(
+        `SELECT id, price::float8 as price FROM seat_selections 
+         WHERE booking_id = $1 AND passenger_index = $2 AND flight_id = $3`,
+        [bookingId, passengerIndex, flightId],
+      );
+
+      if (passengerExisting.rows[0]) {
+        // Remove old selection price from booking total before updating
+        await client.query(
+          `UPDATE bookings SET total_price = GREATEST(total_price - $2, 0) WHERE id = $1`,
+          [bookingId, passengerExisting.rows[0].price],
+        );
+        await client.query('DELETE FROM seat_selections WHERE id = $1', [passengerExisting.rows[0].id]);
       }
 
       const seatData = await client.query(

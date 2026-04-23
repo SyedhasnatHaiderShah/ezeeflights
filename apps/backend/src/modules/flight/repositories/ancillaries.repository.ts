@@ -14,7 +14,7 @@ export class AncillariesRepository {
        FROM ancillary_options
        WHERE is_active = true
          AND ($1::text IS NULL OR airline_code = $1)
-         AND ($2::text IS NULL OR ancillary_type = $2)
+         AND ($2::text IS NULL OR ancillary_type::text = $2)
        ORDER BY ancillary_type ASC, price ASC`,
       [airlineCode ?? null, type ?? null],
     );
