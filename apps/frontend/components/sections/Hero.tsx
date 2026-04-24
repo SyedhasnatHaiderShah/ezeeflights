@@ -5,13 +5,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { BookingForm } from "@/components/booking-form";
+import { RecentSearches } from "@/components/sections/RecentSearches";
 import { AppImage } from "@/components/ui/app-image";
 import { StatCounter } from "@/components/ui/stat-counter";
 import { usePublicStats } from "@/lib/api/stats";
 
 type HeroTab = "flights" | "hotels" | "cars" | "packages" | "transfers";
 
-const HERO_MEDIA: Record<HeroTab, ReadonlyArray<{ name: string; image: string }>> = {
+const HERO_MEDIA: Record<
+  HeroTab,
+  ReadonlyArray<{ name: string; image: string }>
+> = {
   flights: [
     {
       name: "Dubai",
@@ -152,9 +156,19 @@ const HERO_MEDIA: Record<HeroTab, ReadonlyArray<{ name: string; image: string }>
 const HERO_STAT_LABELS: Record<HeroTab, [string, string, string, string]> = {
   flights: ["Happy Travelers", "Airlines", "Countries", "Rating"],
   hotels: ["Happy Guests", "Hotel Partners", "Destinations", "Guest Rating"],
-  cars: ["Happy Renters", "Rental Partners", "Service Regions", "Driver Rating"],
+  cars: [
+    "Happy Renters",
+    "Rental Partners",
+    "Service Regions",
+    "Driver Rating",
+  ],
   packages: ["Happy Travelers", "Package Partners", "Countries", "Trip Rating"],
-  transfers: ["Happy Riders", "Transfer Partners", "Service Cities", "Service Rating"],
+  transfers: [
+    "Happy Riders",
+    "Transfer Partners",
+    "Service Cities",
+    "Service Rating",
+  ],
 };
 
 interface HeroProps {
@@ -230,8 +244,9 @@ export function Hero({
           {description}
         </p>
 
-        <div className="mt-5 w-full">
+        <div id="booking-form" className="mt-5 w-full">
           <BookingForm defaultTab={defaultTab} heroMode />
+          {/* <RecentSearches /> */}
         </div>
 
         <div className="mt-5 grid w-full grid-cols-2 gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur md:grid-cols-4">

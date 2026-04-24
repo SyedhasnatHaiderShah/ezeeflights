@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
+import { format, isBefore, startOfDay } from "date-fns";
 import { Calendar as CalendarIcon, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,7 @@ interface DatePickerProps {
   defaultMonth?: Date;
   glassPopover?: boolean;
   openOnHover?: boolean;
+  disablePastDates?: boolean;
 }
 
 export function DatePicker({
@@ -38,6 +39,7 @@ export function DatePicker({
   defaultMonth,
   glassPopover = false,
   openOnHover = true,
+  disablePastDates = false,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
@@ -86,14 +88,17 @@ export function DatePicker({
               {label}
             </span>
             <div className="flex items-center gap-1.5 w-full">
-
               <span
                 className={cn(
                   "truncate font-semibold text-sm tracking-tight",
                   hasDate ? "text-foreground" : "text-foreground/60",
                 )}
               >
-                {hasDate && date ? format(date, "EEE, MMM d") : open ? "" : "Choose date"}
+                {hasDate && date
+                  ? format(date, "EEE, MMM d")
+                  : open
+                    ? ""
+                    : "Choose date"}
               </span>
             </div>
           </div>
@@ -131,9 +136,9 @@ export function DatePicker({
             glassPopover
               ? {
                   button_previous:
-                    "pointer-events-auto h-8 w-8 rounded-full border border-white/20 bg-white/10 text-foreground shadow-sm transition-all hover:bg-white/20 hover:text-foreground",
+                    "pointer-events-auto h-9 w-9 rounded-full border border-white/20 bg-white/10 text-foreground shadow-sm transition-all hover:bg-white/20 hover:text-foreground flex items-center justify-center cursor-pointer",
                   button_next:
-                    "pointer-events-auto h-8 w-8 rounded-full border border-white/20 bg-white/10 text-foreground shadow-sm transition-all hover:bg-white/20 hover:text-foreground",
+                    "pointer-events-auto h-9 w-9 rounded-full border border-white/20 bg-white/10 text-foreground shadow-sm transition-all hover:bg-white/20 hover:text-foreground flex items-center justify-center cursor-pointer",
                 }
               : undefined
           }
@@ -145,7 +150,13 @@ export function DatePicker({
           }}
           initialFocus
           numberOfMonths={numberOfMonths}
-          disabled={calendarDisabled}
+          disabled={
+            calendarDisabled ||
+            (disablePastDates
+              ? (date: Date) =>
+                  isBefore(startOfDay(date), startOfDay(new Date()))
+              : undefined)
+          }
           defaultMonth={defaultMonth}
         />
       </PopoverContent>

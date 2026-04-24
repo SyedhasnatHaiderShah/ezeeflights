@@ -1,5 +1,8 @@
+"use client";
+import * as React from "react";
 import Link from "next/link";
 import { Apple, Facebook, Instagram, Linkedin, Play, Twitter, Youtube, type LucideIcon } from "lucide-react";
+import { useTheme } from "next-themes";
 import EzeeFlightsLogo from "@/components/ezee-flights-logo";
 import { cn } from "@/lib/utils";
 
@@ -38,12 +41,21 @@ function AppButton({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
 }
 
 export function Footer() {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDarkMode = mounted && theme === "dark";
+
   return (
     <footer className="mt-auto border-t border-border bg-card">
       <div className="mx-auto max-w-screen-2xl px-6 py-10">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
           <div className="space-y-4">
-            <EzeeFlightsLogo isDarkMode={false} className="h-auto w-36" />
+            <EzeeFlightsLogo isDarkMode={isDarkMode} className="h-auto w-36" />
             <p className="text-sm text-muted-foreground">Your journey begins with us</p>
             <div className="flex items-center gap-2">
               {socialIcons.map((Icon, index) => (

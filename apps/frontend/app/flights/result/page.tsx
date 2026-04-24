@@ -32,27 +32,28 @@ function toFlightListItem(entity: any): FlightListItem {
     };
   };
 
-  const outbound = rawSegments.filter(s => s.Group === 0 || s.Group === '0' || !s.Group).map(mapSegment);
-  const inbound = rawSegments.filter(s => s.Group > 0 || s.Group === '1').map(mapSegment);
+  const outbound = rawSegments.filter((s: any) => s.Group === 0 || s.Group === '0' || !s.Group).map(mapSegment);
+  const inbound = rawSegments.filter((s: any) => s.Group > 0 || s.Group === '1').map(mapSegment);
 
   // Fallback for one-way or missing group data
   if (outbound.length === 0 && rawSegments.length > 0) {
     outbound.push(...rawSegments.map(mapSegment));
   }
 
+  const totalCost = Number(entity.totalFare ?? entity.price ?? 0);
   const baseFare = Number(entity.baseFare ?? 0);
-  const tax = Math.round(baseFare * 0.12 * 100) / 100;
+  const tax = Number(entity.tax ?? 0);
 
   return {
     flightId: String(entity.id ?? ""),
     airline: { id: 0, code: String(entity.airlineCode || ""), name: String(entity.airline || "") },
     currency: String(entity.currency || "USD"),
     totalTime: Number(entity.duration || 0),
-    totalCost: baseFare + tax,
+    totalCost,
     stops: Number(entity.stops || 0),
     outbound,
     inbound,
-    flightFare: { adultFare: baseFare, adultTax: tax, grandTotal: baseFare + tax }
+    flightFare: { adultFare: baseFare, adultTax: tax, grandTotal: totalCost }
   };
 }
 
@@ -94,21 +95,49 @@ function mapMockSegment(seg: any): FlightSegment {
   };
 }
 
-function getMockFlights(): FlightListItem[] {
+function getMockFlights(origin?: string, destination?: string, date?: string): FlightListItem[] {
   try {
     const flights = (flightDataJson as any).flightsList || [];
     return flights.map(
-      (flight: any): FlightListItem => ({
-        flightId: flight.flightId,
-        airline: flight.airline,
-        currency: flight.currency,
-        totalTime: flight.totalTime,
-        totalCost: flight.totalCost,
-        stops: flight.stops,
-        outbound: (flight.outbound || []).map(mapMockSegment),
-        inbound: (flight.inbound || []).map(mapMockSegment),
-        flightFare: flight.flightFare,
-      }),
+      (flight: any): FlightListItem => {
+        const item: FlightListItem = {
+          flightId: flight.flightId,
+          airline: flight.airline,
+          currency: flight.currency,
+          totalTime: flight.totalTime,
+          totalCost: flight.totalCost,
+          stops: flight.stops,
+          outbound: (flight.outbound || []).map((seg: any) => {
+            const mapped = mapMockSegment(seg);
+            if (origin) {
+              mapped.fromAirport.code = origin;
+              mapped.fromAirport.cityName = origin;
+            }
+            if (destination) {
+              mapped.toAirport.code = destination;
+              mapped.toAirport.cityName = destination;
+            }
+            if (date) {
+              mapped.departureDate = date + mapped.departureDate.substring(10);
+            }
+            return mapped;
+          }),
+          inbound: (flight.inbound || []).map((seg: any) => {
+            const mapped = mapMockSegment(seg);
+            if (destination) {
+              mapped.fromAirport.code = destination;
+              mapped.fromAirport.cityName = destination;
+            }
+            if (origin) {
+              mapped.toAirport.code = origin;
+              mapped.toAirport.cityName = origin;
+            }
+            return mapped;
+          }),
+          flightFare: flight.flightFare,
+        };
+        return item;
+      }
     );
   } catch {
     return [];
@@ -123,16 +152,31 @@ async function fetchFlights(
     process.env.NEXT_PUBLIC_API_BASE_URL ??
     "http://localhost:4000/v1";
 
+  const origin = params.get("origin") || undefined;
+  const destination = params.get("destination") || undefined;
+  const date = params.get("departureDate") || undefined;
+
   try {
     const res = await fetch(`${apiBase}/flights/search?${params.toString()}`, {
       cache: "no-store",
     });
-    if (!res.ok) return getMockFlights();
+    
+    if (!res.ok) {
+      console.warn(`Flight search API failed with status ${res.status}. Falling back to demo data.`);
+      return getMockFlights(origin, destination, date);
+    }
+    
     const data = await res.json();
-    if (!Array.isArray(data) || data.length === 0) return getMockFlights();
+    
+    if (!Array.isArray(data) || data.length === 0) {
+      console.log("No flights found from API. Falling back to demo data for current route.");
+      return getMockFlights(origin, destination, date);
+    }
+    
     return data.map(toFlightListItem);
-  } catch {
-    return getMockFlights();
+  } catch (err) {
+    console.error("Flight search fetch error:", err);
+    return getMockFlights(origin, destination, date);
   }
 }
 

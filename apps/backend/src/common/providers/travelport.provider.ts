@@ -2,6 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { PinoLogger } from "nestjs-pino";
 import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
+import * as fs from "fs";
+import * as path from "path";
 
 @Injectable()
 export class TravelportProvider {
@@ -78,7 +80,7 @@ export class TravelportProvider {
                 <air:SearchDestination>
                     <com:CityOrAirport Code="${params.destination}" PreferCity="true"/>
                 </air:SearchDestination>
-                <air:SearchDepTime PreferredTime="${params.date}"/>
+                <air:SearchDepTime PreferredTime="${params.date}T00:00:00"/>
             </air:SearchAirLeg>`,
     ];
 
@@ -91,7 +93,7 @@ export class TravelportProvider {
                 <air:SearchDestination>
                     <com:CityOrAirport Code="${params.origin}" PreferCity="true"/>
                 </air:SearchDestination>
-                <air:SearchDepTime PreferredTime="${params.returnDate}"/>
+                <air:SearchDepTime PreferredTime="${params.returnDate}T00:00:00"/>
             </air:SearchAirLeg>`);
     }
 
@@ -128,9 +130,8 @@ export class TravelportProvider {
         },
       });
 
-      // console.log('--- RAW TRAVELPORT RESPONSE START ---');
-      // console.log(response.data);
-      // console.log('--- RAW TRAVELPORT RESPONSE END ---');
+      // Log the response to a file for comparison
+      this.saveResponseLog('search', params.origin, params.destination, response.data);
 
       const json = this.parser.parse(response.data);
       const body =
@@ -210,6 +211,8 @@ export class TravelportProvider {
         taxes: sol.Taxes,
         // Helper to extract numeric price and currency
         price: parseFloat(sol.TotalPrice?.replace(/[^\d.]/g, "") || "0"),
+        basePriceNumeric: parseFloat(sol.BasePrice?.replace(/[^\d.]/g, "") || "0"),
+        taxesNumeric: parseFloat(sol.Taxes?.replace(/[^\d.]/g, "") || "0"),
         currency: sol.TotalPrice?.replace(/[\d.]/g, "") || "USD",
         segments: segmentsForSolution,
       };
@@ -317,6 +320,23 @@ export class TravelportProvider {
         "Travelport createReservation: Error",
       );
       throw err;
+    }
+  }
+
+  private saveResponseLog(type: string, origin: string, destination: string, data: string) {
+    try {
+      const logDir = path.join(process.cwd(), 'logs', 'travelport_responses');
+      if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir, { recursive: true });
+      }
+      
+      const filename = `server-response.xml`;
+      const filepath = path.join(logDir, filename);
+      
+      fs.writeFileSync(filepath, data);
+      this.logger.info({ filepath }, "Travelport response saved to file");
+    } catch (err) {
+      this.logger.error({ err }, "Error saving Travelport response log");
     }
   }
 }

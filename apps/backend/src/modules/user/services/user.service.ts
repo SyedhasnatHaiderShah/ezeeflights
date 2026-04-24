@@ -4,10 +4,15 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserPublicView, UserRecord } from '../entities/user.entity';
 import { UserRepository } from '../repositories/user.repository';
+import { RecentSearchRepository } from '../repositories/recent-search.repository';
+import { RecentSearchEntity } from '../entities/recent-search.entity';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly repository: UserRepository) {}
+  constructor(
+    private readonly repository: UserRepository,
+    private readonly recentSearchRepository: RecentSearchRepository,
+  ) {}
 
   private formatPassportExpiry(value: Date | null): string | null {
     if (!value) {
@@ -122,5 +127,34 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
     return { message: 'Deleted successfully' };
+  }
+
+  async getRecentSearches(userId: string, limit = 8): Promise<RecentSearchEntity[]> {
+    return this.recentSearchRepository.findByUserId(userId, limit);
+  }
+
+  async saveSearch(userId: string, data: {
+    origin: string;
+    destination: string;
+    searchType: string;
+    searchDate?: string;
+    metadata?: any;
+  }): Promise<RecentSearchEntity | null> {
+    return this.recentSearchRepository.create({
+      userId,
+      origin: data.origin,
+      destination: data.destination,
+      searchType: data.searchType,
+      searchDate: data.searchDate ? new Date(data.searchDate) : null,
+      metadata: data.metadata,
+    });
+  }
+
+  async deleteRecentSearch(userId: string, id: string): Promise<boolean> {
+    return this.recentSearchRepository.deleteById(userId, id);
+  }
+
+  async clearRecentSearches(userId: string): Promise<void> {
+    return this.recentSearchRepository.deleteAllByUserId(userId);
   }
 }

@@ -39,10 +39,10 @@ function Calendar({
           "text-sm font-bold text-foreground dark:text-white tracking-tight px-10",
         nav: "flex items-center absolute top-2 left-0 right-0 justify-between px-2 w-full z-20 pointer-events-none",
         button_previous: cn(
-          "h-8 w-8 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-90 pointer-events-auto",
+          "h-9 w-9 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground/70 hover:bg-brand-red/10 hover:text-brand-red hover:border-brand-red/20 transition-all active:scale-90 pointer-events-auto",
         ),
         button_next: cn(
-          "h-8 w-8 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-90 pointer-events-auto",
+          "h-9 w-9 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground/70 hover:bg-brand-red/10 hover:text-brand-red hover:border-brand-red/20 transition-all active:scale-90 pointer-events-auto",
         ),
         month_grid: "w-full border-collapse",
         weekdays: "flex mb-1",
@@ -81,12 +81,12 @@ function Calendar({
         Chevron: ({ orientation, className, ...props }) =>
           orientation === "left" ? (
             <ChevronLeft
-              className={cn("h-4 w-4 shrink-0", className)}
+              className={cn("h-5 w-5 shrink-0", className)}
               {...props}
             />
           ) : (
             <ChevronRight
-              className={cn("h-4 w-4 shrink-0", className)}
+              className={cn("h-5 w-5 shrink-0", className)}
               {...props}
             />
           ),

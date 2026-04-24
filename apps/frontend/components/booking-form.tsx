@@ -2,6 +2,15 @@
 
 import * as React from "react";
 import { format, isBefore, startOfDay } from "date-fns";
+import { 
+  useSaveRecentSearch, 
+  useSaveGuestSearch, 
+  useRecentSearches, 
+  useGuestRecentSearches 
+} from "@/lib/api/search";
+import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { useRecentSearchStore } from "@/lib/store/recent-search-store";
+import { parseISO } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowRightLeft } from "lucide-react";
@@ -35,33 +44,91 @@ export function BookingForm({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+  const session = useAuthSession();
+  const saveSearchMutation = useSaveRecentSearch();
+  const saveGuestSearchMutation = useSaveGuestSearch();
+  const { prefill, clearPrefill } = useRecentSearchStore();
+
   // URL-persistent tab state
   const activeTab = (searchParams.get("tab") as TabType) || defaultTab;
-  
+
   const handleTabChange = (tab: TabType) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", tab);
     router.push(`${pathname}?${params.toString()}` as any, { scroll: false });
   };
 
-  const [origin, setOrigin] = React.useState("");
-  const [destination, setDestination] = React.useState("");
-  const [departDate, setDepartDate] = React.useState<Date | undefined>();
-  const [returnDate, setReturnDate] = React.useState<Date | undefined>();
+  const { data: dbSearches = [] } = useRecentSearches(1, Boolean(session.data));
+  const { data: guestSearches = [] } = useGuestRecentSearches();
+
+  // Initial values from URL if present
+  const [origin, setOrigin] = React.useState(searchParams.get("org") || "");
+  const [destination, setDestination] = React.useState(searchParams.get("des") || "");
+  
+  // Parse dates from URL or default to undefined
+  const urlDDate = searchParams.get("dDate");
+  const urlRDate = searchParams.get("rDate");
+  const [departDate, setDepartDate] = React.useState<Date | undefined>(
+    urlDDate ? parseISO(urlDDate) : undefined
+  );
+  const [returnDate, setReturnDate] = React.useState<Date | undefined>(
+    urlRDate ? parseISO(urlRDate) : undefined
+  );
+
   const [transferTime, setTransferTime] = React.useState("12:00");
-  const [tripType, setTripType] =
-    React.useState<(typeof TRIP_TYPES)[number]>("round-trip");
-  const [cabinClass, setCabinClass] = React.useState("Economy");
+  const [tripType, setTripType] = React.useState<(typeof TRIP_TYPES)[number]>(
+    (searchParams.get("trip") as any) || "round-trip"
+  );
+  const [cabinClass, setCabinClass] = React.useState(searchParams.get("class") || "Economy");
+  
   const [passengers, setPassengers] = React.useState({
-    adults: 2,
-    children: 0,
-    infants: 0,
+    adults: parseInt(searchParams.get("adt") || "2"),
+    children: parseInt(searchParams.get("chd") || "0"),
+    infants: parseInt(searchParams.get("inf") || "0"),
   });
+
   const [rooms, setRooms] = React.useState(1);
   const [guests, setGuests] = React.useState(2);
   const [driverAge, setDriverAge] = React.useState(30);
   const [swapRotate, setSwapRotate] = React.useState(0);
+
+  // Prefill effect for manual clicks on Recent Search cards
+  React.useEffect(() => {
+    if (prefill) {
+      applySearchToForm(prefill);
+      clearPrefill();
+    }
+  }, [prefill, clearPrefill]);
+
+  // Optional: Auto-prefill from history ONLY on homepage if form is still empty after mount
+  React.useEffect(() => {
+    const hasParams = searchParams.get("org") || searchParams.get("des");
+    if (hasParams) return;
+
+    // Only auto-fill from history if the user hasn't touched the form yet
+    if (!origin && !destination) {
+      const lastSearch = session.data ? dbSearches[0] : guestSearches[0];
+      if (lastSearch) {
+        applySearchToForm(lastSearch);
+      }
+    }
+  }, [dbSearches, guestSearches, session.data, searchParams]);
+
+  const applySearchToForm = (search: any) => {
+    if (search.searchType && search.searchType !== activeTab) {
+      handleTabChange(search.searchType as TabType);
+    }
+    setOrigin(search.origin);
+    setDestination(search.destination);
+    if (search.searchDate) {
+      setDepartDate(parseISO(search.searchDate));
+    }
+    if (search.metadata) {
+      if (search.metadata.tripType) setTripType(search.metadata.tripType);
+      if (search.metadata.cabinClass) setCabinClass(search.metadata.cabinClass);
+      if (search.metadata.passengers) setPassengers(search.metadata.passengers);
+    }
+  };
 
   const handleDepartDateChange = (nextDepartDate: Date | undefined) => {
     setDepartDate(nextDepartDate);
@@ -94,6 +161,27 @@ export function BookingForm({
   };
 
   const handleSearch = () => {
+    // Save to recent searches
+    if (origin && destination) {
+      const searchData = {
+        origin,
+        destination,
+        searchType: activeTab,
+        searchDate: departDate ? format(departDate, "yyyy-MM-dd") : undefined,
+        metadata: {
+          tripType,
+          cabinClass,
+          passengers,
+        },
+      };
+
+      if (session.data) {
+        saveSearchMutation.mutate(searchData);
+      } else {
+        saveGuestSearchMutation.mutate(searchData);
+      }
+    }
+
     const params = new URLSearchParams();
     params.set("org", origin);
     params.set("des", destination);
@@ -117,7 +205,10 @@ export function BookingForm({
 
   return (
     <div className={cn("w-full", cardClass)}>
-      <Tabs value={activeTab} onValueChange={(v) => handleTabChange(v as TabType)}>
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => handleTabChange(v as TabType)}
+      >
         <TabsList
           className={cn(
             "mb-4 h-auto w-full justify-start gap-2 bg-transparent p-0",
@@ -129,7 +220,7 @@ export function BookingForm({
               key={tab.id}
               value={tab.id}
               className={cn(
-                "rounded-md px-3 py-2 text-xs sm:text-sm font-semibold shadow-none",
+                "rounded-md px-3 py-2 text-xs sm:text-sm font-semibold shadow-none cursor-pointer",
                 activeTabClass,
                 heroMode
                   ? "text-white/70 hover:text-white"
@@ -204,6 +295,7 @@ export function BookingForm({
                 date={departDate}
                 setDate={handleDepartDateChange}
                 label="Depart"
+                disablePastDates
                 className="rounded-md h-14"
                 glassPopover={heroMode}
                 openOnHover={false}
@@ -267,8 +359,9 @@ export function BookingForm({
           <div className="rounded-md border border-white/20 bg-white/5 h-14">
             <DatePicker
               date={departDate}
-              setDate={setDepartDate}
+              setDate={handleDepartDateChange}
               label="Check-in"
+              disablePastDates
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}
@@ -277,8 +370,14 @@ export function BookingForm({
           <div className="rounded-md border border-white/20 bg-white/5 h-14">
             <DatePicker
               date={returnDate}
-              setDate={setReturnDate}
+              setDate={handleReturnDateChange}
               label="Check-out"
+              calendarDisabled={
+                departDate
+                  ? (date: Date) =>
+                      isBefore(startOfDay(date), startOfDay(departDate))
+                  : undefined
+              }
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}
@@ -338,8 +437,9 @@ export function BookingForm({
           <div className="rounded-md border border-white/20 bg-white/5 h-14">
             <DatePicker
               date={departDate}
-              setDate={setDepartDate}
+              setDate={handleDepartDateChange}
               label="Pickup date"
+              disablePastDates
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}
@@ -348,8 +448,14 @@ export function BookingForm({
           <div className="rounded-md border border-white/20 bg-white/5 h-14">
             <DatePicker
               date={returnDate}
-              setDate={setReturnDate}
+              setDate={handleReturnDateChange}
               label="Dropoff date"
+              calendarDisabled={
+                departDate
+                  ? (date: Date) =>
+                      isBefore(startOfDay(date), startOfDay(departDate))
+                  : undefined
+              }
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}
@@ -398,8 +504,9 @@ export function BookingForm({
           <div className="rounded-md border border-white/20 bg-white/5 h-14">
             <DatePicker
               date={departDate}
-              setDate={setDepartDate}
+              setDate={handleDepartDateChange}
               label="Start date"
+              disablePastDates
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}
@@ -408,8 +515,14 @@ export function BookingForm({
           <div className="rounded-md border border-white/20 bg-white/5 h-14">
             <DatePicker
               date={returnDate}
-              setDate={setReturnDate}
+              setDate={handleReturnDateChange}
               label="End date"
+              calendarDisabled={
+                departDate
+                  ? (date: Date) =>
+                      isBefore(startOfDay(date), startOfDay(departDate))
+                  : undefined
+              }
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}
@@ -468,8 +581,9 @@ export function BookingForm({
           <div className="rounded-md border border-white/20 bg-white/5 h-14">
             <DatePicker
               date={departDate}
-              setDate={setDepartDate}
+              setDate={handleDepartDateChange}
               label="Date"
+              disablePastDates
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}

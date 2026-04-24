@@ -3,42 +3,73 @@
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
-import { useClearRecentSearches, useDeleteRecentSearch, useRecentSearches } from "@/lib/api/search";
+import { 
+  useClearRecentSearches, 
+  useDeleteRecentSearch, 
+  useRecentSearches, 
+  useGuestRecentSearches 
+} from "@/lib/api/search";
+import { useRecentSearchStore } from "@/lib/store/recent-search-store";
 
 export function RecentSearches() {
   const session = useAuthSession();
-  const { data = [] } = useRecentSearches(8, Boolean(session.data));
-  const deleteMutation = useDeleteRecentSearch();
-  const clearMutation = useClearRecentSearches();
+  const isLoggedIn = Boolean(session.data);
+  
+  const { data: dbSearches = [], isLoading: isLoadingDb } = useRecentSearches(3, isLoggedIn);
+  const { data: guestSearches = [], isLoading: isLoadingGuest } = useGuestRecentSearches();
+  
+  const { prefillSearch } = useRecentSearchStore();
 
-  if (!session.data) {
-    return (
-      <section className="py-8">
-        <div className="mb-4 flex items-center justify-between"><p className="text-sm font-medium text-muted-foreground">Recent Searches</p></div>
-      </section>
-    );
+  const isLoading = isLoggedIn ? isLoadingDb : isLoadingGuest;
+  const rawData = isLoggedIn ? dbSearches : guestSearches;
+
+  if (isLoading || rawData.length === 0) {
+    return null;
   }
 
+  const handleCardClick = (search: any) => {
+    prefillSearch(search);
+    const bookingForm = document.getElementById("booking-form");
+    if (bookingForm) {
+      bookingForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   return (
-    <section className="py-8">
-      <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm font-medium text-muted-foreground">Recent Searches</p>
-        <button className="text-sm text-brand-red" type="button" onClick={() => clearMutation.mutate()}>
-          Clear all
-        </button>
+    <section className="py-6">
+      <div className="mb-3">
+        <p className="text-xs font-semibold uppercase tracking-wider text-white/50">
+          Recent Searches {isLoggedIn ? "" : "(Guest)"}
+        </p>
       </div>
 
       <div className="no-scrollbar overflow-x-auto">
-        <motion.div className="flex w-max gap-2 pb-2" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.05 } } }}>
+        <motion.div className="flex w-max gap-3 pb-2" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.05 } } }}>
           <AnimatePresence>
-            {data.map((search) => (
-              <motion.div key={search.id} variants={{ hidden: { opacity: 0, x: 18 }, show: { opacity: 1, x: 0 } }} exit={{ opacity: 0, scale: 0.9 }} className="group flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 shadow-xs transition-all hover:border-brand-red/30 hover:shadow-md">
-                <span className="text-sm">{search.flag || "🌍"} {search.origin}</span>
-                <span>→</span>
-                <span className="text-sm font-semibold">{search.destination}</span>
-                {search.date ? <><span className="text-muted-foreground">·</span><span className="text-sm text-muted-foreground">{search.date}</span></> : null}
-                {search.price ? <span className="text-sm font-semibold">· {search.price}</span> : null}
-                <button type="button" className="ml-1 opacity-0 transition-opacity group-hover:opacity-100" onClick={() => deleteMutation.mutate(search.id)}>×</button>
+            {rawData.slice(0, 3).map((search: any) => (
+              <motion.div 
+                key={search.id} 
+                variants={{ hidden: { opacity: 0, x: 18 }, show: { opacity: 1, x: 0 } }} 
+                exit={{ opacity: 0, scale: 0.9 }} 
+                className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 backdrop-blur-md transition-all hover:border-brand-red/40 hover:bg-white/10 cursor-pointer"
+                onClick={() => handleCardClick(search)}
+              >
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-1.5 text-sm font-bold text-white">
+                    <span>{search.origin}</span>
+                    <span className="text-white/30">→</span>
+                    <span>{search.destination}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-tighter text-white/40">
+                    <span>{search.searchType}</span>
+                    {search.searchDate && (
+                      <>
+                        <span className="h-1 w-1 rounded-full bg-white/20" />
+                        <span>{new Date(search.searchDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
               </motion.div>
             ))}
           </AnimatePresence>
@@ -47,3 +78,4 @@ export function RecentSearches() {
     </section>
   );
 }
+

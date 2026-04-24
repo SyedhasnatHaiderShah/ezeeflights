@@ -1,3 +1,5 @@
+import { useAuthModalStore } from '../store/use-auth-modal-store';
+
 const API_BASE_URL = '/api/v1';
 
 function readCsrfFromDocumentCookie(): string {
@@ -30,6 +32,12 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      // Trigger the login modal automatically on unauthorized API calls
+      if (typeof window !== 'undefined') {
+        useAuthModalStore.getState().open('login');
+      }
+    }
     const message = await response.text();
     throw new Error(message || `API error (${response.status})`);
   }

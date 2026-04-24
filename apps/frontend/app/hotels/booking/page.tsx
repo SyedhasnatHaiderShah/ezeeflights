@@ -8,7 +8,7 @@ import { CheckoutSummary } from '@/components/payment/CheckoutSummary';
 import { apiFetchAuth } from '@/lib/api/client';
 import { useHotelBookingFlowStore } from '@/lib/store/hotel-booking-flow-store';
 
-const steps = ['Guest Details', 'Add-ons', 'Payment'];
+const steps = ['Guest Details', 'Payment'];
 
 export default function HotelBookingPage() {
   const router = useRouter();
@@ -62,22 +62,6 @@ export default function HotelBookingPage() {
           )}
 
           {step === 1 && (
-            <div className="space-y-3">
-              <h2 className="text-lg font-semibold">Add-ons</h2>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {['Breakfast included', 'Airport shuttle', 'Late checkout', 'Room upgrade alert'].map((addon) => (
-                  <label key={addon} className="flex items-center gap-2 rounded-lg border border-border p-3 text-sm">
-                    <input type="checkbox" /> {addon}
-                  </label>
-                ))}
-              </div>
-              <button className="rounded-lg bg-brand-red px-4 py-2 text-white" onClick={() => setStep(2)}>
-                Continue to Payment
-              </button>
-            </div>
-          )}
-
-          {step === 2 && (
             <div className="space-y-3">
               <h2 className="text-lg font-semibold">Payment</h2>
               <p className="text-sm text-muted-foreground">You will complete payment on the secure checkout page.</p>

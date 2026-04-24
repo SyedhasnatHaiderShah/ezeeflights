@@ -1,7 +1,8 @@
-import { Controller, Get, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from "@nestjs/common";
 import {
   ApiBearerAuth,
   ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
@@ -36,7 +37,43 @@ export class UserController {
     @Req() req: AuthenticatedRequest,
     @Query("limit") limit?: number,
   ) {
-    // Mock for now
-    return [];
+    return this.service.getRecentSearches(req.user.userId, limit);
+  }
+
+  @ApiOperation({ summary: "Save a recent search" })
+  @ApiResponse({ status: 201, description: "Search saved" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Post("searches/recent")
+  saveSearch(
+    @Req() req: AuthenticatedRequest,
+    @Body() body: {
+      origin: string;
+      destination: string;
+      searchType: string;
+      searchDate?: string;
+      metadata?: any;
+    },
+  ) {
+    return this.service.saveSearch(req.user.userId, body);
+  }
+
+  @ApiOperation({ summary: "Delete a recent search" })
+  @ApiParam({ name: "id", description: "Search UUID" })
+  @ApiResponse({ status: 200, description: "Search deleted" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Delete("searches/recent/:id")
+  deleteSearch(@Req() req: AuthenticatedRequest, @Param("id") id: string) {
+    return this.service.deleteRecentSearch(req.user.userId, id);
+  }
+
+  @ApiOperation({ summary: "Clear all recent searches" })
+  @ApiResponse({ status: 200, description: "All searches cleared" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Delete("searches/recent")
+  clearSearches(@Req() req: AuthenticatedRequest) {
+    return this.service.clearRecentSearches(req.user.userId);
   }
 }

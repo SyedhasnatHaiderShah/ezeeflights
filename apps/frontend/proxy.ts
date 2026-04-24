@@ -20,11 +20,21 @@ export function proxy(request: NextRequest): NextResponse {
 
   // ── Auth guard ──────────────────────────────────────────────────────────
   const needsAuth =
-    pathname.startsWith("/dashboard") || pathname.startsWith("/users");
+    pathname.startsWith("/dashboard") || 
+    pathname.startsWith("/users") ||
+    pathname.startsWith("/api/v1/user/searches");
 
   if (needsAuth) {
     const access = request.cookies.get(ACCESS_COOKIE);
     if (!access?.value) {
+      // If it's an API request, return 401 instead of redirecting
+      if (pathname.startsWith("/api/")) {
+        return NextResponse.json(
+          { statusCode: 401, message: "Unauthorized", error: "UNAUTHORIZED" },
+          { status: 401 }
+        );
+      }
+      
       const login = new URL("/login", request.url);
       login.searchParams.set("next", pathname);
       return NextResponse.redirect(login);

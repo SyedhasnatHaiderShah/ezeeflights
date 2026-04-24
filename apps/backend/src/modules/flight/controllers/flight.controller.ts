@@ -32,8 +32,6 @@ export class FlightController {
   @ApiParam({ name: 'id', description: 'Flight UUID' })
   @ApiResponse({ status: 200, description: 'Flight details' })
   @ApiResponse({ status: 404, description: 'Flight not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Get('flights/:id')
   getById(@Param('id') id: string) {
     return this.flightService.getFlightById(id);
@@ -43,8 +41,6 @@ export class FlightController {
   @ApiParam({ name: 'flightId', description: 'Flight UUID' })
   @ApiResponse({ status: 200, description: 'Seat map with availability' })
   @ApiResponse({ status: 404, description: 'Flight not found' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Get('flights/:flightId/seat-map')
   getSeatMap(@Param('flightId') flightId: string) {
     return this.seatMapService.getSeatMap(flightId);
@@ -66,8 +62,6 @@ export class FlightController {
   @ApiQuery({ name: 'airlineCode', required: false, description: 'Filter by airline code' })
   @ApiQuery({ name: 'type', required: false, description: 'Ancillary type (e.g. baggage, meal)' })
   @ApiResponse({ status: 200, description: 'List of ancillary options' })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Get('flights/:flightId/ancillaries')
   getAncillaries(@Param('flightId') _flightId: string, @Query('airlineCode') airlineCode?: string, @Query('type') type?: string) {
     return this.ancillariesService.getAncillaryOptions(airlineCode, type);
