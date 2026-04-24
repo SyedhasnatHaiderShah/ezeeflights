@@ -171,7 +171,7 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
     <>
       <Header />
       <div className="h-20 w-full" />
-      <div className="min-h-screen bg-slate-50 dark:bg-background pb-20">
+      <div className="min-h-screen dark:bg-background  ">
         <StickySearchPanel
           origin={origin}
           destination={destination}

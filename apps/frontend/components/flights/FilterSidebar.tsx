@@ -74,7 +74,7 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
   };
 
   return (
-    <aside className="w-72 bg-card border-r border-border h-full overflow-y-auto p-4">
+    <aside className="w-full bg-card border-r border-border h-full overflow-y-auto p-4">
       <Accordion type="multiple" defaultValue={["price", "stops", "airlines", "departure", "arrival", "cabin", "bags", "duration"]}>
         <AccordionItem value="price">
           <AccordionTrigger>Price range</AccordionTrigger>

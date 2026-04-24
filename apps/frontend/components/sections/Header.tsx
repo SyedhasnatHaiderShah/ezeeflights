@@ -342,17 +342,19 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <AppIcon
-              onClick={() => router.push("/support")}
-              icon={Sparkles}
-              label="Ask Ezee"
-              className={cn(
-                "rounded-full border px-4 py-2 text-sm font-semibold transition",
-                isTransparent
-                  ? "border-white/20 bg-white/10 text-white hover:bg-white/20"
-                  : "border-transparent bg-muted/60 text-foreground hover:bg-muted",
-              )}
-            />
+            <div className=" hidden md:block">
+              <AppIcon
+                onClick={() => router.push("/support")}
+                icon={Sparkles}
+                label="Ask Ezee"
+                className={cn(
+                  "rounded-full border px-4 py-2 text-sm font-semibold transition",
+                  isTransparent
+                    ? "border-white/20 bg-white/10 text-white hover:bg-white/20"
+                    : "border-transparent bg-muted/60 text-foreground hover:bg-muted",
+                )}
+              />
+            </div>
 
             <div className="md:hidden">
               <Drawer.Root
