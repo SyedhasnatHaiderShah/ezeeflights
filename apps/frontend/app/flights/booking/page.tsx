@@ -79,7 +79,7 @@ export default function BookingPage() {
 
   useEffect(() => {
     if (selectedFlightIds.length === 0) {
-      router.replace("/flights/search");
+      router.replace("/flights");
       return;
     }
     apiFetch(`/flights/${selectedFlightIds[0]}`)

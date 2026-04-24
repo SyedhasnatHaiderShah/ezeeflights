@@ -275,16 +275,28 @@ function FlightLeg({
         <p className="text-xs font-semibold text-foreground">{totalTime}</p>
         <div className="my-1 flex items-center gap-1">
           <div className="h-px flex-1 border-t border-dashed border-border" />
-          <AppIcon
-            icon={Plane}
-            iconClassName={cn(
-              "h-5 w-5",
-              direction === "outbound" ? "rotate-[45deg]" : "rotate-[180deg]",
-            )}
-            isActive
-            isFill
-            animationType={isHovered ? "flying" : "none"}
-          />
+          <motion.p
+            className="text-4xl"
+            animate={
+              isHovered
+                ? {
+                    x: direction === "outbound" ? [0, 5, 0] : [0, -5, 0],
+                    y: direction === "outbound" ? [0, -2, 0] : [0, 2, 0],
+                  }
+                : {}
+            }
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{
+              display: "inline-block",
+              transform: direction === "outbound" ? "none" : "scaleX(-1)",
+            }}
+          >
+            🛫
+          </motion.p>
           <div className="h-px flex-1 border-t border-dashed border-border" />
         </div>
         <span

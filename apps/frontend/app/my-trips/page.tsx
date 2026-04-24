@@ -49,8 +49,8 @@ export default function MyTripsPage() {
         <div className="rounded-xl border border-dashed p-8 text-center">
           <p className="text-lg font-semibold">No trips found</p>
           <p className="mb-4 text-sm text-slate-600">Start planning your next journey.</p>
-          <Link href="/flights/search" className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white">
-            Search trips
+          <Link href="/flights" className="rounded-lg bg-redmix px-4 py-2 text-sm text-white transition hover:brightness-110">
+            Search flights
           </Link>
         </div>
       ) : (
