@@ -85,12 +85,12 @@ export function Reviews() {
 
   return (
     <section
-      className="relative overflow-hidden bg-[#0a0f1c] py-20 text-white"
+      className="relative overflow-hidden bg-[#030712] py-20 text-white"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       {/* Background Decor */}
-      <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-red/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-redmix/10 blur-[120px]" />
       <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-blue-500/10 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-screen-2xl px-6 md:px-12">
@@ -142,14 +142,14 @@ export function Reviews() {
               {/* Desktop nav arrows */}
               <button
                 onClick={() => emblaApi?.scrollPrev()}
-                className="absolute -left-6 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-lg backdrop-blur-md transition hover:bg-brand-red hover:text-white md:flex"
+                className="absolute -left-6 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-lg backdrop-blur-md transition hover:bg-redmix hover:text-white md:flex"
                 aria-label="Previous review"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <button
                 onClick={() => emblaApi?.scrollNext()}
-                className="absolute -right-6 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-lg backdrop-blur-md transition hover:bg-brand-red hover:text-white md:flex"
+                className="absolute -right-6 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-lg backdrop-blur-md transition hover:bg-redmix hover:text-white md:flex"
                 aria-label="Next review"
               >
                 <ChevronRight className="h-5 w-5" />
@@ -163,7 +163,7 @@ export function Reviews() {
                       className="relative flex-[0_0_100%] rounded-2xl border border-white/10 bg-white/5 p-6 shadow-sm transition-all duration-300 hover:bg-white/10 md:flex-[0_0_45%] lg:flex-[0_0_31%]"
                     >
                       {/* Decorative quote mark */}
-                      <span className="absolute right-6 top-4 text-5xl font-serif text-brand-red/10 leading-none select-none">
+                      <span className="absolute right-6 top-4 text-5xl font-serif text-redmix/10 leading-none select-none">
                         "
                       </span>
 
@@ -199,7 +199,7 @@ export function Reviews() {
                                 className="h-full w-full object-cover"
                               />
                             ) : (
-                              <div className="flex h-full w-full items-center justify-center bg-brand-red text-sm font-bold text-white">
+                              <div className="flex h-full w-full items-center justify-center bg-redmix text-sm font-bold text-white">
                                 {review.authorName
                                   .split(" ")
                                   .map((n) => n[0])
@@ -257,7 +257,7 @@ export function Reviews() {
                     className={cn(
                       "h-1.5 rounded-full transition-all duration-300",
                       i === active
-                        ? "w-8 bg-brand-red shadow-[0_0_10px_rgba(197,42,40,0.5)]"
+                        ? "w-8 bg-redmix shadow-[0_0_10px_rgba(197,42,40,0.5)]"
                         : "w-1.5 bg-white/20 hover:bg-white/40",
                     )}
                   />
@@ -280,7 +280,7 @@ export function Reviews() {
               <Button
                 asChild
                 variant="outline"
-                className="group h-12 rounded-full border-white/10 bg-white/5 px-8 text-white backdrop-blur-md transition-all hover:bg-brand-red hover:border-brand-red"
+                className="group h-12 rounded-full border-white/10 bg-white/5 px-8 text-white backdrop-blur-md transition-all hover:bg-redmix hover:border-redmix"
               >
                 <a href="/reviews">
                   View All Reviews

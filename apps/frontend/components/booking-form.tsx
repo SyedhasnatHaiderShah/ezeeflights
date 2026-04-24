@@ -200,8 +200,8 @@ export function BookingForm({
     : "bg-card border border-border rounded-3xl shadow-md p-3";
 
   const activeTabClass = heroMode
-    ? "data-[state=active]:bg-white data-[state=active]:text-brand-red"
-    : "data-[state=active]:bg-muted data-[state=active]:text-brand-red";
+    ? "data-[state=active]:bg-white data-[state=active]:text-redmix data-[state=active]:shadow-lg"
+    : "data-[state=active]:bg-muted data-[state=active]:text-redmix";
 
   return (
     <div className={cn("w-full", cardClass)}>
@@ -220,10 +220,10 @@ export function BookingForm({
               key={tab.id}
               value={tab.id}
               className={cn(
-                "rounded-md px-3 py-2 text-xs sm:text-sm font-semibold shadow-none cursor-pointer",
+                "rounded-full px-5 py-2 text-xs sm:text-sm font-semibold shadow-none cursor-pointer transition-all",
                 activeTabClass,
                 heroMode
-                  ? "text-white/70 hover:text-white"
+                  ? "text-white/70 hover:text-white hover:bg-white/5"
                   : "text-muted-foreground",
               )}
             >
@@ -240,12 +240,12 @@ export function BookingForm({
                 type="button"
                 onClick={() => setTripType(type)}
                 className={cn(
-                  "rounded-full px-3 py-1 text-xs capitalize",
+                  "rounded-full px-4 py-1.5 text-xs capitalize transition-all",
                   tripType === type
-                    ? "bg-brand-red text-white"
+                    ? "bg-redmix text-white shadow-sm"
                     : heroMode
-                      ? "bg-white/10 text-white/80"
-                      : "bg-muted text-muted-foreground",
+                      ? "bg-white/10 text-white/80 hover:bg-white/20"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80",
                 )}
               >
                 {type.replace("-", " ")}
@@ -258,7 +258,7 @@ export function BookingForm({
               <LocationInput
                 value={origin}
                 onChange={setOrigin}
-                placeholder="From where?"
+                placeholder="From Where?"
                 className="rounded-md"
                 glassPopover={heroMode}
                 openOnHover={false}
@@ -284,7 +284,7 @@ export function BookingForm({
               <LocationInput
                 value={destination}
                 onChange={setDestination}
-                placeholder="Where to?"
+                placeholder="Where To?"
                 className="rounded-md"
                 glassPopover={heroMode}
                 openOnHover={false}
@@ -333,8 +333,9 @@ export function BookingForm({
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleSearch}
-                className="h-14 w-full rounded-md bg-redmix text-sm font-semibold text-white shadow-lg transition-colors hover:bg-brand-red-light"
+                className="h-14 w-full rounded-xl bg-redmix text-sm font-bold text-white shadow-lg transition-all hover:brightness-110 active:brightness-90"
               >
                 Search Flights →
               </motion.button>
@@ -397,6 +398,7 @@ export function BookingForm({
               onChange={setGuests}
               min={1}
               max={10}
+              glass={heroMode}
             />
           </div>
           <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
@@ -408,7 +410,7 @@ export function BookingForm({
             >
               Rooms
             </span>
-            <CounterInput value={rooms} onChange={setRooms} min={1} max={6} />
+            <CounterInput value={rooms} onChange={setRooms} min={1} max={6} glass={heroMode} />
           </div>
           <motion.button
             type="button"
@@ -475,6 +477,7 @@ export function BookingForm({
               onChange={setDriverAge}
               min={18}
               max={75}
+              glass={heroMode}
             />
           </div>
           <motion.button
@@ -542,6 +545,7 @@ export function BookingForm({
               onChange={setGuests}
               min={1}
               max={12}
+              glass={heroMode}
             />
           </div>
           <motion.button
@@ -608,7 +612,7 @@ export function BookingForm({
             >
               Passengers
             </span>
-            <CounterInput value={guests} onChange={setGuests} min={1} max={8} />
+            <CounterInput value={guests} onChange={setGuests} min={1} max={8} glass={heroMode} />
           </div>
           <motion.button
             type="button"

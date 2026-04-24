@@ -181,15 +181,12 @@ interface HeroProps {
 export function Hero({
   title = (
     <>
-      Find Your Perfect{" "}
-      <span className="bg-gradient-to-r from-brand-red to-brand-yellow bg-clip-text text-transparent">
-        Journey
-      </span>
+      Find Your Perfect <span className="text-yellow lowercase">journey</span>
     </>
   ),
   description = "Search 500+ airlines. Compare prices. Book in seconds.",
   defaultTab = "flights",
-  badgeText = "✈ #1 Flight Booking Platform",
+  badgeText = "#1 Flight Booking Platform",
 }: HeroProps) {
   const [index, setIndex] = React.useState(0);
   const { data: stats } = usePublicStats();
@@ -249,7 +246,7 @@ export function Hero({
           {/* <RecentSearches /> */}
         </div>
 
-        <div className="mt-5 grid w-full grid-cols-2 gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur md:grid-cols-4">
+        <div className="mt-8 grid w-full grid-cols-2 gap-3 rounded-2xl border border-white/20 bg-white/5 p-4 backdrop-blur-md md:grid-cols-4 text-white">
           <div className="text-center">
             <div className="text-xl font-extrabold">
               <StatCounter
@@ -257,25 +254,25 @@ export function Hero({
                 suffix="+"
               />
             </div>
-            <p className="text-xs text-white/80">{statLabels[0]}</p>
+            <p className="text-xs text-white/90">{statLabels[0]}</p>
           </div>
           <div className="text-center md:border-l md:border-white/30">
             <div className="text-xl font-extrabold">
               <StatCounter value={stats?.airlinesCount ?? 500} suffix="+" />
             </div>
-            <p className="text-xs text-white/80">{statLabels[1]}</p>
+            <p className="text-xs text-white/90">{statLabels[1]}</p>
           </div>
           <div className="text-center md:border-l md:border-white/30">
             <div className="text-xl font-extrabold">
               <StatCounter value={stats?.countriesCount ?? 150} suffix="+" />
             </div>
-            <p className="text-xs text-white/80">{statLabels[2]}</p>
+            <p className="text-xs text-white/90">{statLabels[2]}</p>
           </div>
           <div className="text-center md:border-l md:border-white/30">
             <div className="text-xl font-extrabold">
               <StatCounter value={stats?.avgRating ?? 4.9} suffix="★" />
             </div>
-            <p className="text-xs text-white/80">{statLabels[3]}</p>
+            <p className="text-xs text-white/90">{statLabels[3]}</p>
           </div>
         </div>
       </div>

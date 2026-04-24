@@ -11,6 +11,7 @@ import { filterFlights } from "@/lib/utils/filter-flights";
 import { FlightCard } from "@/components/flights/FlightCard";
 import { FlightResultSkeleton } from "@/components/flights/FlightCardSkeleton";
 import { FilterSidebar } from "@/components/flights/FilterSidebar";
+import { cn } from "@/lib/utils";
 
 interface Props {
   initialFlights: FlightListItem[];
@@ -28,17 +29,27 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
   React.useEffect(() => {
     if (initialFlights.length > 0) {
       const prices = initialFlights.map((f) => f.totalCost);
-      setFilter("priceRange", [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))]);
+      setFilter("priceRange", [
+        Math.floor(Math.min(...prices)),
+        Math.ceil(Math.max(...prices)),
+      ]);
     }
   }, [initialFlights, setFilter]);
 
-  const filteredFlights = useMemo(() => filterFlights(initialFlights, filters), [initialFlights, filters]);
+  const filteredFlights = useMemo(
+    () => filterFlights(initialFlights, filters),
+    [initialFlights, filters],
+  );
 
   const sortedFlights = useMemo(() => {
     const flights = [...filteredFlights];
-    if (sortMode === "cheapest") return flights.sort((a, b) => a.totalCost - b.totalCost);
-    if (sortMode === "fastest" || sortMode === "duration") return flights.sort((a, b) => a.totalTime - b.totalTime);
-    return flights.sort((a, b) => a.totalCost / 5 + a.totalTime - (b.totalCost / 5 + b.totalTime));
+    if (sortMode === "cheapest")
+      return flights.sort((a, b) => a.totalCost - b.totalCost);
+    if (sortMode === "fastest" || sortMode === "duration")
+      return flights.sort((a, b) => a.totalTime - b.totalTime);
+    return flights.sort(
+      (a, b) => a.totalCost / 5 + a.totalTime - (b.totalCost / 5 + b.totalTime),
+    );
   }, [filteredFlights, sortMode]);
 
   const visibleFlights = sortedFlights.slice(0, displayedCount);
@@ -48,23 +59,35 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
   return (
     <div className="max-w-[1240px] mx-auto flex gap-4 min-h-[calc(100vh-13rem)]">
       <div className="w-72 shrink-0 hidden md:block">
-        <FilterSidebar flights={initialFlights} resultsCount={sortedFlights.length} />
+        <FilterSidebar
+          flights={initialFlights}
+          resultsCount={sortedFlights.length}
+        />
       </div>
 
       <main className="flex-1 px-4 md:px-0 py-6 space-y-4">
         <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card px-4 py-3">
-          <p className="text-sm text-muted-foreground">{sortedFlights.length} flights found</p>
+          <p className="text-sm text-muted-foreground">
+            {sortedFlights.length} flights found
+          </p>
           <div className="flex items-center gap-2 overflow-x-auto">
-            {(["best", "cheapest", "fastest", "duration"] as SortMode[]).map((item) => (
-              <button
-                key={item}
-                className={`rounded-full px-3 py-1 text-xs capitalize border ${sortMode === item ? "bg-brand-red text-white border-brand-red" : "bg-transparent"}`}
-                onClick={() => setSortMode(item)}
-              >
-                {item}
-              </button>
-            ))}
-            <button className="md:hidden rounded-full px-3 py-1 text-xs border flex items-center gap-1" onClick={() => setOpenFilters(true)}>
+            {(["best", "cheapest", "fastest", "duration"] as SortMode[]).map(
+              (item) => (
+                <button
+                  key={item}
+                  className={cn(
+                    "rounded-full px-4 py-1.5 text-xs font-bold capitalize transition-all border",
+                    sortMode === item
+                      ? "bg-redmix text-white border-redmix shadow-sm shadow-redmix/20"
+                      : "bg-transparent text-muted-foreground border-border hover:border-muted-foreground hover:text-foreground",
+                  )}
+                  onClick={() => setSortMode(item)}
+                >
+                  {item}
+                </button>
+              ),
+            )}
+            <button className="md:hidden rounded-full px-3 py-1 text-xs border flex items-center gap-1 text-muted-foreground border-border hover:text-foreground" onClick={() => setOpenFilters(true)}>
               <SlidersHorizontal className="h-3.5 w-3.5" /> Filters
             </button>
           </div>
@@ -74,8 +97,16 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
           <div className="rounded-2xl border border-dashed border-border p-12 text-center space-y-3">
             <p className="text-4xl">🛫</p>
             <h3 className="text-xl font-semibold">No flights found</h3>
-            <p className="text-sm text-muted-foreground">Try modifying your filters or search dates.</p>
-            <Button variant="outline" onClick={() => setOpenFilters(true)} className="md:hidden">Modify search</Button>
+            <p className="text-sm text-muted-foreground">
+              Try modifying your filters or search dates.
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => setOpenFilters(true)}
+              className="md:hidden"
+            >
+              Modify search
+            </Button>
           </div>
         ) : (
           <div className="space-y-3">
@@ -94,7 +125,12 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
 
         {displayedCount < sortedFlights.length && (
           <div className="flex justify-center pt-2">
-            <Button variant="ghost" onClick={() => setDisplayedCount((c) => c + 10)}>Load more</Button>
+            <Button
+              variant="ghost"
+              onClick={() => setDisplayedCount((c) => c + 10)}
+            >
+              Load more
+            </Button>
           </div>
         )}
       </main>
@@ -103,7 +139,11 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/40 z-[70]" />
           <Drawer.Content className="fixed inset-x-0 bottom-0 z-[80] h-[85vh] rounded-t-2xl bg-background">
-            <FilterSidebar onClose={() => setOpenFilters(false)} flights={initialFlights} resultsCount={sortedFlights.length} />
+            <FilterSidebar
+              onClose={() => setOpenFilters(false)}
+              flights={initialFlights}
+              resultsCount={sortedFlights.length}
+            />
           </Drawer.Content>
         </Drawer.Portal>
       </Drawer.Root>

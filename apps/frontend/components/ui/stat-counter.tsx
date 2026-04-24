@@ -65,7 +65,7 @@ export function StatCounter({
     <div ref={containerRef} className={cn("inline-flex flex-col", className)}>
       <span
         className={cn(
-          "text-3xl font-bold text-foreground animate-counter-up",
+          "text-3xl font-bold animate-counter-up",
           valueClassName,
         )}
       >

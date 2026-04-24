@@ -54,16 +54,21 @@
   --color-ezee-yellow: #ffbf27;
   --color-ezee-cream: #f5f5f5;
 
+  --color-redmix: #c52a28;
+  --color-redmix-light: #f73b37;
+  --color-redmix-dark: #a12220;
+  --color-yellow: #ffbf27;
   --color-brand-yellow: #ffbf27;
-  --color-brand-red: #c52a28;
-  --color-brand-red-light: #e54d4b;
-  --color-brand-blue: var(--brand-blue);
-  --color-brand-dark: var(--brand-dark);
-  --color-brand-dark-light: var(--brand-dark-light); /*dark light*/
-  --color-brand-gray: #a1a1a1;
-  --color-brand-gray-light: #f8f9fa;
-  --color-brand-yellow: #edbf26;
-  --color-brand-orange: #ff9c00;
+
+  /* Commented out non-requested colors */
+  /* --color-brand-red: #c52a28; */
+  /* --color-brand-red-light: #e54d4b; */
+  /* --color-brand-blue: var(--brand-blue); */
+  /* --color-brand-dark: var(--brand-dark); */
+  /* --color-brand-dark-light: var(--brand-dark-light); */
+  /* --color-brand-gray: #a1a1a1; */
+  /* --color-brand-gray-light: #f8f9fa; */
+  /* --color-brand-orange: #ff9c00; */
 
   --animate-shimmer: shimmer 2s infinite;
   --animate-shimmer-fast: shimmer 1s infinite;
@@ -222,11 +227,11 @@
   --color-redmix-light: #f73b37;
   --color-redmix-dark: #a12220;
 
-  --shadow-xs: 0 1px 2px rgba(13, 35, 83, 0.06);
-  --shadow-sm: 0 4px 12px rgba(13, 35, 83, 0.08);
-  --shadow-md: 0 10px 30px rgba(13, 35, 83, 0.12);
-  --shadow-lg: 0 20px 45px rgba(13, 35, 83, 0.16);
-  --shadow-hero: 0 28px 60px rgba(13, 35, 83, 0.22);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.16);
+  --shadow-hero: 0 28px 60px rgba(0, 0, 0, 0.22);
 
   --gradient-hero: linear-gradient(135deg, #0d2353 0%, #304cb2 100%);
   --gradient-brand: linear-gradient(135deg, #c52a28 0%, #e54d4b 100%);
@@ -243,8 +248,8 @@
   --animate-ken-burns: ken-burns 8s ease-in-out infinite alternate;
 }
 
-/* bg-gradient-to-r from-brand-red to-brand-red-light for a smooth horizontal gradient.
-bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right diagonal */
+/* bg-gradient-to-r from-redmix to-redmix-light for a smooth horizontal gradient.
+bg-gradient-to-br from-redmix to-redmix-light for a modern bottom-right diagonal */
 
 @layer base {
   :root {
@@ -278,28 +283,28 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   }
 
   .dark {
-    --background: 222 27% 11%;
-    --foreground: 220 22% 93%;
-    --card: 222 23% 15%;
-    --card-foreground: 220 22% 93%;
-    --popover: 222 23% 15%;
-    --popover-foreground: 220 22% 93%;
-    --primary: 221 92% 76%;
-    --primary-foreground: 222 47% 12%;
-    --secondary: 222 18% 20%;
-    --secondary-foreground: 220 22% 93%;
-    --muted: 223 17% 18%;
-    --muted-foreground: 220 12% 70%;
-    --accent: 223 17% 20%;
-    --accent-foreground: 220 22% 93%;
-    --destructive: 0 76% 58%;
-    --destructive-foreground: 0 100% 99%;
-    --border: 223 12% 27%;
-    --input: 223 12% 27%;
-    --ring: 221 92% 76%;
-    --surface-container-low: 222 22% 14%;
-    --surface-container-lowest: 222 30% 9%;
-    --surface-container-highest: 222 16% 22%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 72% 51%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4.8% 9.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 4.8% 9.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 4.8% 9.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 0 72% 51%;
+    --surface-container-low: 240 10% 5%;
+    --surface-container-lowest: 240 10% 2%;
+    --surface-container-highest: 240 10% 10%;
 
     --brand-dark: #e6edf5;
     --brand-dark-light: #b6c3d1;
@@ -428,7 +433,7 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   }
 
   .bg-redmix {
-    @apply bg-gradient-to-tl from-brand-red to-brand-red-light shadow-sm;
+    @apply bg-gradient-to-tl from-redmix to-redmix-light shadow-sm;
   }
 
   .flight-filters-sidebar {
@@ -447,7 +452,7 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   }
 
   .flight-filters-sidebar .filter-card-header {
-    @apply px-3.5 py-2.5 bg-brand-dark/3 border-b border-border/50;
+    @apply px-3.5 py-2.5 bg-muted/20 border-b border-border/50;
   }
 
   .dark .flight-filters-sidebar .filter-card-header {
@@ -456,7 +461,7 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
 
   .flight-filters-sidebar .filter-card-title {
     font-size: var(--filter-title-size);
-    @apply font-semibold tracking-wide text-brand-dark;
+    @apply font-semibold tracking-wide text-foreground;
   }
 
   .flight-filters-sidebar .filter-card-body {
@@ -483,7 +488,7 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   }
 
   .tab-trigger[data-state="active"]::after {
-    @apply bg-gradient-to-tl from-brand-red to-brand-red-light shadow-sm opacity-100;
+    @apply bg-gradient-to-tl from-redmix to-redmix-light shadow-sm opacity-100;
   }
 
   /* Consolidated Tab Icon styling */
@@ -494,25 +499,25 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
 
   /* Hover effect for the icon when the tab is hovered */
   .tab-trigger:hover .tab-icon-box {
-    @apply bg-brand-red/10;
+    @apply bg-redmix/10;
   }
 
   /* Active effect for the icon when the tab is selected */
   .tab-trigger[data-state="active"] .tab-icon-box {
-    @apply bg-gradient-to-tl from-brand-red to-brand-red-light shadow-sm text-white shadow-lg shadow-brand-red/20 scale-105;
+    @apply bg-gradient-to-tl from-redmix to-redmix-light shadow-sm text-white shadow-lg shadow-redmix/20 scale-105;
   }
 
   .bg-brand-yellow {
-    background-color: #edbf26;
+    @apply bg-yellow;
   }
 
   .text-brand-yellow {
-    color: #edbf26;
+    @apply text-yellow;
   }
 
-  .text-brand-orange {
+  /* .text-brand-orange {
     color: #ff9c00;
-  }
+  } */
 
   /* Reusable Shimmer Effect */
   .shimmer-effect {
@@ -611,17 +616,39 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 rgba(197, 42, 40, 0.35); }
-  50% { box-shadow: 0 0 30px rgba(197, 42, 40, 0.45); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(197, 42, 40, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(197, 42, 40, 0.45);
+  }
 }
 
 @layer utilities {
-  .text-hero { font-size: clamp(2rem, 5vw, 4.25rem); line-height: 1.08; }
-  .text-section { font-size: clamp(1.6rem, 3.5vw, 3rem); }
-  .animate-pulse-glow { animation: pulse-glow 2s infinite; }
+  .text-hero {
+    font-size: clamp(2rem, 5vw, 4.25rem);
+    line-height: 1.08;
+  }
+  .text-section {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+  }
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+  }
+  .text-important {
+    @apply text-redmix font-bold tracking-tight;
+  }
+  .text-highlight {
+    @apply text-yellow font-semibold;
+  }
 }

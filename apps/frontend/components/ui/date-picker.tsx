@@ -65,8 +65,8 @@ export function DatePicker({
           disabled={disabled}
           aria-disabled={disabled}
           className={cn(
-            "w-full justify-between h-full px-3 py-2 bg-transparent hover:bg-brand-red/5 transition-colors group rounded-none border-none shadow-none outline-none ring-0",
-            open && "bg-brand-red/5 z-10",
+            "w-full justify-between h-full px-3 py-2 bg-transparent hover:bg-redmix/5 transition-colors group rounded-none border-none shadow-none outline-none ring-0",
+            open && "bg-redmix/5 z-10",
             date && "bg-transparent",
             disabled && "opacity-50 cursor-not-allowed",
             className,
@@ -84,14 +84,25 @@ export function DatePicker({
           }}
         >
           <div className="flex flex-col items-start flex-1 min-w-0">
-            <span className="text-[10px] font-semibold text-foreground capitalize leading-none mb-0.5 tracking-tight">
+            <span
+              className={cn(
+                "text-[10px] font-semibold capitalize leading-none mb-0.5 tracking-tight",
+                glassPopover ? "text-white/70" : "text-foreground/70",
+              )}
+            >
               {label}
             </span>
             <div className="flex items-center gap-1.5 w-full">
               <span
                 className={cn(
                   "truncate font-semibold text-sm tracking-tight",
-                  hasDate ? "text-foreground" : "text-foreground/60",
+                  hasDate
+                    ? glassPopover
+                      ? "text-white"
+                      : "text-foreground"
+                    : glassPopover
+                      ? "text-white/60"
+                      : "text-foreground/60",
                 )}
               >
                 {hasDate && date

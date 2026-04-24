@@ -40,7 +40,7 @@ export function FlightFilters() {
   return (
     <div className="filter-card">
       <div className="filter-card-header flex items-center gap-2">
-        <Filter className="w-3 h-3 text-brand-dark/40" />
+        <Filter className="w-3 h-3 text-redmix/60" />
         <h3 className="filter-card-title">
           Additional Filters
         </h3>
@@ -49,20 +49,20 @@ export function FlightFilters() {
       <div className="filter-card-body space-y-4">
         {/* Stops Dropdown */}
         <div className="space-y-1.5">
-          <Label className="text-xs font-semibold  text-brand-dark-light/80 ml-0.5">
+          <Label className="text-xs font-semibold text-muted-foreground ml-0.5">
             Stops
           </Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center justify-between w-full px-2.5 py-2 text-xs font-bold border rounded-lg bg-background hover:bg-muted/5 transition-all border-border shadow-sm group cursor-pointer">
-                <span className="truncate text-brand-dark-light/80">
+              <button className="flex items-center justify-between w-full px-2.5 py-2 text-xs font-bold border rounded-lg bg-background hover:bg-muted transition-all border-border shadow-sm group cursor-pointer">
+                <span className="truncate text-foreground/80">
                   {stopsLabel}
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-brand-dark-light/80 group-hover:text-brand-dark transition-colors" />
+                <ChevronDown className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-52" align="start">
-              <DropdownMenuLabel className="text-xs font-bold text-brand-dark opacity-80 ">
+              <DropdownMenuLabel className="text-xs font-bold opacity-80 ">
                 Filter by Stops
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -102,17 +102,17 @@ export function FlightFilters() {
         {/* Amenities */}
         <div className="space-y-3">
           <div>
-            <Label className="text-xs font-semibold  text-brand-dark-light/80 ml-0.5">
+            <Label className="text-xs font-semibold text-muted-foreground ml-0.5">
               Amenities
             </Label>
-            <p className="text-xs text-brand-dark-light/80 mt-0.5 font-bold ">
+            <p className="text-xs text-foreground/80 mt-0.5 font-bold ">
               Bags per passenger
             </p>
           </div>
 
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-brand-dark-light/80">
+              <span className="text-xs font-bold text-foreground/70">
                 Carry-on bag
               </span>
               <div className="flex items-center gap-2.5">
@@ -123,18 +123,18 @@ export function FlightFilters() {
                       carryOn: Math.max(0, b.carryOn - 1),
                     }))
                   }
-                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/80 hover:bg-muted/50 transition-colors cursor-pointer"
+                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-foreground/60 hover:bg-muted transition-colors cursor-pointer"
                 >
                   -
                 </button>
-                <span className="w-3 text-center text-xs font-semibold text-brand-dark">
+                <span className="w-3 text-center text-xs font-semibold text-foreground">
                   {bags.carryOn}
                 </span>
                 <button
                   onClick={() =>
                     setBags((b) => ({ ...b, carryOn: b.carryOn + 1 }))
                   }
-                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/40 hover:bg-muted/50 transition-colors cursor-pointer"
+                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-foreground/60 hover:bg-muted transition-colors cursor-pointer"
                 >
                   +
                 </button>
@@ -142,7 +142,7 @@ export function FlightFilters() {
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-brand-dark-light/60">
+              <span className="text-xs font-bold text-foreground/60">
                 Checked bag
               </span>
               <div className="flex items-center gap-2.5">
@@ -153,18 +153,18 @@ export function FlightFilters() {
                       checked: Math.max(0, b.checked - 1),
                     }))
                   }
-                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/40 hover:bg-muted/50 transition-colors cursor-pointer"
+                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-foreground/40 hover:bg-muted transition-colors cursor-pointer"
                 >
                   -
                 </button>
-                <span className="w-3 text-center text-xs font-semibold text-brand-dark">
+                <span className="w-3 text-center text-xs font-semibold text-foreground">
                   {bags.checked}
                 </span>
                 <button
                   onClick={() =>
                     setBags((b) => ({ ...b, checked: b.checked + 1 }))
                   }
-                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-brand-dark-light/40 hover:bg-muted/50 transition-colors cursor-pointer"
+                  className="w-6 h-6 rounded-md border border-border shadow-sm flex justify-center items-center font-semibold text-foreground/40 hover:bg-muted transition-colors cursor-pointer"
                 >
                   +
                 </button>
@@ -174,9 +174,9 @@ export function FlightFilters() {
         </div>
       </div>
 
-      <div className="px-3.5 py-3 border-t border-border/30 bg-brand-dark/2 flex flex-col gap-2">
+      <div className="px-3.5 py-3 border-t border-border/30 bg-muted/20 flex flex-col gap-2">
         <button 
-          className="w-full h-9 rounded-lg bg-brand-dark/5 text-brand-dark text-xs font-bold hover:bg-brand-dark/8 transition-all cursor-pointer"
+          className="w-full h-9 rounded-lg bg-redmix/10 text-redmix text-xs font-bold hover:bg-redmix/20 transition-all cursor-pointer"
           onClick={resetFilters}
         >
           Clear all filters

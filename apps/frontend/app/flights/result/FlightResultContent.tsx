@@ -88,58 +88,58 @@ export function FlightResultContent({
         <TabsList className="w-full h-14 bg-white dark:bg-muted/10 p-0 rounded-xl border border-gray-200 dark:border-border overflow-hidden flex divide-x divide-gray-100 dark:divide-border/50 shadow-sm">
           <TabsTrigger
             value="cheapest"
-            className="flex-1 h-full p-2 flex flex-col justify-center items-center cursor-pointer data-[state=active]:bg-brand-dark/[0.03] data-[state=active]:border-b-2 data-[state=active]:border-brand-dark data-[state=active]:shadow-none bg-transparent rounded-none transition-all group"
+            className="flex-1 h-full p-2 flex flex-col justify-center items-center cursor-pointer data-[state=active]:bg-redmix/[0.03] data-[state=active]:border-b-2 data-[state=active]:border-redmix data-[state=active]:shadow-none bg-transparent rounded-none transition-all group"
           >
             <p
               className={cn(
                 "text-xs font-semibold transition-colors",
                 activeTab === "cheapest"
-                  ? "text-brand-dark"
-                  : "text-brand-dark-light/80 group-hover:text-brand-dark-light/60",
+                  ? "text-redmix"
+                  : "text-muted-foreground group-hover:text-foreground",
               )}
             >
               Cheapest
             </p>
-            <p className="text-sm font-semibold text-brand-dark mt-0.5">
+            <p className={cn("text-sm font-bold mt-0.5", activeTab === "cheapest" ? "text-foreground" : "text-muted-foreground")}>
               ${cheapestPrice.toLocaleString()}
             </p>
           </TabsTrigger>
 
           <TabsTrigger
             value="best"
-            className="flex-1 h-full p-2 flex flex-col justify-center items-center cursor-pointer data-[state=active]:bg-brand-dark/[0.03] data-[state=active]:border-b-2 data-[state=active]:border-brand-dark data-[state=active]:shadow-none bg-transparent rounded-none transition-all group"
+            className="flex-1 h-full p-2 flex flex-col justify-center items-center cursor-pointer data-[state=active]:bg-redmix/[0.03] data-[state=active]:border-b-2 data-[state=active]:border-redmix data-[state=active]:shadow-none bg-transparent rounded-none transition-all group"
           >
             <p
               className={cn(
                 "text-xs font-semibold  flex items-center justify-center gap-1.5 transition-colors",
                 activeTab === "best"
-                  ? "text-brand-dark"
-                  : "text-brand-dark-light/80 group-hover:text-brand-dark-light/60",
+                  ? "text-redmix"
+                  : "text-muted-foreground group-hover:text-foreground",
               )}
             >
               Best{" "}
-              <Info className="w-3 h-3 text-brand-dark-light/80 dark:text-brand-dark-light/20" />
+              <Info className="w-3 h-3 opacity-50" />
             </p>
-            <p className="text-sm font-semibold text-brand-dark mt-0.5">
+            <p className={cn("text-sm font-bold mt-0.5", activeTab === "best" ? "text-foreground" : "text-muted-foreground")}>
               ${bestPrice.toLocaleString()}
             </p>
           </TabsTrigger>
 
           <TabsTrigger
             value="quickest"
-            className="flex-1 h-full p-2 flex flex-col justify-center items-center cursor-pointer data-[state=active]:bg-brand-dark/[0.03] data-[state=active]:border-b-2 data-[state=active]:border-brand-dark data-[state=active]:shadow-none bg-transparent rounded-none transition-all group"
+            className="flex-1 h-full p-2 flex flex-col justify-center items-center cursor-pointer data-[state=active]:bg-redmix/[0.03] data-[state=active]:border-b-2 data-[state=active]:border-redmix data-[state=active]:shadow-none bg-transparent rounded-none transition-all group"
           >
             <p
               className={cn(
                 "text-xs font-semibold  transition-colors",
                 activeTab === "quickest"
-                  ? "text-brand-dark"
-                  : "text-brand-dark-light/80 group-hover:text-brand-dark-light/60",
+                  ? "text-redmix"
+                  : "text-muted-foreground group-hover:text-foreground",
               )}
             >
               Quickest
             </p>
-            <p className="text-sm font-semibold text-brand-dark-light mt-0.5">
+            <p className={cn("text-sm font-bold mt-0.5", activeTab === "quickest" ? "text-foreground" : "text-muted-foreground")}>
               {quickestDuration}
             </p>
           </TabsTrigger>

@@ -134,15 +134,24 @@ export function PassengerSelector({
           >
             <div className="flex items-center gap-2 overflow-hidden relative z-10">
               <div className="flex flex-col items-start min-w-0">
-                <span className="text-xs font-medium text-brand-dark capitalize leading-none mb-0.5 whitespace-nowrap">
+                <span className={cn(
+                  "text-xs font-medium capitalize leading-none mb-0.5 whitespace-nowrap",
+                  glassPopover ? "text-white/70" : "text-foreground/70"
+                )}>
                   Passengers
                 </span>
                 <div className="flex items-baseline gap-1 overflow-hidden w-full">
-                  <span className="text-sm font-semibold text-foreground whitespace-nowrap">
+                  <span className={cn(
+                    "text-sm font-semibold whitespace-nowrap",
+                    glassPopover ? "text-white" : "text-foreground"
+                  )}>
                     {total} {total > 1 ? "guests" : "guest"}
                   </span>
                   {cabinClass && (
-                    <span className="text-[11px] font-medium text-muted-foreground whitespace-nowrap truncate">
+                    <span className={cn(
+                      "text-[11px] font-medium whitespace-nowrap truncate",
+                      glassPopover ? "text-white/60" : "text-muted-foreground"
+                    )}>
                       , {cabinClass}
                     </span>
                   )}
@@ -151,8 +160,9 @@ export function PassengerSelector({
             </div>
             <ChevronDown
               className={cn(
-                "w-3.5 h-3.5 opacity-70 transition-transform duration-200 relative z-10 group-hover:text-brand-red",
+                "w-3.5 h-3.5 opacity-70 transition-transform duration-200 relative z-10 group-hover:text-redmix",
                 open && "rotate-180",
+                glassPopover ? "text-white" : "text-foreground"
               )}
             />
             <div className="shimmer-effect" />
@@ -208,7 +218,7 @@ export function PassengerSelector({
                   className="flex items-center justify-between py-1.5"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-9 h-9 rounded-full bg-brand-dark text-white dark:text-redmix shrink-0">
+                    <div className="flex items-center justify-center w-9 h-9 rounded-full bg-redmix text-white shrink-0">
                       <Icon className="h-4.5 w-4.5" />
                     </div>
                     <div>
@@ -258,11 +268,11 @@ export function PassengerSelector({
                         className={cn(
                           "py-1.5 px-2 text-xs capitalize font-semibold rounded-sm border transition-all",
                           cabinClass === cls
-                            ? "bg-brand-red text-white border-brand-red shadow-md"
+                            ? "bg-redmix text-white border-redmix shadow-md"
                             : cn(
-                                "text-foreground/60 hover:border-brand-red/40",
+                                "text-foreground/60 hover:border-redmix/40",
                                 glassPopover
-                                  ? "border-white/20"
+                                  ? "border-white/20 text-white/70"
                                   : "border-border",
                               ),
                         )}

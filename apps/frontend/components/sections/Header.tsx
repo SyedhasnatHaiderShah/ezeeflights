@@ -39,7 +39,12 @@ import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
 import { logoutRequest } from "@/lib/api/auth-api";
 import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
-import { useMarkAllRead, useMarkRead, useNotifications, useUnreadCount } from "@/lib/api/notifications";
+import {
+  useMarkAllRead,
+  useMarkRead,
+  useNotifications,
+  useUnreadCount,
+} from "@/lib/api/notifications";
 
 const navTabs = [
   { label: "Flights", href: "/flights", icon: Plane },
@@ -64,16 +69,35 @@ const NotificationContent = () => {
   return (
     <div className="flex h-full min-h-[320px] flex-col bg-background">
       <div className="flex items-center justify-between border-b p-4">
-        <h2 className="text-lg font-semibold">Notifications ({unread?.count ?? 0})</h2>
-        <button className="text-xs text-brand-red" onClick={() => markAll.mutate()}>Mark all read</button>
+        <h2 className="text-lg font-semibold">
+          Notifications ({unread?.count ?? 0})
+        </h2>
+        <button
+          className="text-xs text-brand-red"
+          onClick={() => markAll.mutate()}
+        >
+          Mark all read
+        </button>
       </div>
       <div className="flex-1 overflow-auto p-3">
-        {notifications.length === 0 ? <div className="flex h-full items-center justify-center p-6 text-center text-sm text-muted-foreground">All caught up! Check back later for new alerts.</div> : notifications.map((notification) => (
-          <button key={notification.id} className={`mb-2 w-full rounded-lg border p-3 text-left ${notification.isRead ? "opacity-70" : "bg-muted/40"}`} onClick={() => markRead.mutate(notification.id)}>
-            <p className="text-sm font-semibold">{notification.title}</p>
-            <p className="text-xs text-muted-foreground">{notification.body}</p>
-          </button>
-        ))}
+        {notifications.length === 0 ? (
+          <div className="flex h-full items-center justify-center p-6 text-center text-sm text-muted-foreground">
+            All caught up! Check back later for new alerts.
+          </div>
+        ) : (
+          notifications.map((notification) => (
+            <button
+              key={notification.id}
+              className={`mb-2 w-full rounded-lg border p-3 text-left ${notification.isRead ? "opacity-70" : "bg-muted/40"}`}
+              onClick={() => markRead.mutate(notification.id)}
+            >
+              <p className="text-sm font-semibold">{notification.title}</p>
+              <p className="text-xs text-muted-foreground">
+                {notification.body}
+              </p>
+            </button>
+          ))
+        )}
       </div>
     </div>
   );
@@ -96,7 +120,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
   const { theme, setTheme } = useTheme();
-  
+
   const currentTab = searchParams.get("tab") || "flights";
   const toggleSidebar = useSidebarStore((state) => state.toggle);
   const openAuthModal = useAuthModalStore((state) => state.open);
@@ -158,7 +182,9 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               onClick={toggleSidebar}
               className={cn(
                 "hidden rounded-lg p-2 transition md:inline-flex",
-                isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                isTransparent
+                  ? "text-white/80 hover:bg-white/10 hover:text-white"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
               )}
             >
               <PanelLeft className="h-5 w-5" />
@@ -168,7 +194,9 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               onClick={toggleSidebar}
               className={cn(
                 "rounded-lg p-2 transition md:hidden",
-                isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                isTransparent
+                  ? "text-white/80 hover:bg-white/10 hover:text-white"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
               )}
             >
               <PanelLeft className="h-5 w-5" />
@@ -185,7 +213,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
           <nav className="hidden items-center gap-1 md:flex">
             {navTabs.map((tab) => {
               const isActive =
-                pathname === tab.href || 
+                pathname === tab.href ||
                 pathname?.startsWith(`${tab.href}/`) ||
                 (pathname === "/" && currentTab === tab.label.toLowerCase());
               const Icon = tab.icon;
@@ -196,13 +224,26 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   className={cn(
                     "relative flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full",
                     isActive
-                      ? "text-white bg-brand-red/90 shadow-lg shadow-brand-red/20"
+                      ? isTransparent
+                        ? "bg-white text-redmix shadow-lg"
+                        : "bg-redmix text-white shadow-lg"
                       : isTransparent
                         ? "text-white/70 hover:text-white hover:bg-white/10"
                         : "text-muted-foreground hover:text-foreground hover:bg-muted",
                   )}
                 >
-                  <Icon className={cn("h-4 w-4", isActive ? "text-white" : "text-brand-red")} />
+                  <Icon
+                    className={cn(
+                      "h-4 w-4",
+                      isActive
+                        ? isTransparent
+                          ? "text-redmix"
+                          : "text-white"
+                        : isTransparent
+                          ? "text-white/70"
+                          : "text-muted-foreground",
+                    )}
+                  />
                   {tab.label}
                 </Link>
               );
@@ -210,17 +251,19 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button 
+                <button
                   className={cn(
                     "relative flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors",
-                    moreLinks.some(link => 
-                      pathname === link.href || 
-                      (pathname === "/" && currentTab === link.label.toLowerCase())
+                    moreLinks.some(
+                      (link) =>
+                        pathname === link.href ||
+                        (pathname === "/" &&
+                          currentTab === link.label.toLowerCase()),
                     )
-                      ? "text-brand-red"
+                      ? "text-redmix"
                       : isTransparent
                         ? "text-white/80 hover:text-white"
-                        : "text-muted-foreground hover:text-foreground"
+                        : "text-muted-foreground hover:text-foreground",
                   )}
                 >
                   <Briefcase className="h-4 w-4" />
@@ -228,11 +271,15 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   <ChevronDown className="h-4 w-4" />
                   <span
                     className={cn(
-                      "absolute bottom-0 left-0 h-0.5 w-full origin-left bg-brand-red transition-transform duration-300",
-                      moreLinks.some(link => 
-                        pathname === link.href || 
-                        (pathname === "/" && currentTab === link.label.toLowerCase())
-                      ) ? "scale-x-100" : "scale-x-0",
+                      "absolute bottom-0 left-0 h-0.5 w-full origin-left bg-redmix transition-transform duration-300",
+                      moreLinks.some(
+                        (link) =>
+                          pathname === link.href ||
+                          (pathname === "/" &&
+                            currentTab === link.label.toLowerCase()),
+                      )
+                        ? "scale-x-100"
+                        : "scale-x-0",
                     )}
                   />
                 </button>
@@ -240,24 +287,32 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               <DropdownMenuContent align="center" className="w-[560px] p-4">
                 <div className="grid grid-cols-[1.2fr_1fr] gap-4">
                   <div className="grid grid-cols-2 gap-2">
-                      {moreLinks.map((item) => {
-                        const isSubActive = 
-                          pathname === item.href || 
-                          (pathname === "/" && currentTab === item.label.toLowerCase());
-                        return (
-                          <Link
-                            key={item.href}
-                            href={item.href}
+                    {moreLinks.map((item) => {
+                      const isSubActive =
+                        pathname === item.href ||
+                        (pathname === "/" &&
+                          currentTab === item.label.toLowerCase());
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className={cn(
+                            "flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition hover:bg-muted",
+                            isSubActive
+                              ? "border-redmix/30 bg-redmix/5 text-redmix"
+                              : "border-border/70 text-foreground",
+                          )}
+                        >
+                          <item.icon
                             className={cn(
-                              "flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition hover:bg-muted",
-                              isSubActive ? "border-brand-red/30 bg-brand-red/5 text-brand-red" : "border-border/70 text-foreground"
+                              "h-4 w-4",
+                              isSubActive ? "text-redmix" : "text-redmix",
                             )}
-                          >
-                            <item.icon className={cn("h-4 w-4", isSubActive ? "text-brand-red" : "text-brand-red")} />
-                            {item.label}
-                          </Link>
-                        );
-                      })}
+                          />
+                          {item.label}
+                        </Link>
+                      );
+                    })}
                   </div>
                   <Link
                     href="/deals"
@@ -287,13 +342,15 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
 
           <div className="flex items-center gap-2">
             <AppIcon
+              onClick={() => router.push("/support")}
               icon={Sparkles}
               label="Ask Ezee"
               className={cn(
-                "hidden sm:flex",
-                isTransparent && "bg-white/10 text-white border-white/20 hover:bg-white/20"
+                "rounded-full border px-4 py-2 text-sm font-medium transition",
+                isTransparent
+                  ? "border-white/20 bg-white/5 text-white hover:bg-white/10"
+                  : "border-border bg-transparent text-foreground hover:bg-muted",
               )}
-              onClick={() => router.push("/support")}
             />
 
             <div className="md:hidden">
@@ -302,11 +359,18 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                 onOpenChange={setIsNotifDrawerOpen}
               >
                 <Drawer.Trigger asChild>
-                  <button className={cn(
-                    "rounded-lg p-2 transition",
-                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted"
-                  )}>
-                    <div className="relative"><Bell className="h-5 w-5" /><span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-brand-red" /></div>
+                  <button
+                    className={cn(
+                      "rounded-lg p-2 transition",
+                      isTransparent
+                        ? "text-white/80 hover:bg-white/10 hover:text-white"
+                        : "text-muted-foreground hover:bg-muted",
+                    )}
+                  >
+                    <div className="relative">
+                      <Bell className="h-5 w-5" />
+                      <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-redmix" />
+                    </div>
                   </button>
                 </Drawer.Trigger>
                 <Drawer.Portal>
@@ -327,10 +391,14 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                 onOpenChange={setIsFavoriteDrawerOpen}
               >
                 <Drawer.Trigger asChild>
-                  <button className={cn(
-                    "rounded-lg p-2 transition",
-                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted"
-                  )}>
+                  <button
+                    className={cn(
+                      "rounded-lg p-2 transition",
+                      isTransparent
+                        ? "text-white/80 hover:bg-white/10 hover:text-white"
+                        : "text-muted-foreground hover:bg-muted",
+                    )}
+                  >
                     <Heart className="h-5 w-5" />
                   </button>
                 </Drawer.Trigger>
@@ -347,10 +415,14 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
             <div className="hidden md:block">
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                  <button className={cn(
-                    "rounded-lg p-2 transition",
-                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  )}>
+                  <button
+                    className={cn(
+                      "rounded-lg p-2 transition",
+                      isTransparent
+                        ? "text-white/80 hover:bg-white/10 hover:text-white"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                    )}
+                  >
                     <Bell className="h-5 w-5" />
                   </button>
                 </DropdownMenuTrigger>
@@ -366,10 +438,14 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
             <div className="hidden md:block">
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                  <button className={cn(
-                    "rounded-lg p-2 transition",
-                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  )}>
+                  <button
+                    className={cn(
+                      "rounded-lg p-2 transition",
+                      isTransparent
+                        ? "text-white/80 hover:bg-white/10 hover:text-white"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                    )}
+                  >
                     <Heart className="h-5 w-5" />
                   </button>
                 </DropdownMenuTrigger>
@@ -386,7 +462,9 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className={cn(
                 "hidden rounded-lg p-2 transition md:inline-flex",
-                isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                isTransparent
+                  ? "text-white/80 hover:bg-white/10 hover:text-white"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
               )}
             >
               {mounted && theme === "dark" ? (
@@ -430,25 +508,32 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                     onClick={() => openAuthModal("login")}
                     className={cn(
                       "rounded-full border px-4 py-2 text-sm font-medium transition",
-                      isTransparent 
-                        ? "border-white/20 bg-white/5 text-white hover:bg-white/10" 
-                        : "border-border bg-transparent text-foreground hover:bg-muted"
+                      isTransparent
+                        ? "border-white/20 bg-white/5 text-white hover:bg-white/10"
+                        : "border-border bg-transparent text-foreground hover:bg-muted",
                     )}
                   >
                     Sign in
                   </button>
-                  <button
+                  {/* <button
                     onClick={() => openAuthModal("register")}
-                    className="rounded-full bg-gradient-to-r from-brand-red to-brand-red-light px-4 py-2 text-sm font-semibold text-white transition hover:brightness-110 shadow-lg"
+                    className={cn(
+                      "rounded-full border px-4 py-2 text-sm font-medium transition",
+                      isTransparent
+                        ? "border-white/20 bg-white/5 text-white hover:bg-white/10"
+                        : "border-border bg-transparent text-foreground hover:bg-muted",
+                    )}
                   >
                     Sign up
-                  </button>
+                  </button> */}
                 </div>
                 <button
                   onClick={() => openAuthModal("login")}
                   className={cn(
                     "rounded-lg p-2 transition md:hidden",
-                    isTransparent ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-muted-foreground hover:bg-muted"
+                    isTransparent
+                      ? "text-white/80 hover:bg-white/10 hover:text-white"
+                      : "text-muted-foreground hover:bg-muted",
                   )}
                 >
                   <User className="h-5 w-5" />
@@ -475,7 +560,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               </span>
               <Link
                 href="/deals"
-                className="whitespace-nowrap font-bold text-brand-red hover:underline"
+                className="whitespace-nowrap font-bold text-redmix hover:underline"
               >
                 See Deals →
               </Link>

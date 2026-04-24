@@ -121,7 +121,7 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
               ))}
             </div>
             {airlines.length > 6 && (
-              <button type="button" className="text-xs text-brand-red mt-3" onClick={() => setShowAllAirlines((s) => !s)}>
+              <button type="button" className="text-xs text-redmix mt-3 font-semibold hover:underline" onClick={() => setShowAllAirlines((s) => !s)}>
                 {showAllAirlines ? "Show less" : "Show all airlines"}
               </button>
             )}
@@ -140,7 +140,7 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
                     const Icon = slot.icon;
                     const active = filters[field][0] === Math.round((slot.range[0] / 24) * 100) && filters[field][1] === Math.round((slot.range[1] / 24) * 100);
                     return (
-                      <button key={slot.key} onClick={() => toggleTime(field, slot.range)} className={cn("rounded-lg border px-3 py-2 text-xs flex items-center gap-2", active && "border-brand-red bg-brand-red/10 text-brand-red") }>
+                      <button key={slot.key} onClick={() => toggleTime(field, slot.range)} className={cn("rounded-lg border px-3 py-2 text-xs flex items-center gap-2 transition-all", active ? "border-redmix bg-redmix/10 text-redmix font-semibold" : "border-border text-muted-foreground hover:bg-muted") }>
                         <Icon className="h-3.5 w-3.5" />
                         {slot.label}
                       </button>
@@ -204,7 +204,7 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
             resetFilters();
             onClose?.();
           }}
-          className="text-sm text-brand-red"
+          className="text-sm text-redmix font-bold hover:underline"
         >
           Reset all filters
         </button>

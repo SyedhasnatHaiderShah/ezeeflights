@@ -51,8 +51,12 @@ export class AnalyticsService implements OnModuleInit {
   }
 
   async aggregateDaily(targetDate?: string) {
-    await this.syncAnalyticsBookings(targetDate);
-    await this.repository.rebuildDailyAggregates(targetDate);
+    try {
+      await this.syncAnalyticsBookings(targetDate);
+      await this.repository.rebuildDailyAggregates(targetDate);
+    } catch (error) {
+      console.error('Failed to run daily analytics aggregation:', error);
+    }
   }
 
   private registerEventListeners() {

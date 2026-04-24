@@ -16,11 +16,11 @@ export function QuickFilters() {
           <div className="flex flex-col space-y-0.5">
             <Label
               htmlFor="basic-tickets"
-              className="text-xs font-semibold cursor-pointer text-brand-dark"
+              className="text-xs font-semibold cursor-pointer text-foreground"
             >
               Hide basic tickets
             </Label>
-            <p className="text-xs text-brand-dark-light/40 font-medium  leading-tight">
+            <p className="text-xs text-muted-foreground font-medium leading-tight">
               Options with seat & carry-on bag.
             </p>
           </div>
@@ -38,11 +38,11 @@ export function QuickFilters() {
           <div className="flex flex-col space-y-0.5">
             <Label
               htmlFor="book-kayak"
-              className="text-xs font-semibold cursor-pointer text-brand-dark"
+              className="text-xs font-semibold cursor-pointer text-foreground"
             >
               Book on KAYAK
             </Label>
-            <p className="text-xs text-brand-dark-light/40 font-medium  leading-tight">
+            <p className="text-xs text-muted-foreground font-medium leading-tight">
               Instantly bookable on website.
             </p>
           </div>

@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { Header } from '@/components/sections/Header';
 import { Footer } from '@/components/sections/Footer';
 import { Progress } from '@/components/ui/Progress';
+import { Label } from '@/components/ui/label';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -115,11 +116,11 @@ export default function BookingPage() {
       <main className="flex-grow container mx-auto max-w-7xl px-4 pt-24 pb-12">
         <div className="mb-8 flex flex-col items-center text-center">
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-                <h1 className="text-3xl font-black tracking-tight md:text-4xl lg:text-5xl uppercase">
-                    {step === 2 ? 'Booking' : 'Secure'} <span className="text-brand-red">{step === 2 ? 'Confirmed' : 'Checkout'}</span>
+                <h1 className="text-3xl font-black tracking-tight md:text-4xl lg:text-5xl uppercase text-foreground">
+                    {step === 2 ? 'Booking' : 'Secure'} <span className="text-redmix">{step === 2 ? 'Confirmed' : 'Checkout'}</span>
                 </h1>
                 {step < 2 && (
-                    <p className="mt-2 text-muted-foreground font-medium">Step {step + 1} of {steps.length}: {steps[step].label}</p>
+                    <p className="mt-2 text-muted-foreground font-semibold">Step {step + 1} of {steps.length}: {steps[step].label}</p>
                 )}
             </motion.div>
 
@@ -133,14 +134,14 @@ export default function BookingPage() {
                                 i <= step ? "text-foreground" : "text-muted-foreground/30"
                             )}>
                                 <div className={cn(
-                                    "flex h-8 w-8 items-center justify-center rounded-lg border transition-all",
+                                    "flex h-9 w-9 items-center justify-center rounded-xl border transition-all",
                                     i < step ? "bg-green-500/10 border-green-500 text-green-500" :
-                                    i === step ? "bg-brand-red border-brand-red text-white shadow-lg shadow-brand-red/20 scale-110" :
-                                    "bg-muted/50 border-border"
+                                    i === step ? "bg-redmix border-redmix text-white shadow-lg shadow-redmix/30 scale-110" :
+                                    "bg-muted/50 border-border text-muted-foreground"
                                 )}>
-                                    {i < step ? <Check className="h-4 w-4" /> : <s.icon className="h-4 w-4" />}
+                                    {i < step ? <Check className="h-5 w-5" /> : <s.icon className="h-5 w-5" />}
                                 </div>
-                                <span className="text-[10px] font-bold uppercase tracking-wider hidden sm:block">{s.label}</span>
+                                <span className={cn("text-[10px] font-bold uppercase tracking-wider hidden sm:block", i === step ? "text-foreground" : "text-muted-foreground")}>{s.label}</span>
                             </div>
                         ))}
                     </div>
@@ -172,7 +173,7 @@ export default function BookingPage() {
                                     onClick={nextStep} 
                                     disabled={loading}
                                     size="lg" 
-                                    className="w-full h-14 rounded-xl bg-brand-red text-white font-bold shadow-lg shadow-brand-red/20 hover:brightness-110 transition-all"
+                                    className="w-full h-14 rounded-xl bg-redmix text-white font-bold shadow-lg shadow-redmix/20 hover:brightness-110 transition-all"
                                 >
                                     {loading ? 'Processing...' : 'CONFIRM & PAY NOW'}
                                 </Button>
@@ -199,12 +200,8 @@ export default function BookingPage() {
  
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 text-left max-w-lg mx-auto">
                                 <div className="bg-muted/50 rounded-xl p-6 border border-border">
-                                    <span className="text-[10px] text-muted-foreground uppercase tracking-widest block mb-1">Booking ID</span>
-                                    <span className="text-xl font-bold text-foreground">#{bookingIdState?.substring(0, 8).toUpperCase()}</span>
-                                </div>
-                                <div className="bg-muted/50 rounded-xl p-6 border border-border">
-                                    <span className="text-[10px] text-muted-foreground uppercase tracking-widest block mb-1">Total Paid</span>
-                                    <span className="text-xl font-bold text-brand-red">${(Number(flightDetails?.baseFare || 0) * 1.12 + ancillaryTotal + seatTotal).toFixed(2)}</span>
+                                    <Label className="text-[10px] text-muted-foreground uppercase tracking-widest block mb-1">Total Paid</Label>
+                                    <span className="text-xl font-bold text-redmix">${(Number(flightDetails?.baseFare || 0) * 1.12 + ancillaryTotal + seatTotal).toFixed(2)}</span>
                                 </div>
                             </div>
  
@@ -218,7 +215,7 @@ export default function BookingPage() {
                                 </Button>
                                 <Button
                                     onClick={() => router.push('/')}
-                                    className="px-8 py-6 bg-brand-red text-white rounded-xl font-bold uppercase text-xs tracking-widest shadow-lg shadow-brand-red/20"
+                                    className="px-8 py-6 bg-redmix text-white rounded-xl font-bold uppercase text-xs tracking-widest shadow-lg shadow-redmix/20"
                                 >
                                     Return Home
                                 </Button>
@@ -233,7 +230,7 @@ export default function BookingPage() {
                     ← Previous Step
                 </Button>
                 {step < 1 && (
-                    <Button onClick={nextStep} disabled={loading} className="h-12 px-8 rounded-xl bg-brand-red font-bold text-sm shadow-lg shadow-brand-red/20 transition-all hover:scale-[1.02]">
+                    <Button onClick={nextStep} disabled={loading} className="h-12 px-8 rounded-xl bg-redmix font-bold text-sm shadow-lg shadow-redmix/20 transition-all hover:scale-[1.02]">
                         {loading ? 'Processing...' : 'Continue to Payment'} <ChevronRight className="ml-2 h-4 w-4" />
                     </Button>
                 )}
@@ -269,9 +266,9 @@ export default function BookingPage() {
  
                 <div className="mt-6 pt-4 border-t border-border">
                   <div className="flex items-center justify-between">
-                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Total Price</p>
+                    <Label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Total Price</Label>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-2xl font-black tracking-tight text-brand-red">
+                      <span className="text-2xl font-black tracking-tight text-redmix">
                           {(Number(flightDetails?.totalFare || (Number(flightDetails?.baseFare || 0) * 1.12)) + ancillaryTotal + seatTotal).toFixed(2)}
                       </span>
                       <span className="text-muted-foreground font-bold text-[10px]">{flightDetails?.currency || 'USD'}</span>

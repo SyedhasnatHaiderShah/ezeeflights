@@ -53,9 +53,8 @@ export function AppIcon({
       {label && (
         <span
           className={cn(
-            "text-xs font-semibold tracking-tight uppercase transition-colors",
-            !isActive &&
-              "text-foreground/90 dark:text-muted-foreground group-hover:dark:text-foreground",
+            "tracking-tight transition-colors",
+            !isActive && "text-inherit",
             isActive && "text-white",
           )}
         >
@@ -83,8 +82,8 @@ export function AppIcon({
         ],
         // Active Styling
         isActive && [
-          "bg-gradient-to-tl from-brand-red to-brand-red-light shadow-lg shadow-brand-red/20 scale-105 transition-all text-white",
-          "dark:shadow-brand-red/40",
+          "bg-gradient-to-tl from-redmix to-redmix-light shadow-lg shadow-redmix/20 scale-105 transition-all text-white",
+          "dark:shadow-redmix/40",
         ],
         className,
       )}
@@ -112,9 +111,8 @@ export function AppIcon({
             {label && (
               <span
                 className={cn(
-                  "text-sm font-bold tracking-tight uppercase text-[11px] transition-colors",
-                  !isActive &&
-                    "text-foreground/90 dark:text-muted-foreground group-hover:dark:text-foreground",
+                  "tracking-tight transition-colors",
+                  !isActive && "text-inherit",
                   isActive && "text-white",
                 )}
               >
@@ -132,10 +130,8 @@ export function AppIcon({
               isPill ? "w-4 h-4" : "w-5 h-5",
               // Inactive colors
               !isActive && [
-                "text-redmix",
-                isFill ? "fill-redmix" : "fill-none",
-                "dark:text-gray-100 group-hover:dark:text-foreground",
-                isFill ? "dark:fill-gray-100" : "dark:fill-none",
+                "text-inherit",
+                isFill ? "fill-current" : "fill-none",
               ],
               // Active colors
               isActive && ["text-white", isFill ? "fill-white" : "fill-none"],
@@ -144,9 +140,8 @@ export function AppIcon({
           {label && (
             <span
               className={cn(
-                "text-sm font-bold tracking-tight text-xs transition-colors",
-                !isActive &&
-                  "text-foreground/90 dark:text-gray-100 group-hover:dark:text-foreground",
+                "transition-colors",
+                !isActive && "text-inherit",
                 isActive && "text-white",
               )}
             >

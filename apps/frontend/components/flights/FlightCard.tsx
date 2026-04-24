@@ -12,9 +12,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 interface Props { flight: FlightListItem; }
 
 function getBadge(flight: FlightListItem): { label: string; className: string } | null {
-  if (flight.totalCost < 400) return { label: "Cheapest", className: "bg-sky-100 text-sky-700" };
-  if (flight.totalTime < 420) return { label: "Fastest", className: "bg-brand-red/15 text-brand-red" };
-  if (flight.totalCost / Math.max(1, flight.totalTime) < 1.2) return { label: "Best Value", className: "bg-emerald-100 text-emerald-700" };
+  if (flight.totalCost < 400) return { label: "Cheapest", className: "bg-sky-500/10 text-sky-500" };
+  if (flight.totalTime < 420) return { label: "Fastest", className: "bg-redmix/10 text-redmix" };
+  if (flight.totalCost / Math.max(1, flight.totalTime) < 1.2) return { label: "Best Value", className: "bg-emerald-500/10 text-emerald-500" };
   return null;
 }
 
@@ -97,11 +97,10 @@ export function FlightCard({ flight }: Props) {
           {first.cabinClass} · {first.baggageAllowance || "Baggage per policy"} · {first.equipmentType}
         </p>
         <div className="flex items-center gap-2 shrink-0">
-          <p className="text-lg font-bold text-brand-red">{symbol}{Math.round(flight.totalCost).toLocaleString()}</p>
+          <p className="text-xl font-bold text-foreground">{symbol}{Math.round(flight.totalCost).toLocaleString()}</p>
           <Button
             size="sm"
-            variant="outline"
-            className="h-7 px-3 text-xs border-brand-red text-brand-red hover:bg-brand-red hover:text-white"
+            className="h-8 px-4 text-xs bg-redmix text-white hover:brightness-110 shadow-sm"
             onClick={() => {
               setFlights([flight.flightId]);
               router.push(`/flights/booking?id=${flight.flightId}`);
@@ -166,12 +165,12 @@ function FlightLeg({ from, fromTime, to, toTime, totalTime, stops, stopCode, ove
         <p className="text-xs text-muted-foreground">{totalTime}</p>
         <div className="my-1 flex items-center gap-1">
           <div className="h-px flex-1 border-t border-dashed border-border" />
-          <Plane className={cn("h-3 w-3 text-brand-red", direction === "inbound" && "rotate-180")} />
+          <Plane className={cn("h-3 w-3 text-redmix", direction === "inbound" && "rotate-180")} />
           <div className="h-px flex-1 border-t border-dashed border-border" />
         </div>
         <span className={cn(
-          "inline-flex rounded-full px-1.5 py-0.5 text-xs leading-tight",
-          stops === 0 ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
+          "inline-flex rounded-full px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+          stops === 0 ? "bg-emerald-500/10 text-emerald-500" : "bg-yellow/10 text-yellow"
         )}>
           {stops === 0 ? "Non-stop" : `${stops} stop${stops > 1 ? "s" : ""}${stopCode ? ` · ${stopCode}` : ""}`}
         </span>

@@ -159,29 +159,34 @@ export function LocationInput({
         >
           <div className="relative z-10 flex flex-col flex-1 min-w-0">
             {inputValue && (
-              <span className="text-[10px] font-semibold text-brand-red capitalize leading-none mb-0.5 tracking-tight animate-in slide-in-from-bottom-1 fade-in duration-200">
+              <span className="text-[10px] font-semibold text-white/70 capitalize leading-none mb-0.5 tracking-tight animate-in slide-in-from-bottom-1 fade-in duration-200">
                 {placeholder}
               </span>
             )}
-            <input
-              ref={inputRef}
-              id={id}
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              onFocus={() => {
-                setOpen(true);
-              }}
-              onBlur={() => {
-                // Use timeout to allow click events on dropdown items to fire first
-                timeoutRef.current = setTimeout(() => {
-                  setOpen(false);
-                }, 150);
-              }}
-              placeholder={placeholder}
-              className="w-full bg-transparent border-none outline-none text-sm font-medium text-foreground placeholder:text-foreground/60 placeholder:font-medium"
-              autoComplete="off"
-            />
+              <input
+                ref={inputRef}
+                id={id}
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                onFocus={() => {
+                  setOpen(true);
+                }}
+                onBlur={() => {
+                  // Use timeout to allow click events on dropdown items to fire first
+                  timeoutRef.current = setTimeout(() => {
+                    setOpen(false);
+                  }, 150);
+                }}
+                placeholder={placeholder}
+                className={cn(
+                  "w-full bg-transparent border-none outline-none text-sm font-medium placeholder:font-medium",
+                  glassPopover
+                    ? "text-white placeholder:text-white/60"
+                    : "text-foreground placeholder:text-foreground/60",
+                )}
+                autoComplete="off"
+              />
           </div>
           {inputValue && (
             <button

@@ -28,7 +28,7 @@ export function AccordionFilters() {
         <AccordionItem value="price" className="border-b-0">
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none cursor-pointer">
             <div className="flex items-center gap-2">
-              <Tag className="w-3 h-3 text-brand-dark/70" />
+              <Tag className="w-3 h-3 text-redmix/70" />
               <span className="filter-card-title">
                 Price
               </span>
@@ -57,7 +57,7 @@ export function AccordionFilters() {
         <AccordionItem value="layovers" className="border-b-0">
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none cursor-pointer">
             <div className="flex items-center gap-2">
-              <MapPin className="w-3 h-3 text-brand-dark/80" />
+              <MapPin className="w-3 h-3 text-redmix/80" />
               <span className="filter-card-title">
                 Layover airports
               </span>
@@ -70,11 +70,11 @@ export function AccordionFilters() {
                   const current = filters.layoverAirports;
                   setFilter("layoverAirports", current.includes(airport) ? current.filter(a => a !== airport) : [...current, airport]);
                 }}>
-                  <Checkbox
-                    id={airport}
-                    checked={filters.layoverAirports.includes(airport)}
-                    className="w-3.5 h-3.5 data-[state=checked]:bg-brand-dark data-[state=checked]:border-brand-dark"
-                  />
+                    <Checkbox
+                      id={airport}
+                      checked={filters.layoverAirports.includes(airport)}
+                      className="w-3.5 h-3.5"
+                    />
                   <Label
                     htmlFor={airport}
                     className="text-xs font-bold text-brand-dark-light/80 cursor-pointer"
@@ -93,7 +93,7 @@ export function AccordionFilters() {
         <AccordionItem value="cabin" className="border-b-0">
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none cursor-pointer">
             <div className="flex items-center gap-2">
-              <Sofa className="w-3 h-3 text-brand-dark/40" />
+              <Sofa className="w-3 h-3 text-redmix/40" />
               <span className="filter-card-title">
                 Cabin
               </span>
@@ -110,7 +110,7 @@ export function AccordionFilters() {
                     <Checkbox
                       id={cabin}
                       checked={filters.cabinClass.includes(cabin)}
-                      className="w-3.5 h-3.5 data-[state=checked]:bg-brand-dark data-[state=checked]:border-brand-dark"
+                      className="w-3.5 h-3.5"
                     />
                     <Label
                       htmlFor={cabin}
@@ -131,7 +131,7 @@ export function AccordionFilters() {
         <AccordionItem value="quality" className="border-b-0">
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none cursor-pointer">
             <div className="flex items-center gap-2">
-              <Star className="w-3 h-3 text-brand-dark/40" />
+              <Star className="w-3 h-3 text-redmix/40" />
               <span className="filter-card-title">
                 Flight quality
               </span>
@@ -147,7 +147,7 @@ export function AccordionFilters() {
                   <Checkbox
                     id={quality}
                     checked={filters.amenities.includes(quality)}
-                    className="w-3.5 h-3.5 data-[state=checked]:bg-brand-dark data-[state=checked]:border-brand-dark"
+                    className="w-3.5 h-3.5"
                   />
                   <Label
                     htmlFor={quality}
@@ -167,7 +167,7 @@ export function AccordionFilters() {
         <AccordionItem value="aircraft" className="border-b-0">
           <AccordionTrigger className="px-3 py-2.5 hover:no-underline [&>div]:bg-transparent [&>div]:shadow-none">
             <div className="flex items-center gap-2">
-              <Plane className="w-3 h-3 text-brand-dark/80" />
+              <Plane className="w-3 h-3 text-redmix/80" />
               <span className="filter-card-title">
                 Aircraft
               </span>
@@ -179,7 +179,7 @@ export function AccordionFilters() {
                 <div key={plane} className="flex items-center gap-2.5">
                   <Checkbox
                     id={plane}
-                    className="w-3.5 h-3.5 data-[state=checked]:bg-brand-dark data-[state=checked]:border-brand-dark"
+                    className="w-3.5 h-3.5"
                   />
                   <Label
                     htmlFor={plane}
