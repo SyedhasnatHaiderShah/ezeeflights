@@ -96,8 +96,8 @@ export function TimePicker({
         className={cn(
           "w-64 overflow-hidden rounded-[1.5rem] border p-3 shadow-2xl transition-all duration-300",
           glassPopover || heroMode
-            ? "border-white/10 bg-white/10 backdrop-blur-2xl"
-            : "border-border bg-background"
+            ? "border-white/10 bg-white/10 backdrop-blur-2xl text-white"
+            : "border-border bg-background text-foreground"
         )}
         align="start"
         sideOffset={8}

@@ -207,8 +207,8 @@ export function LocationInput({
           className={cn(
             "z-50 w-(--radix-popover-trigger-width) overflow-hidden rounded-md border shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)]",
             glassPopover
-              ? "border-white/20 bg-white/10 text-foreground backdrop-blur-2xl"
-              : "border-border bg-background",
+              ? "border-white/20 bg-white/10 text-white backdrop-blur-2xl"
+              : "border-border bg-background text-foreground",
           )}
           sideOffset={0}
           align="start"
@@ -238,7 +238,12 @@ export function LocationInput({
                 : "border-border bg-muted/30",
             )}
           >
-            <span className="text-xs font-medium text-foreground/80 px-1">
+            <span
+              className={cn(
+                "text-xs font-medium px-1",
+                glassPopover ? "text-white/80" : "text-foreground/80",
+              )}
+            >
               {inputValue ? "Search Results" : "Recent or Popular"}
             </span>
           </div>
@@ -260,13 +265,28 @@ export function LocationInput({
                     <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
                       <Search className="w-6 h-6 text-foreground/20" />
                     </div>
-                    <p className="text-sm font-medium text-foreground/60">
+                    <p
+                      className={cn(
+                        "text-sm font-medium",
+                        glassPopover ? "text-white/60" : "text-foreground/60",
+                      )}
+                    >
                       No results found for
                     </p>
-                    <p className="text-xs font-medium text-foreground/60 truncate">
+                    <p
+                      className={cn(
+                        "text-xs font-medium truncate",
+                        glassPopover ? "text-white/60" : "text-foreground/60",
+                      )}
+                    >
                       {inputValue}
                     </p>
-                    <p className="text-xs text-foreground/40 mt-1">
+                    <p
+                      className={cn(
+                        "text-xs mt-1",
+                        glassPopover ? "text-white/40" : "text-foreground/40",
+                      )}
+                    >
                       Try searching for a different city or airport code
                     </p>
                   </div>
@@ -292,14 +312,29 @@ export function LocationInput({
                     )}
                   </div> */}
                   <div className="flex flex-col flex-1 min-w-0">
-                    <span className="font-medium text-foreground text-sm truncate">
+                    <span
+                      className={cn(
+                        "font-medium text-sm truncate",
+                        glassPopover ? "text-white" : "text-foreground",
+                      )}
+                    >
                       {s.name}
                     </span>
-                    <span className="text-xs text-foreground/80 truncate font-normal">
+                    <span
+                      className={cn(
+                        "text-xs truncate font-normal",
+                        glassPopover ? "text-white/80" : "text-foreground/80",
+                      )}
+                    >
                       {s.detail}
                     </span>
                   </div>
-                  <span className="ml-3 font-medium text-[10px] text-foreground/70 capitalize tracking-wider">
+                  <span
+                    className={cn(
+                      "ml-3 font-medium text-[10px] capitalize tracking-wider",
+                      glassPopover ? "text-white/70" : "text-foreground/70",
+                    )}
+                  >
                     {s.code}
                   </span>
                 </button>

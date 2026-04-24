@@ -174,8 +174,8 @@ export function PassengerSelector({
             className={cn(
               "z-50 w-64 rounded-sm border p-3 shadow-2xl animate-in fade-in zoom-in-95 duration-200 focus:outline-none",
               glassPopover
-                ? "border-white/20 bg-white/10 text-foreground backdrop-blur-2xl"
-                : "border-border bg-background",
+                ? "border-white/20 bg-white/10 text-white backdrop-blur-2xl"
+                : "border-border bg-background text-foreground",
             )}
             sideOffset={8}
             align="start"
@@ -222,10 +222,20 @@ export function PassengerSelector({
                       <Icon className="h-4.5 w-4.5" />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-foreground">
+                      <p
+                        className={cn(
+                          "text-sm font-bold",
+                          glassPopover ? "text-white" : "text-foreground",
+                        )}
+                      >
                         {label}
                       </p>
-                      <p className="text-xs text-foreground/50 font-medium leading-tight">
+                      <p
+                        className={cn(
+                          "text-xs font-medium leading-tight",
+                          glassPopover ? "text-white/50" : "text-foreground/50",
+                        )}
+                      >
                         {subtitle}
                       </p>
                     </div>
@@ -236,6 +246,7 @@ export function PassengerSelector({
                     max={max}
                     onChange={(val) => onChange(key, val)}
                     ariaLabel={label}
+                    glass={glassPopover}
                   />
                 </div>
               );
@@ -250,7 +261,12 @@ export function PassengerSelector({
                   )}
                 />
                 <div className="pt-1">
-                  <p className="text-xs font-semibold text-foreground/50 capitalize tracking-wider mb-2">
+                  <p
+                    className={cn(
+                      "text-xs font-semibold capitalize tracking-wider mb-2",
+                      glassPopover ? "text-white/50" : "text-foreground/50",
+                    )}
+                  >
                     Cabin Class
                   </p>
                   <div className="grid grid-cols-2 gap-2">

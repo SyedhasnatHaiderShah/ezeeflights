@@ -123,10 +123,10 @@ export function DatePicker({
       </PopoverTrigger>
       <PopoverContent
         className={cn(
-          "w-auto overflow-hidden rounded-2xl border p-0 text-foreground shadow-2xl",
+          "w-auto overflow-hidden rounded-2xl border p-0 shadow-2xl",
           glassPopover
-            ? "border-white/20 bg-white/10 backdrop-blur-2xl"
-            : "border-border bg-background",
+            ? "border-white/20 bg-white/10 backdrop-blur-2xl text-white"
+            : "border-border bg-background text-foreground",
         )}
         align="start"
         sideOffset={10}
@@ -147,9 +147,18 @@ export function DatePicker({
             glassPopover
               ? {
                   button_previous:
-                    "pointer-events-auto h-9 w-9 rounded-full border border-white/20 bg-white/10 text-foreground shadow-sm transition-all hover:bg-white/20 hover:text-foreground flex items-center justify-center cursor-pointer",
+                    "pointer-events-auto h-7 w-7 rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition-all hover:bg-white/20 hover:text-white flex items-center justify-center cursor-pointer",
                   button_next:
-                    "pointer-events-auto h-9 w-9 rounded-full border border-white/20 bg-white/10 text-foreground shadow-sm transition-all hover:bg-white/20 hover:text-foreground flex items-center justify-center cursor-pointer",
+                    "pointer-events-auto h-7 w-7 rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition-all hover:bg-white/20 hover:text-white flex items-center justify-center cursor-pointer",
+                  day_button:
+                    "w-8 h-8 p-0 text-white font-medium rounded-full hover:bg-white/20 transition-colors flex items-center justify-center text-sm cursor-pointer",
+                  caption_label: "text-white font-bold tracking-tight px-10",
+                  weekday:
+                    "text-white/60 text-[11px] font-semibold text-center flex items-center justify-center",
+                  disabled: "text-white/20 opacity-30 cursor-not-allowed",
+                  today:
+                    "text-white font-bold relative after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:rounded-full after:bg-white",
+                  outside: "text-white/20 opacity-30",
                 }
               : undefined
           }

@@ -181,10 +181,13 @@ interface HeroProps {
 export function Hero({
   title = (
     <>
-      Find Your Perfect <span className="text-yellow lowercase">journey</span>
+      Find Your Perfect{" "}
+      <span className="bg-gradient-to-r from-redmix to-yellow bg-clip-text text-transparent font-black">
+        Journey
+      </span>
     </>
   ),
-  description = "Search 500+ airlines. Compare prices. Book in seconds.",
+  description = "Search 500+ airlines. Compare prices. Book in Seconds.",
   defaultTab = "flights",
   badgeText = "#1 Flight Booking Platform",
 }: HeroProps) {

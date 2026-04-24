@@ -171,7 +171,7 @@ export function LoginForm({
           variant="brand-red"
           type="submit"
           disabled={disabled || !!emailError || !!passwordError}
-          className="h-12 w-full rounded-xl"
+          className="h-12 w-full rounded-xl text-foreground"
         >
           {disabled ? (
             <>
@@ -184,7 +184,7 @@ export function LoginForm({
         </Button>
       </form>
 
-      <p className="text-center text-sm text-muted-foreground">
+      {/* <p className="text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{" "}
         <Link
           href="/auth/signup"
@@ -192,7 +192,7 @@ export function LoginForm({
         >
           Create one →
         </Link>
-      </p>
+      </p> */}
     </div>
   );
 }

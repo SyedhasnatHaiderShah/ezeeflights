@@ -286,7 +286,7 @@ export function PackagesContent() {
                 className={cn(
                   "rounded-full border px-3 py-1 text-xs font-medium transition-all",
                   duration === d.value
-                    ? "border-brand-red bg-brand-red text-white shadow-sm"
+                    ? "border-white bg-white text-redmix shadow-md"
                     : "border-border text-muted-foreground hover:border-brand-red/50 hover:text-foreground"
                 )}
               >
@@ -375,7 +375,7 @@ export function PackagesContent() {
                     className={cn(
                       "rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-all",
                       theme === t
-                        ? "border-brand-red bg-brand-red text-white"
+                        ? "border-white bg-white text-redmix shadow-md"
                         : "border-border text-muted-foreground hover:border-brand-red/50"
                     )}
                   >

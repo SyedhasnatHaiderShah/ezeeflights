@@ -21,6 +21,7 @@ import { PassengerSelector } from "@/components/ui/PassengerSelector";
 import { CounterInput } from "@/components/ui/CounterInput";
 import { TimePicker } from "@/components/ui/time-picker";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/lib/hooks/use-toast";
 
 const TABS = [
   { id: "flights", label: "✈ Flights" },
@@ -48,6 +49,9 @@ export function BookingForm({
   const saveSearchMutation = useSaveRecentSearch();
   const saveGuestSearchMutation = useSaveGuestSearch();
   const { prefill, clearPrefill } = useRecentSearchStore();
+  const { toast } = useToast();
+
+  const [invalidFields, setInvalidFields] = React.useState<string[]>([]);
 
   // URL-persistent tab state
   const activeTab = (searchParams.get("tab") as TabType) || defaultTab;
@@ -161,6 +165,44 @@ export function BookingForm({
   };
 
   const handleSearch = () => {
+    const missing: string[] = [];
+
+    if (activeTab === "flights") {
+      if (!origin) missing.push("origin");
+      if (!destination) missing.push("destination");
+      if (!departDate) missing.push("departDate");
+      if (tripType === "round-trip" && !returnDate) missing.push("returnDate");
+    } else if (activeTab === "hotels") {
+      if (!destination) missing.push("destination");
+      if (!departDate) missing.push("departDate");
+      if (!returnDate) missing.push("returnDate");
+    } else if (activeTab === "cars") {
+      if (!origin) missing.push("origin");
+      if (!departDate) missing.push("departDate");
+      if (!returnDate) missing.push("returnDate");
+    } else if (activeTab === "packages") {
+      if (!destination) missing.push("destination");
+      if (!departDate) missing.push("departDate");
+      if (!returnDate) missing.push("returnDate");
+    } else if (activeTab === "transfers") {
+      if (!origin) missing.push("origin");
+      if (!destination) missing.push("destination");
+      if (!departDate) missing.push("departDate");
+      if (!transferTime) missing.push("transferTime");
+    }
+
+    if (missing.length > 0) {
+      setInvalidFields(missing);
+      toast({
+        title: "Incomplete Search",
+        description: `Please fill in all required fields: ${missing.join(", ").replace(/Date/g, " Date")}`,
+        variant: "destructive",
+      });
+      // Clear highlight after 2 seconds
+      setTimeout(() => setInvalidFields([]), 2000);
+      return;
+    }
+
     // Save to recent searches
     if (origin && destination) {
       const searchData = {
@@ -254,7 +296,13 @@ export function BookingForm({
           </div>
 
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,0.6fr)_minmax(0,1.6fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,1.8fr)_minmax(0,1.9fr)]">
-            <div className="rounded-md border border-white/20 bg-white/5 h-14">
+            <motion.div
+              animate={invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}}
+              className={cn(
+                "rounded-md border bg-white/5 h-14 transition-colors",
+                invalidFields.includes("origin") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              )}
+            >
               <LocationInput
                 value={origin}
                 onChange={setOrigin}
@@ -263,7 +311,7 @@ export function BookingForm({
                 glassPopover={heroMode}
                 openOnHover={false}
               />
-            </div>
+            </motion.div>
             <motion.button
               type="button"
               whileTap={{ rotate: 180 }}
@@ -280,7 +328,13 @@ export function BookingForm({
             >
               <ArrowRightLeft className="h-4 w-4" />
             </motion.button>
-            <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+            <motion.div
+              animate={invalidFields.includes("destination") ? { x: [-4, 4, -4, 4, 0] } : {}}
+              className={cn(
+                "rounded-md border bg-white/5 min-h-14 transition-colors",
+                invalidFields.includes("destination") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              )}
+            >
               <LocationInput
                 value={destination}
                 onChange={setDestination}
@@ -289,8 +343,14 @@ export function BookingForm({
                 glassPopover={heroMode}
                 openOnHover={false}
               />
-            </div>
-            <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+            </motion.div>
+            <motion.div
+              animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+              className={cn(
+                "rounded-md border bg-white/5 min-h-14 transition-colors",
+                invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              )}
+            >
               <DatePicker
                 date={departDate}
                 setDate={handleDepartDateChange}
@@ -300,8 +360,14 @@ export function BookingForm({
                 glassPopover={heroMode}
                 openOnHover={false}
               />
-            </div>
-            <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+            </motion.div>
+            <motion.div
+              animate={invalidFields.includes("returnDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+              className={cn(
+                "rounded-md border bg-white/5 min-h-14 transition-colors",
+                invalidFields.includes("returnDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              )}
+            >
               <DatePicker
                 date={returnDate}
                 setDate={handleReturnDateChange}
@@ -317,7 +383,7 @@ export function BookingForm({
                 glassPopover={heroMode}
                 openOnHover={false}
               />
-            </div>
+            </motion.div>
             <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
               <PassengerSelector
                 passengers={passengers}
@@ -347,7 +413,13 @@ export function BookingForm({
           value="hotels"
           className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2"
         >
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          <motion.div
+            animate={invalidFields.includes("destination") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("destination") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <LocationInput
               value={destination}
               onChange={setDestination}
@@ -356,8 +428,14 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          </motion.div>
+          <motion.div
+            animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <DatePicker
               date={departDate}
               setDate={handleDepartDateChange}
@@ -367,8 +445,14 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          </motion.div>
+          <motion.div
+            animate={invalidFields.includes("returnDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("returnDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <DatePicker
               date={returnDate}
               setDate={handleReturnDateChange}
@@ -383,7 +467,7 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
+          </motion.div>
           <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
             <span
               className={cn(
@@ -426,7 +510,13 @@ export function BookingForm({
           value="cars"
           className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2"
         >
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          <motion.div
+            animate={invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("origin") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <LocationInput
               value={origin}
               onChange={setOrigin}
@@ -435,8 +525,14 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          </motion.div>
+          <motion.div
+            animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <DatePicker
               date={departDate}
               setDate={handleDepartDateChange}
@@ -446,8 +542,14 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          </motion.div>
+          <motion.div
+            animate={invalidFields.includes("returnDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("returnDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <DatePicker
               date={returnDate}
               setDate={handleReturnDateChange}
@@ -462,7 +564,7 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
+          </motion.div>
           <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
             <span
               className={cn(
@@ -494,7 +596,13 @@ export function BookingForm({
           value="packages"
           className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2"
         >
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          <motion.div
+            animate={invalidFields.includes("destination") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("destination") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <LocationInput
               value={destination}
               onChange={setDestination}
@@ -503,8 +611,14 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          </motion.div>
+          <motion.div
+            animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <DatePicker
               date={departDate}
               setDate={handleDepartDateChange}
@@ -514,8 +628,14 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          </motion.div>
+          <motion.div
+            animate={invalidFields.includes("returnDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("returnDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <DatePicker
               date={returnDate}
               setDate={handleReturnDateChange}
@@ -530,7 +650,7 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
+          </motion.div>
           <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
             <span
               className={cn(
@@ -562,7 +682,13 @@ export function BookingForm({
           value="transfers"
           className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2"
         >
-          <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+          <motion.div
+            animate={invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 min-h-14 transition-colors",
+              invalidFields.includes("origin") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <LocationInput
               value={origin}
               onChange={setOrigin}
@@ -571,8 +697,14 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          </motion.div>
+          <motion.div
+            animate={invalidFields.includes("destination") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("destination") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <LocationInput
               value={destination}
               onChange={setDestination}
@@ -581,8 +713,14 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          </motion.div>
+          <motion.div
+            animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <DatePicker
               date={departDate}
               setDate={handleDepartDateChange}
@@ -592,8 +730,14 @@ export function BookingForm({
               glassPopover={heroMode}
               openOnHover={false}
             />
-          </div>
-          <div className="rounded-md border border-white/20 bg-white/5 h-14">
+          </motion.div>
+          <motion.div
+            animate={invalidFields.includes("transferTime") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            className={cn(
+              "rounded-md border bg-white/5 h-14 transition-colors",
+              invalidFields.includes("transferTime") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+            )}
+          >
             <TimePicker
               value={transferTime}
               onChange={setTransferTime}
@@ -602,7 +746,7 @@ export function BookingForm({
               openOnHover={false}
               glassPopover={heroMode}
             />
-          </div>
+          </motion.div>
           <div className="flex items-center justify-between rounded-md border border-white/20 px-3 h-14 bg-white/5">
             <span
               className={cn(
