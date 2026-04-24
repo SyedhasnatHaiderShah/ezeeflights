@@ -57,29 +57,31 @@ export class FlightRepository {
   }
 
   async findById(id: string): Promise<FlightEntity | null> {
-    const rows = await this.db.query<FlightEntity>(
-      `SELECT
-         id,
-         COALESCE(airline, airline_code) as airline,
-         airline_code as "airlineCode",
-         flight_number as "flightNumber",
-         departure_airport as "departureAirport",
-         arrival_airport as "arrivalAirport",
-         departure_at as "departureAt",
-         arrival_at as "arrivalAt",
-         duration_minutes as duration,
-         stops,
-         cabin_class as "cabinClass",
-         base_fare::float8 as "baseFare",
-         currency,
-         seats_available as "seatsAvailable",
-         created_at as "createdAt"
-       FROM flights
-       WHERE id = $1
-       LIMIT 1`,
-      [id],
-    );
+    const query = `
+      SELECT
+        id,
+        COALESCE(airline, airline_code) as airline,
+        airline_code as "airlineCode",
+        flight_number as "flightNumber",
+        departure_airport as "departureAirport",
+        arrival_airport as "arrivalAirport",
+        departure_at as "departureAt",
+        arrival_at as "arrivalAt",
+        duration_minutes as duration,
+        stops,
+        cabin_class as "cabinClass",
+        base_fare::float8 as "baseFare",
+        tax::float8 as "tax",
+        total_fare::float8 as "totalFare",
+        currency,
+        seats_available as "seatsAvailable",
+        created_at as "createdAt",
+        raw_segments as "rawSegments"
+      FROM flights
+      WHERE id = $1
+      LIMIT 1`;
 
+    const rows = await this.db.query<FlightEntity>(query, [id]);
     return rows[0] ?? null;
   }
 
@@ -90,9 +92,10 @@ export class FlightRepository {
         departure_airport, arrival_airport,
         departure_at, arrival_at,
         duration_minutes, stops, cabin_class,
-        base_fare, currency, seats_available
+        base_fare, tax, total_fare, currency, 
+        seats_available, raw_segments
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
       ON CONFLICT (id) DO UPDATE SET
         airline = EXCLUDED.airline,
         airline_code = EXCLUDED.airline_code,
@@ -105,8 +108,11 @@ export class FlightRepository {
         stops = EXCLUDED.stops,
         cabin_class = EXCLUDED.cabin_class,
         base_fare = EXCLUDED.base_fare,
+        tax = EXCLUDED.tax,
+        total_fare = EXCLUDED.total_fare,
         currency = EXCLUDED.currency,
-        seats_available = EXCLUDED.seats_available
+        seats_available = EXCLUDED.seats_available,
+        raw_segments = EXCLUDED.raw_segments
     `;
 
     await this.db.query(query, [
@@ -122,8 +128,11 @@ export class FlightRepository {
       flight.stops || 0,
       flight.cabinClass,
       flight.baseFare,
+      flight.tax || 0,
+      flight.totalFare || flight.baseFare,
       flight.currency,
       flight.seatsAvailable || 9,
+      JSON.stringify(flight.rawSegments || []),
     ]);
   }
 }

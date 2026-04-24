@@ -250,7 +250,7 @@ export default function BookingPage() {
                     <img src={`https://www.kayak.com/rimg/provider-logos/airlines/v/${flightDetails?.airlineCode || 'XX'}.png`} className="h-full w-full object-contain" alt="airline" />
                   </div>
                   <div>
-                      <p className="font-bold text-sm">{flightDetails?.origin || '---'} → {flightDetails?.destination || '---'}</p>
+                      <p className="font-bold text-sm">{flightDetails?.departureAirport || '---'} → {flightDetails?.arrivalAirport || '---'}</p>
                       <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{flightDetails?.departureAt ? new Date(flightDetails.departureAt).toLocaleDateString() : 'Loading...'}</p>
                   </div>
                 </div>
@@ -259,10 +259,10 @@ export default function BookingPage() {
                   <AccordionItem value="fare" className="border-none">
                     <AccordionTrigger className="text-[11px] text-muted-foreground hover:no-underline py-2 uppercase tracking-wider font-bold">Price Breakdown</AccordionTrigger>
                     <AccordionContent className="text-[11px] space-y-2 pt-1 text-muted-foreground">
-                      <div className="flex justify-between"><span>Base Fare ({passengers.length}x)</span><span className="text-foreground font-medium">${(Number(flightDetails?.baseFare || 0)).toFixed(2)}</span></div>
-                      <div className="flex justify-between"><span>Taxes & Fees</span><span className="text-foreground font-medium">${(Number(flightDetails?.baseFare || 0) * 0.12).toFixed(2)}</span></div>
-                      {seatTotal > 0 && <div className="flex justify-between"><span>Seating</span><span className="text-foreground font-medium">${seatTotal.toFixed(2)}</span></div>}
-                      {ancillaryTotal > 0 && <div className="flex justify-between"><span>Extras</span><span className="text-foreground font-medium">${ancillaryTotal.toFixed(2)}</span></div>}
+                      <div className="flex justify-between"><span>Base Fare ({passengers.length}x)</span><span className="text-foreground font-medium">{flightDetails?.currency || '$'}{(Number(flightDetails?.baseFare || 0)).toFixed(2)}</span></div>
+                      <div className="flex justify-between"><span>Taxes & Fees</span><span className="text-foreground font-medium">{flightDetails?.currency || '$'}{(Number(flightDetails?.tax || (Number(flightDetails?.baseFare || 0) * 0.12))).toFixed(2)}</span></div>
+                      {seatTotal > 0 && <div className="flex justify-between"><span>Seating</span><span className="text-foreground font-medium">{flightDetails?.currency || '$'}{seatTotal.toFixed(2)}</span></div>}
+                      {ancillaryTotal > 0 && <div className="flex justify-between"><span>Extras</span><span className="text-foreground font-medium">{flightDetails?.currency || '$'}{ancillaryTotal.toFixed(2)}</span></div>}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
@@ -272,9 +272,9 @@ export default function BookingPage() {
                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Total Price</p>
                     <div className="flex items-baseline gap-1">
                       <span className="text-2xl font-black tracking-tight text-brand-red">
-                          ${(Number(flightDetails?.baseFare || 0) * 1.12 + ancillaryTotal + seatTotal).toFixed(2)}
+                          {(Number(flightDetails?.totalFare || (Number(flightDetails?.baseFare || 0) * 1.12)) + ancillaryTotal + seatTotal).toFixed(2)}
                       </span>
-                      <span className="text-muted-foreground font-bold text-[10px]">USD</span>
+                      <span className="text-muted-foreground font-bold text-[10px]">{flightDetails?.currency || 'USD'}</span>
                     </div>
                   </div>
                 </div>

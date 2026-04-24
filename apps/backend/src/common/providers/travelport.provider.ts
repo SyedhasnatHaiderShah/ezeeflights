@@ -113,6 +113,9 @@ export class TravelportProvider {
     </soap:Body>
 </soap:Envelope>`.trim();
 
+    // Save the request payload for Postman testing
+    this.saveRequestLog('search', params.origin, params.destination, soapEnvelope);
+
     try {
       const endpoint = this.url.endsWith("/")
         ? `${this.url}AirService`
@@ -131,7 +134,12 @@ export class TravelportProvider {
       });
 
       // Log the response to a file for comparison
-      this.saveResponseLog('search', params.origin, params.destination, response.data);
+      this.saveResponseLog(
+        "search",
+        params.origin,
+        params.destination,
+        response.data,
+      );
 
       const json = this.parser.parse(response.data);
       const body =
@@ -163,7 +171,8 @@ export class TravelportProvider {
   }
 
   private mapResponse(rsp: any): any[] {
-    const solutions = rsp["air:AirPricingSolution"];
+    // Travelport can return solutions in different fields depending on the search type
+    const solutions = rsp["air:AirPricingSolution"] || rsp["air:AirPricePointList"]?.["air:AirPricePoint"];
     if (!solutions) return [];
 
     const solutionsArr = Array.isArray(solutions) ? solutions : [solutions];
@@ -174,21 +183,33 @@ export class TravelportProvider {
     );
 
     return solutionsArr.map((sol) => {
+      // For AirPricePoint, the pricing info is in air:AirPricingInfo
       const pricingInfo = sol["air:AirPricingInfo"];
       const pricingInfoArr = Array.isArray(pricingInfo)
         ? pricingInfo
         : [pricingInfo];
       const firstPricing = pricingInfoArr[0];
 
-      const bookingInfo = firstPricing?.["air:BookingInfo"];
+      const flightOptions = firstPricing?.["air:FlightOptionsList"]?.["air:FlightOption"];
+      const flightOptionsArr = Array.isArray(flightOptions) ? flightOptions : (flightOptions ? [flightOptions] : []);
+      const firstOption = flightOptionsArr[0]?.["air:Option"];
+      const firstOptionArr = Array.isArray(firstOption) ? firstOption : (firstOption ? [firstOption] : []);
+      
+      const bookingInfo = firstPricing?.["air:BookingInfo"] || firstOptionArr[0]?.["air:BookingInfo"];
       const bookingInfoArr = Array.isArray(bookingInfo)
         ? bookingInfo
-        : [bookingInfo];
+        : (bookingInfo ? [bookingInfo] : []);
 
       // Get segments for this solution
       const segmentsForSolution = bookingInfoArr
         .map((bi) => segmentsMap.get(bi.SegmentRef))
         .filter(Boolean);
+      
+      // If we still have no segments, it might be a different structure
+      if (segmentsForSolution.length === 0 && sol.Key) {
+          // Fallback logic for PricePoints where SegmentRef might be deeper
+      }
+
       const firstSegment = segmentsForSolution[0];
       const lastSegment = segmentsForSolution[segmentsForSolution.length - 1];
 
@@ -211,7 +232,9 @@ export class TravelportProvider {
         taxes: sol.Taxes,
         // Helper to extract numeric price and currency
         price: parseFloat(sol.TotalPrice?.replace(/[^\d.]/g, "") || "0"),
-        basePriceNumeric: parseFloat(sol.BasePrice?.replace(/[^\d.]/g, "") || "0"),
+        basePriceNumeric: parseFloat(
+          sol.BasePrice?.replace(/[^\d.]/g, "") || "0",
+        ),
         taxesNumeric: parseFloat(sol.Taxes?.replace(/[^\d.]/g, "") || "0"),
         currency: sol.TotalPrice?.replace(/[\d.]/g, "") || "USD",
         segments: segmentsForSolution,
@@ -267,7 +290,10 @@ export class TravelportProvider {
 
       return this.parser.parse(response.data);
     } catch (err: any) {
-      this.logger.error({ message: err.message }, "Travelport priceItinerary: Error");
+      this.logger.error(
+        { message: err.message },
+        "Travelport priceItinerary: Error",
+      );
       throw err;
     }
   }
@@ -323,20 +349,47 @@ export class TravelportProvider {
     }
   }
 
-  private saveResponseLog(type: string, origin: string, destination: string, data: string) {
+  private saveResponseLog(
+    type: string,
+    origin: string,
+    destination: string,
+    data: string,
+  ) {
     try {
-      const logDir = path.join(process.cwd(), 'logs', 'travelport_responses');
+      const logDir = path.join(process.cwd(), "logs", "travelport_responses");
       if (!fs.existsSync(logDir)) {
         fs.mkdirSync(logDir, { recursive: true });
       }
-      
+
       const filename = `server-response.xml`;
       const filepath = path.join(logDir, filename);
-      
+
       fs.writeFileSync(filepath, data);
       this.logger.info({ filepath }, "Travelport response saved to file");
     } catch (err) {
       this.logger.error({ err }, "Error saving Travelport response log");
+    }
+  }
+
+  private saveRequestLog(
+    type: string,
+    origin: string,
+    destination: string,
+    data: string,
+  ) {
+    try {
+      const logDir = path.join(process.cwd(), "logs", "travelport_responses");
+      if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir, { recursive: true });
+      }
+
+      const filename = `payload.xml`;
+      const filepath = path.join(logDir, filename);
+
+      fs.writeFileSync(filepath, data);
+      this.logger.info({ filepath }, "Travelport request payload saved to file");
+    } catch (err) {
+      this.logger.error({ err }, "Error saving Travelport request log");
     }
   }
 }

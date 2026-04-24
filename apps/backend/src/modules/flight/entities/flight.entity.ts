@@ -11,9 +11,9 @@ export interface FlightEntity {
   stops: number;
   cabinClass: 'ECONOMY' | 'PREMIUM_ECONOMY' | 'BUSINESS' | 'FIRST';
   baseFare: number;
-  tax: number;
-  totalFare: number;
-  currency: string;
+  tax?: number;
+  totalFare?: number;
+  currency: "USD" | "AED" | "EUR" | "GBP" | "INR" | string;
   seatsAvailable: number;
   createdAt: Date;
   rawSegments?: any;

@@ -47,10 +47,10 @@ export class SearchFlightsDto {
   @IsEnum(['ECONOMY', 'PREMIUM_ECONOMY', 'BUSINESS', 'FIRST'])
   cabinClass?: 'ECONOMY' | 'PREMIUM_ECONOMY' | 'BUSINESS' | 'FIRST';
 
-  @ApiPropertyOptional({ enum: ['USD', 'AED', 'EUR', 'GBP'], description: 'Currency for prices' })
+  @ApiPropertyOptional({ enum: ['USD', 'AED', 'EUR', 'GBP', 'INR'], description: 'Currency for prices' })
   @IsOptional()
-  @IsEnum(['USD', 'AED', 'EUR', 'GBP'])
-  currency?: 'USD' | 'AED' | 'EUR' | 'GBP';
+  @IsEnum(['USD', 'AED', 'EUR', 'GBP', 'INR'])
+  currency?: 'USD' | 'AED' | 'EUR' | 'GBP' | 'INR';
 
   @ApiPropertyOptional({ example: 1, description: 'Page number', minimum: 1, default: 1 })
   @IsOptional()
