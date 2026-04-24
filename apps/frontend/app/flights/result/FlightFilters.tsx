@@ -41,9 +41,7 @@ export function FlightFilters() {
     <div className="filter-card">
       <div className="filter-card-header flex items-center gap-2">
         <Filter className="w-3 h-3 text-redmix/60" />
-        <h3 className="filter-card-title">
-          Additional Filters
-        </h3>
+        <h3 className="filter-card-title">Additional Filters</h3>
       </div>
 
       <div className="filter-card-body space-y-4">
@@ -175,7 +173,7 @@ export function FlightFilters() {
       </div>
 
       <div className="px-3.5 py-3 border-t border-border/30 bg-muted/20 flex flex-col gap-2">
-        <button 
+        <button
           className="w-full h-9 rounded-lg bg-redmix/10 text-redmix text-xs font-bold hover:bg-redmix/20 transition-all cursor-pointer"
           onClick={resetFilters}
         >

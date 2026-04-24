@@ -67,7 +67,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
 
       <main className="flex-1 px-4 md:px-0 py-6 space-y-4">
         <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card px-4 py-3">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm font-medium text-foreground">
             {sortedFlights.length} flights found
           </p>
           <div className="flex items-center gap-2 overflow-x-auto">
@@ -87,7 +87,10 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
                 </button>
               ),
             )}
-            <button className="md:hidden rounded-full px-3 py-1 text-xs border flex items-center gap-1 text-muted-foreground border-border hover:text-foreground" onClick={() => setOpenFilters(true)}>
+            <button
+              className="md:hidden rounded-full px-3 py-1 text-xs border flex items-center gap-1 text-muted-foreground border-border hover:text-foreground"
+              onClick={() => setOpenFilters(true)}
+            >
               <SlidersHorizontal className="h-3.5 w-3.5" /> Filters
             </button>
           </div>

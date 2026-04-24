@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { format, isBefore, startOfDay } from "date-fns";
-import { 
-  useSaveRecentSearch, 
-  useSaveGuestSearch, 
-  useRecentSearches, 
-  useGuestRecentSearches 
+import {
+  useSaveRecentSearch,
+  useSaveGuestSearch,
+  useRecentSearches,
+  useGuestRecentSearches,
 } from "@/lib/api/search";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
 import { useRecentSearchStore } from "@/lib/store/recent-search-store";
@@ -67,24 +67,28 @@ export function BookingForm({
 
   // Initial values from URL if present
   const [origin, setOrigin] = React.useState(searchParams.get("org") || "");
-  const [destination, setDestination] = React.useState(searchParams.get("des") || "");
-  
+  const [destination, setDestination] = React.useState(
+    searchParams.get("des") || "",
+  );
+
   // Parse dates from URL or default to undefined
   const urlDDate = searchParams.get("dDate");
   const urlRDate = searchParams.get("rDate");
   const [departDate, setDepartDate] = React.useState<Date | undefined>(
-    urlDDate ? parseISO(urlDDate) : undefined
+    urlDDate ? parseISO(urlDDate) : undefined,
   );
   const [returnDate, setReturnDate] = React.useState<Date | undefined>(
-    urlRDate ? parseISO(urlRDate) : undefined
+    urlRDate ? parseISO(urlRDate) : undefined,
   );
 
   const [transferTime, setTransferTime] = React.useState("12:00");
   const [tripType, setTripType] = React.useState<(typeof TRIP_TYPES)[number]>(
-    (searchParams.get("trip") as any) || "round-trip"
+    (searchParams.get("trip") as any) || "round-trip",
   );
-  const [cabinClass, setCabinClass] = React.useState(searchParams.get("class") || "Economy");
-  
+  const [cabinClass, setCabinClass] = React.useState(
+    searchParams.get("class") || "Economy",
+  );
+
   const [passengers, setPassengers] = React.useState({
     adults: parseInt(searchParams.get("adt") || "2"),
     children: parseInt(searchParams.get("chd") || "0"),
@@ -254,7 +258,7 @@ export function BookingForm({
         <TabsList
           className={cn(
             "mb-4 h-auto w-full justify-start gap-2 bg-transparent p-0",
-            heroMode ? "text-white" : "text-muted-foreground",
+            heroMode ? "text-white" : "text-foreground",
           )}
         >
           {TABS.map((tab) => (
@@ -297,10 +301,16 @@ export function BookingForm({
 
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,0.6fr)_minmax(0,1.6fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,1.8fr)_minmax(0,1.9fr)]">
             <motion.div
-              animate={invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}}
+              animate={
+                invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}
+              }
               className={cn(
-                "rounded-md border bg-white/5 h-14 transition-colors",
-                invalidFields.includes("origin") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+                "rounded-md border h-14 transition-colors",
+                heroMode
+                  ? "bg-white/5 border-white/20"
+                  : "bg-muted/30 border-border",
+                invalidFields.includes("origin") &&
+                  "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
               )}
             >
               <LocationInput
@@ -329,10 +339,18 @@ export function BookingForm({
               <ArrowRightLeft className="h-4 w-4" />
             </motion.button>
             <motion.div
-              animate={invalidFields.includes("destination") ? { x: [-4, 4, -4, 4, 0] } : {}}
+              animate={
+                invalidFields.includes("destination")
+                  ? { x: [-4, 4, -4, 4, 0] }
+                  : {}
+              }
               className={cn(
-                "rounded-md border bg-white/5 min-h-14 transition-colors",
-                invalidFields.includes("destination") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+                "rounded-md border h-14 transition-colors",
+                heroMode
+                  ? "bg-white/5 border-white/20"
+                  : "bg-muted/30 border-border",
+                invalidFields.includes("destination") &&
+                  "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
               )}
             >
               <LocationInput
@@ -345,10 +363,18 @@ export function BookingForm({
               />
             </motion.div>
             <motion.div
-              animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+              animate={
+                invalidFields.includes("departDate")
+                  ? { x: [-4, 4, -4, 4, 0] }
+                  : {}
+              }
               className={cn(
-                "rounded-md border bg-white/5 min-h-14 transition-colors",
-                invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+                "rounded-md border h-14 transition-colors",
+                heroMode
+                  ? "bg-white/5 border-white/20"
+                  : "bg-muted/30 border-border",
+                invalidFields.includes("departDate") &&
+                  "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
               )}
             >
               <DatePicker
@@ -362,10 +388,18 @@ export function BookingForm({
               />
             </motion.div>
             <motion.div
-              animate={invalidFields.includes("returnDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+              animate={
+                invalidFields.includes("returnDate")
+                  ? { x: [-4, 4, -4, 4, 0] }
+                  : {}
+              }
               className={cn(
-                "rounded-md border bg-white/5 min-h-14 transition-colors",
-                invalidFields.includes("returnDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+                "rounded-md border h-14 transition-colors",
+                heroMode
+                  ? "bg-white/5 border-white/20"
+                  : "bg-muted/30 border-border",
+                invalidFields.includes("returnDate") &&
+                  "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
               )}
             >
               <DatePicker
@@ -384,7 +418,14 @@ export function BookingForm({
                 openOnHover={false}
               />
             </motion.div>
-            <div className="rounded-md border border-white/20 bg-white/5 min-h-14">
+            <div
+              className={cn(
+                "rounded-md border min-h-14 transition-colors",
+                heroMode
+                  ? "bg-white/5 border-white/20"
+                  : "bg-muted/30 border-border",
+              )}
+            >
               <PassengerSelector
                 passengers={passengers}
                 onChange={(k, v) => setPassengers((p) => ({ ...p, [k]: v }))}
@@ -414,10 +455,18 @@ export function BookingForm({
           className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2"
         >
           <motion.div
-            animate={invalidFields.includes("destination") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("destination")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("destination") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("destination") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <LocationInput
@@ -430,10 +479,18 @@ export function BookingForm({
             />
           </motion.div>
           <motion.div
-            animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("departDate")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("departDate") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <DatePicker
@@ -447,10 +504,18 @@ export function BookingForm({
             />
           </motion.div>
           <motion.div
-            animate={invalidFields.includes("returnDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("returnDate")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("returnDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("returnDate") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <DatePicker
@@ -468,7 +533,14 @@ export function BookingForm({
               openOnHover={false}
             />
           </motion.div>
-          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
+          <div
+            className={cn(
+              "flex items-center justify-between rounded-md border px-3 h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+            )}
+          >
             <span
               className={cn(
                 "text-sm",
@@ -485,7 +557,14 @@ export function BookingForm({
               glass={heroMode}
             />
           </div>
-          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
+          <div
+            className={cn(
+              "flex items-center justify-between rounded-md border px-3 h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+            )}
+          >
             <span
               className={cn(
                 "text-sm",
@@ -494,7 +573,13 @@ export function BookingForm({
             >
               Rooms
             </span>
-            <CounterInput value={rooms} onChange={setRooms} min={1} max={6} glass={heroMode} />
+            <CounterInput
+              value={rooms}
+              onChange={setRooms}
+              min={1}
+              max={6}
+              glass={heroMode}
+            />
           </div>
           <motion.button
             type="button"
@@ -511,10 +596,16 @@ export function BookingForm({
           className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2"
         >
           <motion.div
-            animate={invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("origin") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("origin") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <LocationInput
@@ -527,10 +618,18 @@ export function BookingForm({
             />
           </motion.div>
           <motion.div
-            animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("departDate")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("departDate") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <DatePicker
@@ -544,10 +643,18 @@ export function BookingForm({
             />
           </motion.div>
           <motion.div
-            animate={invalidFields.includes("returnDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("returnDate")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("returnDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("returnDate") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <DatePicker
@@ -565,7 +672,14 @@ export function BookingForm({
               openOnHover={false}
             />
           </motion.div>
-          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
+          <div
+            className={cn(
+              "flex items-center justify-between rounded-md border px-3 h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+            )}
+          >
             <span
               className={cn(
                 "text-sm",
@@ -597,10 +711,18 @@ export function BookingForm({
           className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2"
         >
           <motion.div
-            animate={invalidFields.includes("destination") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("destination")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("destination") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("destination") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <LocationInput
@@ -613,10 +735,18 @@ export function BookingForm({
             />
           </motion.div>
           <motion.div
-            animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("departDate")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("departDate") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <DatePicker
@@ -630,10 +760,18 @@ export function BookingForm({
             />
           </motion.div>
           <motion.div
-            animate={invalidFields.includes("returnDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("returnDate")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("returnDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("returnDate") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <DatePicker
@@ -651,7 +789,14 @@ export function BookingForm({
               openOnHover={false}
             />
           </motion.div>
-          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 bg-white/5">
+          <div
+            className={cn(
+              "flex items-center justify-between rounded-md border px-3 h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+            )}
+          >
             <span
               className={cn(
                 "text-sm",
@@ -683,10 +828,16 @@ export function BookingForm({
           className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2"
         >
           <motion.div
-            animate={invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 min-h-14 transition-colors",
-              invalidFields.includes("origin") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("origin") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <LocationInput
@@ -699,10 +850,18 @@ export function BookingForm({
             />
           </motion.div>
           <motion.div
-            animate={invalidFields.includes("destination") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("destination")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("destination") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("destination") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <LocationInput
@@ -715,10 +874,18 @@ export function BookingForm({
             />
           </motion.div>
           <motion.div
-            animate={invalidFields.includes("departDate") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("departDate")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("departDate") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("departDate") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <DatePicker
@@ -732,10 +899,18 @@ export function BookingForm({
             />
           </motion.div>
           <motion.div
-            animate={invalidFields.includes("transferTime") ? { x: [-4, 4, -4, 4, 0] } : {}}
+            animate={
+              invalidFields.includes("transferTime")
+                ? { x: [-4, 4, -4, 4, 0] }
+                : {}
+            }
             className={cn(
-              "rounded-md border bg-white/5 h-14 transition-colors",
-              invalidFields.includes("transferTime") ? "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]" : "border-white/20"
+              "rounded-md border h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+              invalidFields.includes("transferTime") &&
+                "border-redmix shadow-[0_0_10px_rgba(235,53,53,0.3)]",
             )}
           >
             <TimePicker
@@ -747,7 +922,14 @@ export function BookingForm({
               glassPopover={heroMode}
             />
           </motion.div>
-          <div className="flex items-center justify-between rounded-md border border-white/20 px-3 h-14 bg-white/5">
+          <div
+            className={cn(
+              "flex items-center justify-between rounded-md border px-3 h-14 transition-colors",
+              heroMode
+                ? "bg-white/5 border-white/20"
+                : "bg-muted/30 border-border",
+            )}
+          >
             <span
               className={cn(
                 "text-sm",
@@ -756,7 +938,13 @@ export function BookingForm({
             >
               Passengers
             </span>
-            <CounterInput value={guests} onChange={setGuests} min={1} max={8} glass={heroMode} />
+            <CounterInput
+              value={guests}
+              onChange={setGuests}
+              min={1}
+              max={8}
+              glass={heroMode}
+            />
           </div>
           <motion.button
             type="button"

@@ -22,7 +22,7 @@ const timeBuckets = [
   { key: "evening", label: "Evening", range: [18, 24] as [number, number], icon: Moon },
 ];
 
-const sectionLabel = "text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-3";
+const sectionLabel = "text-xs uppercase tracking-wider text-foreground font-semibold mb-3";
 
 export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props) {
   const { filters, setFilter, resetFilters } = useFlightFilterStore();
@@ -80,7 +80,7 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
           <AccordionTrigger>Price range</AccordionTrigger>
           <AccordionContent>
             <p className={sectionLabel}>Price range</p>
-            <p className="text-sm font-semibold mb-3">${filters.priceRange[0]} – ${filters.priceRange[1]}</p>
+            <p className="text-sm font-bold text-foreground mb-3">${filters.priceRange[0]} – ${filters.priceRange[1]}</p>
             <Slider value={filters.priceRange} min={0} max={10000} step={10} onValueChange={(v) => setFilter("priceRange", v as [number, number])} />
           </AccordionContent>
         </AccordionItem>
@@ -95,9 +95,9 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
                 { id: "oneStop", label: "1 Stop", count: stopsMeta.oneStop, checked: filters.stops.oneStop },
                 { id: "twoStops", label: "2+ Stops", count: stopsMeta.twoPlus, checked: filters.stops.twoStops },
               ].map((item) => (
-                <label key={item.id} className="flex items-center justify-between text-sm">
+                <label key={item.id} className="flex items-center justify-between text-sm text-foreground font-medium">
                   <span className="flex items-center gap-2"><Checkbox checked={item.checked} onCheckedChange={(checked) => toggleStop(item.id as any, Boolean(checked))} />{item.label}</span>
-                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs">{item.count}</span>
+                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-foreground font-bold">{item.count}</span>
                 </label>
               ))}
             </div>
@@ -110,13 +110,13 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
             <p className={sectionLabel}>Airlines</p>
             <div className="space-y-3">
               {visibleAirlines.map((airline) => (
-                <label key={airline.name} className="flex items-center justify-between gap-2 text-sm">
+                <label key={airline.name} className="flex items-center justify-between gap-2 text-sm text-foreground font-medium">
                   <span className="flex items-center gap-2 min-w-0">
                     <Checkbox checked={filters.airlines.includes(airline.name)} onCheckedChange={(checked) => toggleAirline(airline.name, Boolean(checked))} />
                     <img src={`https://www.kayak.com/rimg/provider-logos/airlines/v/${airline.code}.png`} alt={airline.name} className="h-5 w-5 object-contain" onError={(e) => ((e.currentTarget.style.display = "none"))} />
                     <span className="truncate">{airline.name}</span>
                   </span>
-                  <span className="text-xs text-muted-foreground">from ${Math.round(airline.lowest)}</span>
+                  <span className="text-xs text-foreground font-medium">from ${Math.round(airline.lowest)}</span>
                 </label>
               ))}
             </div>
@@ -140,7 +140,7 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
                     const Icon = slot.icon;
                     const active = filters[field][0] === Math.round((slot.range[0] / 24) * 100) && filters[field][1] === Math.round((slot.range[1] / 24) * 100);
                     return (
-                      <button key={slot.key} onClick={() => toggleTime(field, slot.range)} className={cn("rounded-lg border px-3 py-2 text-xs flex items-center gap-2 transition-all", active ? "border-redmix bg-redmix/10 text-redmix font-semibold" : "border-border text-muted-foreground hover:bg-muted") }>
+                      <button key={slot.key} onClick={() => toggleTime(field, slot.range)} className={cn("rounded-lg border px-3 py-2 text-xs flex items-center gap-2 transition-all", active ? "border-redmix bg-redmix/10 text-redmix font-semibold" : "border-border text-foreground hover:bg-muted") }>
                         <Icon className="h-3.5 w-3.5" />
                         {slot.label}
                       </button>
@@ -158,7 +158,7 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
             <p className={sectionLabel}>Cabin class</p>
             <div className="space-y-2 text-sm">
               {["Economy", "Premium Economy", "Business", "First"].map((cabin) => (
-                <label key={cabin} className="flex items-center gap-2">
+                <label key={cabin} className="flex items-center gap-2 text-foreground font-medium">
                   <input type="radio" checked={filters.cabinClass[0] === cabin} onChange={() => setFilter("cabinClass", [cabin])} />
                   {cabin}
                 </label>
@@ -173,7 +173,7 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
             <p className={sectionLabel}>Bags</p>
             <div className="space-y-2 text-sm">
               {["Carry-on only", "1 Checked Bag", "2 Checked Bags"].map((bag) => (
-                <label key={bag} className="flex items-center gap-2">
+                <label key={bag} className="flex items-center gap-2 text-foreground font-medium">
                   <Checkbox
                     checked={filters.amenities.includes(bag)}
                     onCheckedChange={(checked) =>
@@ -191,7 +191,7 @@ export function FilterSidebar({ onClose, flights = [], resultsCount = 0 }: Props
           <AccordionTrigger>Duration</AccordionTrigger>
           <AccordionContent>
             <p className={sectionLabel}>Duration</p>
-            <p className="text-sm mb-2">Up to {Math.round((filters.durationRange[1] / 100) * 24)} hours</p>
+            <p className="text-sm text-foreground font-bold mb-2">Up to {Math.round((filters.durationRange[1] / 100) * 24)} hours</p>
             <Slider value={[filters.durationRange[1]]} min={0} max={100} step={1} onValueChange={(v) => setFilter("durationRange", [0, v[0]])} />
           </AccordionContent>
         </AccordionItem>

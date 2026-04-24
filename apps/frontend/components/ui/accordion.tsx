@@ -15,8 +15,8 @@ const AccordionItem = React.forwardRef<
   <AccordionPrimitive.Item
     ref={ref}
     className={cn(
-      "border-b border-border/60 hover:border-brand-red/30 transition-all duration-500",
-      "data-[state=open]:bg-brand-red/[0.015] data-[state=open]:border-brand-red/20",
+      "border-b border-border/60 hover:border-redmix/30 transition-all duration-500",
+      "data-[state=open]:bg-redmix/[0.015] data-[state=open]:border-redmix/20",
       className
     )}
     {...props}
@@ -32,7 +32,7 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-4 text-sm font-bold tracking-tight transition-all text-left group [&[data-state=open]>div>svg]:rotate-180 [&[data-state=open]]:text-brand-red relative outline-none",
+        "flex flex-1 items-center justify-between py-4 text-sm font-bold tracking-tight transition-all text-left group [&[data-state=open]>div>svg]:rotate-180 [&[data-state=open]]:text-redmix relative outline-none",
         className
       )}
       {...props}
@@ -40,7 +40,7 @@ const AccordionTrigger = React.forwardRef<
       <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-0.5 flex items-center gap-2">
         {children}
       </span>
-      <div className="flex items-center justify-center w-7 h-7 rounded-full bg-muted/50 group-hover:bg-brand-red/10 group-hover:text-brand-red transition-all duration-500 group-data-[state=open]:bg-brand-red group-data-[state=open]:text-white shadow-sm">
+      <div className="flex items-center justify-center w-7 h-7 rounded-full bg-muted/50 text-muted-foreground group-hover:bg-redmix/10 group-hover:text-redmix transition-all duration-500 group-data-[state=open]:bg-redmix group-data-[state=open]:text-white shadow-sm">
         <ChevronDown className="h-3.5 w-3.5 shrink-0 transition-transform duration-500 ease-in-out" />
       </div>
     </AccordionPrimitive.Trigger>

@@ -45,6 +45,7 @@ import {
   useNotifications,
   useUnreadCount,
 } from "@/lib/api/notifications";
+import { Button } from "../ui/button";
 
 const navTabs = [
   { label: "Flights", href: "/flights", icon: Plane },
@@ -184,7 +185,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                 "hidden rounded-lg p-2 transition md:inline-flex",
                 isTransparent
                   ? "text-white/80 hover:bg-white/10 hover:text-white"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                  : "text-foreground hover:bg-muted hover:text-foreground",
               )}
             >
               <PanelLeft className="h-5 w-5" />
@@ -196,7 +197,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                 "rounded-lg p-2 transition md:hidden",
                 isTransparent
                   ? "text-white/80 hover:bg-white/10 hover:text-white"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                  : "text-foreground hover:bg-muted hover:text-foreground",
               )}
             >
               <PanelLeft className="h-5 w-5" />
@@ -346,10 +347,10 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               icon={Sparkles}
               label="Ask Ezee"
               className={cn(
-                "rounded-full border px-4 py-2 text-sm font-medium transition",
+                "rounded-full border px-4 py-2 text-sm font-semibold transition",
                 isTransparent
-                  ? "border-white/20 bg-white/5 text-white hover:bg-white/10"
-                  : "border-border bg-transparent text-foreground hover:bg-muted",
+                  ? "border-white/20 bg-white/10 text-white hover:bg-white/20"
+                  : "border-transparent bg-muted/60 text-foreground hover:bg-muted",
               )}
             />
 
@@ -363,8 +364,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                     className={cn(
                       "rounded-lg p-2 transition",
                       isTransparent
-                        ? "text-white/80 hover:bg-white/10 hover:text-white"
-                        : "text-muted-foreground hover:bg-muted",
+                        ? "text-white hover:bg-white/10 hover:text-white"
+                        : "text-foreground hover:bg-muted-foreground",
                     )}
                   >
                     <div className="relative">
@@ -395,8 +396,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                     className={cn(
                       "rounded-lg p-2 transition",
                       isTransparent
-                        ? "text-white/80 hover:bg-white/10 hover:text-white"
-                        : "text-muted-foreground hover:bg-muted",
+                        ? "text-white hover:bg-white/10 hover:text-white"
+                        : "text-foreground hover:bg-muted-foreground",
                     )}
                   >
                     <Heart className="h-5 w-5" />
@@ -419,8 +420,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                     className={cn(
                       "rounded-lg p-2 transition",
                       isTransparent
-                        ? "text-white/80 hover:bg-white/10 hover:text-white"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                        ? "text-white hover:bg-white/10 hover:text-white"
+                        : "text-foreground hover:bg-muted",
                     )}
                   >
                     <Bell className="h-5 w-5" />
@@ -442,8 +443,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                     className={cn(
                       "rounded-lg p-2 transition",
                       isTransparent
-                        ? "text-white/80 hover:bg-white/10 hover:text-white"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                        ? "text-white hover:bg-white/10 hover:text-white"
+                        : "text-foreground hover:bg-muted",
                     )}
                   >
                     <Heart className="h-5 w-5" />
@@ -463,8 +464,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               className={cn(
                 "hidden rounded-lg p-2 transition md:inline-flex",
                 isTransparent
-                  ? "text-white/80 hover:bg-white/10 hover:text-white"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                  ? "text-white hover:bg-white/10 hover:text-white"
+                  : "text-foreground hover:bg-muted",
               )}
             >
               {mounted && theme === "dark" ? (
@@ -479,7 +480,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
             ) : session ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-red/10 text-sm font-semibold text-brand-red md:h-10 md:w-10">
+                  <button className="flex h-9 w-9 items-center justify-center rounded-full bg-redmix/10 text-sm font-semibold text-redmix md:h-10 md:w-10">
                     {userInitial}
                   </button>
                 </DropdownMenuTrigger>
@@ -507,9 +508,9 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   <button
                     onClick={() => openAuthModal("login")}
                     className={cn(
-                      "rounded-full border px-4 py-2 text-sm font-medium transition",
+                      "rounded-full border px-6 py-2 text-sm font-bold transition",
                       isTransparent
-                        ? "border-white/20 bg-white/5 text-white hover:bg-white/10"
+                        ? "border-white/30 bg-white/10 text-white hover:bg-white hover:text-black"
                         : "border-border bg-transparent text-foreground hover:bg-muted",
                     )}
                   >
@@ -532,8 +533,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   className={cn(
                     "rounded-lg p-2 transition md:hidden",
                     isTransparent
-                      ? "text-white/80 hover:bg-white/10 hover:text-white"
-                      : "text-muted-foreground hover:bg-muted",
+                      ? "text-white hover:bg-white/10 hover:text-white"
+                      : "text-foreground hover:bg-muted",
                   )}
                 >
                   <User className="h-5 w-5" />

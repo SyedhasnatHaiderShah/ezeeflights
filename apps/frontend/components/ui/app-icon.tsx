@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { motion } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
@@ -10,46 +11,68 @@ interface AppIconProps {
   label?: string;
   onClick?: () => void;
   className?: string;
+  iconClassName?: string;
   variant?: "red" | "default";
   isActive?: boolean;
   asChild?: boolean;
   isFill?: boolean;
   animate?: boolean;
+  animationType?: "flying" | "none";
   children?: React.ReactNode;
 }
-
 export function AppIcon({
   icon: Icon,
   label,
   onClick,
   className,
+  iconClassName,
   variant = "default",
   isActive = false,
   asChild = false,
   isFill = false,
   animate = true,
+  animationType = "none",
   children,
 }: AppIconProps) {
   const isPill = !!label;
   const Comp = asChild ? Slot : onClick ? "button" : "div";
 
+  const IconComp = animationType === "flying" ? motion(Icon) : Icon;
+  const animationProps =
+    animationType === "flying"
+      ? {
+          animate: { x: [-3, 3, -3] },
+          transition: {
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut" as const,
+          },
+        }
+      : {};
+
   const content = (
     <>
-      <Icon
-        className={cn(
-          "shrink-0 transition-colors",
-          isPill ? "w-4 h-4" : "w-5 h-5",
-          // Inactive colors
-          !isActive && [
-            "text-redmix",
-            isFill ? "fill-redmix" : "fill-none",
-            "dark:text-muted-foreground group-hover:dark:text-foreground",
-            isFill ? "dark:fill-muted-foreground" : "dark:fill-none",
-          ],
-          // Active colors
-          isActive && ["text-white", isFill ? "fill-white" : "fill-none"],
-        )}
-      />
+      <motion.div
+        {...animationProps}
+        className="flex items-center justify-center"
+      >
+        <Icon
+          className={cn(
+            "shrink-0 transition-colors",
+            isPill ? "w-4 h-4" : "w-5 h-5",
+            // Inactive colors
+            !isActive && [
+              "text-redmix",
+              isFill ? "fill-redmix" : "fill-none",
+              "dark:text-muted-foreground group-hover:dark:text-foreground",
+              isFill ? "dark:fill-muted-foreground" : "dark:fill-none",
+            ],
+            // Active colors
+            isActive && ["text-white", isFill ? "fill-white" : "fill-none"],
+            iconClassName,
+          )}
+        />
+      </motion.div>
       {label && (
         <span
           className={cn(
@@ -93,21 +116,27 @@ export function AppIcon({
           children,
           (children as any).props,
           <>
-            <Icon
-              className={cn(
-                "shrink-0 transition-colors",
-                isPill ? "w-4 h-4" : "w-5 h-5",
-                // Inactive colors
-                !isActive && [
-                  "text-redmix",
-                  isFill ? "fill-redmix" : "fill-none",
-                  "dark:text-muted-foreground group-hover:dark:text-foreground",
-                  isFill ? "dark:fill-muted-foreground" : "dark:fill-none",
-                ],
-                // Active colors
-                isActive && ["text-white", isFill ? "fill-white" : "fill-none"],
-              )}
-            />
+            <motion.div
+              {...animationProps}
+              className="flex items-center justify-center"
+            >
+              <Icon
+                className={cn(
+                  "shrink-0 transition-colors",
+                  isPill ? "w-4 h-4" : "w-5 h-5",
+                  // Inactive colors
+                  !isActive && [
+                    "text-redmix",
+                    isFill ? "fill-redmix" : "fill-none",
+                    "dark:text-muted-foreground group-hover:dark:text-foreground",
+                    isFill ? "dark:fill-muted-foreground" : "dark:fill-none",
+                  ],
+                  // Active colors
+                  isActive && ["text-white", isFill ? "fill-white" : "fill-none"],
+                  iconClassName,
+                )}
+              />
+            </motion.div>
             {label && (
               <span
                 className={cn(
@@ -124,19 +153,27 @@ export function AppIcon({
         )
       ) : (
         <>
-          <Icon
-            className={cn(
-              "shrink-0 transition-colors",
-              isPill ? "w-4 h-4" : "w-5 h-5",
-              // Inactive colors
-              !isActive && [
-                "text-inherit",
-                isFill ? "fill-current" : "fill-none",
-              ],
-              // Active colors
-              isActive && ["text-white", isFill ? "fill-white" : "fill-none"],
-            )}
-          />
+          <motion.div
+            {...animationProps}
+            className="flex items-center justify-center"
+          >
+            <Icon
+              className={cn(
+                "shrink-0 transition-colors",
+                isPill ? "w-4 h-4" : "w-5 h-5",
+                // Inactive colors
+                !isActive && [
+                  "text-redmix",
+                  isFill ? "fill-redmix" : "fill-none",
+                  "dark:text-muted-foreground group-hover:dark:text-foreground",
+                  isFill ? "dark:fill-muted-foreground" : "dark:fill-none",
+                ],
+                // Active colors
+                isActive && ["text-white", isFill ? "fill-white" : "fill-none"],
+                iconClassName,
+              )}
+            />
+          </motion.div>
           {label && (
             <span
               className={cn(
