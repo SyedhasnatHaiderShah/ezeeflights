@@ -233,9 +233,11 @@ export class TravelportProvider {
         // Helper to extract numeric price and currency
         price: parseFloat(sol.TotalPrice?.replace(/[^\d.]/g, "") || "0"),
         basePriceNumeric: parseFloat(
-          sol.BasePrice?.replace(/[^\d.]/g, "") || "0",
+          (sol.EquivalentBasePrice || sol.ApproximateBasePrice || sol.BasePrice)?.replace(/[^\d.]/g, "") || "0",
         ),
-        taxesNumeric: parseFloat(sol.Taxes?.replace(/[^\d.]/g, "") || "0"),
+        taxesNumeric: parseFloat(
+          (sol.ApproximateTaxes || sol.Taxes)?.replace(/[^\d.]/g, "") || "0",
+        ),
         currency: sol.TotalPrice?.replace(/[\d.]/g, "") || "USD",
         segments: segmentsForSolution,
       };

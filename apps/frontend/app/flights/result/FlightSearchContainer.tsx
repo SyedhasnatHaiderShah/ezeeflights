@@ -70,9 +70,9 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
   if (isLoading) return <FlightResultSkeleton />;
 
   return (
-    <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-[18%_1fr_40%] gap-4 md:h-[calc(100vh-3rem)]  px-4 md:overflow-hidden">
+    <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_320px] lg:grid-cols-[220px_minmax(0,1fr)_380px] gap-4 md:h-[calc(100vh-3rem)] px-4 md:overflow-hidden">
       {/* Column 1: Filters (Desktop) */}
-      <div className="hidden md:block h-full overflow-y-auto no-scrollbar border-r border-border/50">
+      <div className="hidden lg:block h-full overflow-y-auto no-scrollbar border-r border-border/50">
         <FilterSidebar
           flights={initialFlights}
           resultsCount={sortedFlights.length}
@@ -83,7 +83,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
       <main className="md:py-5 py-2 space-y-3 min-w-0 md:h-full md:overflow-y-auto no-scrollbar">
         {/* Sticky Mobile Controls */}
         <div className="sticky top-[118px] z-30 md:static bg-slate-50/95 dark:bg-background/95 backdrop-blur-sm -mx-4 px-2 md:p-0 md:bg-transparent">
-          <div className="flex items-center gap-2 md:hidden mb-1.5">
+          <div className="flex items-center gap-2 lg:hidden mb-1.5">
             <button
               onClick={() => setOpenFilters(true)}
               className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-xl border border-border bg-card text-sm font-bold text-foreground shadow-sm active:scale-95 transition-transform"
@@ -93,18 +93,18 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
             </button>
             <button
               onClick={() => setOpenAiTips(true)}
-              className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-xl border border-redmix/20 bg-redmix/5 text-sm font-bold text-redmix shadow-sm active:scale-95 transition-transform"
+              className="flex-1 md:hidden flex items-center justify-center gap-2 py-1.5 rounded-xl border border-redmix/20 bg-redmix/5 text-sm font-bold text-redmix shadow-sm active:scale-95 transition-transform"
             >
               <Sparkles className="h-4 w-4" />
               AI Tips
             </button>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 rounded-md border border-border bg-card px-4 py-2 md:shadow-none shadow-sm">
+          <div className="hidden md:flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 rounded-2xl border border-border bg-card px-4 py-2 md:shadow-none shadow-sm">
             <p className="text-xs font-semibold text-foreground capitalize">
               {sortedFlights.length} flights found
             </p>
-            <div className="flex items-center gap-2 overflow-x-auto pb-0.5 sm:pb-0 no-scrollbar">
+            <div className="hidden md:flex items-center gap-2 overflow-x-auto pb-0.5 sm:pb-0 no-scrollbar">
               {(["best", "cheapest", "fastest", "duration"] as SortMode[]).map(
                 (item) => (
                   <button
@@ -165,8 +165,8 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
         )}
       </main>
 
-      {/* Column 3: AI Suggestions (Desktop) */}
-      <div className="hidden lg:block py-5 h-full overflow-y-auto no-scrollbar border-l border-border/50">
+      {/* Column 3: AI Suggestions (Desktop & Tablet) */}
+      <div className="hidden md:block py-5 h-full overflow-y-auto no-scrollbar border-l border-border/50">
         <AiSuggestionsPanel
           flights={sortedFlights}
           origin={route.origin}
@@ -188,6 +188,8 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
               onClose={() => setOpenFilters(false)}
               flights={initialFlights}
               resultsCount={sortedFlights.length}
+              sortMode={sortMode}
+              onSortChange={setSortMode}
             />
           </Drawer.Content>
         </Drawer.Portal>

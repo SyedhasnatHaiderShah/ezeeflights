@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import { FlightListItem } from "@/lib/types/flight-api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { DestinationInsightsPanel } from "./DestinationInsightsPanel";
 
 interface Props {
   flights: FlightListItem[];
@@ -70,7 +71,7 @@ export function AiSuggestionsPanel({
       </div>
 
       {/* Best Pick Section */}
-      {bestPick && (
+      {/* {bestPick && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -99,10 +100,10 @@ export function AiSuggestionsPanel({
             </div>
           </div>
         </motion.div>
-      )}
+      )} */}
 
       {/* Price Insights */}
-      <div className="rounded-2xl bg-white dark:bg-card border border-border p-4 shadow-sm">
+      {/* <div className="rounded-2xl bg-white dark:bg-card border border-border p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
           <TrendingDown className="w-4 h-4 text-emerald-500" />
           <h3 className="text-sm font-bold">Price Analysis</h3>
@@ -164,10 +165,10 @@ export function AiSuggestionsPanel({
             </>
           )}
         </div>
-      </div>
+      </div> */}
 
       {/* Flexible Dates */}
-      <div className="rounded-2xl bg-white dark:bg-card border border-border p-4 shadow-sm">
+      {/* <div className="rounded-2xl bg-white dark:bg-card border border-border p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
           <Calendar className="w-4 h-4 text-redmix" />
           <h3 className="text-sm font-bold">Smart Planning</h3>
@@ -185,10 +186,12 @@ export function AiSuggestionsPanel({
         >
           View Price Calendar
         </Button>
-      </div>
+      </div> */}
+
+      <DestinationInsightsPanel destination={destination} />
 
       {/* Ask Ezee Stub */}
-      <div className="mt-auto rounded-2xl bg-redmix p-4 shadow-lg text-white">
+      <div className="mt-auto rounded-2xl bg-white p-3 shadow-lg text-foreground">
         <div className="flex items-center gap-2 mb-2">
           <MessageSquare className="w-4 h-4" />
           <h3 className="text-sm font-bold">Ask EzeeAI</h3>
@@ -200,7 +203,7 @@ export function AiSuggestionsPanel({
           <input
             type="text"
             placeholder="How's the legroom on..."
-            className="w-full bg-white/20 border-none rounded-lg py-2 px-3 text-xs placeholder:text-white/60 focus:ring-2 focus:ring-white/50 outline-none"
+            className="w-full bg-white/20 border-none rounded-lg py-2 px-3 text-xs placeholder:text-foreground focus:ring-2 focus:ring-white/50 outline-none"
           />
           <Button
             size="icon"

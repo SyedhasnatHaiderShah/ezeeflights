@@ -18,6 +18,8 @@ type Props = {
   onClose?: () => void;
   flights?: FlightListItem[];
   resultsCount?: number;
+  sortMode?: string;
+  onSortChange?: (mode: any) => void;
 };
 
 const timeBuckets = [
@@ -49,6 +51,8 @@ export function FilterSidebar({
   onClose,
   flights = [],
   resultsCount = 0,
+  sortMode,
+  onSortChange,
 }: Props) {
   const { filters, setFilter, resetFilters } = useFlightFilterStore();
   const [showAllAirlines, setShowAllAirlines] = React.useState(false);
@@ -116,6 +120,28 @@ export function FilterSidebar({
 
   return (
     <aside className="w-full bg-card border-r border-border h-full overflow-y-auto p-3 min-h-screen">
+      {onSortChange && (
+        <div className="mb-6 lg:hidden">
+          <p className={sectionLabel}>Sort Results</p>
+          <div className="grid grid-cols-2 gap-2">
+            {["best", "cheapest", "fastest", "duration"].map((mode) => (
+              <button
+                key={mode}
+                onClick={() => onSortChange(mode)}
+                className={cn(
+                  "rounded-lg border px-3 py-2 text-xs font-semibold capitalize transition-all",
+                  sortMode === mode
+                    ? "border-redmix bg-redmix/10 text-redmix"
+                    : "border-border text-foreground hover:bg-muted",
+                )}
+              >
+                {mode}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <Accordion
         type="multiple"
         defaultValue={[

@@ -108,3 +108,12 @@ export const getPopularAirports = async (): Promise<Airport[]> => {
     .sort((a, b) => (parseInt(b.score) || 0) - (parseInt(a.score) || 0))
     .slice(0, 5);
 };
+
+export const getAirportByCode = async (
+  code: string,
+): Promise<Airport | null> => {
+  if (!code) return null;
+  const airports = await fetchAirports();
+  const lowerCode = code.toLowerCase();
+  return airports.find((a) => a.iata_code?.toLowerCase() === lowerCode) || null;
+};

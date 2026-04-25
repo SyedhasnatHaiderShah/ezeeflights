@@ -68,8 +68,8 @@ function toFlightListItem(entity: any): FlightListItem {
   }
 
   const baseFare = Number(entity.baseFare ?? 0);
-  const tax = Number(entity.tax ?? 0);
-  const totalCost = Number(entity.totalFare ?? baseFare + tax);
+  const totalCost = Number(entity.totalFare ?? baseFare + Number(entity.tax ?? 0));
+  const tax = Math.max(0, totalCost - baseFare);
 
   return {
     flightId: String(entity.id ?? ""),
