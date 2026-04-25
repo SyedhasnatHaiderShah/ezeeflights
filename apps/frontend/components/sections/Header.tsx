@@ -223,7 +223,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   key={tab.href}
                   href={tab.href}
                   className={cn(
-                    "relative flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full",
+                    "relative hidden lg:flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full",
                     isActive
                       ? isTransparent
                         ? "bg-white text-redmix shadow-lg"
@@ -254,78 +254,99 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               <DropdownMenuTrigger asChild>
                 <button
                   className={cn(
-                    "relative flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors",
+                    "relative flex items-center gap-1.5 px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full",
                     moreLinks.some(
                       (link) =>
                         pathname === link.href ||
                         (pathname === "/" &&
                           currentTab === link.label.toLowerCase()),
                     )
-                      ? "text-redmix"
+                      ? isTransparent
+                        ? "bg-white text-redmix shadow-lg"
+                        : "bg-redmix text-white shadow-lg"
                       : isTransparent
-                        ? "text-white/80 hover:text-white"
-                        : "text-muted-foreground hover:text-foreground",
+                        ? "text-white/80 hover:text-white hover:bg-white/10"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
                   )}
                 >
                   <Briefcase className="h-4 w-4" />
-                  More
+                  <span className="lg:hidden">Explore</span>
+                  <span className="hidden lg:inline">More</span>
                   <ChevronDown className="h-4 w-4" />
-                  <span
-                    className={cn(
-                      "absolute bottom-0 left-0 h-0.5 w-full origin-left bg-redmix transition-transform duration-300",
-                      moreLinks.some(
-                        (link) =>
-                          pathname === link.href ||
-                          (pathname === "/" &&
-                            currentTab === link.label.toLowerCase()),
-                      )
-                        ? "scale-x-100"
-                        : "scale-x-0",
-                    )}
-                  />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="center" className="w-[560px] p-4">
-                <div className="grid grid-cols-[1.2fr_1fr] gap-4">
-                  <div className="grid grid-cols-2 gap-2">
+              <DropdownMenuContent align="center" className="w-[320px] lg:w-[560px] p-4">
+                <div className="flex flex-col lg:grid lg:grid-cols-[1.2fr_1fr] gap-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+                    {/* On screens below lg, show primary tabs in dropdown */}
+                    <div className="lg:hidden contents">
+                      {navTabs.map((item) => {
+                        const isSubActive = pathname === item.href;
+                        const Icon = item.icon;
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={cn(
+                              "flex items-center gap-3 rounded-xl p-3 transition-all duration-200",
+                              isSubActive
+                                ? "bg-redmix/5 text-redmix"
+                                : "hover:bg-muted text-foreground",
+                            )}
+                          >
+                            <div className={cn(
+                              "p-2 rounded-lg",
+                              isSubActive ? "bg-redmix text-white" : "bg-muted group-hover:bg-background"
+                            )}>
+                              <Icon className="h-4 w-4" />
+                            </div>
+                            <span className="font-bold">{item.label}</span>
+                          </Link>
+                        );
+                      })}
+                      <div className="h-px bg-border my-2 lg:hidden" />
+                    </div>
+
                     {moreLinks.map((item) => {
                       const isSubActive =
                         pathname === item.href ||
                         (pathname === "/" &&
                           currentTab === item.label.toLowerCase());
+                      const Icon = item.icon;
                       return (
                         <Link
                           key={item.href}
                           href={item.href}
                           className={cn(
-                            "flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition hover:bg-muted",
+                            "flex items-center gap-3 rounded-xl p-3 transition-all duration-200 group",
                             isSubActive
-                              ? "border-redmix/30 bg-redmix/5 text-redmix"
-                              : "border-border/70 text-foreground",
+                              ? "bg-redmix/5 text-redmix"
+                              : "hover:bg-muted text-foreground",
                           )}
                         >
-                          <item.icon
-                            className={cn(
-                              "h-4 w-4",
-                              isSubActive ? "text-redmix" : "text-redmix",
-                            )}
-                          />
-                          {item.label}
+                          <div className={cn(
+                            "p-2 rounded-lg transition-colors",
+                            isSubActive ? "bg-redmix text-white" : "bg-muted group-hover:bg-background"
+                          )}>
+                            <Icon className="h-4 w-4" />
+                          </div>
+                          <span className="font-bold">{item.label}</span>
                         </Link>
-                      );
-                    })}
-                  </div>
-                  <Link
-                    href="/deals"
-                    className="group relative overflow-hidden rounded-xl"
-                  >
-                    <Image
-                      src="/logos-banner-new.jpg"
-                      alt="Featured deals"
-                      width={260}
-                      height={160}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                    );
+                  })}
+                </div>
+                <div className="hidden lg:block">
+                    <Link
+                      href="/packages"
+                      className="group relative block aspect-[4/3] overflow-hidden rounded-2xl"
+                    >
+                      <Image
+                        src="/logos-banner-new.jpg"
+                        alt="Featured deals"
+                        width={260}
+                        height={160}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-3 text-white">
                       <p className="text-xs uppercase tracking-wide text-white/80">
@@ -337,7 +358,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                     </div>
                   </Link>
                 </div>
-              </DropdownMenuContent>
+              </div>
+            </DropdownMenuContent>
             </DropdownMenu>
           </nav>
 
