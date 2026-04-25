@@ -20,17 +20,27 @@ const HERO_MEDIA: Record<
     {
       name: "Dubai",
       image:
+        "https://images.unsplash.com/photo-1671837519100-dbd51ad53ab4?q=80&w=1800&auto=format&fit=crop",
+    },
+    {
+      name: "Dubai",
+      image:
         "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1800&auto=format&fit=crop",
     },
+    // {
+    //   name: "Maldives",
+    //   image:
+    //     "https://images.unsplash.com/photo-1727466271604-d623fc5acf3c?q=80&w=1800&auto=format&fit=crop",
+    // },
     {
       name: "Maldives",
       image:
-        "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?q=80&w=1800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1774442960702-31cf7ff54c3b?q=80&w=1800&auto=format&fit=crop",
     },
     {
       name: "Paris",
       image:
-        "https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=1800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1743227401246-8b40586b98c9?q=80&w=1800&auto=format&fit=crop",
     },
     {
       name: "New York",
@@ -42,32 +52,47 @@ const HERO_MEDIA: Record<
       image:
         "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=1800&auto=format&fit=crop",
     },
+    {
+      name: "Tokyo",
+      image:
+        "https://images.unsplash.com/photo-1775229427158-f37349012078?q=80&w=1800&auto=format&fit=crop",
+    },
+    {
+      name: "Singapore",
+      image:
+        "https://images.unsplash.com/photo-1542114740389-9b46fb1e5be7?q=80&w=1800&auto=format&fit=crop",
+    },
   ],
   hotels: [
     {
       name: "Luxury Resort",
       image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1670915198844-51975abf6955?auto=format&fit=crop&w=2000&q=80",
     },
     {
       name: "Beach Villa",
       image:
-        "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1745209978016-6af9d2272e8e?auto=format&fit=crop&w=2000&q=80",
     },
     {
       name: "City Hotel",
       image:
-        "https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1721222201438-b59e2bbca679?auto=format&fit=crop&w=2000&q=80",
     },
     {
       name: "Boutique Stay",
       image:
-        "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=2000&q=80",
     },
     {
       name: "Mountain Lodge",
       image:
         "https://images.unsplash.com/photo-1444201983204-c43cbd584d93?auto=format&fit=crop&w=2000&q=80",
+    },
+    {
+      name: "Mountain Lodge",
+      image:
+        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=2000&q=80",
     },
   ],
   cars: [
@@ -211,29 +236,33 @@ export function Hero({
     return () => clearInterval(id);
   }, [activeMedia.length]);
 
+  const currentMedia = activeMedia[index] || activeMedia[0];
+
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
-          key={activeMedia[index].name}
+          key={currentMedia?.name || index}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
           className="absolute inset-0"
         >
-          <AppImage
-            src={activeMedia[index].image}
-            alt={activeMedia[index].name}
-            fill
-            priority
-            className="object-cover ken-burns"
-          />
+          {currentMedia && (
+            <AppImage
+              src={currentMedia.image}
+              alt={currentMedia.name}
+              fill
+              priority
+              className="object-cover ken-burns"
+            />
+          )}
         </motion.div>
       </AnimatePresence>
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-center px-5 pt-52 pb-10 text-white">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-center md:px-5 px-3 md:pt-52 pt-32 pb-10 text-white">
         <span className="mb-4 rounded-full bg-white/20 px-3 py-1 text-xs backdrop-blur">
           {badgeText}
         </span>

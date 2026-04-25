@@ -110,17 +110,23 @@ export function BookingForm({
 
   // Optional: Auto-prefill from history ONLY on homepage if form is still empty after mount
   React.useEffect(() => {
-    const hasParams = searchParams.get("org") || searchParams.get("des");
+    const hasParams =
+      searchParams.get("org") ||
+      searchParams.get("des") ||
+      searchParams.get("tab"); // If tab is already in URL, don't auto-switch
     if (hasParams) return;
 
     // Only auto-fill from history if the user hasn't touched the form yet
     if (!origin && !destination) {
       const lastSearch = session.data ? dbSearches[0] : guestSearches[0];
       if (lastSearch) {
-        applySearchToForm(lastSearch);
+        // Only apply if it's the home page, otherwise history might override the page's intent
+        if (pathname === "/" || pathname === "/flights") {
+          applySearchToForm(lastSearch);
+        }
       }
     }
-  }, [dbSearches, guestSearches, session.data, searchParams]);
+  }, [dbSearches, guestSearches, session.data, searchParams, pathname]);
 
   const applySearchToForm = (search: any) => {
     if (search.searchType && search.searchType !== activeTab) {
@@ -301,13 +307,13 @@ export function BookingForm({
             ))}
           </div>
 
-          <div className="grid grid-cols-1 gap-2 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,0.6fr)_minmax(0,1.6fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,1.8fr)_minmax(0,1.9fr)]">
+          <div className="relative grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,0.6fr)_minmax(0,1.6fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,1.8fr)_minmax(0,1.9fr)]">
             <motion.div
               animate={
                 invalidFields.includes("origin") ? { x: [-4, 4, -4, 4, 0] } : {}
               }
               className={cn(
-                "rounded-md border h-14 transition-colors",
+                "rounded-md border h-14 transition-colors sm:col-span-1 lg:col-span-1",
                 heroMode
                   ? "bg-white/5 border-white/20"
                   : "bg-muted/30 border-border",
@@ -334,11 +340,12 @@ export function BookingForm({
                 setDestination(origin);
               }}
               className={cn(
-                "h-14 rounded-md border flex items-center justify-center",
+                "h-14 rounded-md border flex items-center justify-center transition-all",
                 heroMode ? "border-white/25 text-white" : "border-border",
+                "sm:absolute sm:left-1/2 sm:top-7 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:z-10 sm:h-10 sm:w-10 sm:rounded-full sm:bg-background sm:shadow-md lg:relative lg:left-0 lg:top-0 lg:translate-x-0 lg:translate-y-0 lg:h-14 lg:w-full lg:rounded-md lg:bg-transparent lg:shadow-none",
               )}
             >
-              <ArrowRightLeft className="h-4 w-4" />
+              <ArrowRightLeft className="h-4 w-4 sm:rotate-0 -rotate-90 lg:rotate-0" />
             </motion.button>
             <motion.div
               animate={
@@ -347,7 +354,7 @@ export function BookingForm({
                   : {}
               }
               className={cn(
-                "rounded-md border h-14 transition-colors",
+                "rounded-md border h-14 transition-colors sm:col-span-1 lg:col-span-1",
                 heroMode
                   ? "bg-white/5 border-white/20"
                   : "bg-muted/30 border-border",
@@ -371,7 +378,7 @@ export function BookingForm({
                   : {}
               }
               className={cn(
-                "rounded-md border h-14 transition-colors",
+                "rounded-md border h-14 transition-colors sm:col-span-1 lg:col-span-1",
                 heroMode
                   ? "bg-white/5 border-white/20"
                   : "bg-muted/30 border-border",
@@ -396,7 +403,7 @@ export function BookingForm({
                   : {}
               }
               className={cn(
-                "rounded-md border h-14 transition-colors",
+                "rounded-md border h-14 transition-colors sm:col-span-1 lg:col-span-1",
                 heroMode
                   ? "bg-white/5 border-white/20"
                   : "bg-muted/30 border-border",
@@ -422,7 +429,7 @@ export function BookingForm({
             </motion.div>
             <div
               className={cn(
-                "rounded-md border min-h-14 transition-colors",
+                "rounded-md border min-h-14 transition-colors sm:col-span-1 lg:col-span-1",
                 heroMode
                   ? "bg-white/5 border-white/20"
                   : "bg-muted/30 border-border",
@@ -438,7 +445,7 @@ export function BookingForm({
                 openOnHover={false}
               />
             </div>
-            <div>
+            <div className="sm:col-span-1 lg:col-span-1">
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.02 }}
@@ -454,7 +461,7 @@ export function BookingForm({
 
         <TabsContent
           value="hotels"
-          className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2"
+          className="mt-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2"
         >
           <motion.div
             animate={
@@ -595,7 +602,7 @@ export function BookingForm({
 
         <TabsContent
           value="cars"
-          className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2"
+          className="mt-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2"
         >
           <motion.div
             animate={
@@ -710,7 +717,7 @@ export function BookingForm({
 
         <TabsContent
           value="packages"
-          className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2"
+          className="mt-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2"
         >
           <motion.div
             animate={
@@ -827,7 +834,7 @@ export function BookingForm({
 
         <TabsContent
           value="transfers"
-          className="mt-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2"
+          className="mt-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2"
         >
           <motion.div
             animate={

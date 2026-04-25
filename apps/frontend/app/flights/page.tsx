@@ -1,20 +1,20 @@
-import { Header } from '@/components/sections/Header';
-import { Footer } from '@/components/sections/Footer';
-import { Hero } from '@/components/sections/Hero';
-import { SupportFaqAccordion } from '@/components/support/SupportFaqAccordion';
+import { Header } from "@/components/sections/Header";
+import { Footer } from "@/components/sections/Footer";
+import { Hero } from "@/components/sections/Hero";
+import { SupportFaqAccordion } from "@/components/support/SupportFaqAccordion";
 
 const flightFaqs = [
   {
-    q: 'When is the best time to book flights?',
-    a: 'For most routes, booking 3 to 6 weeks ahead gives the best balance between price and availability.',
+    q: "When is the best time to book flights?",
+    a: "For most routes, booking 3 to 6 weeks ahead gives the best balance between price and availability.",
   },
   {
-    q: 'Can I search one-way and round-trip flights?',
-    a: 'Yes. Use the trip type selector in the booking form to switch between one-way and round-trip journeys.',
+    q: "Can I search one-way and round-trip flights?",
+    a: "Yes. Use the trip type selector in the booking form to switch between one-way and round-trip journeys.",
   },
   {
-    q: 'Do prices include taxes and fees?',
-    a: 'Displayed fares are base prices. Final totals, including taxes and carrier fees, appear before payment.',
+    q: "Do prices include taxes and fees?",
+    a: "Displayed fares are base prices. Final totals, including taxes and carrier fees, appear before payment.",
   },
 ];
 
@@ -26,11 +26,11 @@ export default function FlightsPage() {
       <main className="flex-1">
         <Hero
           defaultTab="flights"
-          badgeText="✈ #1 Flight Booking Platform"
+          badgeText="#1 Flight Booking Platform"
           title={
             <>
-              Find Your Perfect{' '}
-              <span className="bg-linear-to-r from-brand-red to-brand-yellow bg-clip-text text-transparent">
+              Find Your Perfect{" "}
+              <span className="bg-linear-to-r from-redmix to-yellow bg-clip-text text-transparent">
                 Journey
               </span>
             </>
@@ -40,7 +40,9 @@ export default function FlightsPage() {
 
         <section className="mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-6 md:py-14">
           <div className="mx-auto max-w-3xl rounded-2xl border border-border/70 bg-card p-5 md:p-8">
-            <h2 className="mb-2 text-xl font-semibold md:text-2xl">Flight booking FAQs</h2>
+            <h2 className="mb-2 text-xl font-semibold md:text-2xl">
+              Flight booking FAQs
+            </h2>
             <p className="mb-5 text-sm text-muted-foreground md:text-base">
               Quick answers to common questions before you confirm your booking.
             </p>

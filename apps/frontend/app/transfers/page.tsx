@@ -1,5 +1,5 @@
 import { TransferCard } from '@/components/transfers/TransferCard';
-import { TransferSearchForm } from '@/components/transfers/TransferSearchForm';
+import { Hero } from '@/components/sections/Hero';
 import { Footer } from '@/components/sections/Footer';
 import { Header } from '@/components/sections/Header';
 import { internalV1Url } from '@/lib/bff/config';
@@ -34,22 +34,21 @@ export default async function TransfersPage({
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <Header />
-      <main className="flex-1 pt-20">
-        <section className="relative overflow-hidden border-b border-border/60">
-          <div className="absolute inset-0 opacity-25">
-            <img src="https://images.unsplash.com/photo-1483450388369-9ed95738483c?auto=format&fit=crop&w=2200&q=80" alt="Airport transfer" className="h-full w-full object-cover" />
-          </div>
-          <div className="relative mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-6 md:py-14">
-            <div className="mb-6 max-w-2xl space-y-2">
-              <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Seamless Airport Transfers</h1>
-              <p className="text-sm text-muted-foreground md:text-base">Reliable pickup, live flight tracking, and professional drivers in every city.</p>
-            </div>
-            <div className="rounded-2xl border border-border/70 bg-background/95 p-4 backdrop-blur">
-              <TransferSearchForm />
-            </div>
-          </div>
-        </section>
+      <Header transparent />
+      <main className="flex-1">
+        <Hero
+          defaultTab="transfers"
+          badgeText="🚌 #1 Transfers Booking Platform"
+          title={
+            <>
+              Reliable Airport{' '}
+              <span className="bg-linear-to-r from-brand-red to-brand-yellow bg-clip-text text-transparent font-black">
+                Transfers
+              </span>
+            </>
+          }
+          description="Reliable pickup, live flight tracking, and professional drivers in every city."
+        />
 
         <section className="mx-auto w-full max-w-screen-2xl space-y-8 px-4 py-8 md:px-6 md:py-12">
           <div>

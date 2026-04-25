@@ -218,10 +218,11 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                 pathname?.startsWith(`${tab.href}/`) ||
                 (pathname === "/" && currentTab === tab.label.toLowerCase());
               const Icon = tab.icon;
+
               return (
                 <Link
                   key={tab.href}
-                  href={tab.href}
+                  href={`${tab.href}?tab=${tab.label.toLowerCase()}`}
                   className={cn(
                     "relative hidden lg:flex items-center gap-2 px-4 py-2 text-sm font-medium cursor-pointer transition-all duration-300 rounded-full",
                     isActive
@@ -233,18 +234,6 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                         : "text-foreground hover:text-redmix hover:bg-redmix/10",
                   )}
                 >
-                  {/* <Icon
-                    className={cn(
-                      "h-4 w-4",
-                      isActive
-                        ? isTransparent
-                          ? "text-redmix"
-                          : "text-white"
-                        : isTransparent
-                          ? "text-white/70"
-                          : "text-muted-foreground",
-                    )}
-                  /> */}
                   {tab.label}
                 </Link>
               );
@@ -255,12 +244,13 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                 <button
                   className={cn(
                     "relative flex items-center gap-1.5 px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full",
-                    moreLinks.some(
-                      (link) =>
-                        pathname === link.href ||
-                        (pathname === "/" &&
-                          currentTab === link.label.toLowerCase()),
-                    )
+                    moreLinks.some((link) => {
+                      const linkTabId = link.label.toLowerCase();
+                      const tabFromUrl = searchParams.get("tab");
+                      return tabFromUrl
+                        ? tabFromUrl === linkTabId
+                        : pathname === link.href;
+                    })
                       ? isTransparent
                         ? "bg-white text-redmix shadow-lg"
                         : "bg-redmix text-white shadow-lg"
@@ -289,7 +279,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                         return (
                           <Link
                             key={item.href}
-                            href={item.href}
+                            href={`${item.href}?tab=${item.label.toLowerCase()}`}
                             className={cn(
                               "flex items-center gap-3 rounded-xl p-3 transition-all duration-200",
                               isSubActive
@@ -323,7 +313,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                       return (
                         <Link
                           key={item.href}
-                          href={item.href}
+                          href={`${item.href}?tab=${item.label.toLowerCase()}`}
                           className={cn(
                             "flex items-center gap-3 rounded-xl p-3 transition-all duration-200 group",
                             isSubActive
@@ -348,7 +338,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   </div>
                   <div className="hidden lg:block">
                     <Link
-                      href="/packages"
+                      href="/packages?tab=packages"
                       className="group relative block aspect-[4/3] overflow-hidden rounded-2xl"
                     >
                       <Image
