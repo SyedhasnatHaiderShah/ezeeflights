@@ -181,7 +181,7 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
         />
         <Suspense
           fallback={
-            <div className="max-w-[1240px] mx-auto px-4 py-8">
+            <div className="max-w-[1240px] mx-auto px-4 py-6">
               <FlightResultSkeleton />
             </div>
           }

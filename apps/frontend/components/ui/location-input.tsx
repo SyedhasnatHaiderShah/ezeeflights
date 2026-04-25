@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
-import { MapPin, Plane, Building, X, LucideIcon, Search } from "lucide-react";
+import { MapPin, Plane, Building, X, LucideIcon, Search, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { searchAirports, getPopularAirports, Airport } from "@/lib/utils/airport-search";
 
 interface Suggestion {
   id: string;
@@ -12,44 +13,6 @@ interface Suggestion {
   name: string;
   detail: string;
 }
-
-const SUGGESTIONS: Suggestion[] = [
-  {
-    id: "1",
-    type: "airport",
-    code: "LHE",
-    name: "Lahore",
-    detail: "Allama Iqbal Intl (LHE)",
-  },
-  {
-    id: "2",
-    type: "airport",
-    code: "DXB",
-    name: "Dubai",
-    detail: "Dubai Intl (DXB)",
-  },
-  {
-    id: "3",
-    type: "airport",
-    code: "JFK",
-    name: "New York",
-    detail: "John F Kennedy Intl (JFK)",
-  },
-  {
-    id: "4",
-    type: "city",
-    code: "LON",
-    name: "London",
-    detail: "United Kingdom (LON)",
-  },
-  {
-    id: "5",
-    type: "airport",
-    code: "LHR",
-    name: "London",
-    detail: "Heathrow (LHR)",
-  },
-];
 
 interface LocationInputProps {
   id?: string;
@@ -78,21 +41,39 @@ export function LocationInput({
 }: LocationInputProps) {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState(value || "");
+  const [suggestions, setSuggestions] = React.useState<Suggestion[]>([]);
+  const [popularAirports, setPopularAirports] = React.useState<Suggestion[]>([]);
+  const [isSearching, setIsSearching] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timeoutRef = React.useRef<NodeJS.Timeout>();
+  const searchTimeoutRef = React.useRef<NodeJS.Timeout>();
 
   // Sync internal state with prop value for controlled behavior
   React.useEffect(() => {
     setInputValue(value || "");
   }, [value]);
 
-  // Cleanup timeout on unmount
+  // Load popular airports on mount
   React.useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+    const loadPopular = async () => {
+      try {
+        const popular = await getPopularAirports();
+        const mapped = popular.map(a => ({
+          id: a.id,
+          type: a.type,
+          code: a.iata_code,
+          name: a.name,
+          detail: `${a.municipality ? a.municipality + ', ' : ''}${a.country_name}`
+        }));
+        setPopularAirports(mapped);
+        if (!inputValue) {
+          setSuggestions(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to load popular airports", err);
       }
     };
+    loadPopular();
   }, []);
 
   const handleSelect = (suggestion: Suggestion) => {
@@ -127,6 +108,33 @@ export function LocationInput({
 
     // Open dropdown when user types
     setOpen(true);
+
+    // Debounced search
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    
+    if (val.trim().length >= 2) {
+      setIsSearching(true);
+      searchTimeoutRef.current = setTimeout(async () => {
+        try {
+          const results = await searchAirports(val);
+          const mapped: Suggestion[] = results.map(a => ({
+            id: a.id,
+            type: a.type,
+            code: a.iata_code || a.gps_code || a.ident,
+            name: a.name,
+            detail: `${a.municipality ? a.municipality + ', ' : ''}${a.country_name}`
+          }));
+          setSuggestions(mapped);
+        } catch (error) {
+          console.error("Search error:", error);
+        } finally {
+          setIsSearching(false);
+        }
+      }, 300);
+    } else if (val.trim().length === 0) {
+      setSuggestions(popularAirports);
+      setIsSearching(false);
+    }
   };
 
   return (
@@ -159,7 +167,12 @@ export function LocationInput({
         >
           <div className="relative z-10 flex flex-col flex-1 min-w-0">
             {inputValue && (
-              <span className="text-[10px] font-semibold text-white/70 capitalize leading-none mb-0.5 tracking-tight animate-in slide-in-from-bottom-1 fade-in duration-200">
+              <span
+                className={cn(
+                  "text-[10px] font-semibold capitalize leading-none mb-0.5 tracking-tight animate-in slide-in-from-bottom-1 fade-in duration-200",
+                  glassPopover ? "text-white/70" : "text-foreground/70",
+                )}
+              >
                 {placeholder}
               </span>
             )}
@@ -248,52 +261,43 @@ export function LocationInput({
             </span>
           </div>
           <div className="max-h-80 overflow-y-auto no-scrollbar">
-            {(() => {
-              const filtered = SUGGESTIONS.filter((s) => {
-                if (!inputValue) return true;
-                const search = inputValue.toLowerCase();
-                return (
-                  s.name.toLowerCase().includes(search) ||
-                  s.code.toLowerCase().includes(search) ||
-                  s.detail.toLowerCase().includes(search)
-                );
-              });
-
-              if (filtered.length === 0) {
-                return (
-                  <div className="p-5 text-center">
-                    <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
-                      <Search className="w-6 h-6 text-foreground/20" />
-                    </div>
-                    <p
-                      className={cn(
-                        "text-sm font-medium",
-                        glassPopover ? "text-white/60" : "text-foreground/60",
-                      )}
-                    >
-                      No results found for
-                    </p>
-                    <p
-                      className={cn(
-                        "text-xs font-medium truncate",
-                        glassPopover ? "text-white/60" : "text-foreground/60",
-                      )}
-                    >
-                      {inputValue}
-                    </p>
-                    <p
-                      className={cn(
-                        "text-xs mt-1",
-                        glassPopover ? "text-white/40" : "text-foreground/40",
-                      )}
-                    >
-                      Try searching for a different city or airport code
-                    </p>
-                  </div>
-                );
-              }
-
-              return filtered.map((s) => (
+            {isSearching ? (
+              <div className="p-10 flex flex-col items-center justify-center text-muted-foreground">
+                <Loader2 className="w-6 h-6 animate-spin mb-2 text-brand-red" />
+                <p className="text-xs font-medium">Searching airports...</p>
+              </div>
+            ) : suggestions.length === 0 ? (
+              <div className="p-5 text-center">
+                <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Search className="w-6 h-6 text-foreground/20" />
+                </div>
+                <p
+                  className={cn(
+                    "text-sm font-medium",
+                    glassPopover ? "text-white/60" : "text-foreground/60",
+                  )}
+                >
+                  No results found for
+                </p>
+                <p
+                  className={cn(
+                    "text-xs font-medium truncate",
+                    glassPopover ? "text-white/60" : "text-foreground/60",
+                  )}
+                >
+                  {inputValue}
+                </p>
+                <p
+                  className={cn(
+                    "text-xs mt-1",
+                    glassPopover ? "text-white/40" : "text-foreground/40",
+                  )}
+                >
+                  Try searching for a different city or airport code
+                </p>
+              </div>
+            ) : (
+              suggestions.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => handleSelect(s)}
@@ -304,13 +308,6 @@ export function LocationInput({
                     e.preventDefault();
                   }}
                 >
-                  {/* <div className="w-8 h-8 flex items-center justify-center bg-muted rounded-full mr-3 group-hover/item:bg-brand-red/10 transition-colors">
-                    {s.type === "airport" ? (
-                      <Plane className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" />
-                    ) : (
-                      <Building className="w-4 h-4 text-foreground/60 group-hover/item:text-brand-red" />
-                    )}
-                  </div> */}
                   <div className="flex flex-col flex-1 min-w-0">
                     <span
                       className={cn(
@@ -331,15 +328,15 @@ export function LocationInput({
                   </div>
                   <span
                     className={cn(
-                      "ml-3 font-medium text-[10px] capitalize tracking-wider",
-                      glassPopover ? "text-white/70" : "text-foreground/70",
+                      "ml-3 font-medium text-[10px] capitalize tracking-wider px-1.5 py-0.5 rounded bg-muted/50 border border-border/50",
+                      glassPopover ? "text-white/90 bg-white/10" : "text-foreground/70",
                     )}
                   >
                     {s.code}
                   </span>
                 </button>
-              ));
-            })()}
+              ))
+            )}
           </div>
         </Popover.Content>
       </Popover.Portal>

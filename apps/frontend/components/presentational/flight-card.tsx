@@ -19,8 +19,12 @@ export function FlightCard(props: FlightCardProps) {
       <p className="text-sm text-slate-600">
         {props.departureAirport} → {props.arrivalAirport}
       </p>
-      <p className="text-sm">Depart: {new Date(props.departureAt).toLocaleString()}</p>
-      <p className="text-sm">Arrive: {new Date(props.arrivalAt).toLocaleString()}</p>
+      <p className="text-sm">
+        Depart: {new Date(props.departureAt).toLocaleString()}
+      </p>
+      <p className="text-sm">
+        Arrive: {new Date(props.arrivalAt).toLocaleString()}
+      </p>
       <p className="mt-2 text-xl font-bold">
         {props.currency} {props.baseFare.toFixed(2)}
       </p>

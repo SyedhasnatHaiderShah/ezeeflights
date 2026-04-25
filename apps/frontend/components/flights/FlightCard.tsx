@@ -87,7 +87,7 @@ export function FlightCard({ flight }: Props) {
               <p className="text-sm font-bold text-brand-dark dark:text-foreground truncate leading-tight">
                 {first.airline.name ?? "Unknown Airline"}
               </p>
-              <p className="text-[10px] font-black text-foreground uppercase tracking-widest mt-0.5">
+              <p className="text-[10px] font-bold text-foreground uppercase tracking-widest mt-0.5">
                 {first.flightNo || `EF-${flight.flightId.slice(0, 6)}`}
               </p>
             </div>
@@ -95,7 +95,7 @@ export function FlightCard({ flight }: Props) {
           {badge && (
             <span
               className={cn(
-                "rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-tighter shrink-0",
+                "rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-tighter shrink-0",
                 badge.className,
               )}
             >
@@ -140,20 +140,21 @@ export function FlightCard({ flight }: Props) {
         {/* Footer */}
         <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-[9px] font-black text-foreground uppercase tracking-widest mb-0.5">
+            <p className="text-sm font-bold text-foreground capitalize tracking-wider mb-0.5">
               Class & Bags
             </p>
-            <p className="text-[11px] text-foreground font-bold truncate">
+            <p className="text-xs text-foreground font-semibold truncate">
               {first.cabinClass} · {first.baggageAllowance || "Standard"}
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <div className="text-right">
-              <p className="text-[9px] font-black text-foreground uppercase tracking-widest mb-0.5">
+              <p className="text-xs font-bold text-foreground uppercase tracking-widest mb-0.5">
                 Price
               </p>
-              <p className="text-lg font-black text-redmix leading-none">
-                {symbol}{Math.round(flight.totalCost).toLocaleString()}
+              <p className="text-lg font-bold text-redmix leading-none">
+                {symbol}
+                {Math.round(flight.totalCost).toLocaleString()}
               </p>
             </div>
             <Button
@@ -270,7 +271,7 @@ function FlightLeg({
     <div className="flex items-center justify-between gap-4 py-2">
       {/* Departure */}
       <div className="flex-1 min-w-0">
-        <p className="text-xl font-black text-brand-dark dark:text-foreground leading-none tracking-tighter">
+        <p className="text-xl font-bold text-brand-dark dark:text-foreground leading-none">
           {fromTime}
         </p>
         <p className="text-sm font-bold text-foreground mt-1.5">{from}</p>
@@ -278,7 +279,7 @@ function FlightLeg({
 
       {/* Path Visual */}
       <div className="flex-[2] flex flex-col items-center justify-center px-2">
-        <div className="text-[10px] font-black text-foreground uppercase tracking-widest mb-2">
+        <div className="text-xs font-bold text-foreground uppercase tracking-widest mb-2">
           {totalTime}
         </div>
         <div className="relative w-full flex items-center justify-center gap-1.5">
@@ -303,7 +304,7 @@ function FlightLeg({
           <div className="h-px flex-1 bg-linear-to-r from-border via-border to-transparent" />
         </div>
         <div className="mt-2">
-          <span className="text-[10px] font-black text-redmix uppercase tracking-tighter bg-redmix/5 px-2 py-0.5 rounded-full border border-redmix/10">
+          <span className="text-xs font-semibold text-redmix uppercase tracking-wider bg-redmix/5 px-2 py-0.5 rounded-full border border-redmix/10">
             {stops === 0
               ? "Non-stop"
               : `${stops} stop${stops > 1 ? "s" : ""}${stopCode ? ` · ${stopCode}` : ""}`}
@@ -313,13 +314,13 @@ function FlightLeg({
 
       {/* Arrival */}
       <div className="flex-1 text-right min-w-0">
-        <p className="text-xl font-black text-brand-dark dark:text-foreground leading-none tracking-tighter">
+        <p className="text-xl font-bold text-brand-dark dark:text-foreground leading-none">
           {toTime}
         </p>
         <div className="flex items-center justify-end gap-1 mt-1.5">
           <p className="text-sm font-bold text-foreground">{to}</p>
           {overnight && (
-            <span className="text-[10px] font-black text-redmix">+1d</span>
+            <span className="text-[10px] font-bold text-redmix">+1d</span>
           )}
         </div>
       </div>

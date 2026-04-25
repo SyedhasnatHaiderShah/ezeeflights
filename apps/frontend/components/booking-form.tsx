@@ -242,8 +242,8 @@ export function BookingForm({
   };
 
   const cardClass = heroMode
-    ? "bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-hero p-2 sm:p-3"
-    : "bg-card border border-border rounded-3xl shadow-md p-3";
+    ? "bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-hero p-2 sm:p-3"
+    : "bg-card border border-border rounded-2xl shadow-md p-3";
 
   const activeTabClass = heroMode
     ? "data-[state=active]:bg-white data-[state=active]:text-redmix data-[state=active]:shadow-lg"
@@ -255,28 +255,30 @@ export function BookingForm({
         value={activeTab}
         onValueChange={(v) => handleTabChange(v as TabType)}
       >
-        <TabsList
-          className={cn(
-            "mb-4 h-auto w-full justify-start gap-2 bg-transparent p-0",
-            heroMode ? "text-white" : "text-foreground",
-          )}
-        >
-          {TABS.map((tab) => (
-            <TabsTrigger
-              key={tab.id}
-              value={tab.id}
-              className={cn(
-                "rounded-full px-5 py-2 text-xs sm:text-sm font-semibold shadow-none cursor-pointer transition-all",
-                activeTabClass,
-                heroMode
-                  ? "text-white/70 hover:text-white hover:bg-white/5"
-                  : "text-muted-foreground",
-              )}
-            >
-              {tab.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+        {heroMode && (
+          <TabsList
+            className={cn(
+              "mb-4 h-auto w-full justify-start gap-2 bg-transparent p-0",
+              heroMode ? "text-white" : "text-foreground",
+            )}
+          >
+            {TABS.map((tab) => (
+              <TabsTrigger
+                key={tab.id}
+                value={tab.id}
+                className={cn(
+                  "rounded-full px-5 py-2 text-xs sm:text-sm font-semibold shadow-none cursor-pointer transition-all",
+                  activeTabClass,
+                  heroMode
+                    ? "text-white/70 hover:text-white hover:bg-white/5"
+                    : "text-muted-foreground",
+                )}
+              >
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        )}
 
         <TabsContent value="flights" className="mt-0 space-y-3">
           <div className="flex flex-wrap gap-2">

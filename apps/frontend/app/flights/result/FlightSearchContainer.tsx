@@ -70,7 +70,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
   if (isLoading) return <FlightResultSkeleton />;
 
   return (
-    <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-[18%_1fr_30%] gap-4 md:h-[calc(100vh-10rem)] px-4 md:overflow-hidden">
+    <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-[18%_1fr_40%] gap-4 md:h-[calc(100vh-3rem)]  px-4 md:overflow-hidden">
       {/* Column 1: Filters (Desktop) */}
       <div className="hidden md:block h-full overflow-y-auto no-scrollbar border-r border-border/50">
         <FilterSidebar
@@ -80,7 +80,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
       </div>
 
       {/* Column 2: Main Results */}
-      <main className="md:py-6 py-2 space-y-3 min-w-0 md:h-full md:overflow-y-auto no-scrollbar">
+      <main className="md:py-5 py-2 space-y-3 min-w-0 md:h-full md:overflow-y-auto no-scrollbar">
         {/* Sticky Mobile Controls */}
         <div className="sticky top-[118px] z-30 md:static bg-slate-50/95 dark:bg-background/95 backdrop-blur-sm -mx-4 px-2 md:p-0 md:bg-transparent">
           <div className="flex items-center gap-2 md:hidden mb-1.5">
@@ -101,7 +101,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 rounded-md border border-border bg-card px-4 py-2 md:shadow-none shadow-sm">
-            <p className="text-xs font-bold text-foreground">
+            <p className="text-xs font-semibold text-foreground capitalize">
               {sortedFlights.length} flights found
             </p>
             <div className="flex items-center gap-2 overflow-x-auto pb-0.5 sm:pb-0 no-scrollbar">
@@ -110,7 +110,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
                   <button
                     key={item}
                     className={cn(
-                      "rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-tighter transition-all border shrink-0",
+                      "rounded-full px-3 py-1 text-xs font-medium uppercase transition-all border shrink-0",
                       sortMode === item
                         ? "bg-redmix text-white border-redmix shadow-sm"
                         : "bg-transparent text-muted-foreground border-border",
@@ -166,7 +166,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
       </main>
 
       {/* Column 3: AI Suggestions (Desktop) */}
-      <div className="hidden lg:block py-6 h-full overflow-y-auto no-scrollbar border-l border-border/50">
+      <div className="hidden lg:block py-5 h-full overflow-y-auto no-scrollbar border-l border-border/50">
         <AiSuggestionsPanel
           flights={sortedFlights}
           origin={route.origin}
