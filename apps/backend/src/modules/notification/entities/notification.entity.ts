@@ -1,4 +1,4 @@
-export type NotificationType = 'EMAIL' | 'SMS' | 'WHATSAPP';
+export type NotificationType = 'EMAIL' | 'SMS' | 'WHATSAPP' | 'IN_APP';
 export type NotificationStatus = 'PENDING' | 'SENT' | 'FAILED';
 
 export interface NotificationEntity {
@@ -7,6 +7,7 @@ export interface NotificationEntity {
   type: NotificationType;
   status: NotificationStatus;
   payload: Record<string, unknown>;
+  isRead: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

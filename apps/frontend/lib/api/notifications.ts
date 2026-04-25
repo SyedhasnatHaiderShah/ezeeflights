@@ -19,7 +19,16 @@ export interface NotificationPreferences {
 export function useNotifications(params?: { page?: number; limit?: number }) {
   return useQuery({
     queryKey: ["notifications", params],
-    queryFn: () => apiFetch<NotificationItem[]>(`/notifications?page=${params?.page ?? 1}&limit=${params?.limit ?? 20}`),
+    queryFn: async () => {
+      const data = await apiFetch<any[]>(`/notifications?page=${params?.page ?? 1}&limit=${params?.limit ?? 20}`);
+      return data.map(n => ({
+        id: n.id,
+        title: n.payload?.title || n.type,
+        body: n.payload?.message || n.payload?.body || "No content",
+        isRead: n.isRead,
+        createdAt: n.createdAt
+      })) as NotificationItem[];
+    },
     staleTime: 15 * 1000,
   });
 }

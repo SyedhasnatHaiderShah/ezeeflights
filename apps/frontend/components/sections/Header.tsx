@@ -24,8 +24,10 @@ import {
   ChevronDown,
   Gift,
   X,
+  Info,
+  ChevronRight,
 } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import EzeeFlightsLogo from "@/components/ezee-flights-logo";
 import {
@@ -39,6 +41,7 @@ import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
 import { logoutRequest } from "@/lib/api/auth-api";
 import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
+import { apiFetch } from "@/lib/api/client";
 import {
   useMarkAllRead,
   useMarkRead,
@@ -126,18 +129,43 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
   const toggleSidebar = useSidebarStore((state) => state.toggle);
   const openAuthModal = useAuthModalStore((state) => state.open);
   const { data: session, isLoading } = useAuthSession();
+  const { data: profile } = useQuery({
+    queryKey: ["profile-me"],
+    queryFn: () => apiFetch<any>("/profile/me"),
+    enabled: !!session,
+    staleTime: 60000,
+  });
 
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const [promoDismissed, setPromoDismissed] = React.useState(false);
+  const [profileNotifyDismissed, setProfileNotifyDismissed] =
+    React.useState(false);
   const [isNotifDrawerOpen, setIsNotifDrawerOpen] = React.useState(false);
   const [isFavoriteDrawerOpen, setIsFavoriteDrawerOpen] = React.useState(false);
+
+  const isProfileComplete = React.useMemo(() => {
+    if (!session) return true;
+    if (!profile) return true; // Assume complete while loading to avoid flicker, or could show spinner
+
+    // Use the root fields which are merged from baseUser and profile
+    return !!(
+      profile.firstName &&
+      profile.lastName &&
+      profile.phone &&
+      profile.nationality &&
+      profile.passportNumber
+    );
+  }, [profile, session]);
 
   React.useEffect(() => {
     setMounted(true);
     const dismissed =
       window.sessionStorage.getItem("header-promo-dismissed") === "1";
     setPromoDismissed(dismissed);
+    const profileDismissed =
+      window.sessionStorage.getItem("header-profile-notify-dismissed") === "1";
+    setProfileNotifyDismissed(profileDismissed);
     const onScroll = () => setIsScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll);
@@ -147,6 +175,11 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
   const dismissPromo = React.useCallback(() => {
     setPromoDismissed(true);
     window.sessionStorage.setItem("header-promo-dismissed", "1");
+  }, []);
+
+  const dismissProfileNotify = React.useCallback(() => {
+    setProfileNotifyDismissed(true);
+    window.sessionStorage.setItem("header-profile-notify-dismissed", "1");
   }, []);
 
   const handleLogout = async () => {
@@ -379,37 +412,39 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               </Link>
             </div>
 
-            <div className="md:hidden">
-              <Drawer.Root
-                open={isNotifDrawerOpen}
-                onOpenChange={setIsNotifDrawerOpen}
-              >
-                <Drawer.Trigger asChild>
-                  <button
-                    className={cn(
-                      "rounded-lg p-2 transition",
-                      isTransparent
-                        ? "text-white hover:bg-white/10 hover:text-white"
-                        : "text-foreground hover:bg-muted-foreground",
-                    )}
-                  >
-                    <div className="relative">
-                      <Bell className="h-5 w-5" />
-                      <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-redmix" />
-                    </div>
-                  </button>
-                </Drawer.Trigger>
-                <Drawer.Portal>
-                  <Drawer.Overlay className="fixed inset-0 z-[70] bg-black/45 backdrop-blur-sm" />
-                  <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[80] overflow-hidden rounded-t-2xl border-t bg-background">
-                    <Drawer.Title className="sr-only">
-                      Notifications
-                    </Drawer.Title>
-                    <NotificationContent />
-                  </Drawer.Content>
-                </Drawer.Portal>
-              </Drawer.Root>
-            </div>
+            {session && (
+              <div className="md:hidden">
+                <Drawer.Root
+                  open={isNotifDrawerOpen}
+                  onOpenChange={setIsNotifDrawerOpen}
+                >
+                  <Drawer.Trigger asChild>
+                    <button
+                      className={cn(
+                        "rounded-lg p-2 transition",
+                        isTransparent
+                          ? "text-white hover:bg-white/10 hover:text-white"
+                          : "text-foreground hover:bg-muted-foreground",
+                      )}
+                    >
+                      <div className="relative">
+                        <Bell className="h-5 w-5" />
+                        <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-redmix" />
+                      </div>
+                    </button>
+                  </Drawer.Trigger>
+                  <Drawer.Portal>
+                    <Drawer.Overlay className="fixed inset-0 z-[70] bg-black/45 backdrop-blur-sm" />
+                    <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[80] overflow-hidden rounded-t-2xl border-t bg-background">
+                      <Drawer.Title className="sr-only">
+                        Notifications
+                      </Drawer.Title>
+                      <NotificationContent />
+                    </Drawer.Content>
+                  </Drawer.Portal>
+                </Drawer.Root>
+              </div>
+            )}
 
             <div className="md:hidden">
               <Drawer.Root
@@ -438,28 +473,30 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               </Drawer.Root>
             </div>
 
-            <div className="hidden md:block">
-              <DropdownMenu modal={false}>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    className={cn(
-                      "rounded-lg p-2 transition",
-                      isTransparent
-                        ? "text-white hover:bg-white/10 hover:text-white"
-                        : "text-foreground hover:bg-muted",
-                    )}
+            {session && (
+              <div className="hidden md:block">
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      className={cn(
+                        "rounded-lg p-2 transition",
+                        isTransparent
+                          ? "text-white hover:bg-white/10 hover:text-white"
+                          : "text-foreground hover:bg-muted",
+                      )}
+                    >
+                      <Bell className="h-5 w-5" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-[360px] p-0 overflow-hidden"
                   >
-                    <Bell className="h-5 w-5" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-[360px] p-0 overflow-hidden"
-                >
-                  <NotificationContent />
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+                    <NotificationContent />
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
 
             <div className="hidden md:block">
               <DropdownMenu modal={false}>
@@ -569,6 +606,59 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
           </div>
         </div>
       </div>
+
+      {/* Profile Update Notification */}
+      {!isProfileComplete && !profileNotifyDismissed && session && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          className="border-b border-redmix/30 bg-redmix/[0.03] backdrop-blur-sm relative overflow-hidden"
+        >
+          {/* Subtle animated background pulse */}
+          <motion.div
+            animate={{ opacity: [0.3, 0.6, 0.3] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-0 bg-redmix/[0.05]"
+          />
+
+          <div className="relative mx-auto flex min-h-[2.5rem] max-w-screen-2xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
+            <div className="flex flex-1 flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm">
+              <div className="flex items-center gap-2">
+                <div className="relative">
+                  <Info className="h-4 w-4 text-redmix" />
+                  <motion.span
+                    animate={{ scale: [1, 1.5, 1], opacity: [1, 0, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute inset-0 rounded-full bg-redmix/20"
+                  />
+                </div>
+                <span className="font-semibold text-foreground/90">
+                  Profile Incomplete
+                </span>
+              </div>
+              <span className="text-muted-foreground hidden md:inline">
+                Complete your details to unlock faster bookings and personalized
+                offers.
+              </span>
+              <Link
+                href="/profile"
+                className="group flex items-center gap-1 font-bold text-redmix transition-colors hover:text-redmix/80"
+              >
+                Update Now
+                <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+
+            <button
+              aria-label="Dismiss profile notification"
+              onClick={dismissProfileNotify}
+              className="flex-shrink-0 rounded-full p-1.5 text-muted-foreground transition-all hover:bg-redmix/10 hover:text-redmix"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </motion.div>
+      )}
 
       {/* Promo Strip */}
       {!isScrolled && !promoDismissed && (

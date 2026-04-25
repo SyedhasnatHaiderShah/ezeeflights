@@ -96,9 +96,22 @@ export class UserService {
 
     const payload: Parameters<UserRepository['update']>[1] = {};
 
-    if (dto.name !== undefined) {
-      payload.firstName = dto.name.trim();
+    if (dto.firstName !== undefined) {
+      payload.firstName = dto.firstName.trim();
     }
+    if (dto.lastName !== undefined) {
+      payload.lastName = dto.lastName.trim();
+    }
+
+    // Legacy fallback for 'name' field
+    if (dto.name !== undefined && !dto.firstName) {
+      const parts = dto.name.trim().split(/\s+/);
+      payload.firstName = parts[0];
+      if (parts.length > 1 && !dto.lastName) {
+        payload.lastName = parts.slice(1).join(' ');
+      }
+    }
+
     if (dto.phone !== undefined) {
       payload.phone = dto.phone.trim() || null;
     }

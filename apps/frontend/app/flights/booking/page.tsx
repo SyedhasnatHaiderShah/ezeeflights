@@ -7,13 +7,14 @@ import {
   Info,
   CreditCard,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PassengerForm } from "@/components/flights/PassengerForm";
 import { apiFetch } from "@/lib/api/client";
 import { useBookingFlowStore } from "@/lib/store/booking-flow-store";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { useToast } from "@/lib/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
@@ -35,12 +36,12 @@ const steps = [
 
 export default function BookingPage() {
   const router = useRouter();
-  const selectedFlightIds = useBookingFlowStore(
-    (state) => state.selectedFlightIds,
-  );
-  const setPassengersInStore = useBookingFlowStore(
-    (state) => state.setPassengers,
-  );
+  const searchParams = useSearchParams();
+  const urlFlightId = searchParams.get("id");
+  const { toast } = useToast();
+
+  const selectedFlightIds = useBookingFlowStore((state) => state.selectedFlightIds);
+  const setPassengersInStore = useBookingFlowStore((state) => state.setPassengers);
   const setBookingId = useBookingFlowStore((state) => state.setBookingId);
   const selectedSeats = useBookingFlowStore((state) => state.selectedSeats);
   const ancillaries = useBookingFlowStore((state) => state.ancillaries);
@@ -58,14 +59,15 @@ export default function BookingPage() {
   const [error, setError] = useState("");
   const [flightDetails, setFlightDetails] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isProfileChecking, setIsProfileChecking] = useState(true);
+  const [isProfileComplete, setIsProfileComplete] = useState(true);
+  const hasShownProfileToastRef = useRef(false);
 
-  const { data: session } = useAuthSession();
-
-  useEffect(() => {
-    if (session && error.includes("session has expired")) {
-      setError("");
-    }
-  }, [session, error]);
+  const { data: session, status } = useAuthSession();
+  const isAuthenticated = status === "success" && !!session;
+  const authChecked = status !== "pending";
+  const activeFlightId = urlFlightId || selectedFlightIds[0] || "";
+  const bookingFlightIds = urlFlightId ? [urlFlightId] : selectedFlightIds;
 
   const seatTotal = useMemo(
     () => Object.values(selectedSeats).reduce((sum, v) => sum + v.price, 0),
@@ -77,17 +79,41 @@ export default function BookingPage() {
   );
   const progressValue = ((step + 1) / steps.length) * 100;
 
+  // Redirect if not logged in
   useEffect(() => {
-    if (selectedFlightIds.length === 0) {
-      router.replace("/flights");
+    if (status === "success" && !session) {
+      router.push(`/auth/login?callbackUrl=${encodeURIComponent(window.location.href)}`);
+    }
+  }, [status, session, router]);
+
+  useEffect(() => {
+    if (session && error.includes("session has expired")) {
+      setError("");
+    }
+  }, [session, error]);
+
+  // Fetch flight details from URL ID or store
+  useEffect(() => {
+    if (!activeFlightId) {
+      if (authChecked && isAuthenticated) {
+        router.replace("/flights");
+      }
       return;
     }
-    apiFetch(`/flights/${selectedFlightIds[0]}`)
-      .then(setFlightDetails)
-      .catch(() => setFlightDetails(null));
-  }, [router, selectedFlightIds]);
 
-  const nextStep = async () => {
+    setLoading(true);
+    apiFetch(`/flights/${activeFlightId}`)
+      .then((data) => {
+        setFlightDetails(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Flight fetch error:", err);
+        setFlightDetails(null);
+        setLoading(false);
+      });
+  }, [activeFlightId, authChecked, isAuthenticated, router]);
+  const nextStep = useCallback(async () => {
     if (loading) return;
     setLoading(true);
     try {
@@ -95,6 +121,8 @@ export default function BookingPage() {
       if (step === 0) {
         if (passengers.some((p) => !p.fullName || !p.passportNumber))
           throw new Error("Please fill all traveler details");
+        if (bookingFlightIds.length === 0)
+          throw new Error("No flight selected. Please select a flight again.");
         setPassengersInStore(passengers);
 
         const cleanedPassengers = passengers.map(({ seatNumber, ...p }) => ({
@@ -105,7 +133,7 @@ export default function BookingPage() {
         const booking = await apiFetch<{ id: string }>("/bookings", {
           method: "POST",
           body: JSON.stringify({
-            flightIds: selectedFlightIds,
+            flightIds: bookingFlightIds,
             passengers: cleanedPassengers,
             paymentStatus: "PENDING",
           }),
@@ -120,8 +148,10 @@ export default function BookingPage() {
             body: JSON.stringify({
               bookingId: bookingIdState,
               provider: "MOCK",
-              amount: flightDetails?.baseFare || 450,
-              currency: "USD",
+              amount: Number(
+                flightDetails?.totalFare ?? flightDetails?.baseFare ?? 450,
+              ),
+              currency: flightDetails?.currency || "USD",
               successUrl: window.location.origin + "/flights/booking/success",
               failureUrl: window.location.origin + "/flights/booking/failure",
             }),
@@ -149,7 +179,108 @@ export default function BookingPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    loading,
+    step,
+    passengers,
+    bookingFlightIds,
+    setPassengersInStore,
+    setBookingId,
+    bookingIdState,
+    flightDetails,
+    setStep,
+    setError,
+    setLoading,
+  ]);
+
+
+  const checkProfile = useCallback(async () => {
+    if (!isAuthenticated) {
+      setIsProfileChecking(false);
+      return;
+    }
+
+    try {
+      const profile: any = await apiFetch("/profile/me");
+      const complete = !!(
+        profile && 
+        profile.firstName && 
+        profile.lastName && 
+        profile.phone && 
+        profile.nationality && 
+        profile.passportNumber
+      );
+      
+      // Auto-continue if it was incomplete and now is complete
+      if (complete && !isProfileComplete && !isProfileChecking) {
+        toast({
+          title: "Profile Complete!",
+          description: "Resuming your booking automatically.",
+        });
+        setIsProfileComplete(true);
+        // Set passengers first then continue
+        setPassengers([{
+          fullName: `${profile.firstName} ${profile.lastName}`,
+          passportNumber: profile.passportNumber || "",
+          seatNumber: "",
+          type: "ADULT"
+        }]);
+        setTimeout(() => nextStep(), 500);
+      } else {
+        setIsProfileComplete(complete);
+      }
+
+      if (!complete && !hasShownProfileToastRef.current) {
+        toast({
+          title: "Complete your profile",
+          description: "Add your phone, nationality, and passport to continue booking quickly.",
+          variant: "destructive",
+        });
+        hasShownProfileToastRef.current = true;
+      }
+
+      if (complete && passengers[0].fullName === "") {
+        // Initial auto-fill
+        setPassengers([{
+          fullName: `${profile.firstName} ${profile.lastName}`,
+          passportNumber: profile.passportNumber || "",
+          seatNumber: "",
+          type: "ADULT"
+        }]);
+      }
+    } catch (err) {
+      console.error("Profile fetch error:", err);
+    } finally {
+      setIsProfileChecking(false);
+    }
+  }, [isAuthenticated, isProfileComplete, isProfileChecking, nextStep, passengers, toast]);
+
+  // Auto-fill profile data
+  useEffect(() => {
+    if (!authChecked) {
+      return;
+    }
+
+    if (isAuthenticated) {
+      checkProfile();
+    } else {
+      setIsProfileChecking(false);
+    }
+  }, [authChecked, isAuthenticated, checkProfile]);
+
+  useEffect(() => {
+    if (!isAuthenticated || isProfileComplete) {
+      return;
+    }
+
+    const onFocus = () => {
+      checkProfile();
+    };
+
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [isAuthenticated, isProfileComplete, checkProfile]);
+
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -157,6 +288,41 @@ export default function BookingPage() {
 
       <main className="flex-grow container mx-auto max-w-7xl px-4 pt-24 pb-12">
         <div className="mb-8 flex flex-col items-center text-center">
+          {!isProfileComplete && !isProfileChecking && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="mb-8 w-full max-w-2xl rounded-2xl border border-redmix/20 bg-redmix/5 p-4 flex items-center justify-between gap-4"
+            >
+              <div className="flex items-center gap-3 text-left">
+                <div className="h-10 w-10 rounded-full bg-redmix/10 flex items-center justify-center flex-shrink-0">
+                  <Info className="h-5 w-5 text-redmix" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-foreground">Complete your profile</p>
+                  <p className="text-xs text-muted-foreground">Add your passport and name to speed up booking.</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="rounded-xl text-xs font-bold"
+                  onClick={() => window.open("/profile", "_blank")}
+                >
+                  Edit Profile
+                </Button>
+                <Button 
+                  size="sm" 
+                  className="bg-redmix text-white rounded-xl text-xs font-bold"
+                  onClick={checkProfile}
+                >
+                  Refresh
+                </Button>
+              </div>
+            </motion.div>
+          )}
+
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

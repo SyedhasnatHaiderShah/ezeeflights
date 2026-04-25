@@ -4,6 +4,7 @@ import { UserService } from '../../user/services/user.service';
 import { UpsertTravelerDto } from '../dto/saved-traveler.dto';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { ProfileRepository } from '../repositories/profile.repository';
+import { NotificationService } from '../../notification/services/notification.service';
 
 @Injectable()
 export class ProfileService {
@@ -12,12 +13,25 @@ export class ProfileService {
     private readonly userService: UserService,
     @Inject(forwardRef(() => BookingService))
     private readonly bookingService: BookingService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   async getMyProfile(userId: string) {
     const baseUser = await this.userService.getProfile(userId);
     const profile = await this.repository.findByUserId(userId);
     const history = await this.bookingService.getUserBookings(userId);
+
+    const isComplete = !!(
+      baseUser.firstName &&
+      baseUser.lastName &&
+      baseUser.phone &&
+      baseUser.nationality &&
+      baseUser.passportNumber
+    );
+
+    if (!isComplete) {
+      await this.notificationService.triggerIncompleteProfileNotification(userId);
+    }
 
     return {
       ...baseUser,
@@ -28,6 +42,16 @@ export class ProfileService {
 
   async updateMyProfile(userId: string, dto: UpdateProfileDto) {
     await this.userService.findOne(userId);
+
+    // Sync relevant fields to the core users table
+    await this.userService.update(userId, {
+      firstName: dto.firstName,
+      lastName: dto.lastName,
+      phone: dto.phone,
+      nationality: dto.nationality,
+      passportNumber: dto.passportNumber,
+    });
+
     return this.repository.upsert(userId, dto);
   }
 

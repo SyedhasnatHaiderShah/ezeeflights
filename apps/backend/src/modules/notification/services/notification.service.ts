@@ -117,10 +117,33 @@ export class NotificationService {
     return this.repository.listTemplates();
   }
 
+  async listUserNotifications(userId: string, page = 1, limit = 20) {
+    return this.repository.listByUserId(userId, page, limit);
+  }
+
+  async getUnreadCount(userId: string) {
+    const count = await this.repository.getUnreadCount(userId);
+    return { count };
+  }
+
+  async markAsRead(id: string, userId: string) {
+    return this.repository.markRead(id, userId);
+  }
+
+  async markAllAsRead(userId: string) {
+    return this.repository.markAllRead(userId);
+  }
+
   async processQueuedNotification(notificationId: string, retryCount = 0): Promise<void> {
     const notification = await this.repository.findById(notificationId);
     if (!notification) {
       throw new NotFoundException('Notification not found');
+    }
+
+    if (notification.type === 'IN_APP') {
+      await this.repository.updateStatus(notification.id, 'SENT');
+      await this.repository.clearQueue(notification.id);
+      return;
     }
 
     try {
@@ -151,6 +174,26 @@ export class NotificationService {
       email,
       templateName: 'welcome-user',
       payload: { email, firstName: email.split('@')[0] },
+    });
+  }
+
+  async triggerIncompleteProfileNotification(userId: string): Promise<void> {
+    // Check if there's already an unread incomplete-profile notification
+    const notifications = await this.repository.listByUserId(userId, 1, 10);
+    const hasUnread = notifications.some(n => n.type === 'IN_APP' && !n.isRead && (n.payload as any).templateName === 'incomplete-profile');
+    
+    if (hasUnread) return;
+
+    await this.send({
+      userId,
+      type: 'IN_APP' as any,
+      templateName: 'incomplete-profile',
+      payload: {
+        title: 'Complete Your Profile',
+        message: 'Please complete your profile to speed up your booking process.',
+        templateName: 'incomplete-profile',
+        link: '/profile'
+      }
     });
   }
 

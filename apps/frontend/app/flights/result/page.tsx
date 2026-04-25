@@ -90,7 +90,7 @@ function toFlightListItem(entity: any): FlightListItem {
 
 async function fetchFlights(
   params: URLSearchParams,
-): Promise<FlightListItem[]> {
+): Promise<{ flights: FlightListItem[]; total: number }> {
   const apiBase =
     process.env.INTERNAL_API_BASE_URL ??
     process.env.NEXT_PUBLIC_API_BASE_URL ??
@@ -106,27 +106,22 @@ async function fetchFlights(
 
     if (!response.ok) {
       console.error("Flight API failed:", await response.text());
-      return [];
+      return { flights: [], total: 0 };
     }
 
-    const data = await response.json();
+    const resData = await response.json();
+    
+    // Support both direct array and { data: [], total: 0 } format
+    const flightsArray = Array.isArray(resData) ? resData : (resData.data || []);
+    const total = resData.total !== undefined ? resData.total : flightsArray.length;
 
-    // The backend returns an array directly, or sometimes a wrapped object { success: true, data: [...] }
-    const flightsArray = Array.isArray(data)
-      ? data
-      : data.success && Array.isArray(data.data)
-        ? data.data
-        : null;
-
-    if (!flightsArray) {
-      console.error("Invalid API response format:", data);
-      return [];
-    }
-
-    return flightsArray.map(toFlightListItem);
+    return { 
+      flights: flightsArray.map(toFlightListItem),
+      total 
+    };
   } catch (error) {
     console.error("Search error:", error);
-    return [];
+    return { flights: [], total: 0 };
   }
 }
 
@@ -135,8 +130,15 @@ async function FlightResultsWrapper({
 }: {
   searchParams: URLSearchParams;
 }) {
-  const flights = await fetchFlights(searchParams);
-  return <FlightSearchContainer initialFlights={flights} />;
+  const { flights, total } = await fetchFlights(searchParams);
+  const currentPage = parseInt(searchParams.get("page") || "1");
+  return (
+    <FlightSearchContainer 
+      initialFlights={flights} 
+      totalCount={total} 
+      currentPage={currentPage}
+    />
+  );
 }
 
 export default async function FlightResultsPage({ searchParams }: SearchProps) {
@@ -160,7 +162,7 @@ export default async function FlightResultsPage({ searchParams }: SearchProps) {
     children: chd,
     infants: inf,
     page: unwrappedParams.page ?? "1",
-    limit: unwrappedParams.limit ?? "20",
+    limit: unwrappedParams.limit ?? "10",
   });
 
   if (returnDate) apiParams.set("returnDate", returnDate);

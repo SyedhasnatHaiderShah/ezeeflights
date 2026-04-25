@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import type { Route } from "next";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import {
   Car,
@@ -38,6 +38,7 @@ import { NAVIGATION_GROUPS } from "@/lib/navigation";
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
   const { isOpen, close, open } = useSidebarStore();
   const { data: session } = useAuthSession();
@@ -86,6 +87,14 @@ export function AppSidebar() {
     "Traveler";
   const userInitial = userName.charAt(0).toUpperCase();
   const isDarkMode = mounted && theme === "dark";
+
+  const navigateToRoute = React.useCallback(
+    (href: Route) => {
+      close();
+      router.push(href);
+    },
+    [close, router],
+  );
 
   return (
     <>
@@ -208,11 +217,12 @@ export function AppSidebar() {
 
                     return (
                       <li key={item.href}>
-                        <Link
-                          href={item.href}
-                          onClick={close}
+                        <button
+                          type="button"
+                          onClick={() => navigateToRoute(item.href)}
+                          aria-current={active ? "page" : undefined}
                           className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition",
+                            "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition",
                             active
                               ? "bg-brand-red/10 text-brand-red"
                               : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -220,7 +230,7 @@ export function AppSidebar() {
                         >
                           <Icon className="h-4 w-4" />
                           {item.label}
-                        </Link>
+                        </button>
                       </li>
                     );
                   })}

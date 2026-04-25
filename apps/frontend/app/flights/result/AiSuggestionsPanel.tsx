@@ -52,7 +52,7 @@ export function AiSuggestionsPanel({
   }, [flights]);
 
   return (
-    <aside className="w-full flex flex-col gap-4 p-4 h-full min-h-screen overflow-y-auto bg-slate-50/50 dark:bg-background/50">
+    <aside className="w-full flex flex-col gap-4 p-4 h-full min-h-screen overflow-y-auto ">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-redmix" />
@@ -191,7 +191,7 @@ export function AiSuggestionsPanel({
       <DestinationInsightsPanel destination={destination} />
 
       {/* Ask Ezee Stub */}
-      <div className="mt-auto rounded-2xl bg-white p-3 shadow-lg text-foreground">
+      <div className="mt-auto rounded-2xl bg-dark p-3 shadow-lg text-foreground">
         <div className="flex items-center gap-2 mb-2">
           <MessageSquare className="w-4 h-4" />
           <h3 className="text-sm font-bold">Ask EzeeAI</h3>

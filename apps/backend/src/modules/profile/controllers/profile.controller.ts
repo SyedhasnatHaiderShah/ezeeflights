@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { UpsertTravelerDto } from '../dto/saved-traveler.dto';
@@ -29,6 +29,14 @@ export class ProfileController {
   @ApiResponse({ status: 400, description: 'Validation error' })
   @Put('update')
   update(@Req() req: AuthenticatedRequest, @Body() dto: UpdateProfileDto) {
+    return this.service.updateMyProfile(req.user.userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Update my profile (partial)' })
+  @ApiResponse({ status: 200, description: 'Profile updated' })
+  @ApiResponse({ status: 400, description: 'Validation error' })
+  @Patch('me')
+  patch(@Req() req: AuthenticatedRequest, @Body() dto: UpdateProfileDto) {
     return this.service.updateMyProfile(req.user.userId, dto);
   }
 

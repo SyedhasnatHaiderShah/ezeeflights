@@ -1,96 +1,176 @@
-import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { NotificationService } from '../services/notification.service';
-import { CreateTemplateDto, SendNotificationDto } from '../dto/send-notification.dto';
-import { AdminGuard } from '../guards/admin.guard';
-import { PriceAlertService } from '../price-alerts/price-alert.service';
-import { PriceAlertType } from '../price-alerts/price-alert.entity';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from "@nestjs/common";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
+import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
+import { NotificationService } from "../services/notification.service";
+import {
+  CreateTemplateDto,
+  SendNotificationDto,
+} from "../dto/send-notification.dto";
+import { AdminGuard } from "../guards/admin.guard";
+import { PriceAlertService } from "../price-alerts/price-alert.service";
+import { PriceAlertType } from "../price-alerts/price-alert.entity";
 
 interface AuthenticatedRequest {
   user: { userId: string };
 }
 
-@ApiTags('Notifications')
-@Controller({ path: 'notifications', version: '1' })
+@ApiTags("Notifications")
+@Controller({ path: "notifications", version: "1" })
 export class NotificationController {
   constructor(
     private readonly service: NotificationService,
     private readonly priceAlertService: PriceAlertService,
   ) {}
 
-  @ApiOperation({ summary: 'Send a notification to a user' })
-  @ApiResponse({ status: 200, description: 'Notification sent' })
-  @ApiResponse({ status: 400, description: 'Validation error' })
+  @ApiOperation({ summary: "Send a notification to a user" })
+  @ApiResponse({ status: 200, description: "Notification sent" })
+  @ApiResponse({ status: 400, description: "Validation error" })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Post('send')
+  @Post("/send")
   send(@Body() dto: SendNotificationDto) {
     return this.service.send(dto);
   }
 
-  @ApiOperation({ summary: 'Create a price alert for flights or hotels' })
-  @ApiResponse({ status: 201, description: 'Price alert created' })
-  @ApiResponse({ status: 400, description: 'Validation error' })
+  @ApiOperation({ summary: "Create a price alert for flights or hotels" })
+  @ApiResponse({ status: 201, description: "Price alert created" })
+  @ApiResponse({ status: 400, description: "Validation error" })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Post('price-alerts')
+  @Post("/price-alerts")
   createPriceAlert(
     @Req() req: AuthenticatedRequest,
-    @Body() body: { type: PriceAlertType; searchParams: Record<string, unknown>; targetPrice: number; channels?: string[] },
+    @Body()
+    body: {
+      type: PriceAlertType;
+      searchParams: Record<string, unknown>;
+      targetPrice: number;
+      channels?: string[];
+    },
   ) {
-    return this.priceAlertService.create(req.user.userId, body.type, body.searchParams, body.targetPrice, body.channels);
+    return this.priceAlertService.create(
+      req.user.userId,
+      body.type,
+      body.searchParams,
+      body.targetPrice,
+      body.channels,
+    );
   }
 
-  @ApiOperation({ summary: 'Delete a price alert' })
-  @ApiParam({ name: 'id', description: 'Price alert UUID' })
-  @ApiResponse({ status: 200, description: 'Price alert deleted' })
-  @ApiResponse({ status: 404, description: 'Alert not found' })
+  @ApiOperation({ summary: "Delete a price alert" })
+  @ApiParam({ name: "id", description: "Price alert UUID" })
+  @ApiResponse({ status: 200, description: "Price alert deleted" })
+  @ApiResponse({ status: 404, description: "Alert not found" })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Delete('price-alerts/:id')
-  async deletePriceAlert(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
+  @Delete("/price-alerts/:id")
+  async deletePriceAlert(
+    @Req() req: AuthenticatedRequest,
+    @Param("id") id: string,
+  ) {
     await this.priceAlertService.delete(id, req.user.userId);
     return { ok: true };
   }
 
-  @ApiOperation({ summary: 'Get notification logs (admin)' })
-  @ApiResponse({ status: 200, description: 'Notification log entries' })
-  @ApiResponse({ status: 403, description: 'Forbidden — admin only' })
+  @ApiOperation({ summary: "Get notification logs (admin)" })
+  @ApiResponse({ status: 200, description: "Notification log entries" })
+  @ApiResponse({ status: 403, description: "Forbidden — admin only" })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, AdminGuard)
-  @Get('logs')
+  @Get("/logs")
   logs() {
     return this.service.getLogs();
   }
 
-  @ApiOperation({ summary: 'Create a notification template (admin)' })
-  @ApiResponse({ status: 201, description: 'Template created' })
-  @ApiResponse({ status: 400, description: 'Validation error' })
+  @ApiOperation({ summary: "Create a notification template (admin)" })
+  @ApiResponse({ status: 201, description: "Template created" })
+  @ApiResponse({ status: 400, description: "Validation error" })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, AdminGuard)
-  @Post('templates')
+  @Post("/templates")
   createTemplate(@Body() dto: CreateTemplateDto) {
     return this.service.createTemplate(dto);
   }
 
-  @ApiOperation({ summary: 'List notification templates (admin)' })
-  @ApiResponse({ status: 200, description: 'Array of templates' })
+  @ApiOperation({ summary: "List notification templates (admin)" })
+  @ApiResponse({ status: 200, description: "Array of templates" })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, AdminGuard)
-  @Get('templates')
+  @Get("/templates")
   listTemplates() {
     return this.service.listTemplates();
   }
 
-  @ApiOperation({ summary: 'Get notification by ID' })
-  @ApiParam({ name: 'id', description: 'Notification UUID' })
-  @ApiResponse({ status: 200, description: 'Notification data' })
-  @ApiResponse({ status: 404, description: 'Notification not found' })
+  @ApiOperation({ summary: "Get unread notification count" })
+  @ApiResponse({ status: 200, description: "Count of unread notifications" })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  getById(@Param('id') id: string) {
+  @Get("/unread-count")
+  unreadCount(@Req() req: AuthenticatedRequest) {
+    return this.service.getUnreadCount(req.user.userId);
+  }
+
+  @ApiOperation({ summary: "Mark all notifications as read" })
+  @ApiResponse({ status: 200, description: "All marked as read" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Patch("/read-all")
+  markAllRead(@Req() req: AuthenticatedRequest) {
+    return this.service.markAllAsRead(req.user.userId);
+  }
+
+  @ApiOperation({ summary: "Get notification by ID" })
+  @ApiParam({ name: "id", description: "Notification UUID" })
+  @ApiResponse({ status: 200, description: "Notification data" })
+  @ApiResponse({ status: 404, description: "Notification not found" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get("/:id")
+  getById(@Param("id") id: string) {
     return this.service.getById(id);
+  }
+
+  @ApiOperation({ summary: "List notifications for the authenticated user" })
+  @ApiResponse({ status: 200, description: "Array of notifications" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get("/")
+  list(
+    @Req() req: AuthenticatedRequest,
+    @Query("page") page?: string,
+    @Query("limit") limit?: string,
+  ) {
+    return this.service.listUserNotifications(
+      req.user.userId,
+      page ? parseInt(page, 10) : 1,
+      limit ? parseInt(limit, 10) : 20,
+    );
+  }
+
+  @ApiOperation({ summary: "Mark a notification as read" })
+  @ApiParam({ name: "id", description: "Notification UUID" })
+  @ApiResponse({ status: 200, description: "Marked as read" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Patch(":id/read")
+  markRead(@Req() req: AuthenticatedRequest, @Param("id") id: string) {
+    return this.service.markAsRead(id, req.user.userId);
   }
 }

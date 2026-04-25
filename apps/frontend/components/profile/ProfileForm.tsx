@@ -22,13 +22,18 @@ export function ProfileForm({
 }) {
   const [form, setForm] = useState<ProfilePayload>(initial ?? {});
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function submit() {
+    if (loading) return;
     try {
+      setLoading(true);
       setError("");
       await onSave(form);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save profile");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -107,10 +112,11 @@ export function ProfileForm({
       </div>
       <div className="flex justify-end pt-2">
         <button
-          className="rounded-lg bg-redmix px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-red/20 transition-all hover:bg-brand-red-light active:scale-95"
+          className="rounded-lg bg-redmix px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-red/20 transition-all hover:bg-brand-red-light active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
           onClick={submit}
+          disabled={loading}
         >
-          Save profile
+          {loading ? "Saving..." : "Save profile"}
         </button>
       </div>
     </div>

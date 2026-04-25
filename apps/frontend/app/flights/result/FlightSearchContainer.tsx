@@ -13,20 +13,29 @@ import { FlightResultSkeleton } from "@/components/flights/FlightCardSkeleton";
 import { FilterSidebar } from "@/components/flights/FilterSidebar";
 import { AiSuggestionsPanel } from "./AiSuggestionsPanel";
 import { cn } from "@/lib/utils";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface Props {
   initialFlights: FlightListItem[];
   isLoading?: boolean;
+  totalCount: number;
+  currentPage: number;
 }
 
 type SortMode = "best" | "cheapest" | "fastest" | "duration";
 
-export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
+export function FlightSearchContainer({ 
+  initialFlights, 
+  isLoading,
+  totalCount,
+  currentPage 
+}: Props) {
   const { filters, setFilter } = useFlightFilterStore();
   const [sortMode, setSortMode] = useState<SortMode>("best");
   const [openFilters, setOpenFilters] = useState(false);
   const [openAiTips, setOpenAiTips] = useState(false);
-  const [displayedCount, setDisplayedCount] = useState(10);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   // Extract origin/destination for AI panel
   const route = useMemo(() => {
@@ -65,7 +74,14 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
     );
   }, [filteredFlights, sortMode]);
 
-  const visibleFlights = sortedFlights.slice(0, displayedCount);
+  const limit = 10;
+  const totalPages = Math.ceil(totalCount / limit);
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`);
+  };
 
   if (isLoading) return <FlightResultSkeleton />;
 
@@ -102,7 +118,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
 
           <div className="hidden md:flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 rounded-2xl border border-border bg-card px-4 py-2 md:shadow-none shadow-sm">
             <p className="text-xs font-semibold text-foreground capitalize">
-              {sortedFlights.length} flights found
+              {totalCount} flights found · Page {currentPage} of {totalPages || 1}
             </p>
             <div className="hidden md:flex items-center gap-2 overflow-x-auto pb-0.5 sm:pb-0 no-scrollbar">
               {(["best", "cheapest", "fastest", "duration"] as SortMode[]).map(
@@ -140,7 +156,7 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
           </div>
         ) : (
           <div className="space-y-3 pb-20 md:pb-6">
-            {visibleFlights.map((flight, index) => (
+            {sortedFlights.map((flight, index) => (
               <motion.div
                 key={flight.flightId}
                 initial={{ opacity: 0, y: 12 }}
@@ -150,17 +166,29 @@ export function FlightSearchContainer({ initialFlights, isLoading }: Props) {
                 <FlightCard flight={flight} />
               </motion.div>
             ))}
-          </div>
-        )}
 
-        {displayedCount < sortedFlights.length && (
-          <div className="flex justify-center pt-2 pb-10">
-            <Button
-              variant="ghost"
-              onClick={() => setDisplayedCount((c) => c + 10)}
-            >
-              Load more
-            </Button>
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between pt-6 border-t border-border/50">
+                <Button
+                  variant="outline"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage <= 1}
+                >
+                  ← Back
+                </Button>
+                <span className="text-sm font-medium text-muted-foreground">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage >= totalPages}
+                >
+                  Next →
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </main>

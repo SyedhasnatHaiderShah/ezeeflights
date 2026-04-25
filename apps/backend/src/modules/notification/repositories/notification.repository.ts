@@ -15,16 +15,16 @@ export class NotificationRepository {
 
   createNotification(userId: string, type: NotificationType, payload: Record<string, unknown>): Promise<NotificationEntity | null> {
     return this.db.queryOne<NotificationEntity>(
-      `INSERT INTO notifications (user_id, type, status, payload)
-       VALUES ($1, $2, 'PENDING', $3::jsonb)
-       RETURNING id, user_id as "userId", type, status, payload, created_at as "createdAt", updated_at as "updatedAt"`,
+      `INSERT INTO notifications (user_id, type, status, payload, is_read)
+       VALUES ($1, $2, 'PENDING', $3::jsonb, FALSE)
+       RETURNING id, user_id as "userId", type, status, payload, is_read as "isRead", created_at as "createdAt", updated_at as "updatedAt"`,
       [userId, type, JSON.stringify(payload)],
     );
   }
 
   findById(id: string): Promise<NotificationEntity | null> {
     return this.db.queryOne<NotificationEntity>(
-      `SELECT id, user_id as "userId", type, status, payload, created_at as "createdAt", updated_at as "updatedAt"
+      `SELECT id, user_id as "userId", type, status, payload, is_read as "isRead", created_at as "createdAt", updated_at as "updatedAt"
        FROM notifications WHERE id = $1 LIMIT 1`,
       [id],
     );
@@ -34,9 +34,42 @@ export class NotificationRepository {
     return this.db.queryOne<NotificationEntity>(
       `UPDATE notifications SET status = $2, updated_at = NOW()
        WHERE id = $1
-       RETURNING id, user_id as "userId", type, status, payload, created_at as "createdAt", updated_at as "updatedAt"`,
+       RETURNING id, user_id as "userId", type, status, payload, is_read as "isRead", created_at as "createdAt", updated_at as "updatedAt"`,
       [id, status],
     );
+  }
+
+  listByUserId(userId: string, page = 1, limit = 20): Promise<NotificationEntity[]> {
+    const offset = (page - 1) * limit;
+    return this.db.query<NotificationEntity>(
+      `SELECT id, user_id as "userId", type, status, payload, is_read as "isRead", created_at as "createdAt", updated_at as "updatedAt"
+       FROM notifications 
+       WHERE user_id = $1 
+       ORDER BY created_at DESC 
+       LIMIT $2 OFFSET $3`,
+      [userId, limit, offset],
+    );
+  }
+
+  getUnreadCount(userId: string): Promise<number> {
+    return this.db.queryOne<{ count: string }>(
+      `SELECT COUNT(*) as count FROM notifications WHERE user_id = $1 AND is_read = FALSE`,
+      [userId],
+    ).then(res => parseInt(res?.count ?? '0', 10));
+  }
+
+  markRead(id: string, userId: string): Promise<boolean> {
+    return this.db.query(
+      `UPDATE notifications SET is_read = TRUE, updated_at = NOW() WHERE id = $1 AND user_id = $2`,
+      [id, userId],
+    ).then(res => res.rowCount > 0);
+  }
+
+  markAllRead(userId: string): Promise<boolean> {
+    return this.db.query(
+      `UPDATE notifications SET is_read = TRUE, updated_at = NOW() WHERE user_id = $1 AND is_read = FALSE`,
+      [userId],
+    ).then(res => res.rowCount > 0);
   }
 
   createLog(notificationId: string, status: NotificationStatus, response: Record<string, unknown> | null, errorMessage: string | null): Promise<NotificationLogEntity | null> {
