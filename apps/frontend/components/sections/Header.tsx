@@ -172,7 +172,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
           isScrolled
             ? "bg-background shadow-sm border-border"
             : isTransparent
-              ? "bg-white/10 backdrop-blur-md border-white/10 text-white"
+              ? "bg-white/15 backdrop-blur-xl border-white/10 text-white"
               : "bg-background/95 backdrop-blur-md border-transparent",
         )}
       >
@@ -223,17 +223,17 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   key={tab.href}
                   href={tab.href}
                   className={cn(
-                    "relative hidden lg:flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full",
+                    "relative hidden lg:flex items-center gap-2 px-4 py-2 text-sm font-medium cursor-pointer transition-all duration-300 rounded-full",
                     isActive
                       ? isTransparent
                         ? "bg-white text-redmix shadow-lg"
                         : "bg-redmix text-white shadow-lg"
                       : isTransparent
-                        ? "text-white/70 hover:text-white hover:bg-white/10"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                        ? "text-white hover:text-white hover:bg-white/10"
+                        : "text-foreground hover:text-redmix hover:bg-redmix/10",
                   )}
                 >
-                  <Icon
+                  {/* <Icon
                     className={cn(
                       "h-4 w-4",
                       isActive
@@ -244,7 +244,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                           ? "text-white/70"
                           : "text-muted-foreground",
                     )}
-                  />
+                  /> */}
                   {tab.label}
                 </Link>
               );
@@ -275,7 +275,10 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   <ChevronDown className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="center" className="w-[320px] lg:w-[560px] p-4">
+              <DropdownMenuContent
+                align="center"
+                className="w-[320px] lg:w-[560px] p-4"
+              >
                 <div className="flex flex-col lg:grid lg:grid-cols-[1.2fr_1fr] gap-4">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                     {/* On screens below lg, show primary tabs in dropdown */}
@@ -294,10 +297,14 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                                 : "hover:bg-muted text-foreground",
                             )}
                           >
-                            <div className={cn(
-                              "p-2 rounded-lg",
-                              isSubActive ? "bg-redmix text-white" : "bg-muted group-hover:bg-background"
-                            )}>
+                            <div
+                              className={cn(
+                                "p-2 rounded-lg",
+                                isSubActive
+                                  ? "bg-redmix text-white"
+                                  : "bg-muted group-hover:bg-background",
+                              )}
+                            >
                               <Icon className="h-4 w-4" />
                             </div>
                             <span className="font-bold">{item.label}</span>
@@ -324,18 +331,22 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                               : "hover:bg-muted text-foreground",
                           )}
                         >
-                          <div className={cn(
-                            "p-2 rounded-lg transition-colors",
-                            isSubActive ? "bg-redmix text-white" : "bg-muted group-hover:bg-background"
-                          )}>
+                          <div
+                            className={cn(
+                              "p-2 rounded-lg transition-colors",
+                              isSubActive
+                                ? "bg-redmix text-white"
+                                : "bg-muted group-hover:bg-background",
+                            )}
+                          >
                             <Icon className="h-4 w-4" />
                           </div>
                           <span className="font-bold">{item.label}</span>
                         </Link>
-                    );
-                  })}
-                </div>
-                <div className="hidden lg:block">
+                      );
+                    })}
+                  </div>
+                  <div className="hidden lg:block">
                     <Link
                       href="/packages"
                       className="group relative block aspect-[4/3] overflow-hidden rounded-2xl"
@@ -347,35 +358,35 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                         height={160}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-3 text-white">
-                      <p className="text-xs uppercase tracking-wide text-white/80">
-                        Featured
-                      </p>
-                      <p className="text-sm font-semibold">
-                        Explore top travel bundles
-                      </p>
-                    </div>
-                  </Link>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                      <div className="absolute inset-x-0 bottom-0 p-3 text-white">
+                        <p className="text-xs uppercase tracking-wide text-white/80">
+                          Featured
+                        </p>
+                        <p className="text-sm font-semibold">
+                          Explore top travel bundles
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </DropdownMenuContent>
+              </DropdownMenuContent>
             </DropdownMenu>
           </nav>
 
           <div className="flex items-center gap-2">
-            <div className=" hidden md:block">
-              <AppIcon
-                onClick={() => router.push("/support")}
-                icon={Sparkles}
-                label="Ask Ezee"
+            <div className="hidden md:block">
+              <Link
+                href="/support"
                 className={cn(
-                  "rounded-full border px-4 py-2 text-sm font-semibold transition",
+                  "rounded-full px-4 py-2 text-sm font-medium transition-all duration-300",
                   isTransparent
-                    ? "border-white/20 bg-white/10 text-white hover:bg-white/20"
-                    : "border-transparent bg-muted/60 text-foreground hover:bg-muted",
+                    ? "text-white hover:text-redmix"
+                    : "text-foreground hover:text-redmix",
                 )}
-              />
+              >
+                Ask Ezee
+              </Link>
             </div>
 
             <div className="md:hidden">
@@ -532,10 +543,10 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   <button
                     onClick={() => openAuthModal("login")}
                     className={cn(
-                      "rounded-full border px-6 py-2 text-sm font-bold transition",
+                      "rounded-full px-6 py-2 text-sm font-medium cursor-pointer transition-all duration-300",
                       isTransparent
-                        ? "border-white/30 bg-white/10 text-white hover:bg-white hover:text-black"
-                        : "border-border bg-transparent text-foreground hover:bg-muted",
+                        ? "text-white hover:text-redmix"
+                        : "text-foreground hover:text-redmix",
                     )}
                   >
                     Sign in

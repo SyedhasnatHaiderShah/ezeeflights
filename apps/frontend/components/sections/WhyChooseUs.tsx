@@ -54,10 +54,10 @@ const renderFeature = (feature: Feature, idx: number) => (
     </div>
 
     <div className="flex flex-col min-w-0 pr-1">
-      <h3 className="text-base font-black text-foreground group-hover:text-brand-red transition-colors truncate">
+      <h3 className="text-lg font-bold text-foreground group-hover:text-brand-red transition-colors truncate">
         {feature.title}
       </h3>
-      <p className="text-xs font-semibold text-muted-foreground leading-tight line-clamp-3">
+      <p className="text-xs font-medium text-foreground/80 leading-tight line-clamp-3">
         {feature.text}
       </p>
     </div>
@@ -72,7 +72,7 @@ export function WhyChooseUs() {
           <span className="text-brand-red font-bold uppercase tracking-[0.2em] text-xs block">
             The Modern Choice
           </span>
-          <h2 className="text-2xl font-black lg:text-3xl tracking-tight text-foreground leading-tight">
+          <h2 className="text-2xl font-bold lg:text-3xl tracking-tight text-foreground leading-tight">
             Why Choose Ezee Flights
           </h2>
         </div>

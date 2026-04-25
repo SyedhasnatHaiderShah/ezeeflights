@@ -1,171 +1,21 @@
 [
   {
-    "id": "FXq3+1SEuDKA6ZPYfzAAAA==",
-    "airline": "QR",
-    "airlineCode": "QR",
-    "flightNumber": "702",
-    "departureAirport": "JFK",
-    "arrivalAirport": "DXB",
-    "departureAt": "2026-04-28T22:05:00.000-04:00",
-    "arrivalAt": "2026-04-29T22:15:00.000+04:00",
-    "duration": 845,
-    "stops": 1,
-    "totalPrice": "INR74146",
-    "basePrice": "USD210.00",
-    "taxes": "INR54386",
-    "price": 74146,
-    "basePriceNumeric": 210,
-    "taxesNumeric": 54386,
-    "currency": "INR",
-    "segments": [
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "FXq3+1SEuDKApYPYfzAAAA=="
-        },
-        "Key": "FXq3+1SEuDKAoYPYfzAAAA==",
-        "Group": "0",
-        "Carrier": "QR",
-        "FlightNumber": "702",
-        "Origin": "JFK",
-        "Destination": "DOH",
-        "DepartureTime": "2026-04-28T22:05:00.000-04:00",
-        "ArrivalTime": "2026-04-29T17:50:00.000+03:00",
-        "FlightTime": "765",
-        "Distance": "6691",
-        "ETicketability": "Yes",
-        "Equipment": "351",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      },
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "FXq3+1SEuDKArYPYfzAAAA=="
-        },
-        "Key": "FXq3+1SEuDKAqYPYfzAAAA==",
-        "Group": "0",
-        "Carrier": "QR",
-        "FlightNumber": "1014",
-        "Origin": "DOH",
-        "Destination": "DXB",
-        "DepartureTime": "2026-04-29T19:55:00.000+03:00",
-        "ArrivalTime": "2026-04-29T22:15:00.000+04:00",
-        "FlightTime": "80",
-        "Distance": "229",
-        "ETicketability": "Yes",
-        "Equipment": "77W",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      }
-    ]
-  },
-  {
-    "id": "FXq3+1SEuDKAMaPYfzAAAA==",
-    "airline": "QR",
-    "airlineCode": "QR",
-    "flightNumber": "706",
-    "departureAirport": "JFK",
-    "arrivalAirport": "DXB",
-    "departureAt": "2026-04-28T01:20:00.000-04:00",
-    "arrivalAt": "2026-04-29T22:15:00.000+04:00",
-    "duration": 845,
-    "stops": 1,
-    "totalPrice": "INR74636",
-    "basePrice": "USD210.00",
-    "taxes": "INR54876",
-    "price": 74636,
-    "basePriceNumeric": 210,
-    "taxesNumeric": 54876,
-    "currency": "INR",
-    "segments": [
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "FXq3+1SEuDKAtYPYfzAAAA=="
-        },
-        "Key": "FXq3+1SEuDKAsYPYfzAAAA==",
-        "Group": "0",
-        "Carrier": "QR",
-        "FlightNumber": "706",
-        "Origin": "JFK",
-        "Destination": "DOH",
-        "DepartureTime": "2026-04-28T01:20:00.000-04:00",
-        "ArrivalTime": "2026-04-28T21:05:00.000+03:00",
-        "FlightTime": "765",
-        "Distance": "6691",
-        "ETicketability": "Yes",
-        "Equipment": "351",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      },
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "FXq3+1SEuDKArYPYfzAAAA=="
-        },
-        "Key": "FXq3+1SEuDKAqYPYfzAAAA==",
-        "Group": "0",
-        "Carrier": "QR",
-        "FlightNumber": "1014",
-        "Origin": "DOH",
-        "Destination": "DXB",
-        "DepartureTime": "2026-04-29T19:55:00.000+03:00",
-        "ArrivalTime": "2026-04-29T22:15:00.000+04:00",
-        "FlightTime": "80",
-        "Distance": "229",
-        "ETicketability": "Yes",
-        "Equipment": "77W",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      }
-    ]
-  },
-  {
-    "id": "FXq3+1SEuDKANaPYfzAAAA==",
+    "id": "Xgw7+1THuDKAQ8bmS1AAAA==",
     "airline": "EY",
     "airlineCode": "EY",
-    "flightNumber": "2",
-    "departureAirport": "JFK",
-    "arrivalAirport": "XNB",
-    "departureAt": "2026-04-28T14:45:00.000-04:00",
-    "arrivalAt": "2026-04-29T16:15:00.000+04:00",
-    "duration": 940,
+    "flightNumber": "5423",
+    "departureAirport": "XNB",
+    "arrivalAirport": "LHE",
+    "departureAt": "2026-05-14T18:45:00.000+04:00",
+    "arrivalAt": "2026-05-15T03:25:00.000+05:00",
+    "duration": 325,
     "stops": 1,
-    "totalPrice": "INR112104",
-    "basePrice": "USD742.00",
-    "taxes": "INR42304",
-    "price": 112104,
-    "basePriceNumeric": 742,
-    "taxesNumeric": 42304,
+    "totalPrice": "INR17804",
+    "basePrice": "AED560",
+    "taxes": "INR3459",
+    "price": 17804,
+    "basePriceNumeric": 14345,
+    "taxesNumeric": 3459,
     "currency": "INR",
     "segments": [
       {
@@ -173,43 +23,16 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "FXq3+1SEuDKAxYPYfzAAAA=="
+          "Key": "Xgw7+1THuDKAk5bmS1AAAA=="
         },
-        "Key": "FXq3+1SEuDKAwYPYfzAAAA==",
+        "Key": "Xgw7+1THuDKAj5bmS1AAAA==",
         "Group": "0",
         "Carrier": "EY",
-        "FlightNumber": "2",
-        "Origin": "JFK",
+        "FlightNumber": "5423",
+        "Origin": "XNB",
         "Destination": "AUH",
-        "DepartureTime": "2026-04-28T14:45:00.000-04:00",
-        "ArrivalTime": "2026-04-29T12:25:00.000+04:00",
-        "FlightTime": "820",
-        "Distance": "6847",
-        "ETicketability": "Yes",
-        "Equipment": "351",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      },
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "FXq3+1SEuDKAzYPYfzAAAA=="
-        },
-        "Key": "FXq3+1SEuDKAyYPYfzAAAA==",
-        "Group": "0",
-        "Carrier": "EY",
-        "FlightNumber": "5420",
-        "Origin": "AUH",
-        "Destination": "XNB",
-        "DepartureTime": "2026-04-29T14:15:00.000+04:00",
-        "ArrivalTime": "2026-04-29T16:15:00.000+04:00",
+        "DepartureTime": "2026-05-14T18:45:00.000+04:00",
+        "ArrivalTime": "2026-05-14T20:45:00.000+04:00",
         "FlightTime": "120",
         "Distance": "67",
         "ETicketability": "Yes",
@@ -221,52 +44,74 @@
         "OptionalServicesIndicator": "false",
         "AvailabilitySource": "Q",
         "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKAm5bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKAl5bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "EY",
+        "FlightNumber": "284",
+        "Origin": "AUH",
+        "Destination": "LHE",
+        "DepartureTime": "2026-05-14T23:00:00.000+04:00",
+        "ArrivalTime": "2026-05-15T03:25:00.000+05:00",
+        "FlightTime": "205",
+        "Distance": "1310",
+        "ETicketability": "Yes",
+        "Equipment": "781",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
       }
     ]
   },
   {
-    "id": "FXq3+1SEuDKAOaPYfzAAAA==",
-    "airline": "GF",
-    "airlineCode": "GF",
-    "flightNumber": "6616",
-    "departureAirport": "JFK",
-    "arrivalAirport": "DXB",
-    "departureAt": "2026-04-28T19:20:00.000-04:00",
-    "arrivalAt": "2026-04-30T09:50:00.000+04:00",
-    "duration": 1020,
-    "stops": 2,
-    "totalPrice": "INR140944",
-    "basePrice": "USD1060.00",
-    "taxes": "INR41234",
-    "price": 140944,
-    "basePriceNumeric": 1060,
-    "taxesNumeric": 41234,
+    "id": "Xgw7+1THuDKAR8bmS1AAAA==",
+    "airline": "EY",
+    "airlineCode": "EY",
+    "flightNumber": "5427",
+    "departureAirport": "XNB",
+    "arrivalAirport": "LHE",
+    "departureAt": "2026-05-14T22:30:00.000+04:00",
+    "arrivalAt": "2026-05-15T18:25:00.000+05:00",
+    "duration": 315,
+    "stops": 1,
+    "totalPrice": "INR19084",
+    "basePrice": "AED610",
+    "taxes": "INR3459",
+    "price": 19084,
+    "basePriceNumeric": 15625,
+    "taxesNumeric": 3459,
     "currency": "INR",
     "segments": [
       {
-        "air:CodeshareInfo": {
-          "#text": "AMERICAN AIRLINES",
-          "OperatingCarrier": "AA",
-          "OperatingFlightNumber": "106"
-        },
         "air:AirAvailInfo": {
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "FXq3+1SEuDKA5YPYfzAAAA=="
+          "Key": "Xgw7+1THuDKA05bmS1AAAA=="
         },
-        "Key": "FXq3+1SEuDKA4YPYfzAAAA==",
+        "Key": "Xgw7+1THuDKAz5bmS1AAAA==",
         "Group": "0",
-        "Carrier": "GF",
-        "FlightNumber": "6616",
-        "Origin": "JFK",
-        "Destination": "LHR",
-        "DepartureTime": "2026-04-28T19:20:00.000-04:00",
-        "ArrivalTime": "2026-04-29T07:20:00.000+01:00",
-        "FlightTime": "420",
-        "Distance": "3453",
+        "Carrier": "EY",
+        "FlightNumber": "5427",
+        "Origin": "XNB",
+        "Destination": "AUH",
+        "DepartureTime": "2026-05-14T22:30:00.000+04:00",
+        "ArrivalTime": "2026-05-15T00:30:00.000+04:00",
+        "FlightTime": "120",
+        "Distance": "67",
         "ETicketability": "Yes",
-        "Equipment": "788",
+        "Equipment": "BUS",
         "ChangeOfPlane": "false",
         "ParticipantLevel": "Secure Sell",
         "LinkAvailability": "true",
@@ -280,20 +125,68 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "FXq3+1SEuDKA7YPYfzAAAA=="
+          "Key": "Xgw7+1THuDKA25bmS1AAAA=="
         },
-        "Key": "FXq3+1SEuDKA6YPYfzAAAA==",
+        "Key": "Xgw7+1THuDKA15bmS1AAAA==",
         "Group": "0",
-        "Carrier": "GF",
-        "FlightNumber": "2",
-        "Origin": "LHR",
-        "Destination": "BAH",
-        "DepartureTime": "2026-04-29T10:00:00.000+01:00",
-        "ArrivalTime": "2026-04-29T18:50:00.000+03:00",
-        "FlightTime": "410",
-        "Distance": "3154",
+        "Carrier": "EY",
+        "FlightNumber": "288",
+        "Origin": "AUH",
+        "Destination": "LHE",
+        "DepartureTime": "2026-05-15T14:10:00.000+04:00",
+        "ArrivalTime": "2026-05-15T18:25:00.000+05:00",
+        "FlightTime": "195",
+        "Distance": "1310",
         "ETicketability": "Yes",
-        "Equipment": "789",
+        "Equipment": "321",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      }
+    ]
+  },
+  {
+    "id": "Xgw7+1THuDKAS8bmS1AAAA==",
+    "airline": "EY",
+    "airlineCode": "EY",
+    "flightNumber": "5417",
+    "departureAirport": "XNB",
+    "arrivalAirport": "LHE",
+    "departureAt": "2026-05-14T10:20:00.000+04:00",
+    "arrivalAt": "2026-05-14T18:25:00.000+05:00",
+    "duration": 315,
+    "stops": 1,
+    "totalPrice": "INR26769",
+    "basePrice": "AED910",
+    "taxes": "INR3459",
+    "price": 26769,
+    "basePriceNumeric": 23310,
+    "taxesNumeric": 3459,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKAs5bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKAr5bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "EY",
+        "FlightNumber": "5417",
+        "Origin": "XNB",
+        "Destination": "AUH",
+        "DepartureTime": "2026-05-14T10:20:00.000+04:00",
+        "ArrivalTime": "2026-05-14T12:20:00.000+04:00",
+        "FlightTime": "120",
+        "Distance": "67",
+        "ETicketability": "Yes",
+        "Equipment": "BUS",
         "ChangeOfPlane": "false",
         "ParticipantLevel": "Secure Sell",
         "LinkAvailability": "true",
@@ -307,20 +200,340 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "FXq3+1SEuDKA9YPYfzAAAA=="
+          "Key": "Xgw7+1THuDKA65bmS1AAAA=="
         },
-        "Key": "FXq3+1SEuDKA8YPYfzAAAA==",
+        "Key": "Xgw7+1THuDKA55bmS1AAAA==",
         "Group": "0",
-        "Carrier": "GF",
-        "FlightNumber": "502",
-        "Origin": "BAH",
-        "Destination": "DXB",
-        "DepartureTime": "2026-04-30T05:40:00.000+03:00",
-        "ArrivalTime": "2026-04-30T09:50:00.000+04:00",
-        "FlightTime": "190",
-        "Distance": "300",
+        "Carrier": "EY",
+        "FlightNumber": "288",
+        "Origin": "AUH",
+        "Destination": "LHE",
+        "DepartureTime": "2026-05-14T14:10:00.000+04:00",
+        "ArrivalTime": "2026-05-14T18:25:00.000+05:00",
+        "FlightTime": "195",
+        "Distance": "1310",
         "ETicketability": "Yes",
-        "Equipment": "32Q",
+        "Equipment": "321",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      }
+    ]
+  },
+  {
+    "id": "Xgw7+1THuDKAT8bmS1AAAA==",
+    "airline": "QR",
+    "airlineCode": "QR",
+    "flightNumber": "1015",
+    "departureAirport": "DXB",
+    "arrivalAirport": "LHE",
+    "departureAt": "2026-05-14T23:45:00.000+04:00",
+    "arrivalAt": "2026-05-16T02:00:00.000+05:00",
+    "duration": 320,
+    "stops": 1,
+    "totalPrice": "INR45357",
+    "basePrice": "AED1280",
+    "taxes": "INR12567",
+    "price": 45357,
+    "basePriceNumeric": 32790,
+    "taxesNumeric": 12567,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKA85bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKA75bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "1015",
+        "Origin": "DXB",
+        "Destination": "DOH",
+        "DepartureTime": "2026-05-14T23:45:00.000+04:00",
+        "ArrivalTime": "2026-05-15T00:05:00.000+03:00",
+        "FlightTime": "80",
+        "Distance": "229",
+        "ETicketability": "Yes",
+        "Equipment": "77W",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKA+5bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKA95bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "620",
+        "Origin": "DOH",
+        "Destination": "LHE",
+        "DepartureTime": "2026-05-15T20:00:00.000+03:00",
+        "ArrivalTime": "2026-05-16T02:00:00.000+05:00",
+        "FlightTime": "240",
+        "Distance": "1449",
+        "ETicketability": "Yes",
+        "Equipment": "351",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      }
+    ]
+  },
+  {
+    "id": "Xgw7+1THuDKAU8bmS1AAAA==",
+    "airline": "SV",
+    "airlineCode": "SV",
+    "flightNumber": "589",
+    "departureAirport": "DXB",
+    "arrivalAirport": "LHE",
+    "departureAt": "2026-05-14T17:30:00.000+04:00",
+    "arrivalAt": "2026-05-15T08:50:00.000+05:00",
+    "duration": 480,
+    "stops": 1,
+    "totalPrice": "INR46480",
+    "basePrice": "AED1570",
+    "taxes": "INR6260",
+    "price": 46480,
+    "basePriceNumeric": 40220,
+    "taxesNumeric": 6260,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKAA6bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKA/5bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "589",
+        "Origin": "DXB",
+        "Destination": "JED",
+        "DepartureTime": "2026-05-14T17:30:00.000+04:00",
+        "ArrivalTime": "2026-05-14T19:25:00.000+03:00",
+        "FlightTime": "175",
+        "Distance": "1048",
+        "ETicketability": "Yes",
+        "Equipment": "330",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "E",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKAC6bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKAB6bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "734",
+        "Origin": "JED",
+        "Destination": "LHE",
+        "DepartureTime": "2026-05-15T01:45:00.000+03:00",
+        "ArrivalTime": "2026-05-15T08:50:00.000+05:00",
+        "FlightTime": "305",
+        "Distance": "2273",
+        "ETicketability": "Yes",
+        "Equipment": "773",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "E",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      }
+    ]
+  },
+  {
+    "id": "Xgw7+1THuDKAV8bmS1AAAA==",
+    "airline": "EK",
+    "airlineCode": "EK",
+    "flightNumber": "622",
+    "departureAirport": "DXB",
+    "arrivalAirport": "LHE",
+    "departureAt": "2026-05-14T21:40:00.000+04:00",
+    "arrivalAt": "2026-05-15T01:45:00.000+05:00",
+    "duration": 185,
+    "stops": 0,
+    "totalPrice": "INR51037",
+    "basePrice": "AED1670",
+    "taxes": "INR8257",
+    "price": 51037,
+    "basePriceNumeric": 42780,
+    "taxesNumeric": 8257,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKAE6bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKAD6bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "EK",
+        "FlightNumber": "622",
+        "Origin": "DXB",
+        "Destination": "LHE",
+        "DepartureTime": "2026-05-14T21:40:00.000+04:00",
+        "ArrivalTime": "2026-05-15T01:45:00.000+05:00",
+        "FlightTime": "185",
+        "Distance": "1246",
+        "ETicketability": "Yes",
+        "Equipment": "77W",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      }
+    ]
+  },
+  {
+    "id": "Xgw7+1THuDKAW8bmS1AAAA==",
+    "airline": "FZ",
+    "airlineCode": "FZ",
+    "flightNumber": "359",
+    "departureAirport": "DXB",
+    "arrivalAirport": "LHE",
+    "departureAt": "2026-05-14T00:10:00.000+04:00",
+    "arrivalAt": "2026-05-14T04:45:00.000+05:00",
+    "duration": 215,
+    "stops": 0,
+    "totalPrice": "INR52851",
+    "basePrice": "AED1770",
+    "taxes": "INR7511",
+    "price": 52851,
+    "basePriceNumeric": 45340,
+    "taxesNumeric": 7511,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKAG6bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKAF6bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "FZ",
+        "FlightNumber": "359",
+        "Origin": "DXB",
+        "Destination": "LHE",
+        "DepartureTime": "2026-05-14T00:10:00.000+04:00",
+        "ArrivalTime": "2026-05-14T04:45:00.000+05:00",
+        "FlightTime": "215",
+        "Distance": "1246",
+        "ETicketability": "Yes",
+        "Equipment": "7M8",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      }
+    ]
+  },
+  {
+    "id": "Xgw7+1THuDKAX8bmS1AAAA==",
+    "airline": "QR",
+    "airlineCode": "QR",
+    "flightNumber": "1015",
+    "departureAirport": "DXB",
+    "arrivalAirport": "LHE",
+    "departureAt": "2026-05-14T23:45:00.000+04:00",
+    "arrivalAt": "2026-05-15T08:05:00.000+05:00",
+    "duration": 320,
+    "stops": 1,
+    "totalPrice": "INR70727",
+    "basePrice": "AED2280",
+    "taxes": "INR12322",
+    "price": 70727,
+    "basePriceNumeric": 58405,
+    "taxesNumeric": 12322,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKA85bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKA75bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "1015",
+        "Origin": "DXB",
+        "Destination": "DOH",
+        "DepartureTime": "2026-05-14T23:45:00.000+04:00",
+        "ArrivalTime": "2026-05-15T00:05:00.000+03:00",
+        "FlightTime": "80",
+        "Distance": "229",
+        "ETicketability": "Yes",
+        "Equipment": "77W",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "Xgw7+1THuDKAI6bmS1AAAA=="
+        },
+        "Key": "Xgw7+1THuDKAH6bmS1AAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "628",
+        "Origin": "DOH",
+        "Destination": "LHE",
+        "DepartureTime": "2026-05-15T02:05:00.000+03:00",
+        "ArrivalTime": "2026-05-15T08:05:00.000+05:00",
+        "FlightTime": "240",
+        "Distance": "1449",
+        "ETicketability": "Yes",
+        "Equipment": "351",
         "ChangeOfPlane": "false",
         "ParticipantLevel": "Secure Sell",
         "LinkAvailability": "true",

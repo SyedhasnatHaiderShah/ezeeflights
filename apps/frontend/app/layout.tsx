@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { MobileBottomNav } from "@/components/sections/MobileBottomNav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppSidebar } from "@/components/sections/AppSidebar";
+import { MobileMenuDrawer } from "@/components/sections/MobileMenuDrawer";
 import { Providers } from "@/components/shared/providers";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthModal } from "@/components/auth/auth-modal";
@@ -87,21 +88,17 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
-// Proper viewport for mobile — viewport-fit=cover enables safe-area-inset-* CSS env vars on iOS
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
 };
 
-// Async layout so we can read the middleware-injected x-correlation-id header.
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // The middleware injects the session correlation ID into request headers.
-  // Passing it here avoids a client-side cookie read on first paint.
   const headersList = await headers();
   const sessionId = headersList.get(CORRELATION_HEADER) ?? "";
 
@@ -119,13 +116,11 @@ export default async function RootLayout({
           attribute="class"
           defaultTheme="light"
           enableSystem={false}
-          // disableTransitionOnChange={false}
         >
           <CorrelationProvider sessionId={sessionId}>
-            {/* Include the Providers for React Query, etc */}
             <Providers>
-              {/* Include the Sidebar globally */}
               <AppSidebar />
+              <MobileMenuDrawer />
 
               <div className="relative flex flex-col min-h-screen">
                 {children}

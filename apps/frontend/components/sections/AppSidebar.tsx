@@ -34,56 +34,7 @@ import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
 import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
 
-interface NavigationItem {
-  label: string;
-  href: Route;
-  icon: React.ComponentType<{ className?: string }>;
-}
-
-interface NavigationGroup {
-  title: string;
-  items: NavigationItem[];
-}
-
-const NAVIGATION_GROUPS: NavigationGroup[] = [
-  {
-    title: "DISCOVER",
-    items: [
-      { label: "Home", href: "/", icon: Home },
-      { label: "Destinations", href: "/destinations", icon: MapPinned },
-      { label: "Deals", href: "/deals", icon: Sparkles },
-      { label: "Experiences", href: "/experience", icon: Compass },
-    ],
-  },
-  {
-    title: "BOOK",
-    items: [
-      { label: "Flights", href: "/flights", icon: Plane },
-      { label: "Hotels", href: "/hotels", icon: Hotel },
-      { label: "Cars", href: "/cars", icon: Car },
-      { label: "Transfers", href: "/transfers", icon: Car },
-      { label: "Insurance", href: "/insurance", icon: Shield },
-      { label: "Packages", href: "/packages", icon: Gift },
-    ],
-  },
-  {
-    title: "MY ACCOUNT",
-    items: [
-      { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-      { label: "My Trips", href: "/my-trips", icon: Ticket },
-      { label: "Wallet", href: "/wallet", icon: Wallet },
-      { label: "Wishlist", href: "/wishlist", icon: Heart },
-      { label: "Profile", href: "/profile", icon: User },
-    ],
-  },
-  {
-    title: "SUPPORT",
-    items: [
-      { label: "Help", href: "/support", icon: HandHelping },
-      { label: "My Tickets", href: "/support/tickets", icon: CircleHelp },
-    ],
-  },
-];
+import { NAVIGATION_GROUPS } from "@/lib/navigation";
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -108,7 +59,13 @@ export function AppSidebar() {
 
   useEffect(() => {
     const onClickOutside = (event: MouseEvent) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+      // Only close on click outside if we are on desktop
+      if (window.innerWidth < 1024) return;
+
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
         close();
       }
     };
@@ -123,7 +80,10 @@ export function AppSidebar() {
     return null;
   }
 
-  const userName = [session?.firstName, session?.lastName].filter(Boolean).join(" ") || session?.email || "Traveler";
+  const userName =
+    [session?.firstName, session?.lastName].filter(Boolean).join(" ") ||
+    session?.email ||
+    "Traveler";
   const userInitial = userName.charAt(0).toUpperCase();
   const isDarkMode = mounted && theme === "dark";
 
@@ -148,7 +108,7 @@ export function AppSidebar() {
       <aside
         ref={sidebarRef}
         className={cn(
-          "fixed bottom-0 left-0 top-0 z-[70] flex w-[300px] flex-col border-r bg-background/95 backdrop-blur-md shadow-2xl transition-transform duration-300",
+          "fixed bottom-0 left-0 top-0 z-[70] hidden w-[300px] flex-col border-r bg-background/95 backdrop-blur-md shadow-2xl transition-transform duration-300 lg:flex",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
         onMouseLeave={() => {
@@ -159,9 +119,17 @@ export function AppSidebar() {
       >
         <div className="flex h-16 items-center justify-between border-b px-4">
           <Link href="/" onClick={close}>
-            <EzeeFlightsLogo isDarkMode={mounted && theme === "dark"} className="h-auto w-28" />
+            <EzeeFlightsLogo
+              isDarkMode={mounted && theme === "dark"}
+              className="h-auto w-28"
+            />
           </Link>
-          <Button variant="ghost" size="icon" onClick={close} className="rounded-full lg:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={close}
+            className="rounded-full lg:hidden"
+          >
             <PanelLeftClose className="h-5 w-5" />
           </Button>
         </div>
@@ -174,7 +142,9 @@ export function AppSidebar() {
                   {userInitial}
                 </span>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{userName}</p>
+                  <p className="text-sm font-semibold text-foreground">
+                    {userName}
+                  </p>
                   <span className="inline-flex rounded-full bg-brand-yellow/20 px-2 py-0.5 text-[10px] font-semibold text-foreground">
                     Gold Member
                   </span>
@@ -182,7 +152,9 @@ export function AppSidebar() {
               </div>
             ) : (
               <div className="space-y-3">
-                <p className="text-sm text-muted-foreground">Sign in to unlock rewards</p>
+                <p className="text-sm text-muted-foreground">
+                  Sign in to unlock rewards
+                </p>
                 <Button
                   variant="brand-red"
                   size="sm"
@@ -207,7 +179,9 @@ export function AppSidebar() {
                 </p>
                 <ul className="space-y-1">
                   {group.items.map((item) => {
-                    const active = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+                    const active =
+                      pathname === item.href ||
+                      pathname?.startsWith(`${item.href}/`);
                     const Icon = item.icon;
 
                     if (item.href === "/profile" && !session) {
@@ -266,7 +240,9 @@ export function AppSidebar() {
                 )}
                 Theme
               </span>
-              <span className="text-xs">{mounted ? (isDarkMode ? "Dark" : "Light") : "Theme"}</span>
+              <span className="text-xs">
+                {mounted ? (isDarkMode ? "Dark" : "Light") : "Theme"}
+              </span>
             </button>
           </div>
         </div>
