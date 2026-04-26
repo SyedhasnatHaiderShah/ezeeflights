@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as Popover from "@radix-ui/react-popover";
-import { MapPin, Plane, Building, X, LucideIcon, Search, Loader2 } from "lucide-react";
+import { MapPin, Plane, Building, X, LucideIcon, Search, Loader2, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { searchAirports, getPopularAirports, Airport } from "@/lib/utils/airport-search";
 
@@ -210,6 +210,14 @@ export function LocationInput({
               <X className="w-3 h-3 text-foreground/40" />
             </button>
           )}
+
+          <ChevronDown
+            className={cn(
+              "ml-1 h-3.5 w-3.5 shrink-0 transition-transform duration-300 relative z-10",
+              glassPopover ? "text-white/60" : "text-foreground/40",
+              open && "rotate-180",
+            )}
+          />
 
           {shimmer && <div className="shimmer-effect" />}
         </div>

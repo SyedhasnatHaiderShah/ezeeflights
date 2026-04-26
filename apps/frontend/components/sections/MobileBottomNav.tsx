@@ -61,7 +61,7 @@ export function MobileBottomNav() {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 260, damping: 20 }}
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-50 border-t transition-all duration-500 ease-in-out lg:hidden pb-safe will-change-[background-color,border-color,backdrop-filter,box-shadow]",
+        "fixed bottom-0 left-0 right-0 z-50 border-t transition-all duration-500 ease-in-out md:hidden pb-safe will-change-[background-color,border-color,backdrop-filter,box-shadow]",
         isTransparent
           ? "bg-white/10 backdrop-blur-xl border-white/10 text-white shadow-transparent"
           : "bg-background/95 backdrop-blur-xl border-border/50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]",
@@ -89,7 +89,7 @@ export function MobileBottomNav() {
               <div className="relative z-10 flex flex-col items-center justify-center gap-0.5">
                 <Icon
                   className={cn(
-                    "h-5 w-5 transition-all duration-300",
+                    "h-[18px] w-[18px] transition-all duration-300",
                     active
                       ? isTransparent
                         ? "text-white scale-110"
@@ -101,7 +101,7 @@ export function MobileBottomNav() {
                 />
                 <span
                   className={cn(
-                    "text-[10px] font-medium tracking-wider transition-colors duration-100",
+                    "text-[9px] font-normal tracking-wide transition-colors duration-100",
                     active
                       ? isTransparent
                         ? "text-white"

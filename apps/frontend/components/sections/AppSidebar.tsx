@@ -24,6 +24,7 @@ import {
   Wallet,
   LayoutDashboard,
   LogIn,
+  LogOut,
   Moon,
   Sun,
 } from "lucide-react";
@@ -33,6 +34,8 @@ import { Button } from "@/components/ui/button";
 import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
 import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
+import { logoutRequest } from "@/lib/api/auth-api";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { NAVIGATION_GROUPS } from "@/lib/navigation";
 
@@ -45,6 +48,15 @@ export function AppSidebar() {
   const openAuthModal = useAuthModalStore((state) => state.open);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = React.useState(false);
+  const queryClient = useQueryClient();
+
+  const handleLogout = async () => {
+    await logoutRequest();
+    queryClient.invalidateQueries({ queryKey: ["auth-session"] });
+    queryClient.invalidateQueries({ queryKey: ["profile-me"] });
+    close();
+    router.push("/");
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -61,7 +73,7 @@ export function AppSidebar() {
   useEffect(() => {
     const onClickOutside = (event: MouseEvent) => {
       // Only close on click outside if we are on desktop
-      if (window.innerWidth < 1024) return;
+      if (window.innerWidth < 768) return;
 
       if (
         sidebarRef.current &&
@@ -100,7 +112,7 @@ export function AppSidebar() {
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm md:hidden"
           onClick={close}
           aria-hidden="true"
         />
@@ -108,7 +120,7 @@ export function AppSidebar() {
 
       {!isOpen && (
         <div
-          className="fixed bottom-0 left-0 top-0 z-50 hidden w-3 cursor-pointer bg-transparent transition-colors hover:bg-gradient-to-r hover:from-black/5 hover:to-transparent lg:block"
+          className="fixed bottom-0 left-0 top-0 z-50 hidden w-3 cursor-pointer bg-transparent transition-colors hover:bg-gradient-to-r hover:from-black/5 hover:to-transparent md:block"
           onMouseEnter={open}
           aria-label="Open sidebar"
         />
@@ -116,17 +128,17 @@ export function AppSidebar() {
 
       <aside
         ref={sidebarRef}
-        className={cn(
-          "fixed bottom-0 left-0 top-0 z-[70] hidden w-[300px] flex-col border-r bg-background/95 backdrop-blur-md shadow-2xl transition-transform duration-300 lg:flex",
-          isOpen ? "translate-x-0" : "-translate-x-full",
-        )}
         onMouseLeave={() => {
-          if (window.innerWidth >= 1024 && isOpen) {
+          if (window.innerWidth >= 768) {
             close();
           }
         }}
+        className={cn(
+          "fixed inset-y-0 left-0 z-[150] hidden w-[300px] flex-col border-r bg-background shadow-2xl transition-transform duration-300 md:flex",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+        )}
       >
-        <div className="flex h-16 items-center justify-between border-b px-4">
+        <div className="z-20 flex h-16 shrink-0 items-center justify-between border-b bg-background px-4">
           <Link href="/" onClick={close}>
             <EzeeFlightsLogo
               isDarkMode={mounted && theme === "dark"}
@@ -137,14 +149,14 @@ export function AppSidebar() {
             variant="ghost"
             size="icon"
             onClick={close}
-            className="rounded-full lg:hidden"
+            className="rounded-full md:hidden"
           >
             <PanelLeftClose className="h-5 w-5" />
           </Button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
-          <div className="mb-6 rounded-xl border border-border/70 bg-card p-3">
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col min-h-0 relative z-0">
+          <div className="mb-6 rounded-md border border-border/70 bg-card">
             {session ? (
               <div className="flex items-center gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-brand-red/10 font-semibold text-brand-red">
@@ -154,28 +166,24 @@ export function AppSidebar() {
                   <p className="text-sm font-semibold text-foreground">
                     {userName}
                   </p>
-                  <span className="inline-flex rounded-full bg-brand-yellow/20 px-2 py-0.5 text-[10px] font-semibold text-foreground">
+                  {/* <span className="inline-flex rounded-full bg-brand-yellow/20 px-2 py-0.5 text-[10px] font-semibold text-foreground">
                     Gold Member
-                  </span>
+                  </span> */}
                 </div>
               </div>
             ) : (
               <div className="space-y-3">
-                <p className="text-sm text-muted-foreground">
-                  Sign in to unlock rewards
-                </p>
-                <Button
-                  variant="brand-red"
-                  size="sm"
-                  className="w-full rounded-lg"
+                <button
+                  type="button"
+                  className="flex h-10 w-full items-center justify-center rounded-lg bg-brand-red px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-brand-red/90 active:scale-[0.98] cursor-pointer"
                   onClick={() => {
-                    close();
                     openAuthModal("login");
+                    close();
                   }}
                 >
-                  <LogIn className="mr-1 h-4 w-4" />
+                  <LogIn className="mr-2 h-4 w-4" />
                   Sign in
-                </Button>
+                </button>
               </div>
             )}
           </div>
@@ -198,8 +206,8 @@ export function AppSidebar() {
                         <li key={item.href}>
                           <button
                             onClick={() => {
-                              close();
                               openAuthModal("login");
+                              close();
                             }}
                             className={cn(
                               "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition",
@@ -258,7 +266,7 @@ export function AppSidebar() {
         </div>
 
         {session && (
-          <div className="border-t p-4">
+          <div className="z-20 mt-auto shrink-0 border-t bg-background p-4">
             <div className="rounded-xl bg-muted/60 p-3">
               <div className="mb-2 flex items-center justify-between">
                 <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -270,6 +278,13 @@ export function AppSidebar() {
                 <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-brand-red to-brand-red-light" />
               </div>
             </div>
+            <button
+              onClick={handleLogout}
+              className="mt-4 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50 dark:hover:bg-red-950/30"
+            >
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </button>
           </div>
         )}
       </aside>

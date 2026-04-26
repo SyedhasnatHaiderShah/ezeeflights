@@ -1,246 +1,6 @@
 [
   {
-    "id": "NwN0+1pCuDKAJzBBD3AAAA==",
-    "airline": "AF",
-    "airlineCode": "AF",
-    "flightNumber": "655",
-    "departureAirport": "DXB",
-    "arrivalAirport": "EWR",
-    "departureAt": "2026-05-22T00:40:00.000+04:00",
-    "arrivalAt": "2026-05-22T14:45:00.000-04:00",
-    "duration": 935,
-    "stops": 1,
-    "totalPrice": "INR69601",
-    "basePrice": "AED880",
-    "taxes": "INR47056",
-    "price": 69601,
-    "basePriceNumeric": 22545,
-    "taxesNumeric": 47056,
-    "currency": "INR",
-    "segments": [
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKALuBBD3AAAA=="
-        },
-        "Key": "NwN0+1pCuDKAKuBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "AF",
-        "FlightNumber": "655",
-        "Origin": "DXB",
-        "Destination": "CDG",
-        "DepartureTime": "2026-05-22T00:40:00.000+04:00",
-        "ArrivalTime": "2026-05-22T06:00:00.000+02:00",
-        "FlightTime": "440",
-        "Distance": "3262",
-        "ETicketability": "Yes",
-        "Equipment": "772",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      },
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAOuBBD3AAAA=="
-        },
-        "Key": "NwN0+1pCuDKANuBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "AF",
-        "FlightNumber": "62",
-        "Origin": "CDG",
-        "Destination": "EWR",
-        "DepartureTime": "2026-05-22T12:30:00.000+02:00",
-        "ArrivalTime": "2026-05-22T14:45:00.000-04:00",
-        "FlightTime": "495",
-        "Distance": "3630",
-        "ETicketability": "Yes",
-        "Equipment": "359",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      }
-    ]
-  },
-  {
-    "id": "NwN0+1pCuDKAKzBBD3AAAA==",
-    "airline": "DL",
-    "airlineCode": "DL",
-    "flightNumber": "8627",
-    "departureAirport": "DXB",
-    "arrivalAirport": "JFK",
-    "departureAt": "2026-05-22T00:40:00.000+04:00",
-    "arrivalAt": "2026-05-22T11:40:00.000-04:00",
-    "duration": 930,
-    "stops": 1,
-    "totalPrice": "INR73581",
-    "basePrice": "AED1140",
-    "taxes": "INR44376",
-    "price": 73581,
-    "basePriceNumeric": 29205,
-    "taxesNumeric": 44376,
-    "currency": "INR",
-    "segments": [
-      {
-        "air:CodeshareInfo": {
-          "#text": "AIR FRANCE",
-          "OperatingCarrier": "AF",
-          "OperatingFlightNumber": "655"
-        },
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKALuBBD3AAAA=="
-        },
-        "Key": "NwN0+1pCuDKAMuBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "DL",
-        "FlightNumber": "8627",
-        "Origin": "DXB",
-        "Destination": "CDG",
-        "DepartureTime": "2026-05-22T00:40:00.000+04:00",
-        "ArrivalTime": "2026-05-22T06:00:00.000+02:00",
-        "FlightTime": "440",
-        "Distance": "3262",
-        "ETicketability": "Yes",
-        "Equipment": "772",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      },
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKARuBBD3AAAA=="
-        },
-        "Key": "NwN0+1pCuDKAQuBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "DL",
-        "FlightNumber": "267",
-        "Origin": "CDG",
-        "Destination": "JFK",
-        "DepartureTime": "2026-05-22T09:30:00.000+02:00",
-        "ArrivalTime": "2026-05-22T11:40:00.000-04:00",
-        "FlightTime": "490",
-        "Distance": "3624",
-        "ETicketability": "Yes",
-        "Equipment": "764",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      }
-    ]
-  },
-  {
-    "id": "NwN0+1pCuDKAbzBBD3AAAA==",
-    "airline": "DL",
-    "airlineCode": "DL",
-    "flightNumber": "8627",
-    "departureAirport": "DXB",
-    "arrivalAirport": "EWR",
-    "departureAt": "2026-05-22T00:40:00.000+04:00",
-    "arrivalAt": "2026-05-22T14:45:00.000-04:00",
-    "duration": 935,
-    "stops": 1,
-    "totalPrice": "INR73620",
-    "basePrice": "AED1140",
-    "taxes": "INR44415",
-    "price": 73620,
-    "basePriceNumeric": 29205,
-    "taxesNumeric": 44415,
-    "currency": "INR",
-    "segments": [
-      {
-        "air:CodeshareInfo": {
-          "#text": "AIR FRANCE",
-          "OperatingCarrier": "AF",
-          "OperatingFlightNumber": "655"
-        },
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKALuBBD3AAAA=="
-        },
-        "Key": "NwN0+1pCuDKAMuBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "DL",
-        "FlightNumber": "8627",
-        "Origin": "DXB",
-        "Destination": "CDG",
-        "DepartureTime": "2026-05-22T00:40:00.000+04:00",
-        "ArrivalTime": "2026-05-22T06:00:00.000+02:00",
-        "FlightTime": "440",
-        "Distance": "3262",
-        "ETicketability": "Yes",
-        "Equipment": "772",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      },
-      {
-        "air:CodeshareInfo": {
-          "#text": "AIR FRANCE",
-          "OperatingCarrier": "AF",
-          "OperatingFlightNumber": "62"
-        },
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAOuBBD3AAAA=="
-        },
-        "Key": "NwN0+1pCuDKAPuBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "DL",
-        "FlightNumber": "8760",
-        "Origin": "CDG",
-        "Destination": "EWR",
-        "DepartureTime": "2026-05-22T12:30:00.000+02:00",
-        "ArrivalTime": "2026-05-22T14:45:00.000-04:00",
-        "FlightTime": "495",
-        "Distance": "3630",
-        "ETicketability": "Yes",
-        "Equipment": "359",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      }
-    ]
-  },
-  {
-    "id": "NwN0+1pCuDKAczBBD3AAAA==",
+    "id": "5T+w+1P3nDKAMeMWZ3AAAA==",
     "airline": "DL",
     "airlineCode": "DL",
     "flightNumber": "8627",
@@ -268,9 +28,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKALuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKATaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAMuBBD3AAAA==",
+        "Key": "5T+w+1P3nDKASaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "DL",
         "FlightNumber": "8627",
@@ -300,9 +60,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKATuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAVaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKASuBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAUaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "DL",
         "FlightNumber": "8747",
@@ -325,7 +85,92 @@
     ]
   },
   {
-    "id": "NwN0+1pCuDKAdzBBD3AAAA==",
+    "id": "5T+w+1P3nDKANeMWZ3AAAA==",
+    "airline": "DL",
+    "airlineCode": "DL",
+    "flightNumber": "8627",
+    "departureAirport": "DXB",
+    "arrivalAirport": "EWR",
+    "departureAt": "2026-05-22T00:40:00.000+04:00",
+    "arrivalAt": "2026-05-22T14:45:00.000-04:00",
+    "duration": 935,
+    "stops": 1,
+    "totalPrice": "INR73620",
+    "basePrice": "AED1140",
+    "taxes": "INR44415",
+    "price": 73620,
+    "basePriceNumeric": 29205,
+    "taxesNumeric": 44415,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:CodeshareInfo": {
+          "#text": "AIR FRANCE",
+          "OperatingCarrier": "AF",
+          "OperatingFlightNumber": "655"
+        },
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "5T+w+1P3nDKATaMWZ3AAAA=="
+        },
+        "Key": "5T+w+1P3nDKASaMWZ3AAAA==",
+        "Group": "0",
+        "Carrier": "DL",
+        "FlightNumber": "8627",
+        "Origin": "DXB",
+        "Destination": "CDG",
+        "DepartureTime": "2026-05-22T00:40:00.000+04:00",
+        "ArrivalTime": "2026-05-22T06:00:00.000+02:00",
+        "FlightTime": "440",
+        "Distance": "3262",
+        "ETicketability": "Yes",
+        "Equipment": "772",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      },
+      {
+        "air:CodeshareInfo": {
+          "#text": "AIR FRANCE",
+          "OperatingCarrier": "AF",
+          "OperatingFlightNumber": "62"
+        },
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "5T+w+1P3nDKAXaMWZ3AAAA=="
+        },
+        "Key": "5T+w+1P3nDKAWaMWZ3AAAA==",
+        "Group": "0",
+        "Carrier": "DL",
+        "FlightNumber": "8760",
+        "Origin": "CDG",
+        "Destination": "EWR",
+        "DepartureTime": "2026-05-22T12:30:00.000+02:00",
+        "ArrivalTime": "2026-05-22T14:45:00.000-04:00",
+        "FlightTime": "495",
+        "Distance": "3630",
+        "ETicketability": "Yes",
+        "Equipment": "359",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      }
+    ]
+  },
+  {
+    "id": "5T+w+1P3nDKAOeMWZ3AAAA==",
     "airline": "MS",
     "airlineCode": "MS",
     "flightNumber": "913",
@@ -348,9 +193,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAXuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAZaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAWuBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAYaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "MS",
         "FlightNumber": "913",
@@ -375,9 +220,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAZuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAbaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAYuBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAaaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "MS",
         "FlightNumber": "987",
@@ -400,7 +245,7 @@
     ]
   },
   {
-    "id": "NwN0+1pCuDKAezBBD3AAAA==",
+    "id": "5T+w+1P3nDKAPeMWZ3AAAA==",
     "airline": "KU",
     "airlineCode": "KU",
     "flightNumber": "678",
@@ -423,9 +268,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAbuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAdaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAauBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAcaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "KU",
         "FlightNumber": "678",
@@ -450,9 +295,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAduBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAfaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAcuBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAeaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "KU",
         "FlightNumber": "117",
@@ -475,7 +320,7 @@
     ]
   },
   {
-    "id": "NwN0+1pCuDKAfzBBD3AAAA==",
+    "id": "5T+w+1P3nDKAQeMWZ3AAAA==",
     "airline": "RJ",
     "airlineCode": "RJ",
     "flightNumber": "613",
@@ -498,9 +343,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAfuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAhaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAeuBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAgaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "RJ",
         "FlightNumber": "613",
@@ -525,9 +370,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAhuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAjaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAguBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAiaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "RJ",
         "FlightNumber": "261",
@@ -550,7 +395,7 @@
     ]
   },
   {
-    "id": "NwN0+1pCuDKAgzBBD3AAAA==",
+    "id": "5T+w+1P3nDKAReMWZ3AAAA==",
     "airline": "QR",
     "airlineCode": "QR",
     "flightNumber": "1015",
@@ -573,9 +418,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKApuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKApaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAouBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAoaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "QR",
         "FlightNumber": "1015",
@@ -600,9 +445,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAruBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAraMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAquBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAqaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "QR",
         "FlightNumber": "705",
@@ -625,7 +470,7 @@
     ]
   },
   {
-    "id": "NwN0+1pCuDKAhzBBD3AAAA==",
+    "id": "5T+w+1P3nDKASeMWZ3AAAA==",
     "airline": "EY",
     "airlineCode": "EY",
     "flightNumber": "5411",
@@ -648,9 +493,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAtuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAtaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAsuBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAsaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "EY",
         "FlightNumber": "5411",
@@ -675,9 +520,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAvuBBD3AAAA=="
+          "Key": "5T+w+1P3nDKAvaMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAuuBBD3AAAA==",
+        "Key": "5T+w+1P3nDKAuaMWZ3AAAA==",
         "Group": "0",
         "Carrier": "EY",
         "FlightNumber": "3",
@@ -700,184 +545,7 @@
     ]
   },
   {
-    "id": "NwN0+1pCuDKAizBBD3AAAA==",
-    "airline": "EK",
-    "airlineCode": "EK",
-    "flightNumber": "201",
-    "departureAirport": "DXB",
-    "arrivalAirport": "JFK",
-    "departureAt": "2026-05-22T08:30:00.000+04:00",
-    "arrivalAt": "2026-05-22T14:25:00.000-04:00",
-    "duration": 835,
-    "stops": 0,
-    "totalPrice": "INR93835",
-    "basePrice": "AED2740",
-    "taxes": "INR23650",
-    "price": 93835,
-    "basePriceNumeric": 70185,
-    "taxesNumeric": 23650,
-    "currency": "INR",
-    "segments": [
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKA5uBBD3AAAA=="
-        },
-        "Key": "NwN0+1pCuDKA4uBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "EK",
-        "FlightNumber": "201",
-        "Origin": "DXB",
-        "Destination": "JFK",
-        "DepartureTime": "2026-05-22T08:30:00.000+04:00",
-        "ArrivalTime": "2026-05-22T14:25:00.000-04:00",
-        "FlightTime": "835",
-        "Distance": "6841",
-        "ETicketability": "Yes",
-        "Equipment": "388",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      }
-    ]
-  },
-  {
-    "id": "NwN0+1pCuDKAxzBBD3AAAA==",
-    "airline": "EK",
-    "airlineCode": "EK",
-    "flightNumber": "205",
-    "departureAirport": "DXB",
-    "arrivalAirport": "JFK",
-    "departureAt": "2026-05-22T09:35:00.000+04:00",
-    "arrivalAt": "2026-05-22T18:55:00.000-04:00",
-    "duration": 1040,
-    "stops": 0,
-    "totalPrice": "INR93835",
-    "basePrice": "AED2740",
-    "taxes": "INR23650",
-    "price": 93835,
-    "basePriceNumeric": 70185,
-    "taxesNumeric": 23650,
-    "currency": "INR",
-    "segments": [
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": [
-          {
-            "Key": "NwN0+1pCuDKA9uBBD3AAAA=="
-          },
-          {
-            "Key": "NwN0+1pCuDKA+uBBD3AAAA=="
-          }
-        ],
-        "Key": "NwN0+1pCuDKA8uBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "EK",
-        "FlightNumber": "205",
-        "Origin": "DXB",
-        "Destination": "JFK",
-        "DepartureTime": "2026-05-22T09:35:00.000+04:00",
-        "ArrivalTime": "2026-05-22T18:55:00.000-04:00",
-        "FlightTime": "1040",
-        "Distance": "6841",
-        "ETicketability": "Yes",
-        "Equipment": "388",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "NumberOfStops": "1",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      }
-    ]
-  },
-  {
-    "id": "NwN0+1pCuDKA+zBBD3AAAA==",
-    "airline": "EK",
-    "airlineCode": "EK",
-    "flightNumber": "101",
-    "departureAirport": "DXB",
-    "arrivalAirport": "JFK",
-    "departureAt": "2026-05-22T04:20:00.000+04:00",
-    "arrivalAt": "2026-05-22T18:55:00.000-04:00",
-    "duration": 925,
-    "stops": 1,
-    "totalPrice": "INR96384",
-    "basePrice": "AED2740",
-    "taxes": "INR26199",
-    "price": 96384,
-    "basePriceNumeric": 70185,
-    "taxesNumeric": 26199,
-    "currency": "INR",
-    "segments": [
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKABvBBD3AAAA=="
-        },
-        "Key": "NwN0+1pCuDKAAvBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "EK",
-        "FlightNumber": "101",
-        "Origin": "DXB",
-        "Destination": "MXP",
-        "DepartureTime": "2026-05-22T04:20:00.000+04:00",
-        "ArrivalTime": "2026-05-22T09:00:00.000+02:00",
-        "FlightTime": "400",
-        "Distance": "2904",
-        "ETicketability": "Yes",
-        "Equipment": "77L",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      },
-      {
-        "air:AirAvailInfo": {
-          "ProviderCode": "1G"
-        },
-        "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKA+uBBD3AAAA=="
-        },
-        "Key": "NwN0+1pCuDKA/uBBD3AAAA==",
-        "Group": "0",
-        "Carrier": "EK",
-        "FlightNumber": "205",
-        "Origin": "MXP",
-        "Destination": "JFK",
-        "DepartureTime": "2026-05-22T16:10:00.000+02:00",
-        "ArrivalTime": "2026-05-22T18:55:00.000-04:00",
-        "FlightTime": "525",
-        "Distance": "4008",
-        "ETicketability": "Yes",
-        "Equipment": "388",
-        "ChangeOfPlane": "false",
-        "ParticipantLevel": "Secure Sell",
-        "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
-        "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "Q",
-        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
-      }
-    ]
-  },
-  {
-    "id": "NwN0+1pCuDKA/zBBD3AAAA==",
+    "id": "5T+w+1P3nDKATeMWZ3AAAA==",
     "airline": "KU",
     "airlineCode": "KU",
     "flightNumber": "676",
@@ -900,9 +568,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAHvBBD3AAAA=="
+          "Key": "5T+w+1P3nDKA1aMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAGvBBD3AAAA==",
+        "Key": "5T+w+1P3nDKA0aMWZ3AAAA==",
         "Group": "0",
         "Carrier": "KU",
         "FlightNumber": "676",
@@ -927,9 +595,9 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAJvBBD3AAAA=="
+          "Key": "5T+w+1P3nDKA3aMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAIvBBD3AAAA==",
+        "Key": "5T+w+1P3nDKA2aMWZ3AAAA==",
         "Group": "0",
         "Carrier": "KU",
         "FlightNumber": "117",
@@ -952,46 +620,41 @@
     ]
   },
   {
-    "id": "NwN0+1pCuDKAA0BBD3AAAA==",
-    "airline": "EK",
-    "airlineCode": "EK",
-    "flightNumber": "209",
+    "id": "5T+w+1P3nDKAUeMWZ3AAAA==",
+    "airline": "QR",
+    "airlineCode": "QR",
+    "flightNumber": "1015",
     "departureAirport": "DXB",
-    "arrivalAirport": "EWR",
-    "departureAt": "2026-05-22T10:50:00.000+04:00",
-    "arrivalAt": "2026-05-22T21:20:00.000-04:00",
-    "duration": 1110,
-    "stops": 0,
-    "totalPrice": "INR119965",
-    "basePrice": "AED3760",
-    "taxes": "INR23650",
-    "price": 119965,
-    "basePriceNumeric": 96315,
-    "taxesNumeric": 23650,
+    "arrivalAirport": "JFK",
+    "departureAt": "2026-05-22T23:45:00.000+04:00",
+    "arrivalAt": "2026-05-23T16:40:00.000-04:00",
+    "duration": 940,
+    "stops": 1,
+    "totalPrice": "INR106112",
+    "basePrice": "AED3380",
+    "taxes": "INR19532",
+    "price": 106112,
+    "basePriceNumeric": 86580,
+    "taxesNumeric": 19532,
     "currency": "INR",
     "segments": [
       {
         "air:AirAvailInfo": {
           "ProviderCode": "1G"
         },
-        "air:FlightDetailsRef": [
-          {
-            "Key": "NwN0+1pCuDKANvBBD3AAAA=="
-          },
-          {
-            "Key": "NwN0+1pCuDKAOvBBD3AAAA=="
-          }
-        ],
-        "Key": "NwN0+1pCuDKAMvBBD3AAAA==",
+        "air:FlightDetailsRef": {
+          "Key": "5T+w+1P3nDKApaMWZ3AAAA=="
+        },
+        "Key": "5T+w+1P3nDKAoaMWZ3AAAA==",
         "Group": "0",
-        "Carrier": "EK",
-        "FlightNumber": "209",
+        "Carrier": "QR",
+        "FlightNumber": "1015",
         "Origin": "DXB",
-        "Destination": "EWR",
-        "DepartureTime": "2026-05-22T10:50:00.000+04:00",
-        "ArrivalTime": "2026-05-22T21:20:00.000-04:00",
-        "FlightTime": "1110",
-        "Distance": "6846",
+        "Destination": "DOH",
+        "DepartureTime": "2026-05-22T23:45:00.000+04:00",
+        "ArrivalTime": "2026-05-23T00:05:00.000+03:00",
+        "FlightTime": "80",
+        "Distance": "229",
         "ETicketability": "Yes",
         "Equipment": "77W",
         "ChangeOfPlane": "false",
@@ -999,28 +662,54 @@
         "LinkAvailability": "true",
         "PolledAvailabilityOption": "Cached status used. Polled avail exists",
         "OptionalServicesIndicator": "false",
-        "NumberOfStops": "1",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "5T+w+1P3nDKA5aMWZ3AAAA=="
+        },
+        "Key": "5T+w+1P3nDKA4aMWZ3AAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "701",
+        "Origin": "DOH",
+        "Destination": "JFK",
+        "DepartureTime": "2026-05-23T09:20:00.000+03:00",
+        "ArrivalTime": "2026-05-23T16:40:00.000-04:00",
+        "FlightTime": "860",
+        "Distance": "6691",
+        "ETicketability": "Yes",
+        "Equipment": "351",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
         "AvailabilitySource": "Q",
         "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
       }
     ]
   },
   {
-    "id": "NwN0+1pCuDKAB0BBD3AAAA==",
+    "id": "5T+w+1P3nDKAVeMWZ3AAAA==",
     "airline": "ET",
     "airlineCode": "ET",
-    "flightNumber": "601",
+    "flightNumber": "603",
     "departureAirport": "DXB",
-    "arrivalAirport": "EWR",
-    "departureAt": "2026-05-22T04:25:00.000+04:00",
-    "arrivalAt": "2026-05-22T19:45:00.000-04:00",
-    "duration": 1335,
+    "arrivalAirport": "JFK",
+    "departureAt": "2026-05-22T17:10:00.000+04:00",
+    "arrivalAt": "2026-05-23T20:00:00.000-04:00",
+    "duration": 1345,
     "stops": 1,
-    "totalPrice": "INR128926",
-    "basePrice": "AED3160",
+    "totalPrice": "INR143271",
+    "basePrice": "AED3720",
     "taxes": "INR47981",
-    "price": 128926,
-    "basePriceNumeric": 80945,
+    "price": 143271,
+    "basePriceNumeric": 95290,
     "taxesNumeric": 47981,
     "currency": "INR",
     "segments": [
@@ -1029,20 +718,20 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "NwN0+1pCuDKAQvBBD3AAAA=="
+          "Key": "5T+w+1P3nDKA7aMWZ3AAAA=="
         },
-        "Key": "NwN0+1pCuDKAPvBBD3AAAA==",
+        "Key": "5T+w+1P3nDKA6aMWZ3AAAA==",
         "Group": "0",
         "Carrier": "ET",
-        "FlightNumber": "601",
+        "FlightNumber": "603",
         "Origin": "DXB",
         "Destination": "ADD",
-        "DepartureTime": "2026-05-22T04:25:00.000+04:00",
-        "ArrivalTime": "2026-05-22T07:40:00.000+03:00",
-        "FlightTime": "255",
+        "DepartureTime": "2026-05-22T17:10:00.000+04:00",
+        "ArrivalTime": "2026-05-22T20:35:00.000+03:00",
+        "FlightTime": "265",
         "Distance": "1552",
         "ETicketability": "Yes",
-        "Equipment": "350",
+        "Equipment": "77W",
         "ChangeOfPlane": "false",
         "ParticipantLevel": "Secure Sell",
         "LinkAvailability": "true",
@@ -1057,22 +746,22 @@
         },
         "air:FlightDetailsRef": [
           {
-            "Key": "NwN0+1pCuDKASvBBD3AAAA=="
+            "Key": "5T+w+1P3nDKA9aMWZ3AAAA=="
           },
           {
-            "Key": "NwN0+1pCuDKATvBBD3AAAA=="
+            "Key": "5T+w+1P3nDKA+aMWZ3AAAA=="
           }
         ],
-        "Key": "NwN0+1pCuDKARvBBD3AAAA==",
+        "Key": "5T+w+1P3nDKA8aMWZ3AAAA==",
         "Group": "0",
         "Carrier": "ET",
-        "FlightNumber": "514",
+        "FlightNumber": "512",
         "Origin": "ADD",
-        "Destination": "EWR",
-        "DepartureTime": "2026-05-22T08:45:00.000+03:00",
-        "ArrivalTime": "2026-05-22T19:45:00.000-04:00",
+        "Destination": "JFK",
+        "DepartureTime": "2026-05-23T09:00:00.000+03:00",
+        "ArrivalTime": "2026-05-23T20:00:00.000-04:00",
         "FlightTime": "1080",
-        "Distance": "6967",
+        "Distance": "6961",
         "ETicketability": "Yes",
         "Equipment": "787",
         "ChangeOfPlane": "false",

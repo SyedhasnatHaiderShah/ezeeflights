@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/api/client";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { logoutRequest } from "@/lib/api/auth-api";
+import { useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "../../components/ui/skeleton";
 import { Footer } from "@/components/sections/Footer";
@@ -15,6 +18,15 @@ import { Switch } from "@/components/ui/switch";
 export default function ProfilePage() {
   const session = useAuthSession();
   const [activeTab, setActiveTab] = useState("personal");
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logoutRequest();
+    queryClient.invalidateQueries({ queryKey: ["auth-session"] });
+    queryClient.invalidateQueries({ queryKey: ["profile-me"] });
+    router.push("/");
+  };
   const profile = useQuery({
     queryKey: ["profile-me"],
     queryFn: () => apiFetch<any>("/profile/me"),
@@ -88,6 +100,13 @@ export default function ProfilePage() {
                 {label}
               </button>
             ))}
+            <button
+              onClick={handleLogout}
+              className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center gap-2 transition-all mt-4"
+            >
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </button>
           </nav>
         </aside>
 
@@ -99,6 +118,12 @@ export default function ProfilePage() {
               <TabsTrigger value="payment">Payment</TabsTrigger>
               <TabsTrigger value="notifications">Notifications</TabsTrigger>
               <TabsTrigger value="security">Security</TabsTrigger>
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-xs font-semibold bg-red-50 text-red-600 dark:bg-red-950/30 ml-auto"
+              >
+                Sign Out
+              </button>
             </TabsList>
             <TabsContent value="personal">
               <ProfileForm

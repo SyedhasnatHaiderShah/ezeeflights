@@ -60,11 +60,7 @@ export function AuthModal() {
       }
 
       close();
-      toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in.",
-        variant: "success",
-      });
+      // Toast removed in favor of Header notification strip
     } catch {
       setError("Sign-in failed. Please check your credentials.");
     } finally {

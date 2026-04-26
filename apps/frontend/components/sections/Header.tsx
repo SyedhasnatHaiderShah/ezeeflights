@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Drawer } from "vaul";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Bell,
   Briefcase,
@@ -63,6 +63,33 @@ const moreLinks = [
   { label: "Experiences", href: "/experience", icon: Sparkles },
   { label: "Destinations", href: "/destinations", icon: MapPinned },
 ] as const;
+
+const LoginSuccessStrip = ({ onDismiss }: { onDismiss: () => void }) => {
+  return (
+    <motion.div
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: "auto", opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      className="border-b border-green-500/20 bg-green-500/5 backdrop-blur-sm relative overflow-hidden"
+    >
+      <div className="relative mx-auto flex min-h-[2.5rem] max-w-screen-2xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
+        <div className="flex flex-1 items-center gap-2 text-xs sm:text-sm">
+          <Sparkles className="h-4 w-4 text-green-600" />
+          <span className="font-semibold text-green-600">Welcome back!</span>
+          <span className="text-green-600/70 hidden sm:inline">
+            You have successfully signed in to your account.
+          </span>
+        </div>
+        <button
+          onClick={onDismiss}
+          className="flex-shrink-0 rounded-full p-1.5 text-green-600/50 transition-all hover:bg-green-600/10 hover:text-green-600"
+        >
+          <X className="h-3.5 w-3.5" />
+        </button>
+      </div>
+    </motion.div>
+  );
+};
 
 const NotificationContent = () => {
   const { data: notifications = [] } = useNotifications({ page: 1, limit: 10 });
@@ -139,6 +166,18 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const [promoDismissed, setPromoDismissed] = React.useState(false);
+  const [showLoginSuccess, setShowLoginSuccess] = React.useState(false);
+
+  const prevSession = React.useRef(session);
+
+  React.useEffect(() => {
+    if (!prevSession.current && session) {
+      setShowLoginSuccess(true);
+      const timer = setTimeout(() => setShowLoginSuccess(false), 5000);
+      return () => clearTimeout(timer);
+    }
+    prevSession.current = session;
+  }, [session]);
   const [profileNotifyDismissed, setProfileNotifyDismissed] =
     React.useState(false);
   const [isNotifDrawerOpen, setIsNotifDrawerOpen] = React.useState(false);
@@ -216,18 +255,6 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               onClick={toggleSidebar}
               className={cn(
                 "hidden rounded-lg p-2 transition md:inline-flex",
-                isTransparent
-                  ? "text-white/80 hover:bg-white/10 hover:text-white"
-                  : "text-foreground hover:bg-muted hover:text-foreground",
-              )}
-            >
-              <PanelLeft className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Toggle sidebar"
-              onClick={toggleSidebar}
-              className={cn(
-                "rounded-lg p-2 transition md:hidden",
                 isTransparent
                   ? "text-white/80 hover:bg-white/10 hover:text-white"
                   : "text-foreground hover:bg-muted hover:text-foreground",
@@ -542,7 +569,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
             ) : session ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex h-9 w-9 items-center justify-center rounded-full bg-redmix/10 text-sm font-semibold text-redmix md:h-10 md:w-10">
+                  <button className="hidden h-9 w-9 items-center justify-center rounded-full bg-redmix/10 text-sm font-semibold text-redmix md:flex md:h-10 md:w-10">
                     {userInitial}
                   </button>
                 </DropdownMenuTrigger>
@@ -593,7 +620,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                 <button
                   onClick={() => openAuthModal("login")}
                   className={cn(
-                    "rounded-lg p-2 transition md:hidden",
+                    "hidden rounded-lg p-2 transition",
                     isTransparent
                       ? "text-white hover:bg-white/10 hover:text-white"
                       : "text-foreground hover:bg-muted",
@@ -659,6 +686,12 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
           </div>
         </motion.div>
       )}
+
+      <AnimatePresence>
+        {showLoginSuccess && (
+          <LoginSuccessStrip onDismiss={() => setShowLoginSuccess(false)} />
+        )}
+      </AnimatePresence>
 
       {/* Promo Strip */}
       {!isScrolled && !promoDismissed && (

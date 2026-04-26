@@ -24,11 +24,11 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/lib/hooks/use-toast";
 
 const TABS = [
-  { id: "flights", label: "✈ Flights" },
-  { id: "hotels", label: "🏨 Hotels" },
-  { id: "cars", label: "🚗 Cars" },
-  { id: "packages", label: "📦 Packages" },
-  { id: "transfers", label: "🚌 Transfers" },
+  { id: "flights", label: "Flights", emoji: "✈" },
+  { id: "hotels", label: "Hotels", emoji: "🏨" },
+  { id: "cars", label: "Cars", emoji: "🚗" },
+  { id: "packages", label: "Packages", emoji: "📦" },
+  { id: "transfers", label: "Transfers", emoji: "🚌" },
 ] as const;
 
 const TRIP_TYPES = ["one-way", "round-trip", "multi-city"] as const;
@@ -264,7 +264,7 @@ export function BookingForm({
         {heroMode && (
           <TabsList
             className={cn(
-              "mb-4 h-auto w-full justify-start gap-2 bg-transparent p-0",
+              "mb-4 flex h-auto w-full justify-start gap-2 bg-transparent p-0 overflow-x-auto no-scrollbar",
               heroMode ? "text-white" : "text-foreground",
             )}
           >
@@ -280,6 +280,7 @@ export function BookingForm({
                     : "text-muted-foreground",
                 )}
               >
+                <span className="mr-1.5 hidden xs:inline">{tab.emoji}</span>
                 {tab.label}
               </TabsTrigger>
             ))}
@@ -340,9 +341,11 @@ export function BookingForm({
                 setDestination(origin);
               }}
               className={cn(
-                "h-14 rounded-md border flex items-center justify-center transition-all",
-                heroMode ? "border-white/25 text-white" : "border-border",
-                "sm:absolute sm:left-1/2 sm:top-7 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:z-10 sm:h-10 sm:w-10 sm:rounded-full sm:bg-background sm:shadow-md lg:relative lg:left-0 lg:top-0 lg:translate-x-0 lg:translate-y-0 lg:h-14 lg:w-full lg:rounded-md lg:bg-transparent lg:shadow-none",
+                "h-14 rounded-md border flex items-center justify-center transition-all sm:z-10",
+                heroMode 
+                  ? "border-white/25 text-white sm:bg-white/10 sm:backdrop-blur-md sm:border-white/30" 
+                  : "border-border sm:bg-background",
+                "sm:absolute sm:left-1/2 sm:top-7 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:h-10 sm:w-10 sm:rounded-full sm:shadow-lg lg:relative lg:left-0 lg:top-0 lg:translate-x-0 lg:translate-y-0 lg:h-14 lg:w-full lg:rounded-md lg:bg-transparent lg:shadow-none lg:border-none",
               )}
             >
               <ArrowRightLeft className="h-4 w-4 sm:rotate-0 -rotate-90 lg:rotate-0" />

@@ -115,7 +115,9 @@ export function DatePicker({
           </div>
           <ChevronDown
             className={cn(
-              "ml-1 h-3.5 w-3.5 shrink-0 text-foreground/50 group-hover:text-foreground transition-all duration-300",
+              "ml-1 h-3.5 w-3.5 shrink-0 transition-all duration-300",
+              glassPopover ? "text-white/60" : "text-foreground/40",
+              "group-hover:text-foreground group-hover:opacity-100 transition-all",
               open && "rotate-180",
             )}
           />
