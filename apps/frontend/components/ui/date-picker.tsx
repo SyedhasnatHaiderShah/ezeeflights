@@ -164,7 +164,7 @@ export function DatePicker({
                     "w-8 h-8 p-0 text-white font-medium rounded-full hover:bg-white/20 transition-colors flex items-center justify-center text-sm cursor-pointer",
                   caption_label: "text-white font-bold tracking-tight px-10",
                   weekday:
-                    "text-white/60 text-[11px] font-semibold text-center flex items-center justify-center",
+                    "text-white/60 w-10 h-8 text-[11px] font-semibold text-center flex items-center justify-center",
                   disabled: "text-white/20 opacity-30 cursor-not-allowed",
                   today:
                     "text-white font-bold relative after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:rounded-full after:bg-white",

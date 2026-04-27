@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsNumber, IsOptional, IsString, IsUUID, Min } from 'class-validator';
+import { IsEnum, IsIn, IsNumber, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 import { PaymentProvider } from '../entities/payment.entity';
 
 export class InitiatePaymentDto {
@@ -17,7 +17,7 @@ export class InitiatePaymentDto {
   amount!: number;
 
   @ApiProperty({ enum: ['USD', 'AED', 'EUR', 'GBP'], description: 'Payment currency' })
-  @IsEnum(['USD', 'AED', 'EUR', 'GBP'])
+  @IsIn(['USD', 'AED', 'EUR', 'GBP'])
   currency!: 'USD' | 'AED' | 'EUR' | 'GBP';
 
   @ApiProperty({ example: 'https://app.example.com/success', description: 'Redirect URL on success' })

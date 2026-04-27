@@ -52,14 +52,14 @@ function Calendar({
         button_next: cn(
           "h-8 w-8 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground/70 hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-95 pointer-events-auto",
         ),
-        month_grid: "w-full border-collapse",
-        weekdays: "flex mb-1",
+        month_grid: "w-full border-collapse space-y-1",
+        weekdays: "flex justify-between w-full mb-2",
         weekday:
           "text-muted-foreground dark:text-blue-200/70 w-10 h-8 text-[11px] font-semibold text-center flex items-center justify-center",
         week: "flex w-full",
         // @ts-ignore
         cell: cn(
-          "w-8 h-8 flex items-center justify-center text-center p-0 relative focus-within:relative focus-within:z-20",
+          "w-10 h-10 flex items-center justify-center text-center p-0 relative focus-within:relative focus-within:z-20",
           props.mode === "range"
             ? "[&:has([aria-selected].day-range-end)]:rounded-r-full [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-ezee-red/15"
             : "[&:has([aria-selected])]:bg-transparent",
@@ -82,7 +82,7 @@ function Calendar({
         range_middle:
           "aria-selected:bg-brand-red/10 aria-selected:text-foreground rounded-none",
         hidden: "invisible",
-        caption_dropdowns: "flex flex-col justify-center items-center gap-1",
+        caption_dropdowns: "flex flex-row justify-center items-center gap-2",
         dropdown:
           "bg-muted/50 hover:bg-muted px-2 py-1 rounded-md border-none text-sm font-bold focus:ring-2 focus:ring-redmix/20 cursor-pointer appearance-none transition-colors",
         dropdown_month: "relative inline-flex items-center",

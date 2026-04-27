@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ProfilePayload = {
   firstName?: string;
@@ -23,6 +23,10 @@ export function ProfileForm({
   const [form, setForm] = useState<ProfilePayload>(initial ?? {});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setForm(initial ?? {});
+  }, [initial]);
 
   async function submit() {
     if (loading) return;
@@ -108,6 +112,36 @@ export function ProfileForm({
               setForm((p) => ({ ...p, passportNumber: e.target.value }))
             }
           />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Date of Birth
+          </label>
+          <input
+            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
+            placeholder="YYYY-MM-DD"
+            type="date"
+            value={form.dateOfBirth ?? ""}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, dateOfBirth: e.target.value }))
+            }
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Gender
+          </label>
+          <select
+            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
+            value={form.gender ?? ""}
+            onChange={(e) => setForm((p) => ({ ...p, gender: e.target.value }))}
+          >
+            <option value="">Select gender</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </select>
         </div>
       </div>
       <div className="flex justify-end pt-2">

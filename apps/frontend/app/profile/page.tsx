@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiFetch } from "@/lib/api/client";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { useProfile } from "@/lib/hooks/use-profile";
 import { logoutRequest } from "@/lib/api/auth-api";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import type { Route } from "next";
 import { LogOut } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "../../components/ui/skeleton";
@@ -20,6 +21,12 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("personal");
   const queryClient = useQueryClient();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/profile";
+  const safeCallbackUrl: Route = callbackUrl.startsWith("/")
+    ? (callbackUrl as Route)
+    : ("/profile" as Route);
+  const profile = useProfile(!!session.data);
 
   const handleLogout = async () => {
     await logoutRequest();
@@ -27,17 +34,12 @@ export default function ProfilePage() {
     queryClient.invalidateQueries({ queryKey: ["profile-me"] });
     router.push("/");
   };
-  const profile = useQuery({
-    queryKey: ["profile-me"],
-    queryFn: () => apiFetch<any>("/profile/me"),
-    enabled: !!session.data,
-  });
 
   if (!session.data)
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <main className="flex-grow flex items-center justify-center">
+        <main className="grow flex items-center justify-center">
           <p className="rounded-xl border border-amber-200 bg-amber-50 p-6 text-amber-800 dark:border-amber-900/30 dark:bg-amber-900/10 dark:text-amber-500">
             Sign in required to view your profile.
           </p>
@@ -51,7 +53,7 @@ export default function ProfilePage() {
         <Header />
         <main className="max-w-6xl mx-auto w-full py-12 px-4 space-y-4">
           <Skeleton className="h-44 w-full rounded-2xl" />
-          <Skeleton className="h-[420px] w-full rounded-2xl" />
+          <Skeleton className="h-105 w-full rounded-2xl" />
         </main>
         <Footer />
       </div>
@@ -128,12 +130,14 @@ export default function ProfilePage() {
             <TabsContent value="personal">
               <ProfileForm
                 initial={p}
-                onSave={(payload) =>
-                  apiFetch("/profile/me", {
+                onSave={async (payload) => {
+                  await apiFetch("/profile/me", {
                     method: "PATCH",
                     body: JSON.stringify(payload),
-                  })
-                }
+                  });
+                  await queryClient.invalidateQueries({ queryKey: ["profile-me"] });
+                  router.push(safeCallbackUrl);
+                }}
               />
             </TabsContent>
             <TabsContent value="travelers">

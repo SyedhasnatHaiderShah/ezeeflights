@@ -1,21 +1,21 @@
 [
   {
-    "id": "wd9w+1O3nDKAAvTg09AAAA==",
+    "id": "2Nx2+1HEuDKAgp72l+AAAA==",
     "airline": "FZ",
     "airlineCode": "FZ",
     "flightNumber": "360",
     "departureAirport": "LHE",
     "arrivalAirport": "DXB",
-    "departureAt": "2026-05-26T05:45:00.000+05:00",
-    "arrivalAt": "2026-05-26T08:40:00.000+04:00",
+    "departureAt": "2026-05-25T05:45:00.000+05:00",
+    "arrivalAt": "2026-05-25T08:40:00.000+04:00",
     "duration": 235,
     "stops": 0,
-    "totalPrice": "INR32227",
+    "totalPrice": "INR32302",
     "basePrice": "USD261.00",
-    "taxes": "INR7672",
-    "price": 32227,
-    "basePriceNumeric": 24555,
-    "taxesNumeric": 7672,
+    "taxes": "INR7697",
+    "price": 32302,
+    "basePriceNumeric": 24605,
+    "taxesNumeric": 7697,
     "currency": "INR",
     "segments": [
       {
@@ -23,16 +23,16 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAEtTg09AAAA=="
+          "Key": "2Nx2+1HEuDKA2m72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKADtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKA1m72l+AAAA==",
         "Group": "0",
         "Carrier": "FZ",
         "FlightNumber": "360",
         "Origin": "LHE",
         "Destination": "DXB",
-        "DepartureTime": "2026-05-26T05:45:00.000+05:00",
-        "ArrivalTime": "2026-05-26T08:40:00.000+04:00",
+        "DepartureTime": "2026-05-25T05:45:00.000+05:00",
+        "ArrivalTime": "2026-05-25T08:40:00.000+04:00",
         "FlightTime": "235",
         "Distance": "1246",
         "ETicketability": "Yes",
@@ -47,22 +47,22 @@
     ]
   },
   {
-    "id": "wd9w+1O3nDKABvTg09AAAA==",
+    "id": "2Nx2+1HEuDKAhp72l+AAAA==",
     "airline": "EY",
     "airlineCode": "EY",
     "flightNumber": "285",
     "departureAirport": "LHE",
     "arrivalAirport": "XNB",
-    "departureAt": "2026-05-26T04:40:00.000+05:00",
-    "arrivalAt": "2026-05-26T10:25:00.000+04:00",
+    "departureAt": "2026-05-25T04:40:00.000+05:00",
+    "arrivalAt": "2026-05-25T10:25:00.000+04:00",
     "duration": 320,
     "stops": 1,
-    "totalPrice": "INR32407",
-    "basePrice": "USD281.00",
-    "taxes": "INR5972",
-    "price": 32407,
-    "basePriceNumeric": 26435,
-    "taxesNumeric": 5972,
+    "totalPrice": "INR33052",
+    "basePrice": "USD287.00",
+    "taxes": "INR5997",
+    "price": 33052,
+    "basePriceNumeric": 27055,
+    "taxesNumeric": 5997,
     "currency": "INR",
     "segments": [
       {
@@ -70,16 +70,16 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAGtTg09AAAA=="
+          "Key": "2Nx2+1HEuDKA4m72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAFtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKA3m72l+AAAA==",
         "Group": "0",
         "Carrier": "EY",
         "FlightNumber": "285",
         "Origin": "LHE",
         "Destination": "AUH",
-        "DepartureTime": "2026-05-26T04:40:00.000+05:00",
-        "ArrivalTime": "2026-05-26T07:00:00.000+04:00",
+        "DepartureTime": "2026-05-25T04:40:00.000+05:00",
+        "ArrivalTime": "2026-05-25T07:00:00.000+04:00",
         "FlightTime": "200",
         "Distance": "1310",
         "ETicketability": "Yes",
@@ -97,16 +97,16 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAItTg09AAAA=="
+          "Key": "2Nx2+1HEuDKA6m72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAHtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKA5m72l+AAAA==",
         "Group": "0",
         "Carrier": "EY",
         "FlightNumber": "5416",
         "Origin": "AUH",
         "Destination": "XNB",
-        "DepartureTime": "2026-05-26T08:25:00.000+04:00",
-        "ArrivalTime": "2026-05-26T10:25:00.000+04:00",
+        "DepartureTime": "2026-05-25T08:25:00.000+04:00",
+        "ArrivalTime": "2026-05-25T10:25:00.000+04:00",
         "FlightTime": "120",
         "Distance": "67",
         "ETicketability": "Yes",
@@ -122,22 +122,22 @@
     ]
   },
   {
-    "id": "wd9w+1O3nDKACvTg09AAAA==",
+    "id": "2Nx2+1HEuDKAip72l+AAAA==",
     "airline": "EY",
     "airlineCode": "EY",
     "flightNumber": "289",
     "departureAirport": "LHE",
     "arrivalAirport": "XNB",
-    "departureAt": "2026-05-26T19:45:00.000+05:00",
-    "arrivalAt": "2026-05-27T03:10:00.000+04:00",
+    "departureAt": "2026-05-25T19:45:00.000+05:00",
+    "arrivalAt": "2026-05-26T03:10:00.000+04:00",
     "duration": 320,
     "stops": 1,
-    "totalPrice": "INR32877",
-    "basePrice": "USD286.00",
-    "taxes": "INR5972",
-    "price": 32877,
-    "basePriceNumeric": 26905,
-    "taxesNumeric": 5972,
+    "totalPrice": "INR33522",
+    "basePrice": "USD292.00",
+    "taxes": "INR5997",
+    "price": 33522,
+    "basePriceNumeric": 27525,
+    "taxesNumeric": 5997,
     "currency": "INR",
     "segments": [
       {
@@ -145,16 +145,16 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAQtTg09AAAA=="
+          "Key": "2Nx2+1HEuDKACn72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAPtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKABn72l+AAAA==",
         "Group": "0",
         "Carrier": "EY",
         "FlightNumber": "289",
         "Origin": "LHE",
         "Destination": "AUH",
-        "DepartureTime": "2026-05-26T19:45:00.000+05:00",
-        "ArrivalTime": "2026-05-26T22:05:00.000+04:00",
+        "DepartureTime": "2026-05-25T19:45:00.000+05:00",
+        "ArrivalTime": "2026-05-25T22:05:00.000+04:00",
         "FlightTime": "200",
         "Distance": "1310",
         "ETicketability": "Yes",
@@ -172,16 +172,16 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAStTg09AAAA=="
+          "Key": "2Nx2+1HEuDKAEn72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKARtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKADn72l+AAAA==",
         "Group": "0",
         "Carrier": "EY",
         "FlightNumber": "5412",
         "Origin": "AUH",
         "Destination": "XNB",
-        "DepartureTime": "2026-05-27T01:10:00.000+04:00",
-        "ArrivalTime": "2026-05-27T03:10:00.000+04:00",
+        "DepartureTime": "2026-05-26T01:10:00.000+04:00",
+        "ArrivalTime": "2026-05-26T03:10:00.000+04:00",
         "FlightTime": "120",
         "Distance": "67",
         "ETicketability": "Yes",
@@ -197,22 +197,22 @@
     ]
   },
   {
-    "id": "wd9w+1O3nDKADvTg09AAAA==",
+    "id": "2Nx2+1HEuDKAjp72l+AAAA==",
     "airline": "SV",
     "airlineCode": "SV",
     "flightNumber": "739",
     "departureAirport": "LHE",
     "arrivalAirport": "DXB",
-    "departureAt": "2026-05-26T02:40:00.000+05:00",
-    "arrivalAt": "2026-05-26T16:00:00.000+04:00",
-    "duration": 485,
+    "departureAt": "2026-05-25T02:40:00.000+05:00",
+    "arrivalAt": "2026-05-25T16:00:00.000+04:00",
+    "duration": 490,
     "stops": 1,
-    "totalPrice": "INR37389",
+    "totalPrice": "INR37480",
     "basePrice": "USD302.00",
-    "taxes": "INR8979",
-    "price": 37389,
-    "basePriceNumeric": 28410,
-    "taxesNumeric": 8979,
+    "taxes": "INR9010",
+    "price": 37480,
+    "basePriceNumeric": 28470,
+    "taxesNumeric": 9010,
     "currency": "INR",
     "segments": [
       {
@@ -220,18 +220,93 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAatTg09AAAA=="
+          "Key": "2Nx2+1HEuDKAMn72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAZtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKALn72l+AAAA==",
         "Group": "0",
         "Carrier": "SV",
         "FlightNumber": "739",
         "Origin": "LHE",
         "Destination": "JED",
-        "DepartureTime": "2026-05-26T02:40:00.000+05:00",
-        "ArrivalTime": "2026-05-26T05:55:00.000+03:00",
+        "DepartureTime": "2026-05-25T02:40:00.000+05:00",
+        "ArrivalTime": "2026-05-25T05:55:00.000+03:00",
         "FlightTime": "315",
         "Distance": "2273",
+        "ETicketability": "Yes",
+        "Equipment": "777",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "P",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "2Nx2+1HEuDKAOn72l+AAAA=="
+        },
+        "Key": "2Nx2+1HEuDKANn72l+AAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "588",
+        "Origin": "JED",
+        "Destination": "DXB",
+        "DepartureTime": "2026-05-25T12:05:00.000+03:00",
+        "ArrivalTime": "2026-05-25T16:00:00.000+04:00",
+        "FlightTime": "175",
+        "Distance": "1048",
+        "ETicketability": "Yes",
+        "Equipment": "320",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "P",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      }
+    ]
+  },
+  {
+    "id": "2Nx2+1HEuDKAkp72l+AAAA==",
+    "airline": "SV",
+    "airlineCode": "SV",
+    "flightNumber": "737",
+    "departureAirport": "LHE",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-05-25T20:50:00.000+05:00",
+    "arrivalAt": "2026-05-26T12:00:00.000+04:00",
+    "duration": 400,
+    "stops": 1,
+    "totalPrice": "INR41815",
+    "basePrice": "USD348.00",
+    "taxes": "INR9010",
+    "price": 41815,
+    "basePriceNumeric": 32805,
+    "taxesNumeric": 9010,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "2Nx2+1HEuDKAQn72l+AAAA=="
+        },
+        "Key": "2Nx2+1HEuDKAPn72l+AAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "737",
+        "Origin": "LHE",
+        "Destination": "RUH",
+        "DepartureTime": "2026-05-25T20:50:00.000+05:00",
+        "ArrivalTime": "2026-05-25T23:30:00.000+03:00",
+        "FlightTime": "280",
+        "Distance": "1741",
         "ETicketability": "Yes",
         "Equipment": "773",
         "ChangeOfPlane": "false",
@@ -247,18 +322,18 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKActTg09AAAA=="
+          "Key": "2Nx2+1HEuDKASn72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAbtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKARn72l+AAAA==",
         "Group": "0",
         "Carrier": "SV",
-        "FlightNumber": "588",
-        "Origin": "JED",
+        "FlightNumber": "596",
+        "Origin": "RUH",
         "Destination": "DXB",
-        "DepartureTime": "2026-05-26T12:10:00.000+03:00",
-        "ArrivalTime": "2026-05-26T16:00:00.000+04:00",
-        "FlightTime": "170",
-        "Distance": "1048",
+        "DepartureTime": "2026-05-26T09:00:00.000+03:00",
+        "ArrivalTime": "2026-05-26T12:00:00.000+04:00",
+        "FlightTime": "120",
+        "Distance": "536",
         "ETicketability": "Yes",
         "Equipment": "330",
         "ChangeOfPlane": "false",
@@ -272,22 +347,22 @@
     ]
   },
   {
-    "id": "wd9w+1O3nDKAEvTg09AAAA==",
+    "id": "2Nx2+1HEuDKAlp72l+AAAA==",
     "airline": "PK",
     "airlineCode": "PK",
-    "flightNumber": "303",
+    "flightNumber": "305",
     "departureAirport": "LHE",
     "arrivalAirport": "DXB",
-    "departureAt": "2026-05-26T11:00:00.000+05:00",
-    "arrivalAt": "2026-05-27T15:30:00.000+04:00",
+    "departureAt": "2026-05-25T17:00:00.000+05:00",
+    "arrivalAt": "2026-05-26T17:55:00.000+04:00",
     "duration": 435,
     "stops": 2,
-    "totalPrice": "INR41927",
+    "totalPrice": "INR42029",
     "basePrice": "USD301.00",
-    "taxes": "INR13612",
-    "price": 41927,
-    "basePriceNumeric": 28315,
-    "taxesNumeric": 13612,
+    "taxes": "INR13654",
+    "price": 42029,
+    "basePriceNumeric": 28375,
+    "taxesNumeric": 13654,
     "currency": "INR",
     "segments": [
       {
@@ -295,16 +370,16 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAetTg09AAAA=="
+          "Key": "2Nx2+1HEuDKAUn72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAdtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKATn72l+AAAA==",
         "Group": "0",
         "Carrier": "PK",
-        "FlightNumber": "303",
+        "FlightNumber": "305",
         "Origin": "LHE",
         "Destination": "KHI",
-        "DepartureTime": "2026-05-26T11:00:00.000+05:00",
-        "ArrivalTime": "2026-05-26T12:45:00.000+05:00",
+        "DepartureTime": "2026-05-25T17:00:00.000+05:00",
+        "ArrivalTime": "2026-05-25T18:45:00.000+05:00",
         "FlightTime": "105",
         "Distance": "636",
         "ETicketability": "Yes",
@@ -312,9 +387,9 @@
         "ChangeOfPlane": "false",
         "ParticipantLevel": "Secure Sell",
         "LinkAvailability": "true",
-        "PolledAvailabilityOption": "Polled avail exists",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
         "OptionalServicesIndicator": "false",
-        "AvailabilitySource": "A",
+        "AvailabilitySource": "P",
         "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
       },
       {
@@ -322,16 +397,16 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAgtTg09AAAA=="
+          "Key": "2Nx2+1HEuDKAWn72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAftTg09AAAA==",
+        "Key": "2Nx2+1HEuDKAVn72l+AAAA==",
         "Group": "0",
         "Carrier": "PK",
-        "FlightNumber": "308",
+        "FlightNumber": "300",
         "Origin": "KHI",
         "Destination": "ISB",
-        "DepartureTime": "2026-05-26T16:00:00.000+05:00",
-        "ArrivalTime": "2026-05-26T17:55:00.000+05:00",
+        "DepartureTime": "2026-05-26T07:00:00.000+05:00",
+        "ArrivalTime": "2026-05-26T08:55:00.000+05:00",
         "FlightTime": "115",
         "Distance": "689",
         "ETicketability": "Yes",
@@ -349,18 +424,103 @@
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAitTg09AAAA=="
+          "Key": "2Nx2+1HEuDKAYn72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAhtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKAXn72l+AAAA==",
         "Group": "0",
         "Carrier": "PK",
         "FlightNumber": "211",
         "Origin": "ISB",
         "Destination": "DXB",
-        "DepartureTime": "2026-05-27T12:55:00.000+05:00",
-        "ArrivalTime": "2026-05-27T15:30:00.000+04:00",
+        "DepartureTime": "2026-05-26T15:20:00.000+05:00",
+        "ArrivalTime": "2026-05-26T17:55:00.000+04:00",
         "FlightTime": "215",
         "Distance": "1208",
+        "ETicketability": "Yes",
+        "Equipment": "320",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "A",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      }
+    ]
+  },
+  {
+    "id": "2Nx2+1HEuDKAmp72l+AAAA==",
+    "airline": "SV",
+    "airlineCode": "SV",
+    "flightNumber": "4046",
+    "departureAirport": "LHE",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-05-25T07:40:00.000+05:00",
+    "arrivalAt": "2026-05-25T21:45:00.000+04:00",
+    "duration": 415,
+    "stops": 1,
+    "totalPrice": "INR53125",
+    "basePrice": "USD468.00",
+    "taxes": "INR9010",
+    "price": 53125,
+    "basePriceNumeric": 44115,
+    "taxesNumeric": 9010,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:CodeshareInfo": {
+          "#text": "FLYADEAL",
+          "OperatingCarrier": "F3",
+          "OperatingFlightNumber": "656"
+        },
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "2Nx2+1HEuDKAen72l+AAAA=="
+        },
+        "Key": "2Nx2+1HEuDKAdn72l+AAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "4046",
+        "Origin": "LHE",
+        "Destination": "RUH",
+        "DepartureTime": "2026-05-25T07:40:00.000+05:00",
+        "ArrivalTime": "2026-05-25T10:40:00.000+03:00",
+        "FlightTime": "300",
+        "Distance": "1741",
+        "ETicketability": "Yes",
+        "Equipment": "320",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "P",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
+      },
+      {
+        "air:CodeshareInfo": {
+          "#text": "FLYADEAL",
+          "OperatingCarrier": "F3",
+          "OperatingFlightNumber": "513"
+        },
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "2Nx2+1HEuDKAgn72l+AAAA=="
+        },
+        "Key": "2Nx2+1HEuDKAfn72l+AAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "6668",
+        "Origin": "RUH",
+        "Destination": "DXB",
+        "DepartureTime": "2026-05-25T18:50:00.000+03:00",
+        "ArrivalTime": "2026-05-25T21:45:00.000+04:00",
+        "FlightTime": "115",
+        "Distance": "536",
         "ETicketability": "Yes",
         "Equipment": "320",
         "ChangeOfPlane": "false",
@@ -374,43 +534,48 @@
     ]
   },
   {
-    "id": "wd9w+1O3nDKAFvTg09AAAA==",
+    "id": "2Nx2+1HEuDKAnp72l+AAAA==",
     "airline": "SV",
     "airlineCode": "SV",
-    "flightNumber": "737",
+    "flightNumber": "4046",
     "departureAirport": "LHE",
     "arrivalAirport": "DXB",
-    "departureAt": "2026-05-26T20:50:00.000+05:00",
-    "arrivalAt": "2026-05-27T12:00:00.000+04:00",
-    "duration": 400,
+    "departureAt": "2026-05-25T07:40:00.000+05:00",
+    "arrivalAt": "2026-05-25T20:25:00.000+04:00",
+    "duration": 415,
     "stops": 1,
-    "totalPrice": "INR43314",
-    "basePrice": "USD365.00",
-    "taxes": "INR8979",
-    "price": 43314,
-    "basePriceNumeric": 34335,
-    "taxesNumeric": 8979,
+    "totalPrice": "INR55860",
+    "basePrice": "USD497.00",
+    "taxes": "INR9010",
+    "price": 55860,
+    "basePriceNumeric": 46850,
+    "taxesNumeric": 9010,
     "currency": "INR",
     "segments": [
       {
+        "air:CodeshareInfo": {
+          "#text": "FLYADEAL",
+          "OperatingCarrier": "F3",
+          "OperatingFlightNumber": "656"
+        },
         "air:AirAvailInfo": {
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAktTg09AAAA=="
+          "Key": "2Nx2+1HEuDKAen72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAjtTg09AAAA==",
+        "Key": "2Nx2+1HEuDKAdn72l+AAAA==",
         "Group": "0",
         "Carrier": "SV",
-        "FlightNumber": "737",
+        "FlightNumber": "4046",
         "Origin": "LHE",
         "Destination": "RUH",
-        "DepartureTime": "2026-05-26T20:50:00.000+05:00",
-        "ArrivalTime": "2026-05-26T23:30:00.000+03:00",
-        "FlightTime": "280",
+        "DepartureTime": "2026-05-25T07:40:00.000+05:00",
+        "ArrivalTime": "2026-05-25T10:40:00.000+03:00",
+        "FlightTime": "300",
         "Distance": "1741",
         "ETicketability": "Yes",
-        "Equipment": "777",
+        "Equipment": "320",
         "ChangeOfPlane": "false",
         "ParticipantLevel": "Secure Sell",
         "LinkAvailability": "true",
@@ -420,24 +585,29 @@
         "AvailabilityDisplayType": "Fare Shop/Optimal Shop"
       },
       {
+        "air:CodeshareInfo": {
+          "#text": "FLYADEAL",
+          "OperatingCarrier": "F3",
+          "OperatingFlightNumber": "511"
+        },
         "air:AirAvailInfo": {
           "ProviderCode": "1G"
         },
         "air:FlightDetailsRef": {
-          "Key": "wd9w+1O3nDKAmtTg09AAAA=="
+          "Key": "2Nx2+1HEuDKAin72l+AAAA=="
         },
-        "Key": "wd9w+1O3nDKAltTg09AAAA==",
+        "Key": "2Nx2+1HEuDKAhn72l+AAAA==",
         "Group": "0",
         "Carrier": "SV",
-        "FlightNumber": "596",
+        "FlightNumber": "6666",
         "Origin": "RUH",
         "Destination": "DXB",
-        "DepartureTime": "2026-05-27T09:00:00.000+03:00",
-        "ArrivalTime": "2026-05-27T12:00:00.000+04:00",
-        "FlightTime": "120",
+        "DepartureTime": "2026-05-25T17:30:00.000+03:00",
+        "ArrivalTime": "2026-05-25T20:25:00.000+04:00",
+        "FlightTime": "115",
         "Distance": "536",
         "ETicketability": "Yes",
-        "Equipment": "330",
+        "Equipment": "320",
         "ChangeOfPlane": "false",
         "ParticipantLevel": "Secure Sell",
         "LinkAvailability": "true",

@@ -9,7 +9,6 @@ import { Drawer } from "vaul";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Bell,
-  Briefcase,
   Car,
   Heart,
   Hotel,
@@ -26,8 +25,9 @@ import {
   X,
   Info,
   ChevronRight,
+  Grid3X3,
 } from "lucide-react";
-import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import EzeeFlightsLogo from "@/components/ezee-flights-logo";
 import {
@@ -38,10 +38,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AppIcon } from "@/components/ui/app-icon";
 import { useSidebarStore } from "@/lib/store/sidebar-store";
-import { useAuthSession } from "@/lib/hooks/use-auth-session";
-import { logoutRequest } from "@/lib/api/auth-api";
 import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
-import { apiFetch } from "@/lib/api/client";
+import { logoutRequest } from "@/lib/api/auth-api";
+import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { useProfile } from "@/lib/hooks/use-profile";
 import {
   useMarkAllRead,
   useMarkRead,
@@ -153,15 +153,10 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
   const { theme, setTheme } = useTheme();
 
   const currentTab = searchParams.get("tab") || "flights";
-  const toggleSidebar = useSidebarStore((state) => state.toggle);
-  const openAuthModal = useAuthModalStore((state) => state.open);
+  const toggleSidebar = useSidebarStore((state: any) => state.toggle);
+  const openAuthModal = useAuthModalStore((state: any) => state.open);
   const { data: session, isLoading } = useAuthSession();
-  const { data: profile } = useQuery({
-    queryKey: ["profile-me"],
-    queryFn: () => apiFetch<any>("/profile/me"),
-    enabled: !!session,
-    staleTime: 60000,
-  });
+  const { data: profile } = useProfile(!!session);
 
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
@@ -242,9 +237,9 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
         className={cn(
           "border-b transition-all duration-300",
           isScrolled
-            ? "bg-background shadow-sm border-border"
+            ? "bg-background/85 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.1)] border-border/40"
             : isTransparent
-              ? "bg-white/15 backdrop-blur-xl border-white/10 text-white"
+              ? "bg-white/15 backdrop-blur-xl border-white/20 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]"
               : "bg-background/95 backdrop-blur-md border-transparent",
         )}
       >
@@ -287,8 +282,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                     "relative hidden lg:flex items-center gap-2 px-4 py-2 text-sm font-medium cursor-pointer transition-all duration-300 rounded-full",
                     isActive
                       ? isTransparent
-                        ? "bg-white text-redmix shadow-lg"
-                        : "bg-redmix text-white shadow-lg"
+                        ? "bg-white text-redmix shadow-[0_8px_16px_rgba(255,255,255,0.2),inset_0_1px_1px_rgba(255,255,255,0.4)]"
+                        : "bg-redmix text-white shadow-[0_8px_16px_rgba(197,42,40,0.3),inset_0_1px_1px_rgba(255,255,255,0.3)]"
                       : isTransparent
                         ? "text-white hover:text-white hover:bg-white/10"
                         : "text-foreground hover:text-redmix hover:bg-redmix/10",
@@ -303,7 +298,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               <DropdownMenuTrigger asChild>
                 <button
                   className={cn(
-                    "relative flex items-center gap-1.5 px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full",
+                    "group relative flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-full overflow-hidden",
                     moreLinks.some((link) => {
                       const linkTabId = link.label.toLowerCase();
                       const tabFromUrl = searchParams.get("tab");
@@ -312,109 +307,124 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                         : pathname === link.href;
                     })
                       ? isTransparent
-                        ? "bg-white text-redmix shadow-lg"
-                        : "bg-redmix text-white shadow-lg"
+                        ? "bg-white text-redmix shadow-lg shadow-redmix/20"
+                        : "bg-redmix text-white shadow-lg shadow-redmix/30"
                       : isTransparent
-                        ? "text-white/80 hover:text-white hover:bg-white/10"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                        ? "text-white/90 hover:text-white border border-white/40 bg-white/10 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] hover:bg-white/20"
+                        : "text-foreground border border-border/30 bg-background/20 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] hover:text-redmix hover:bg-redmix/5",
                   )}
                 >
-                  <Briefcase className="h-4 w-4" />
+                  <Grid3X3 className="h-4 w-4 transition-transform duration-300 group-hover:rotate-90" />
                   <span className="lg:hidden">Explore</span>
                   <span className="hidden lg:inline">More</span>
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-data-[state=open]:rotate-180" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                align="center"
-                className="w-[320px] lg:w-[560px] p-4"
+                align="end"
+                sideOffset={12}
+                className="w-[280px] lg:w-[480px] p-0 overflow-hidden rounded-[2rem] border border-white/30 bg-white/15 dark:bg-black/20 backdrop-blur-2xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2),inset_0_1px_0_0_rgba(255,255,255,0.1)] animate-in fade-in zoom-in-95 duration-300"
               >
-                <div className="flex flex-col lg:grid lg:grid-cols-[1.2fr_1fr] gap-4">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-                    {/* On screens below lg, show primary tabs in dropdown */}
-                    <div className="lg:hidden contents">
-                      {navTabs.map((item) => {
-                        const isSubActive = pathname === item.href;
+                <div className="flex flex-col lg:flex-row">
+                  {/* Navigation Links */}
+                  <div className="flex-1 p-3 lg:p-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
+                      {/* Mobile Only: Show primary tabs */}
+                      <div className="lg:hidden contents">
+                        {navTabs.map((item) => {
+                          const isSubActive = pathname === item.href;
+                          const Icon = item.icon;
+                          return (
+                            <Link
+                              key={item.href}
+                              href={`${item.href}?tab=${item.label.toLowerCase()}`}
+                              className={cn(
+                                "flex items-center gap-3 rounded-xl p-2.5 transition-all duration-200 group",
+                                isSubActive
+                                  ? "bg-primary/10 text-primary"
+                                  : isTransparent
+                                    ? "text-white/80 hover:text-white hover:bg-white/10"
+                                    : "text-foreground/70 hover:text-foreground hover:bg-muted",
+                              )}
+                            >
+                              <div
+                                className={cn(
+                                  "flex h-8 w-8 items-center justify-center rounded-lg transition-all",
+                                  isSubActive
+                                    ? "bg-primary text-white"
+                                    : "bg-muted text-muted-foreground group-hover:bg-background group-hover:text-primary",
+                                )}
+                              >
+                                <Icon className="h-4 w-4" />
+                              </div>
+                              <span className="text-sm font-semibold tracking-tight">
+                                {item.label}
+                              </span>
+                            </Link>
+                          );
+                        })}
+                        <div className="h-px bg-border/50 my-2 lg:hidden" />
+                      </div>
+
+                      {moreLinks.map((item) => {
+                        const isSubActive =
+                          pathname === item.href ||
+                          (pathname === "/" &&
+                            currentTab === item.label.toLowerCase());
                         const Icon = item.icon;
                         return (
                           <Link
                             key={item.href}
                             href={`${item.href}?tab=${item.label.toLowerCase()}`}
                             className={cn(
-                              "flex items-center gap-3 rounded-xl p-3 transition-all duration-200",
+                              "flex items-center gap-3 rounded-xl p-2.5 transition-all duration-200 group",
                               isSubActive
-                                ? "bg-redmix/5 text-redmix"
-                                : "hover:bg-muted text-foreground",
+                                ? "bg-primary/10 text-primary"
+                                : isTransparent
+                                  ? "text-white/80 hover:text-white hover:bg-white/10"
+                                  : "text-foreground/70 hover:text-foreground hover:bg-muted",
                             )}
                           >
                             <div
                               className={cn(
-                                "p-2 rounded-lg",
+                                "flex h-8 w-8 items-center justify-center rounded-lg transition-all",
                                 isSubActive
-                                  ? "bg-redmix text-white"
-                                  : "bg-muted group-hover:bg-background",
+                                  ? "bg-primary text-white"
+                                  : "bg-muted text-muted-foreground group-hover:bg-background group-hover:text-primary",
                               )}
                             >
                               <Icon className="h-4 w-4" />
                             </div>
-                            <span className="font-bold">{item.label}</span>
+                            <span className="text-sm font-semibold tracking-tight">
+                              {item.label}
+                            </span>
                           </Link>
                         );
                       })}
-                      <div className="h-px bg-border my-2 lg:hidden" />
                     </div>
-
-                    {moreLinks.map((item) => {
-                      const isSubActive =
-                        pathname === item.href ||
-                        (pathname === "/" &&
-                          currentTab === item.label.toLowerCase());
-                      const Icon = item.icon;
-                      return (
-                        <Link
-                          key={item.href}
-                          href={`${item.href}?tab=${item.label.toLowerCase()}`}
-                          className={cn(
-                            "flex items-center gap-3 rounded-xl p-3 transition-all duration-200 group",
-                            isSubActive
-                              ? "bg-redmix/5 text-redmix"
-                              : "hover:bg-muted text-foreground",
-                          )}
-                        >
-                          <div
-                            className={cn(
-                              "p-2 rounded-lg transition-colors",
-                              isSubActive
-                                ? "bg-redmix text-white"
-                                : "bg-muted group-hover:bg-background",
-                            )}
-                          >
-                            <Icon className="h-4 w-4" />
-                          </div>
-                          <span className="font-bold">{item.label}</span>
-                        </Link>
-                      );
-                    })}
                   </div>
-                  <div className="hidden lg:block">
+
+                  {/* Featured Card */}
+                  <div className="hidden lg:block w-[150px] bg-muted/20 border-l border-border/30 p-3">
                     <Link
                       href="/packages?tab=packages"
-                      className="group relative block aspect-[4/3] overflow-hidden rounded-2xl"
+                      className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-background border border-border/40 transition-all hover:border-primary/20 hover:shadow-md"
                     >
-                      <Image
-                        src="/logos-banner-new.jpg"
-                        alt="Featured deals"
-                        width={260}
-                        height={160}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                      <div className="absolute inset-x-0 bottom-0 p-3 text-white">
-                        <p className="text-xs uppercase tracking-wide text-white/80">
+                      <div className="relative aspect-square overflow-hidden bg-slate-100">
+                        <Image
+                          src="/logos-banner-new.jpg"
+                          alt="Featured"
+                          fill
+                          className="object-cover p-0 transition-all duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-40" />
+                      </div>
+                      <div className="p-2.5">
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-primary mb-0.5">
                           Featured
                         </p>
-                        <p className="text-sm font-semibold">
-                          Explore top travel bundles
+                        <p className="text-[10px] font-bold leading-[1.2] text-foreground line-clamp-2">
+                          Explore Top Bundles
                         </p>
                       </div>
                     </Link>

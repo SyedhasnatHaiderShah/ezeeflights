@@ -10,10 +10,12 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { PassengerForm } from "@/components/flights/PassengerForm";
 import { apiFetch } from "@/lib/api/client";
 import { useBookingFlowStore } from "@/lib/store/booking-flow-store";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { useProfile } from "@/lib/hooks/use-profile";
 import { useToast } from "@/lib/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/sections/Header";
@@ -28,13 +30,27 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { queryClient } from "@/lib/query/query-client";
 
 const steps = [
   { label: "Travelers", icon: UserIcon },
   { label: "Payment", icon: CreditCard },
 ];
 
-export default function BookingPage() {
+const SUPPORTED_PAYMENT_CURRENCIES = ["USD", "AED", "EUR", "GBP"] as const;
+const DEFAULT_PAYMENT_PROVIDER =
+  (process.env.NEXT_PUBLIC_PAYMENT_PROVIDER as "STRIPE" | "PAYTABS" | "TABBY" | "TAMARA" | "MOCK" | undefined) ??
+  (process.env.NODE_ENV === "production" ? "STRIPE" : "MOCK");
+
+function normalizePaymentCurrency(value: unknown): (typeof SUPPORTED_PAYMENT_CURRENCIES)[number] {
+  if (typeof value !== "string") return "USD";
+  const normalized = value.trim().toUpperCase();
+  return (SUPPORTED_PAYMENT_CURRENCIES as readonly string[]).includes(normalized)
+    ? (normalized as (typeof SUPPORTED_PAYMENT_CURRENCIES)[number])
+    : "USD";
+}
+
+function BookingPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const urlFlightId = searchParams.get("id");
@@ -82,6 +98,7 @@ export default function BookingPage() {
   const { data: session, status } = useAuthSession();
   const isAuthenticated = status === "success" && !!session;
   const authChecked = status !== "pending";
+  const profileQuery = useProfile(isAuthenticated);
   const activeFlightId = urlFlightId || selectedFlightIds[0] || "";
   const bookingFlightIds = urlFlightId ? [urlFlightId] : selectedFlightIds;
 
@@ -94,6 +111,10 @@ export default function BookingPage() {
     [ancillaries],
   );
   const progressValue = ((step + 1) / steps.length) * 100;
+  const paymentCurrency = useMemo(
+    () => normalizePaymentCurrency(flightDetails?.currency),
+    [flightDetails?.currency],
+  );
 
   // Redirect if not logged in
   useEffect(() => {
@@ -184,16 +205,23 @@ export default function BookingPage() {
             method: "POST",
             body: JSON.stringify({
               bookingId: bookingIdState,
-              provider: "STRIPE",
+              provider: DEFAULT_PAYMENT_PROVIDER,
               amount: Number(
                 flightDetails?.totalFare ?? flightDetails?.baseFare ?? 450,
               ),
-              currency: flightDetails?.currency || "USD",
+              currency: paymentCurrency,
               successUrl: window.location.origin + "/flights/booking/success",
               failureUrl: window.location.origin + "/flights/booking/failure",
             }),
           },
         );
+
+        const redirectUrl = (payment as any).redirectUrl as string | undefined;
+
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+          return;
+        }
 
         if (payment.status === "SUCCESS" || (payment as any).clientSecret) {
           setStep(2);
@@ -239,8 +267,8 @@ export default function BookingPage() {
     }
 
     try {
-      const profileResponse: any = await apiFetch("/profile/me");
-      const profile = profileResponse?.profile ?? profileResponse ?? {};
+      const profileResponse = await profileQuery.refetch();
+      const profile = (profileResponse.data as any)?.profile ?? profileResponse.data ?? {};
       console.log("[checkProfile] Profile data:", profile);
       const complete = !!(
         profile && 
@@ -316,7 +344,7 @@ export default function BookingPage() {
     } finally {
       setIsProfileChecking(false);
     }
-  }, [isAuthenticated, isProfileComplete, isProfileChecking, nextStep, passengers, toast]);
+  }, [isAuthenticated, isProfileComplete, isProfileChecking, nextStep, passengers, profileQuery, toast]);
 
   // Auto-fill profile data
   useEffect(() => {
@@ -346,19 +374,19 @@ export default function BookingPage() {
 
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-foreground flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Header />
 
-      <main className="flex-grow container mx-auto max-w-6xl px-4 pt-20 pb-12">
+      <main className="grow container mx-auto max-w-6xl px-4 pt-20 pb-12">
         <div className="mb-6 flex flex-col items-center text-center">
           {!isProfileComplete && !isProfileChecking && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="mb-6 w-full max-w-xl rounded-xl border border-redmix/10 bg-white p-3 flex items-center justify-between gap-4 shadow-sm"
+              className="mb-6 w-full max-w-xl rounded-xl border border-redmix/10 bg-card p-3 flex items-center justify-between gap-4 shadow-sm"
             >
               <div className="flex items-center gap-3 text-left">
-                <div className="h-8 w-8 rounded-full bg-redmix/5 flex items-center justify-center flex-shrink-0">
+                <div className="h-8 w-8 rounded-full bg-redmix/5 flex items-center justify-center shrink-0">
                   <Info className="h-4 w-4 text-redmix" />
                 </div>
                 <div>
@@ -371,7 +399,13 @@ export default function BookingPage() {
                   size="sm" 
                   variant="ghost" 
                   className="rounded-lg text-[10px] font-bold h-7"
-                  onClick={() => window.open("/profile", "_blank")}
+                  onClick={() =>
+                    router.push(
+                      `/profile?callbackUrl=${encodeURIComponent(
+                        `${window.location.pathname}${window.location.search}`,
+                      )}`,
+                    )
+                  }
                 >
                   Edit
                 </Button>
@@ -406,7 +440,7 @@ export default function BookingPage() {
 
           {step < 2 && (
             <div className="w-full max-w-lg relative">
-              <div className="absolute top-4 left-0 w-full h-[1px] bg-muted/40 -z-10" />
+              <div className="absolute top-4 left-0 w-full h-px bg-muted/40 -z-10" />
               <div className="flex justify-between px-2">
                 {steps.map((s, i) => (
                   <div
@@ -420,7 +454,7 @@ export default function BookingPage() {
                   >
                     <div
                       className={cn(
-                        "flex h-8 w-8 items-center justify-center rounded-full border-2 transition-all bg-white",
+                        "flex h-8 w-8 items-center justify-center rounded-full border-2 transition-all bg-background",
                         i < step
                           ? "bg-green-500 border-green-500 text-white"
                           : i === step
@@ -475,9 +509,9 @@ export default function BookingPage() {
                 )}
 
                 {step === 1 && (
-                  <Card className="rounded-2xl border-none bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+                  <Card className="rounded-2xl border-border bg-card shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
                     <CardContent className="p-6 md:p-10 text-center">
-                      <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                      <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-300">
                         <CreditCard className="h-8 w-8" />
                       </div>
                       <h2 className="text-2xl font-black uppercase mb-2 tracking-tight">
@@ -513,10 +547,10 @@ export default function BookingPage() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="bg-white rounded-2xl p-6 md:p-10 border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-center"
+                    className="bg-card rounded-2xl p-6 md:p-10 border-border shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-center"
                   >
                     <div className="mb-5 flex justify-center">
-                      <div className="h-16 w-16 rounded-full bg-green-50 flex items-center justify-center text-green-600">
+                      <div className="h-16 w-16 rounded-full bg-green-500/10 flex items-center justify-center text-green-600 dark:bg-green-500/20 dark:text-green-300">
                         <Check className="h-8 w-8" />
                       </div>
                     </div>
@@ -533,7 +567,7 @@ export default function BookingPage() {
                     </p>
 
                     <div className="grid grid-cols-1 gap-4 mb-8 text-left max-w-xs mx-auto">
-                      <div className="bg-[#fafafa] rounded-xl p-4 border border-border/50">
+                      <div className="bg-muted/40 rounded-xl p-4 border border-border/50">
                         <Label className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider block mb-1">
                           Total Paid
                         </Label>
@@ -591,14 +625,14 @@ export default function BookingPage() {
           </div>
 
           <aside>
-            <Card className="sticky top-24 rounded-2xl border-none bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+            <Card className="sticky top-24 rounded-2xl border-border bg-card shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
               <CardContent className="p-5">
                 <h3 className="mb-4 text-[11px] font-black text-foreground uppercase tracking-wider">
                   Trip Summary
                 </h3>
 
-                <div className="mb-5 flex items-center gap-3 p-3 rounded-xl bg-[#fafafa] border border-border/50">
-                  <div className="h-9 w-9 rounded-lg bg-white p-1.5 flex items-center justify-center border border-border/50">
+                <div className="mb-5 flex items-center gap-3 p-3 rounded-xl bg-muted/40 border border-border/50">
+                  <div className="h-9 w-9 rounded-lg bg-background p-1.5 flex items-center justify-center border border-border/50">
                     <img
                       src={`https://www.kayak.com/rimg/provider-logos/airlines/v/${flightDetails?.airlineCode || "XX"}.png`}
                       className="h-full w-full object-contain"
@@ -694,5 +728,13 @@ export default function BookingPage() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BookingPageContent />
+    </QueryClientProvider>
   );
 }
