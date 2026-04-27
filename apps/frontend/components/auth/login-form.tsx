@@ -76,11 +76,11 @@ export function LoginForm({
         </Button> */}
       </div>
 
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+      {/* <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <span className="h-px flex-1 bg-border" />
         <span>or continue with email</span>
         <span className="h-px flex-1 bg-border" />
-      </div>
+      </div> */}
 
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-1.5">
@@ -171,7 +171,7 @@ export function LoginForm({
           variant="brand-red"
           type="submit"
           disabled={disabled || !!emailError || !!passwordError}
-          className="h-12 w-full rounded-xl text-foreground"
+          className="h-12 w-full rounded-xl bg-red-500 text-white font-semibold"
         >
           {disabled ? (
             <>

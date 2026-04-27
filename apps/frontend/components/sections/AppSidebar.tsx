@@ -89,10 +89,6 @@ export function AppSidebar() {
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [close, isOpen]);
 
-  if (pathname?.startsWith("/auth")) {
-    return null;
-  }
-
   const userName =
     [session?.firstName, session?.lastName].filter(Boolean).join(" ") ||
     session?.email ||
@@ -107,6 +103,10 @@ export function AppSidebar() {
     },
     [close, router],
   );
+
+  if (pathname?.startsWith("/auth")) {
+    return null;
+  }
 
   return (
     <>

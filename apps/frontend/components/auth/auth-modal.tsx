@@ -117,7 +117,7 @@ export function AuthModal() {
             Sign in or create an account to access your flight bookings.
           </DialogDescription>
         </DialogHeader>
-        <div className="p-6 sm:p-8 space-y-6">
+        <div className="p-3 sm:p-5 space-y-3">
           <AnimatePresence mode="wait">
             {view === "login" ? (
               <motion.div

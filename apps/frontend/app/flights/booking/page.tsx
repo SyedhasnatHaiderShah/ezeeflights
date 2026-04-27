@@ -50,10 +50,12 @@ export default function BookingPage() {
     {
       fullName: string;
       passportNumber: string;
+      dob: string;
+      gender: "M" | "F";
       seatNumber: string;
       type: "ADULT" | "CHILD" | "INFANT";
     }[]
-  >([{ fullName: "", passportNumber: "", seatNumber: "", type: "ADULT" }]);
+  >([{ fullName: "", passportNumber: "", dob: "", gender: "M", seatNumber: "", type: "ADULT" }]);
   const [bookingIdState, setBookingIdState] = useState<string>("");
   const [step, setStep] = useState(0);
   const [error, setError] = useState("");
@@ -61,6 +63,7 @@ export default function BookingPage() {
   const [loading, setLoading] = useState(false);
   const [isProfileChecking, setIsProfileChecking] = useState(true);
   const [isProfileComplete, setIsProfileComplete] = useState(true);
+  const [paymentData, setPaymentData] = useState<{ clientSecret: string; pnr: string; paymentId: string } | null>(null);
   const hasShownProfileToastRef = useRef(false);
 
   const { data: session, status } = useAuthSession();
@@ -130,16 +133,25 @@ export default function BookingPage() {
           seatNumber: seatNumber || undefined,
         }));
 
-        const booking = await apiFetch<{ id: string }>("/bookings", {
+        const booking = await apiFetch<{ 
+          bookingId: string; 
+          payment: { clientSecret: string; paymentId: string };
+          pnr: string;
+        }>("/bookings/flights/hold", {
           method: "POST",
           body: JSON.stringify({
             flightIds: bookingFlightIds,
             passengers: cleanedPassengers,
-            paymentStatus: "PENDING",
           }),
         });
-        setBookingId(booking.id);
-        setBookingIdState(booking.id);
+        
+        setBookingId(booking.bookingId);
+        setBookingIdState(booking.bookingId);
+        setPaymentData({ 
+          clientSecret: booking.payment.clientSecret,
+          pnr: booking.pnr,
+          paymentId: booking.payment.paymentId
+        });
       } else if (step === 1) {
         const payment = await apiFetch<{ status: string; paymentId: string }>(
           "/payments/initiate",
@@ -147,7 +159,7 @@ export default function BookingPage() {
             method: "POST",
             body: JSON.stringify({
               bookingId: bookingIdState,
-              provider: "MOCK",
+              provider: "STRIPE",
               amount: Number(
                 flightDetails?.totalFare ?? flightDetails?.baseFare ?? 450,
               ),
@@ -158,7 +170,7 @@ export default function BookingPage() {
           },
         );
 
-        if (payment.status === "SUCCESS" || (payment as any).redirectUrl) {
+        if (payment.status === "SUCCESS" || (payment as any).clientSecret) {
           setStep(2);
           setLoading(false);
           return;
@@ -202,6 +214,7 @@ export default function BookingPage() {
 
     try {
       const profile: any = await apiFetch("/profile/me");
+      console.log("[checkProfile] Profile data:", profile);
       const complete = !!(
         profile && 
         profile.firstName && 
@@ -222,6 +235,8 @@ export default function BookingPage() {
         setPassengers([{
           fullName: `${profile.firstName} ${profile.lastName}`,
           passportNumber: profile.passportNumber || "",
+          dob: profile.dateOfBirth || "",
+          gender: profile.gender === "FEMALE" ? "F" : "M",
           seatNumber: "",
           type: "ADULT"
         }]);
@@ -244,12 +259,16 @@ export default function BookingPage() {
         setPassengers([{
           fullName: `${profile.firstName} ${profile.lastName}`,
           passportNumber: profile.passportNumber || "",
+          dob: profile.dateOfBirth || "",
+          gender: profile.gender === "FEMALE" ? "F" : "M",
           seatNumber: "",
           type: "ADULT"
         }]);
       }
-    } catch (err) {
-      console.error("Profile fetch error:", err);
+    } catch (err: any) {
+      console.error("[checkProfile] Profile fetch error:", err?.message || err);
+      // Don't block booking flow on profile error - just assume incomplete
+      setIsProfileComplete(false);
     } finally {
       setIsProfileChecking(false);
     }
@@ -417,24 +436,34 @@ export default function BookingPage() {
                 {step === 1 && (
                   <Card className="rounded-2xl border-border bg-card shadow-xl overflow-hidden">
                     <CardContent className="p-8 md:p-12 text-center">
-                      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-500/10 text-green-500 border border-green-500/20">
-                        <Check className="h-10 w-10" />
+                      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                        <CreditCard className="h-10 w-10" />
                       </div>
                       <h2 className="text-3xl font-black uppercase mb-3 tracking-tight">
-                        Ready to Confirm?
+                        Complete Payment
                       </h2>
+                      {paymentData?.pnr && (
+                        <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-redmix/10 px-4 py-2 text-xs font-bold text-redmix">
+                          RESERVATION HELD: {paymentData.pnr}
+                        </div>
+                      )}
                       <p className="text-muted-foreground text-sm mb-8">
-                        Review your flight details and complete your secure
-                        payment to finalize the booking.
+                        Your flight is held. Please complete the payment to issue your tickets.
                       </p>
-                      <Button
-                        onClick={nextStep}
-                        disabled={loading}
-                        size="lg"
-                        className="w-full h-14 rounded-xl bg-redmix text-white font-bold shadow-lg shadow-redmix/20 hover:brightness-110 transition-all"
-                      >
-                        {loading ? "Processing..." : "CONFIRM & PAY NOW"}
-                      </Button>
+                      
+                      <div className="space-y-4">
+                        <Button
+                          onClick={nextStep}
+                          disabled={loading}
+                          size="lg"
+                          className="w-full h-14 rounded-xl bg-redmix text-white font-bold shadow-lg shadow-redmix/20 hover:brightness-110 transition-all"
+                        >
+                          {loading ? "Processing..." : "SIMULATE SECURE PAYMENT"}
+                        </Button>
+                        <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
+                          Secured by Stripe & Travelport TripServices
+                        </p>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
@@ -541,11 +570,11 @@ export default function BookingPage() {
                       {flightDetails?.arrivalAirport || "---"}
                     </p>
                     <p className="text-xs text-muted-foreground font-semibold">
-                      {flightDetails?.departureAt
+                      {paymentData?.pnr ? `PNR: ${paymentData.pnr}` : (flightDetails?.departureAt
                         ? new Date(
                             flightDetails.departureAt,
                           ).toLocaleDateString()
-                        : "Loading..."}
+                        : "Loading...")}
                     </p>
                   </div>
                 </div>

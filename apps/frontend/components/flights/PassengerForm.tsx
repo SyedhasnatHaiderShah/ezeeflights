@@ -3,6 +3,8 @@
 import { User, CreditCard, ShieldCheck } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -14,6 +16,8 @@ import {
 interface Passenger {
   fullName: string;
   passportNumber: string;
+  dob: string;
+  gender: "M" | "F";
   seatNumber: string;
   type: "ADULT" | "CHILD" | "INFANT";
 }
@@ -50,9 +54,9 @@ export function PassengerForm({
                 </span>
                 Traveler Information
               </h3>
-              <span className="rounded-full bg-muted px-2 py-1 text-xs font-semibold text-foreground">
+              <Badge variant="outline" size="sm" className="bg-muted/50 border-none">
                 {passenger.type}
-              </span>
+              </Badge>
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -62,8 +66,8 @@ export function PassengerForm({
                 </Label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/50" />
-                  <input
-                    className="w-full h-11 rounded-xl border border-border bg-background/50 py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-redmix/50 focus:ring-1 focus:ring-redmix/10 transition-all"
+                  <Input
+                    className="pl-9 bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50"
                     placeholder="As shown on passport"
                     value={passenger.fullName}
                     onChange={(e) =>
@@ -79,8 +83,8 @@ export function PassengerForm({
                 </Label>
                 <div className="relative">
                   <CreditCard className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/50" />
-                  <input
-                    className="w-full h-11 rounded-xl border border-border bg-background/50 py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-redmix/50 focus:ring-1 focus:ring-redmix/10 transition-all"
+                  <Input
+                    className="pl-9 bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50"
                     placeholder="Passport ID"
                     value={passenger.passportNumber}
                     onChange={(e) =>
@@ -113,12 +117,46 @@ export function PassengerForm({
 
               <div className="space-y-2">
                 <Label className="text-xs font-semibold text-foreground">
-                  Seat Preference
+                  Date of Birth
+                </Label>
+                <Input
+                  type="date"
+                  className="bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50"
+                  value={passenger.dob}
+                  onChange={(e) =>
+                    updatePassenger(index, "dob", e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-foreground">
+                  Gender
+                </Label>
+                <Select
+                  value={passenger.gender}
+                  onValueChange={(v) =>
+                    updatePassenger(index, "gender", v as any)
+                  }
+                >
+                  <SelectTrigger className="h-11 bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50 rounded-xl">
+                    <SelectValue placeholder="Select Gender" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="M">Male</SelectItem>
+                    <SelectItem value="F">Female</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-foreground">
+                  Seat Preference (Optional)
                 </Label>
                 <div className="relative">
                   <ShieldCheck className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/50" />
-                  <input
-                    className="w-full h-11 rounded-xl border border-border bg-background/50 py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-redmix/50 focus:ring-1 focus:ring-redmix/10 transition-all"
+                  <Input
+                    className="pl-9 bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50"
                     placeholder="e.g. 14A"
                     value={passenger.seatNumber}
                     onChange={(e) =>

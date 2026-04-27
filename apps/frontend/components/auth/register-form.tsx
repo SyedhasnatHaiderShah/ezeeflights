@@ -65,6 +65,7 @@ export function RegisterForm({
   error,
 }: RegisterFormProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [countryCode, setCountryCode] = useState("+1");
@@ -95,7 +96,7 @@ export function RegisterForm({
   }, [password]);
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-3">
       <motion.div variants={formItemVariants} className="space-y-1">
         <h1 className="text-2xl font-bold">
           {step === 1 ? "Create an account" : "Complete your profile"}
@@ -113,23 +114,6 @@ export function RegisterForm({
       >
         {step === 1 && (
           <>
-            <div className="space-y-3">
-              <Button
-                type="button"
-                variant="outline"
-                className="h-12 w-full rounded-xl border-border bg-white text-foreground"
-                onClick={() => (window.location.href = googleOAuthUrl())}
-              >
-                <GoogleIcon className="h-4 w-4" /> Continue with Google
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="h-px flex-1 bg-border" />
-              <span>or continue with email</span>
-              <span className="h-px flex-1 bg-border" />
-            </div>
-
             <motion.div variants={formItemVariants} className="space-y-1.5">
               <label className="text-sm font-medium">Email address</label>
               <div className="relative">
@@ -199,17 +183,28 @@ export function RegisterForm({
               <div className="relative">
                 <ShieldCheck className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className={cn(
-                    "h-11 rounded-xl pl-10",
+                    "h-11 rounded-xl pl-10 pr-10",
                     confirmPassword &&
                       confirmPassword !== password &&
                       "border-red-500",
                   )}
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword((s) => !s)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
               </div>
               {confirmPassword && confirmPassword !== password && (
                 <p className="text-xs text-red-500">Passwords do not match.</p>
@@ -219,7 +214,7 @@ export function RegisterForm({
             <Button
               type="submit"
               variant="brand-red"
-              className="h-12 w-full rounded-xl text-foreground font-semibold"
+              className="h-12 w-full rounded-xl text-white font-semibold bg-redmix"
               disabled={
                 disabled ||
                 !email ||
@@ -231,6 +226,22 @@ export function RegisterForm({
             >
               Continue <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
+
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <span className="h-px flex-1 bg-border" />
+                <span>or</span>
+                <span className="h-px flex-1 bg-border" />
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="h-12 w-full rounded-xl border-border bg-white text-foreground"
+                onClick={() => (window.location.href = googleOAuthUrl())}
+              >
+                <GoogleIcon className="h-4 w-4" /> Continue with Google
+              </Button>
+            </div>
           </>
         )}
 
