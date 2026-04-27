@@ -115,24 +115,29 @@ export class FlightRepository {
         raw_segments = EXCLUDED.raw_segments
     `;
 
-    await this.db.query(query, [
-      flight.id,
-      flight.airline,
-      flight.airlineCode,
-      flight.flightNumber,
-      flight.departureAirport,
-      flight.arrivalAirport,
-      flight.departureAt,
-      flight.arrivalAt,
-      flight.duration || 0,
-      flight.stops || 0,
-      flight.cabinClass,
-      flight.baseFare,
-      flight.tax || 0,
-      flight.totalFare || flight.baseFare,
-      flight.currency,
-      flight.seatsAvailable || 9,
-      JSON.stringify(flight.rawSegments || []),
-    ]);
+    try {
+      await this.db.query(query, [
+        flight.id,
+        flight.airline,
+        flight.airlineCode,
+        flight.flightNumber,
+        flight.departureAirport,
+        flight.arrivalAirport,
+        flight.departureAt,
+        flight.arrivalAt,
+        flight.duration || 0,
+        flight.stops || 0,
+        flight.cabinClass,
+        flight.baseFare,
+        flight.tax || 0,
+        flight.totalFare || flight.baseFare,
+        flight.currency,
+        flight.seatsAvailable || 9,
+        JSON.stringify(flight.rawSegments || []),
+      ]);
+    } catch (err) {
+      console.error(`[FlightRepository] Upsert error for flight ${flight.id}:`, err);
+      throw err;
+    }
   }
 }

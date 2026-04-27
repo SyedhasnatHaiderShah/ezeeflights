@@ -38,6 +38,18 @@ export default function BookingPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const urlFlightId = searchParams.get("id");
+  const adt = parseInt(searchParams.get("adt") || "1", 10) || 1;
+  const chd = parseInt(searchParams.get("chd") || "0", 10) || 0;
+  const inf = parseInt(searchParams.get("inf") || "0", 10) || 0;
+
+  const initialPassengers = useMemo(() => {
+    const arr: any[] = [];
+    for (let i = 0; i < adt; i++) arr.push({ fullName: "", passportNumber: "", dob: "", gender: "M", seatNumber: "", type: "ADULT" });
+    for (let i = 0; i < chd; i++) arr.push({ fullName: "", passportNumber: "", dob: "", gender: "M", seatNumber: "", type: "CHILD" });
+    for (let i = 0; i < inf; i++) arr.push({ fullName: "", passportNumber: "", dob: "", gender: "M", seatNumber: "", type: "INFANT" });
+    return arr.length > 0 ? arr : [{ fullName: "", passportNumber: "", dob: "", gender: "M", seatNumber: "", type: "ADULT" }];
+  }, [adt, chd, inf]);
+
   const { toast } = useToast();
 
   const selectedFlightIds = useBookingFlowStore((state) => state.selectedFlightIds);
@@ -55,7 +67,7 @@ export default function BookingPage() {
       seatNumber: string;
       type: "ADULT" | "CHILD" | "INFANT";
     }[]
-  >([{ fullName: "", passportNumber: "", dob: "", gender: "M", seatNumber: "", type: "ADULT" }]);
+  >(initialPassengers);
   const [bookingIdState, setBookingIdState] = useState<string>("");
   const [step, setStep] = useState(0);
   const [error, setError] = useState("");
@@ -64,6 +76,7 @@ export default function BookingPage() {
   const [isProfileChecking, setIsProfileChecking] = useState(true);
   const [isProfileComplete, setIsProfileComplete] = useState(true);
   const [paymentData, setPaymentData] = useState<{ clientSecret: string; pnr: string; paymentId: string } | null>(null);
+  const [pricingData, setPricingData] = useState<any | null>(null);
   const hasShownProfileToastRef = useRef(false);
 
   const { data: session, status } = useAuthSession();
@@ -108,14 +121,25 @@ export default function BookingPage() {
     apiFetch(`/flights/${activeFlightId}`)
       .then((data) => {
         setFlightDetails(data);
+        // After getting flight details, also get the price solution (needed for SOAP booking)
+        return apiFetch("/flights/price", {
+          method: "POST",
+          body: JSON.stringify({
+            flightId: activeFlightId,
+            passengers: initialPassengers.map(p => ({ type: p.type === 'ADULT' ? 'ADT' : p.type === 'CHILD' ? 'CNN' : 'INF' }))
+          })
+        });
+      })
+      .then((priceResponse) => {
+        setPricingData(priceResponse);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Flight fetch error:", err);
+        console.error("Flight/Price fetch error:", err);
         setFlightDetails(null);
         setLoading(false);
       });
-  }, [activeFlightId, authChecked, isAuthenticated, router]);
+  }, [activeFlightId, authChecked, isAuthenticated, router, initialPassengers]);
   const nextStep = useCallback(async () => {
     if (loading) return;
     setLoading(true);
@@ -142,6 +166,7 @@ export default function BookingPage() {
           body: JSON.stringify({
             flightIds: bookingFlightIds,
             passengers: cleanedPassengers,
+            pricingSolutionXml: pricingData?.pricingSolutionXml || "",
           }),
         });
         
@@ -200,6 +225,7 @@ export default function BookingPage() {
     setBookingId,
     bookingIdState,
     flightDetails,
+    pricingData,
     setStep,
     setError,
     setLoading,
@@ -213,14 +239,13 @@ export default function BookingPage() {
     }
 
     try {
-      const profile: any = await apiFetch("/profile/me");
+      const profileResponse: any = await apiFetch("/profile/me");
+      const profile = profileResponse?.profile ?? profileResponse ?? {};
       console.log("[checkProfile] Profile data:", profile);
       const complete = !!(
         profile && 
         profile.firstName && 
         profile.lastName && 
-        profile.phone && 
-        profile.nationality && 
         profile.passportNumber
       );
       
@@ -232,14 +257,17 @@ export default function BookingPage() {
         });
         setIsProfileComplete(true);
         // Set passengers first then continue
-        setPassengers([{
-          fullName: `${profile.firstName} ${profile.lastName}`,
-          passportNumber: profile.passportNumber || "",
-          dob: profile.dateOfBirth || "",
-          gender: profile.gender === "FEMALE" ? "F" : "M",
-          seatNumber: "",
-          type: "ADULT"
-        }]);
+        setPassengers(prev => {
+          const newArr = [...prev];
+          newArr[0] = {
+            ...newArr[0],
+            fullName: `${profile.firstName} ${profile.lastName}`,
+            passportNumber: profile.passportNumber || "",
+            dob: profile.dateOfBirth || "",
+            gender: profile.gender === "FEMALE" ? "F" : "M",
+          };
+          return newArr;
+        });
         setTimeout(() => nextStep(), 500);
       } else {
         setIsProfileComplete(complete);
@@ -255,19 +283,35 @@ export default function BookingPage() {
       }
 
       if (complete && passengers[0].fullName === "") {
-        // Initial auto-fill
-        setPassengers([{
-          fullName: `${profile.firstName} ${profile.lastName}`,
-          passportNumber: profile.passportNumber || "",
-          dob: profile.dateOfBirth || "",
-          gender: profile.gender === "FEMALE" ? "F" : "M",
-          seatNumber: "",
-          type: "ADULT"
-        }]);
+        // Keep other passengers intact, just update the first one
+        setPassengers(prev => {
+          const newArr = [...prev];
+          newArr[0] = {
+            ...newArr[0],
+            fullName: `${profile.firstName} ${profile.lastName}`,
+            passportNumber: profile.passportNumber || "",
+            dob: profile.dateOfBirth || "",
+            gender: profile.gender === "FEMALE" ? "F" : "M",
+          };
+          return newArr;
+        });
       }
     } catch (err: any) {
-      console.error("[checkProfile] Profile fetch error:", err?.message || err);
-      // Don't block booking flow on profile error - just assume incomplete
+      // Parse JSON error if possible
+      let errorMessage = err?.message || err;
+      try {
+        const parsed = JSON.parse(errorMessage);
+        if (parsed.statusCode === 401) {
+          // Quietly handle unauthorized - the redirect useEffect will take care of it
+          setIsProfileComplete(false);
+          return;
+        }
+        errorMessage = parsed.message || errorMessage;
+      } catch (e) {
+        // Not JSON, use as is
+      }
+      
+      console.error("[checkProfile] Profile fetch error:", errorMessage);
       setIsProfileComplete(false);
     } finally {
       setIsProfileChecking(false);
@@ -302,38 +346,38 @@ export default function BookingPage() {
 
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-screen bg-[#fafafa] text-foreground flex flex-col">
       <Header />
 
-      <main className="flex-grow container mx-auto max-w-7xl px-4 pt-24 pb-12">
-        <div className="mb-8 flex flex-col items-center text-center">
+      <main className="flex-grow container mx-auto max-w-6xl px-4 pt-20 pb-12">
+        <div className="mb-6 flex flex-col items-center text-center">
           {!isProfileComplete && !isProfileChecking && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="mb-8 w-full max-w-2xl rounded-2xl border border-redmix/20 bg-redmix/5 p-4 flex items-center justify-between gap-4"
+              className="mb-6 w-full max-w-xl rounded-xl border border-redmix/10 bg-white p-3 flex items-center justify-between gap-4 shadow-sm"
             >
               <div className="flex items-center gap-3 text-left">
-                <div className="h-10 w-10 rounded-full bg-redmix/10 flex items-center justify-center flex-shrink-0">
-                  <Info className="h-5 w-5 text-redmix" />
+                <div className="h-8 w-8 rounded-full bg-redmix/5 flex items-center justify-center flex-shrink-0">
+                  <Info className="h-4 w-4 text-redmix" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-foreground">Complete your profile</p>
-                  <p className="text-xs text-muted-foreground">Add your passport and name to speed up booking.</p>
+                  <p className="text-xs font-bold text-foreground">Complete your profile</p>
+                  <p className="text-[10px] text-muted-foreground">Add your passport to continue booking.</p>
                 </div>
               </div>
               <div className="flex gap-2">
                 <Button 
                   size="sm" 
-                  variant="outline" 
-                  className="rounded-xl text-xs font-bold"
+                  variant="ghost" 
+                  className="rounded-lg text-[10px] font-bold h-7"
                   onClick={() => window.open("/profile", "_blank")}
                 >
-                  Edit Profile
+                  Edit
                 </Button>
                 <Button 
                   size="sm" 
-                  className="bg-redmix text-white rounded-xl text-xs font-bold"
+                  className="bg-redmix text-white rounded-lg text-[10px] font-bold h-7 px-3"
                   onClick={checkProfile}
                 >
                   Refresh
@@ -345,33 +389,30 @@ export default function BookingPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6"
+            className="mb-4"
           >
-            <h1 className="text-3xl font-black tracking-tight md:text-4xl lg:text-5xl uppercase text-foreground">
+            <h1 className="text-2xl font-black tracking-tight md:text-3xl uppercase text-foreground">
               {step === 2 ? "Booking" : "Secure"}{" "}
               <span className="text-redmix">
                 {step === 2 ? "Confirmed" : "Checkout"}
               </span>
             </h1>
             {step < 2 && (
-              <p className="mt-2 text-muted-foreground text-sm font-bold">
+              <p className="mt-1 text-muted-foreground text-[10px] font-bold uppercase tracking-widest">
                 Step {step + 1} of {steps.length}: {steps[step].label}
               </p>
             )}
           </motion.div>
 
           {step < 2 && (
-            <div className="w-full max-w-2xl">
-              <Progress
-                value={Math.min(progressValue, 100)}
-                className="h-1.5 bg-muted"
-              />
-              <div className="mt-5 flex justify-between px-4">
+            <div className="w-full max-w-lg relative">
+              <div className="absolute top-4 left-0 w-full h-[1px] bg-muted/40 -z-10" />
+              <div className="flex justify-between px-2">
                 {steps.map((s, i) => (
                   <div
                     key={s.label}
                     className={cn(
-                      "flex flex-col items-center gap-1.5",
+                      "flex flex-col items-center gap-2",
                       i <= step
                         ? "text-foreground"
                         : "text-muted-foreground/30",
@@ -379,25 +420,25 @@ export default function BookingPage() {
                   >
                     <div
                       className={cn(
-                        "flex h-9 w-9 items-center justify-center rounded-xl border transition-all",
+                        "flex h-8 w-8 items-center justify-center rounded-full border-2 transition-all bg-white",
                         i < step
-                          ? "bg-green-500/10 border-green-500 text-green-500"
+                          ? "bg-green-500 border-green-500 text-white"
                           : i === step
-                            ? "bg-redmix border-redmix text-white shadow-lg shadow-redmix/30 scale-110"
-                            : "bg-muted/50 border-border text-muted-foreground",
+                            ? "border-redmix text-redmix shadow-lg shadow-redmix/10"
+                            : "border-muted text-muted-foreground",
                       )}
                     >
                       {i < step ? (
-                        <Check className="h-5 w-5" />
+                        <Check className="h-4 w-4" />
                       ) : (
-                        <s.icon className="h-5 w-5" />
+                        <s.icon className="h-4 w-4" />
                       )}
                     </div>
                     <span
                       className={cn(
-                        "text-xs font-bold uppercase tracking-tight hidden sm:block",
+                        "text-[10px] font-black uppercase tracking-wider",
                         i === step
-                          ? "text-foreground"
+                          ? "text-redmix"
                           : "text-muted-foreground",
                       )}
                     >
@@ -410,8 +451,8 @@ export default function BookingPage() {
           )}
         </div>
 
-        <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
-          <div className="space-y-8">
+        <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
+          <div className="space-y-6">
             <AnimatePresence mode="wait">
               <motion.div
                 key={step}
@@ -421,8 +462,8 @@ export default function BookingPage() {
                 transition={{ duration: 0.2 }}
               >
                 {error && (
-                  <div className="mb-6 rounded-xl border border-destructive/20 bg-destructive/10 p-4 text-sm text-destructive flex items-center gap-3">
-                    <Info className="h-5 w-5" /> {error}
+                  <div className="mb-4 rounded-xl border border-destructive/20 bg-destructive/5 p-3 text-xs text-destructive flex items-center gap-3">
+                    <Info className="h-4 w-4" /> {error}
                   </div>
                 )}
 
@@ -434,34 +475,34 @@ export default function BookingPage() {
                 )}
 
                 {step === 1 && (
-                  <Card className="rounded-2xl border-border bg-card shadow-xl overflow-hidden">
-                    <CardContent className="p-8 md:p-12 text-center">
-                      <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20">
-                        <CreditCard className="h-10 w-10" />
+                  <Card className="rounded-2xl border-none bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+                    <CardContent className="p-6 md:p-10 text-center">
+                      <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                        <CreditCard className="h-8 w-8" />
                       </div>
-                      <h2 className="text-3xl font-black uppercase mb-3 tracking-tight">
+                      <h2 className="text-2xl font-black uppercase mb-2 tracking-tight">
                         Complete Payment
                       </h2>
                       {paymentData?.pnr && (
-                        <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-redmix/10 px-4 py-2 text-xs font-bold text-redmix">
+                        <div className="mb-5 inline-flex items-center gap-2 rounded-lg bg-redmix/5 px-3 py-1.5 text-[10px] font-bold text-redmix border border-redmix/10">
                           RESERVATION HELD: {paymentData.pnr}
                         </div>
                       )}
-                      <p className="text-muted-foreground text-sm mb-8">
-                        Your flight is held. Please complete the payment to issue your tickets.
+                      <p className="text-muted-foreground text-xs mb-8 max-w-sm mx-auto leading-relaxed">
+                        Your flight is held. Please complete the payment to issue your tickets and secure your seats.
                       </p>
                       
-                      <div className="space-y-4">
+                      <div className="space-y-4 max-w-sm mx-auto">
                         <Button
                           onClick={nextStep}
                           disabled={loading}
                           size="lg"
-                          className="w-full h-14 rounded-xl bg-redmix text-white font-bold shadow-lg shadow-redmix/20 hover:brightness-110 transition-all"
+                          className="w-full h-12 rounded-xl bg-redmix text-white font-bold text-sm shadow-xl shadow-redmix/20 hover:bg-redmix/90 transition-all active:scale-[0.98]"
                         >
                           {loading ? "Processing..." : "SIMULATE SECURE PAYMENT"}
                         </Button>
-                        <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
-                          Secured by Stripe & Travelport TripServices
+                        <p className="text-[9px] text-muted-foreground uppercase font-bold tracking-[0.2em]">
+                          Secured by Stripe & Travelport
                         </p>
                       </div>
                     </CardContent>
@@ -472,32 +513,32 @@ export default function BookingPage() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="bg-card rounded-2xl p-8 md:p-12 border border-border shadow-2xl text-center"
+                    className="bg-white rounded-2xl p-6 md:p-10 border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-center"
                   >
-                    <div className="mb-6 flex justify-center">
-                      <div className="h-20 w-20 rounded-full bg-green-500/10 flex items-center justify-center border border-green-500/20 shadow-lg shadow-green-500/5">
-                        <Check className="h-10 w-10 text-green-500" />
+                    <div className="mb-5 flex justify-center">
+                      <div className="h-16 w-16 rounded-full bg-green-50 flex items-center justify-center text-green-600">
+                        <Check className="h-8 w-8" />
                       </div>
                     </div>
 
-                    <h2 className="text-3xl font-black text-foreground mb-4 tracking-tight uppercase">
+                    <h2 className="text-2xl font-black text-foreground mb-3 tracking-tight uppercase">
                       Booking Confirmed!
                     </h2>
-                    <p className="text-muted-foreground text-sm mb-8 max-w-lg mx-auto">
+                    <p className="text-muted-foreground text-xs mb-8 max-w-md mx-auto leading-relaxed">
                       Thank you for choosing EzeeFlights. Your journey to{" "}
                       <span className="text-foreground font-bold">
                         {flightDetails?.destination}
                       </span>{" "}
-                      is officially locked in.
+                      is officially locked in. Check your email for the itinerary.
                     </p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 text-left max-w-lg mx-auto">
-                      <div className="bg-muted/50 rounded-xl p-6 border border-border">
-                        <Label className="text-xs text-muted-foreground font-bold uppercase tracking-tight block mb-2">
+                    <div className="grid grid-cols-1 gap-4 mb-8 text-left max-w-xs mx-auto">
+                      <div className="bg-[#fafafa] rounded-xl p-4 border border-border/50">
+                        <Label className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider block mb-1">
                           Total Paid
                         </Label>
-                        <span className="text-2xl font-black text-redmix">
-                          $
+                        <span className="text-xl font-black text-redmix">
+                          {flightDetails?.currency || "$"}
                           {(
                             Number(flightDetails?.baseFare || 0) * 1.12 +
                             ancillaryTotal +
@@ -511,13 +552,13 @@ export default function BookingPage() {
                       <Button
                         variant="outline"
                         onClick={() => router.push("/dashboard")}
-                        className="px-8 py-6 rounded-xl font-bold uppercase text-xs tracking-widest"
+                        className="px-6 h-11 rounded-xl font-bold uppercase text-[10px] tracking-widest border-2"
                       >
                         Manage Booking
                       </Button>
                       <Button
                         onClick={() => router.push("/")}
-                        className="px-8 py-6 bg-redmix text-white rounded-xl font-bold uppercase text-xs tracking-widest shadow-lg shadow-redmix/20"
+                        className="px-6 h-11 bg-redmix text-white rounded-xl font-bold uppercase text-[10px] tracking-widest shadow-lg shadow-redmix/20"
                       >
                         Return Home
                       </Button>
@@ -527,12 +568,12 @@ export default function BookingPage() {
               </motion.div>
             </AnimatePresence>
 
-            <div className="flex items-center justify-between mt-6">
+            <div className="flex items-center justify-between mt-8">
               <Button
                 variant="ghost"
                 disabled={step === 0 || step === 2}
                 onClick={() => setStep((s) => s - 1)}
-                className="text-muted-foreground hover:text-foreground text-xs font-bold uppercase"
+                className="text-muted-foreground hover:text-foreground text-[10px] font-bold uppercase tracking-wider"
               >
                 ← Previous Step
               </Button>
@@ -540,40 +581,40 @@ export default function BookingPage() {
                 <Button
                   onClick={nextStep}
                   disabled={loading}
-                  className="h-12 px-8 rounded-xl bg-redmix font-bold text-sm shadow-lg shadow-redmix/20 transition-all hover:scale-[1.02]"
+                  className="h-11 px-8 rounded-xl bg-redmix font-bold text-xs uppercase tracking-widest shadow-lg shadow-redmix/20 transition-all hover:scale-[1.02]"
                 >
                   {loading ? "Processing..." : "Continue to Payment"}{" "}
-                  <ChevronRight className="ml-2 h-4 w-4" />
+                  <ChevronRight className="ml-2 h-3.5 w-3.5" />
                 </Button>
               )}
             </div>
           </div>
 
-          <aside className="space-y-6">
-            <Card className="sticky top-24 rounded-2xl border-border bg-card shadow-lg overflow-hidden">
-              <CardContent className="p-6">
-                <h3 className="mb-4 text-sm font-bold text-foreground">
+          <aside>
+            <Card className="sticky top-24 rounded-2xl border-none bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+              <CardContent className="p-5">
+                <h3 className="mb-4 text-[11px] font-black text-foreground uppercase tracking-wider">
                   Trip Summary
                 </h3>
 
-                <div className="mb-6 flex items-center gap-3 p-3 rounded-xl bg-muted/50 border border-border">
-                  <div className="h-10 w-10 rounded-lg bg-white p-1.5 flex items-center justify-center border border-border">
+                <div className="mb-5 flex items-center gap-3 p-3 rounded-xl bg-[#fafafa] border border-border/50">
+                  <div className="h-9 w-9 rounded-lg bg-white p-1.5 flex items-center justify-center border border-border/50">
                     <img
-                      //   src={`https://www.kayak.com/rimg/provider-logos/airlines/v/${flightDetails?.airlineCode || "XX"}.png`}
+                      src={`https://www.kayak.com/rimg/provider-logos/airlines/v/${flightDetails?.airlineCode || "XX"}.png`}
                       className="h-full w-full object-contain"
                       alt="airline"
                     />
                   </div>
-                  <div>
-                    <p className="font-bold text-sm">
+                  <div className="min-w-0">
+                    <p className="font-bold text-xs truncate">
                       {flightDetails?.departureAirport || "---"} →{" "}
                       {flightDetails?.arrivalAirport || "---"}
                     </p>
-                    <p className="text-xs text-muted-foreground font-semibold">
+                    <p className="text-[10px] text-muted-foreground font-bold">
                       {paymentData?.pnr ? `PNR: ${paymentData.pnr}` : (flightDetails?.departureAt
                         ? new Date(
                             flightDetails.departureAt,
-                          ).toLocaleDateString()
+                          ).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
                         : "Loading...")}
                     </p>
                   </div>
@@ -581,42 +622,42 @@ export default function BookingPage() {
 
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="fare" className="border-none">
-                    <AccordionTrigger className="text-sm text-foreground/90 hover:no-underline py-2 font-bold">
+                    <AccordionTrigger className="text-[10px] text-foreground font-black uppercase tracking-wider hover:no-underline py-2">
                       Price Breakdown
                     </AccordionTrigger>
-                    <AccordionContent className="text-sm space-y-2 pt-1 text-foreground/90">
-                      <div className="flex justify-between">
-                        <span>Base Fare ({passengers.length}x)</span>
+                    <AccordionContent className="text-[10px] space-y-2.5 pt-2 font-medium">
+                      <div className="flex justify-between items-center">
+                        <span className="text-muted-foreground">Base Fare ({passengers.length}x)</span>
                         <span className="text-foreground font-bold">
                           {flightDetails?.currency || "$"}
-                          {Number(flightDetails?.baseFare || 0).toFixed(2)}
+                          {Number(flightDetails?.baseFare || 0).toLocaleString()}
                         </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span>Taxes & Fees</span>
+                      <div className="flex justify-between items-center">
+                        <span className="text-muted-foreground">Taxes & Fees</span>
                         <span className="text-foreground font-bold">
                           {flightDetails?.currency || "$"}
                           {Number(
                             flightDetails?.tax ||
                               Number(flightDetails?.baseFare || 0) * 0.12,
-                          ).toFixed(2)}
+                          ).toLocaleString()}
                         </span>
                       </div>
                       {seatTotal > 0 && (
-                        <div className="flex justify-between">
-                          <span>Seating</span>
+                        <div className="flex justify-between items-center">
+                          <span className="text-muted-foreground">Seating</span>
                           <span className="text-foreground font-bold">
                             {flightDetails?.currency || "$"}
-                            {seatTotal.toFixed(2)}
+                            {seatTotal.toLocaleString()}
                           </span>
                         </div>
                       )}
                       {ancillaryTotal > 0 && (
-                        <div className="flex justify-between">
-                          <span>Extras</span>
+                        <div className="flex justify-between items-center">
+                          <span className="text-muted-foreground">Extras</span>
                           <span className="text-foreground font-bold">
                             {flightDetails?.currency || "$"}
-                            {ancillaryTotal.toFixed(2)}
+                            {ancillaryTotal.toLocaleString()}
                           </span>
                         </div>
                       )}
@@ -624,13 +665,13 @@ export default function BookingPage() {
                   </AccordionItem>
                 </Accordion>
 
-                <div className="mt-6 pt-4 border-t border-border">
+                <div className="mt-5 pt-4 border-t border-dashed border-border">
                   <div className="flex items-center justify-between">
-                    <Label className="text-base text-foreground font-bold">
-                      Total Price
+                    <Label className="text-xs text-foreground font-black uppercase tracking-wider">
+                      Total
                     </Label>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-2xl font-black text-redmix">
+                      <span className="text-xl font-black text-redmix">
                         {(
                           Number(
                             flightDetails?.totalFare ||
@@ -638,9 +679,9 @@ export default function BookingPage() {
                           ) +
                           ancillaryTotal +
                           seatTotal
-                        ).toFixed(2)}
+                        ).toLocaleString()}
                       </span>
-                      <span className="text-foreground/90 font-bold text-sm">
+                      <span className="text-foreground/60 font-bold text-[9px] uppercase">
                         {flightDetails?.currency || "USD"}
                       </span>
                     </div>

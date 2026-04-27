@@ -36,6 +36,15 @@ export class BookingController {
     return this.service.create(req.user.userId, dto);
   }
 
+  @ApiOperation({ summary: 'Hold flight booking and initialize payment' })
+  @ApiResponse({ status: 201, description: 'Booking held and payment intent created' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Post('flights/hold')
+  holdFlight(@Req() req: AuthenticatedRequest, @Body() dto: CreateBookingDto) {
+    return this.service.holdFlightBooking(req.user.userId, dto);
+  }
+
   @ApiOperation({ summary: 'List my trips with optional filters' })
   @ApiQuery({ name: 'type', required: false, description: 'Booking type (flight, hotel, etc.)' })
   @ApiQuery({ name: 'status', required: false, description: 'Booking status filter' })

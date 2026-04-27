@@ -13,6 +13,7 @@ import { PnrRepository } from './repositories/pnr.repository';
 import { TicketRepository } from './repositories/ticket.repository';
 import { PnrService } from './services/pnr.service';
 import { TicketService } from './services/ticket.service';
+import { TicketingEventListener } from './services/ticketing-listener.service';
 
 import { FlightModule } from '../flight/flight.module';
 
@@ -25,6 +26,7 @@ import { FlightModule } from '../flight/flight.module';
     TicketRepository,
     PnrService,
     TicketService,
+    TicketingEventListener,
     AmadeusAdapter,
     SabreAdapter,
     TravelportAdapter,

@@ -2,8 +2,16 @@
 
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker } from "react-day-picker";
+import { DayPicker, type DropdownProps } from "react-day-picker";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ScrollArea } from "./scroll-area";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -34,15 +42,15 @@ function Calendar({
         months: "flex flex-col sm:flex-row items-start justify-center gap-10",
         month: "space-y-4 w-full",
         // @ts-ignore
-        month_caption: "flex justify-center relative items-center h-10 mb-2",
-        caption_label:
-          "text-sm font-bold text-foreground dark:text-white tracking-tight px-10",
-        nav: "flex items-center absolute top-2 left-0 right-0 justify-between px-2 w-full z-20 pointer-events-none",
+        month_caption:
+          "flex justify-center items-center h-20 relative gap-1 mb-2 px-12",
+        caption_label: "hidden",
+        nav: "flex items-center justify-between absolute top-1.5 left-1.5 right-1.5 w-[calc(100%-12px)] z-10 pointer-events-none",
         button_previous: cn(
-          "h-9 w-9 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground/70 hover:bg-brand-red/10 hover:text-brand-red hover:border-brand-red/20 transition-all active:scale-90 pointer-events-auto",
+          "h-8 w-8 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground/70 hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-95 pointer-events-auto",
         ),
         button_next: cn(
-          "h-9 w-9 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground/70 hover:bg-brand-red/10 hover:text-brand-red hover:border-brand-red/20 transition-all active:scale-90 pointer-events-auto",
+          "h-8 w-8 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground/70 hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-95 pointer-events-auto",
         ),
         month_grid: "w-full border-collapse",
         weekdays: "flex mb-1",
@@ -74,22 +82,57 @@ function Calendar({
         range_middle:
           "aria-selected:bg-brand-red/10 aria-selected:text-foreground rounded-none",
         hidden: "invisible",
+        caption_dropdowns: "flex flex-col justify-center items-center gap-1",
+        dropdown:
+          "bg-muted/50 hover:bg-muted px-2 py-1 rounded-md border-none text-sm font-bold focus:ring-2 focus:ring-redmix/20 cursor-pointer appearance-none transition-colors",
+        dropdown_month: "relative inline-flex items-center",
+        dropdown_year: "relative inline-flex items-center",
         ...classNames,
       }}
       components={{
-        // @ts-ignore
-        Chevron: ({ orientation, className, ...props }) =>
-          orientation === "left" ? (
-            <ChevronLeft
-              className={cn("h-5 w-5 shrink-0", className)}
-              {...props}
-            />
-          ) : (
-            <ChevronRight
-              className={cn("h-5 w-5 shrink-0", className)}
-              {...props}
-            />
-          ),
+        Chevron: (props) => {
+          if (props.orientation === "left")
+            return <ChevronLeft className="h-4 w-4" />;
+          return <ChevronRight className="h-4 w-4" />;
+        },
+        Dropdown: ({ value, onChange, options, ...props }: DropdownProps) => {
+          const handleChange = (newValue: string) => {
+            const changeEvent = {
+              target: { value: newValue },
+            } as React.ChangeEvent<HTMLSelectElement>;
+            onChange?.(changeEvent);
+          };
+
+          // Month has 12 options, use specific width to prevent jittering
+          const isMonth = options?.length === 12;
+          const triggerWidth = isMonth ? "w-[120px]" : "w-[100px]";
+
+          return (
+            <Select value={value?.toString()} onValueChange={handleChange}>
+              <SelectTrigger
+                className={cn(
+                  "flex items-center justify-between h-8 bg-muted/50 hover:bg-muted border-none font-bold text-xs rounded-md px-3 gap-1 focus:ring-0 shadow-none hover:border-none",
+                  triggerWidth,
+                )}
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="max-h-[300px]">
+                <ScrollArea className="h-[250px]">
+                  {options?.map((option) => (
+                    <SelectItem
+                      key={option.value}
+                      value={option.value.toString()}
+                      className="text-xs"
+                    >
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </ScrollArea>
+              </SelectContent>
+            </Select>
+          );
+        },
       }}
       {...props}
     />

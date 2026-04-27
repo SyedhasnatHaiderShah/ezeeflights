@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, forwardRef } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Logger, forwardRef } from '@nestjs/common';
 import { AppEventBus } from '../../../common/events/app-event-bus.service';
 import { ProfileService } from '../../profile/services/profile.service';
 import { UserService } from '../../user/services/user.service';
@@ -9,18 +9,22 @@ import * as fs from 'fs/promises';
 import path from 'path';
 
 import { FlightService } from '../../flight/services/flight.service';
+import { TravelportProvider } from '../../../common/providers/travelport.provider';
+import { PaymentService } from '../../payment/services/payment.service';
 
 @Injectable()
 export class BookingService {
+  private readonly logger = new Logger(BookingService.name);
   constructor(
     private readonly repository: BookingRepository,
     private readonly events: AppEventBus,
     private readonly userService: UserService,
     private readonly flightService: FlightService,
+    private readonly travelportProvider: TravelportProvider,
+    private readonly paymentService: PaymentService,
     @Inject(forwardRef(() => ProfileService))
     private readonly profileService: ProfileService,
   ) {}
-
   async create(userId: string, dto: CreateBookingDto) {
     await this.userService.findOne(userId);
 
@@ -60,6 +64,103 @@ export class BookingService {
     }
 
     return booking;
+  }
+
+  async holdFlightBooking(userId: string, dto: CreateBookingDto) {
+    await this.userService.findOne(userId);
+
+    // 0. Ensure flights exist in DB
+    for (const flightId of dto.flightIds) {
+      const flight = await this.flightService.getFlightById(flightId);
+      await this.flightService.upsert(flight);
+    }
+
+    // 1. Create Travelport Reservation (SOAP)
+    // For SOAP, we need the pricingSolutionXml.
+    // If not provided in DTO, we might try to find it in cache/DB if you implemented it.
+    // Here we use the dto.pricingSolutionXml
+    const travelers = dto.passengers.map(p => ({
+      firstName: p.fullName.split(' ')[0] || 'Unknown',
+      lastName: p.fullName.split(' ').slice(1).join(' ') || 'Unknown',
+      dob: p.dob,
+      gender: p.gender,
+    }));
+
+    // 4. Create Travelport Reservation (Hold)
+    let pnr = `MOCK-${Math.random().toString(36).substring(7).toUpperCase()}`;
+    if (dto.pricingSolutionXml) {
+      try {
+        const bookingResponse = await this.travelportProvider.createReservation(
+          dto.pricingSolutionXml,
+          travelers
+        );
+        // Parse PNR from SOAP Response
+        pnr = bookingResponse?.["SOAP:Envelope"]?.["SOAP:Body"]?.["universal:AirCreateReservationRsp"]?.["universal:UniversalRecord"]?.LocatorCode || `MOCK-${Math.random().toString(36).substring(7).toUpperCase()}`;
+      } catch (err: any) {
+        this.logger.error(`Travelport reservation failed: ${err.message}`);
+        // If reservation fails, we can't really hold the booking
+        throw new BadRequestException(`Failed to create Travelport reservation: ${err.message}`);
+      }
+    } else {
+      this.logger.warn("No pricingSolutionXml provided for SOAP booking hold");
+      // For now, allow MOCK-PNR in dev if no XML is provided
+      if (process.env.NODE_ENV === 'production') {
+        throw new BadRequestException("Pricing solution XML is required for booking");
+      }
+    }
+
+    // 5. Create internal booking record with status PENDING (HELD)
+    const booking = await this.repository.create(userId, {
+      ...dto,
+      paymentStatus: 'PENDING',
+    });
+
+    // Save PNR to ticket_pnrs table
+    await this.repository.updatePNR(booking.id, pnr);
+
+    // 6. Create Payment Intent for the total amount
+    let paymentIntent;
+    try {
+      paymentIntent = await this.paymentService.createExternalPaymentIntent(
+        booking.totalAmount,
+        booking.currency || 'USD',
+        'STRIPE',
+        { 
+          bookingId: booking.id, 
+          userId,
+          type: 'flight_booking' 
+        }
+      );
+    } catch (err: any) {
+      this.logger.warn(`Stripe payment intent failed: ${err.message}. Falling back to MOCK provider in development.`);
+      
+      if (process.env.NODE_ENV === 'production') {
+        throw err;
+      }
+
+      // Fallback to MOCK provider for local dev
+      paymentIntent = await this.paymentService.createExternalPaymentIntent(
+        booking.totalAmount,
+        booking.currency || 'USD',
+        'MOCK',
+        { 
+          bookingId: booking.id, 
+          userId,
+          type: 'flight_booking' 
+        }
+      );
+    }
+
+    return {
+      bookingId: booking.id,
+      pnr,
+      status: 'HELD',
+      payment: {
+        clientSecret: paymentIntent.clientSecret,
+        paymentIntentId: paymentIntent.paymentIntentId,
+        paymentId: paymentIntent.paymentId,
+      },
+    };
   }
 
   getById(id: string, userId: string) {

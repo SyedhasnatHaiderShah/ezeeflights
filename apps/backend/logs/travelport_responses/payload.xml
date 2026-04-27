@@ -5,12 +5,12 @@
             <com:BillingPointOfSaleInfo OriginApplication="uAPI"/>
             <air:SearchAirLeg>
                 <air:SearchOrigin>
-                    <com:CityOrAirport Code="DXB" PreferCity="true"/>
+                    <com:CityOrAirport Code="LHE" PreferCity="true"/>
                 </air:SearchOrigin>
                 <air:SearchDestination>
-                    <com:CityOrAirport Code="EWR" PreferCity="true"/>
+                    <com:CityOrAirport Code="DXB" PreferCity="true"/>
                 </air:SearchDestination>
-                <air:SearchDepTime PreferredTime="2026-05-22T00:00:00"/>
+                <air:SearchDepTime PreferredTime="2026-05-26T00:00:00"/>
             </air:SearchAirLeg>
             <air:AirSearchModifiers>
                 <air:PreferredProviders>

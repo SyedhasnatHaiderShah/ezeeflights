@@ -193,7 +193,7 @@ export class BookingRepository {
           SELECT flight_id FROM booking_flights bf WHERE bf.booking_id = b.id ORDER BY bf.created_at ASC LIMIT 1
         ) bf ON true
         LEFT JOIN flights f ON f.id = bf.flight_id
-        LEFT JOIN ticket_pnrs tp ON tp.booking_id = b.id
+        LEFT JOIN pnr_records tp ON tp.booking_id = b.id
         LEFT JOIN LATERAL (
           SELECT COUNT(*)::int as count FROM booking_passengers p WHERE p.booking_id = b.id
         ) bp ON true
@@ -291,7 +291,7 @@ export class BookingRepository {
         FROM bookings b
         LEFT JOIN LATERAL (SELECT flight_id FROM booking_flights bf WHERE bf.booking_id = b.id ORDER BY bf.created_at ASC LIMIT 1) bf ON true
         LEFT JOIN flights f ON f.id = bf.flight_id
-        LEFT JOIN ticket_pnrs tp ON tp.booking_id = b.id
+        LEFT JOIN pnr_records tp ON tp.booking_id = b.id
         LEFT JOIN LATERAL (SELECT COUNT(*)::int as count FROM booking_passengers p WHERE p.booking_id = b.id) bp ON true
         WHERE b.user_id = $1 AND b.id = $2
 
@@ -372,7 +372,7 @@ export class BookingRepository {
             COALESCE(tp.pnr_code, CONCAT('PNR-', UPPER(LEFT(REPLACE($1::text, '-', ''), 6)))) as pnr
          FROM booking_flights bf
          JOIN flights f ON f.id = bf.flight_id
-         LEFT JOIN ticket_pnrs tp ON tp.booking_id = bf.booking_id
+         LEFT JOIN pnr_records tp ON tp.booking_id = bf.booking_id
          WHERE bf.booking_id = $1
          ORDER BY bf.created_at ASC
          LIMIT 1`,
@@ -468,6 +468,22 @@ export class BookingRepository {
       [id, userId],
     );
     return this.findById(id, userId);
+  }
+
+  async updatePNR(bookingId: string, pnr: string): Promise<void> {
+    await this.db.query(
+      `INSERT INTO pnr_records (booking_id, pnr_code, provider, status)
+       VALUES ($1, $2, 'TRAVELPORT', 'CREATED')
+       ON CONFLICT (booking_id) DO UPDATE SET pnr_code = $2`,
+      [bookingId, pnr],
+    );
+  }
+
+  async confirmBooking(bookingId: string): Promise<void> {
+    await this.db.query(
+      `UPDATE bookings SET status = 'CONFIRMED', payment_status = 'PAID', updated_at = NOW() WHERE id = $1`,
+      [bookingId],
+    );
   }
 
   async cancelTripById(userId: string, bookingId: string, reason?: string): Promise<void> {

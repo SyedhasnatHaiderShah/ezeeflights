@@ -3,6 +3,7 @@ import { PaytabsProvider } from './paytabs.provider';
 import { StripeProvider } from './stripe.provider';
 import { TabbyProvider } from './tabby.provider';
 import { TamaraProvider } from './tamara.provider';
+import { MockProvider } from '../../modules/payment/providers/mock.provider';
 
 export interface PaymentIntent {
   id: string;
@@ -50,10 +51,13 @@ export const paymentProviderFactory: Provider = {
     paytabs: PaytabsProvider,
     tabby: TabbyProvider,
     tamara: TamaraProvider,
+    mock: MockProvider,
   ): IPaymentProvider => {
     const provider = (process.env.PAYMENT_PROVIDER ?? 'stripe').toLowerCase();
 
     switch (provider) {
+      case 'mock':
+        return (mock as unknown) as IPaymentProvider;
       case 'stripe':
         return stripe;
       case 'paytabs':
@@ -66,5 +70,5 @@ export const paymentProviderFactory: Provider = {
         throw new Error(`Unsupported PAYMENT_PROVIDER: ${provider}`);
     }
   },
-  inject: [StripeProvider, PaytabsProvider, TabbyProvider, TamaraProvider],
+  inject: [StripeProvider, PaytabsProvider, TabbyProvider, TamaraProvider, MockProvider],
 };

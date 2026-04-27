@@ -7,6 +7,7 @@ import { PaymentProvider, PaymentProvider as ProviderType, PaymentStatus } from 
 import { PaymentRepository } from '../repositories/payment.repository';
 import { PaymentProviderDriver } from '../providers/payment-provider.interface';
 import { WalletService } from '../wallet.service';
+import { AppEventBus } from '../../../common/events/app-event-bus.service';
 import { IPaymentProvider } from '../../../common/providers/payment-provider.factory';
 
 @Injectable()
@@ -17,6 +18,7 @@ export class PaymentService {
     private readonly repository: PaymentRepository,
     private readonly notificationService: NotificationService,
     private readonly loyaltyService: LoyaltyService,
+    private readonly events: AppEventBus,
     @Inject('PAYMENT_PROVIDER_DRIVERS') drivers: PaymentProviderDriver[],
     @Optional() private readonly walletService?: WalletService,
   ) {
@@ -134,6 +136,14 @@ export class PaymentService {
     await this.repository.createTransaction(paymentId, { paymentIntentId, confirmed: true }, 'SUCCESS');
     await this.repository.confirmBooking(payment.bookingId);
 
+    this.events.emit('payment.succeeded', {
+      paymentId: payment.id,
+      bookingId: payment.bookingId,
+      userId: payment.userId,
+      amount: payment.amount,
+      currency: payment.currency,
+    });
+
     return { paymentId, status: 'SUCCESS' as PaymentStatus };
   }
 
@@ -166,6 +176,13 @@ export class PaymentService {
       await this.notificationService.triggerBookingConfirmed(payment.userId, {
         paymentId: payment.id,
         bookingId: payment.bookingId,
+        amount: payment.amount,
+        currency: payment.currency,
+      });
+      this.events.emit('payment.succeeded', {
+        paymentId: payment.id,
+        bookingId: payment.bookingId,
+        userId: payment.userId,
         amount: payment.amount,
         currency: payment.currency,
       });
@@ -231,14 +248,29 @@ export class PaymentService {
     currency: string,
     provider: string,
     metadata: Record<string, unknown>,
-  ): Promise<{ clientSecret: string; paymentIntentId: string }> {
+  ): Promise<{ clientSecret: string; paymentIntentId: string; paymentId: string }> {
     const driver = this.getProvider(provider as PaymentProvider);
     const iProvider = driver as unknown as IPaymentProvider;
     const intent = await iProvider.createPaymentIntent(amount, currency, metadata);
     if (!intent.clientSecret) {
       throw new BadRequestException('Payment provider did not return a client secret');
     }
-    return { clientSecret: intent.clientSecret, paymentIntentId: intent.id };
+
+    // Create internal payment record for tracking
+    const payment = await this.repository.createPayment({
+      bookingId: (metadata.bookingId as string) || '',
+      userId: (metadata.userId as string) || '',
+      provider,
+      amount,
+      currency,
+      metadata,
+    });
+
+    return { 
+      clientSecret: intent.clientSecret, 
+      paymentIntentId: intent.id,
+      paymentId: payment?.id || ''
+    };
   }
 
   /**

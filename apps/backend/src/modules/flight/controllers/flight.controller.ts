@@ -7,6 +7,8 @@ import { SeatMapService } from '../seat-map.service';
 import { ReserveSeatDto } from '../dto/reserve-seat.dto';
 import { AncillariesService } from '../ancillaries.service';
 import { AddAncillaryDto } from '../dto/add-ancillary.dto';
+import { PriceFlightDto } from '../dto/price-flight.dto';
+import { BookFlightDto } from '../dto/book-flight.dto';
 
 interface AuthenticatedRequest {
   user: { userId: string; roles?: string[] };
@@ -35,6 +37,22 @@ export class FlightController {
   @Get('flights/:id')
   getById(@Param('id') id: string) {
     return this.flightService.getFlightById(id);
+  }
+
+  @ApiOperation({ summary: 'Price an itinerary before booking' })
+  @ApiResponse({ status: 200, description: 'Pricing details and confirmation' })
+  @Post('flights/price')
+  priceFlight(@Body() dto: PriceFlightDto) {
+    return this.flightService.priceFlight(dto);
+  }
+
+  @ApiOperation({ summary: 'Create a flight reservation (PNR)' })
+  @ApiResponse({ status: 200, description: 'Booking created' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Post('flights/book')
+  bookFlight(@Body() dto: BookFlightDto) {
+    return this.flightService.bookFlight(dto);
   }
 
   @ApiOperation({ summary: 'Get seat map for a flight' })

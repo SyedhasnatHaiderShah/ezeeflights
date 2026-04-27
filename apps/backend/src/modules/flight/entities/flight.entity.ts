@@ -1,5 +1,6 @@
 export interface FlightEntity {
   id: string;
+  flightId: string; // Alias for frontend compatibility
   airline: string;
   airlineCode: string;
   flightNumber: string;

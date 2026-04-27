@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { DatePicker } from "@/components/ui/date-picker";
+import { format, parse } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -54,7 +56,11 @@ export function PassengerForm({
                 </span>
                 Traveler Information
               </h3>
-              <Badge variant="outline" size="sm" className="bg-muted/50 border-none">
+              <Badge
+                variant="outline"
+                size="sm"
+                className="bg-muted/50 border-none"
+              >
                 {passenger.type}
               </Badge>
             </div>
@@ -119,14 +125,25 @@ export function PassengerForm({
                 <Label className="text-xs font-semibold text-foreground">
                   Date of Birth
                 </Label>
-                <Input
-                  type="date"
-                  className="bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50"
-                  value={passenger.dob}
-                  onChange={(e) =>
-                    updatePassenger(index, "dob", e.target.value)
-                  }
-                />
+                <div className="h-11 w-full rounded-xl border border-border bg-background/50 overflow-hidden hover:border-redmix/50 transition-all focus-within:ring-1 focus-within:ring-redmix/10 focus-within:border-redmix/50">
+                  <DatePicker
+                    date={
+                      passenger.dob
+                        ? parse(passenger.dob, "yyyy-MM-dd", new Date())
+                        : undefined
+                    }
+                    setDate={(date) =>
+                      updatePassenger(
+                        index,
+                        "dob",
+                        date ? format(date, "yyyy-MM-dd") : "",
+                      )
+                    }
+                    label=""
+                    className="h-full px-3"
+                    openOnHover={false}
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">

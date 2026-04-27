@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Plane } from "lucide-react";
 import { useBookingFlowStore } from "@/lib/store/booking-flow-store";
 import { cn } from "@/lib/utils";
@@ -68,6 +68,7 @@ const durationFmt = (mins: number) => `${Math.floor(mins / 60)}h ${mins % 60}m`;
 
 export function FlightCard({ flight }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const setFlights = useBookingFlowStore((state) => state.setFlights);
   const badge = getBadge(flight);
 
@@ -239,7 +240,9 @@ export function FlightCard({ flight }: Props) {
             className="w-auto md:w-full bg-redmix text-white font-bold h-11 rounded-xl shadow-lg shadow-redmix/20 hover:brightness-110 active:scale-[0.98] transition-all"
             onClick={() => {
               setFlights([flight.flightId]);
-              router.push(`/flights/booking?id=${flight.flightId}`);
+              const params = new URLSearchParams(searchParams.toString());
+              params.set("id", flight.flightId);
+              router.push(`/flights/booking?${params.toString()}`);
             }}
           >
             Select

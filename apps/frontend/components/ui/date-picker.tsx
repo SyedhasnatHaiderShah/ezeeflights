@@ -25,6 +25,9 @@ interface DatePickerProps {
   glassPopover?: boolean;
   openOnHover?: boolean;
   disablePastDates?: boolean;
+  fromYear?: number;
+  toYear?: number;
+  captionLayout?: "label" | "dropdown";
 }
 
 export function DatePicker({
@@ -40,6 +43,9 @@ export function DatePicker({
   glassPopover = false,
   openOnHover = true,
   disablePastDates = false,
+  fromYear = 1900,
+  toYear = new Date().getFullYear(),
+  captionLayout = "dropdown",
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
@@ -84,14 +90,16 @@ export function DatePicker({
           }}
         >
           <div className="flex flex-col items-start flex-1 min-w-0">
-            <span
-              className={cn(
-                "text-[10px] font-semibold capitalize leading-none mb-0.5 tracking-tight",
-                glassPopover ? "text-white/70" : "text-foreground/70",
-              )}
-            >
-              {label}
-            </span>
+            {label && (
+              <span
+                className={cn(
+                  "text-[10px] font-semibold capitalize leading-none mb-0.5 tracking-tight",
+                  glassPopover ? "text-white/70" : "text-foreground/70",
+                )}
+              >
+                {label}
+              </span>
+            )}
             <div className="flex items-center gap-1.5 w-full">
               <span
                 className={cn(
@@ -179,7 +187,10 @@ export function DatePicker({
                   isBefore(startOfDay(date), startOfDay(new Date()))
               : undefined)
           }
-          defaultMonth={defaultMonth}
+          defaultMonth={defaultMonth || date || new Date(toYear, 0, 1)}
+          fromYear={fromYear}
+          toYear={toYear}
+          captionLayout={captionLayout}
         />
       </PopoverContent>
     </Popover>

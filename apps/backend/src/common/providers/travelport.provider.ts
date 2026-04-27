@@ -206,8 +206,13 @@ export class TravelportProvider {
         .filter(Boolean);
       
       // If we still have no segments, it might be a different structure
-      if (segmentsForSolution.length === 0 && sol.Key) {
-          // Fallback logic for PricePoints where SegmentRef might be deeper
+      if (segmentsForSolution.length === 0) {
+        // Fallback: If segments are not linked via BookingInfo, try resolving via AirPricingInfo.AirSegment
+        const airSegments = firstPricing?.["air:AirSegment"];
+        if (airSegments) {
+            const airSegmentsArr = Array.isArray(airSegments) ? airSegments : [airSegments];
+            airSegmentsArr.forEach(s => segmentsForSolution.push(segmentsMap.get(s.Key) || s));
+        }
       }
 
       const firstSegment = segmentsForSolution[0];
