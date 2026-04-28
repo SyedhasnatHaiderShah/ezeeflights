@@ -703,8 +703,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
         )}
       </AnimatePresence>
 
-      {/* Promo Strip */}
-      {!isScrolled && !promoDismissed && (
+      {/* Promo Strip - Only on Homepage */}
+      {pathname === "/" && !isScrolled && !promoDismissed && (
         <div className="border-b border-brand-yellow/40 bg-brand-yellow/10">
           <div className="mx-auto flex min-h-[2.25rem] max-w-screen-2xl items-center justify-between gap-3 px-4 py-2 sm:h-9 sm:px-6 sm:py-0">
             <div className="flex flex-1 flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] leading-snug text-foreground xs:text-xs sm:text-sm">
