@@ -1,5 +1,30 @@
 import { apiFetch } from './client';
-export type UserProfile=Record<string,unknown>; export type UpdateProfileDto=Record<string,unknown>; export type SavedTraveler=Record<string,unknown>; export type AddTravelerDto=Record<string,unknown>; export type UserPreferences=Record<string,unknown>; export type UpdatePrefsDto=Record<string,unknown>;
+export type UserProfile = {
+  id?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  nationality?: string;
+  passportNumber?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  avatarUrl?: string;
+  profile?: UserProfile; // In case of nested structure
+  travelers?: SavedTraveler[];
+  preferences?: UserPreferences;
+};
+export type UpdateProfileDto = Partial<UserProfile>;
+export type SavedTraveler = {
+  id: string;
+  fullName: string;
+  passportNumber: string;
+  dob: string;
+  nationality: string;
+};
+export type AddTravelerDto = Partial<SavedTraveler>;
+export type UserPreferences = Record<string, unknown>;
+export type UpdatePrefsDto = Record<string, unknown>;
 export const getProfile=()=>apiFetch<UserProfile>('/profile/me');
 export const updateProfile=(dto:UpdateProfileDto)=>apiFetch<UserProfile>('/profile/me',{method:'PATCH',body:JSON.stringify(dto)});
 export const uploadAvatar=(file:File)=>apiFetch<{avatarUrl:string}>('/profile/avatar',{method:'POST',body:JSON.stringify({fileName:file.name,fileType:file.type})});

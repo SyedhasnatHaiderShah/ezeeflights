@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
-  eyebrow?: string;
+  eyebrow?: string | React.ReactNode;
   title: string | React.ReactNode;
   subtitle?: string;
   ctaLabel?: string;
@@ -33,7 +33,7 @@ export function SectionHeader({
       )}
     >
       {eyebrow && (
-        <p className="text-sm font-semibold uppercase tracking-widest text-brand-red">
+        <p className="text-sm font-semibold uppercase tracking-widest text-redmix">
           {eyebrow}
         </p>
       )}
@@ -49,7 +49,7 @@ export function SectionHeader({
       {ctaLabel && ctaHref && (
         <Link
           href={ctaHref as never}
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-red"
+          className="group inline-flex items-center gap-2 text-sm font-semibold text-redmix"
         >
           {ctaLabel}
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

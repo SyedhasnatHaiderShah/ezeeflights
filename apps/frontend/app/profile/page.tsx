@@ -5,16 +5,22 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
 import { useProfile } from "@/lib/hooks/use-profile";
 import { logoutRequest } from "@/lib/api/auth-api";
+import { UserProfile } from "@/lib/api/profile";
+import { apiFetch } from "@/lib/api/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Route } from "next";
-import { LogOut } from "lucide-react";
+import { LogOut, Eye, EyeOff } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Skeleton } from "../../components/ui/skeleton";
 import { Footer } from "@/components/sections/Footer";
 import { Header } from "@/components/sections/Header";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 import { TravelerList } from "@/components/profile/TravelerList";
+import { PaymentMethods } from "@/components/profile/PaymentMethods";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 
 export default function ProfilePage() {
   const session = useAuthSession();
@@ -27,6 +33,10 @@ export default function ProfilePage() {
     ? (callbackUrl as Route)
     : ("/profile" as Route);
   const profile = useProfile(!!session.data);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [passwords, setPasswords] = useState({ current: "", new: "" });
+  const [resetLoading, setResetLoading] = useState(false);
 
   const handleLogout = async () => {
     await logoutRequest();
@@ -59,7 +69,7 @@ export default function ProfilePage() {
       </div>
     );
 
-  const p = profile.data?.profile ?? {};
+  const p: UserProfile = profile.data?.profile ?? {};
   const name = p.firstName
     ? `${p.firstName} ${p.lastName || ""}`.trim()
     : `${session.data.firstName || ""} ${session.data.lastName || ""}`.trim() ||
@@ -157,20 +167,7 @@ export default function ProfilePage() {
               </div>
             </TabsContent>
             <TabsContent value="payment">
-              <div className="grid gap-3 sm:grid-cols-2">
-                {[
-                  { n: "4242", e: "12/28" },
-                  { n: "1881", e: "04/27" },
-                ].map((c) => (
-                  <div key={c.n} className="rounded-xl border border-border bg-background/50 p-4 transition-all hover:border-brand-red/30">
-                    <p className="font-bold text-foreground">💳 •••• {c.n}</p>
-                    <p className="text-xs text-muted-foreground mt-1">Expiry {c.e}</p>
-                  </div>
-                ))}
-                <button className="flex items-center justify-center rounded-xl border border-dashed border-brand-red/40 bg-brand-red/5 p-4 text-sm font-semibold text-brand-red transition-all hover:bg-brand-red/10">
-                  + Add New Card
-                </button>
-              </div>
+              <PaymentMethods />
             </TabsContent>
             <TabsContent value="notifications">
               <div className="grid gap-4 sm:grid-cols-2">
@@ -196,22 +193,64 @@ export default function ProfilePage() {
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Change password</h3>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Current Password</label>
-                    <input
-                      className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
-                      placeholder="Enter current password"
-                      type="password"
-                    />
+                  <div className="space-y-2">
+                    <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Current Password</Label>
+                    <div className="relative">
+                      <Input
+                        placeholder="Enter current password"
+                        type={showCurrentPassword ? "text" : "password"}
+                        className="pr-10"
+                        value={passwords.current}
+                        onChange={(e) => setPasswords(p => ({ ...p, current: e.target.value }))}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/50 hover:text-redmix transition-colors"
+                      >
+                        {showCurrentPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">New Password</label>
-                    <input
-                      className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
-                      placeholder="Enter new password"
-                      type="password"
-                    />
+                  <div className="space-y-2">
+                    <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">New Password</Label>
+                    <div className="relative">
+                      <Input
+                        placeholder="Enter new password"
+                        type={showNewPassword ? "text" : "password"}
+                        className="pr-10"
+                        value={passwords.new}
+                        onChange={(e) => setPasswords(p => ({ ...p, new: e.target.value }))}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/50 hover:text-redmix transition-colors"
+                      >
+                        {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
                   </div>
+                </div>
+                <div className="flex justify-end">
+                  <Button 
+                    className="bg-redmix hover:bg-brand-red-light rounded-xl px-8"
+                    onClick={async () => {
+                      if (!passwords.current || !passwords.new) return;
+                      setResetLoading(true);
+                      try {
+                        // Mock API call
+                        await new Promise(r => setTimeout(r, 1000));
+                        alert("Password updated successfully!");
+                        setPasswords({ current: "", new: "" });
+                      } finally {
+                        setResetLoading(false);
+                      }
+                    }}
+                    disabled={resetLoading || !passwords.current || !passwords.new}
+                  >
+                    {resetLoading ? "Updating..." : "Save Changes"}
+                  </Button>
                 </div>
                 <label className="flex items-center justify-between rounded-xl border border-border bg-background/50 p-4">
                   <div className="space-y-0.5">

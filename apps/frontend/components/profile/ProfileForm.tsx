@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { parseISO, format, isValid } from "date-fns";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DatePicker } from "@/components/ui/date-picker";
 
 type ProfilePayload = {
   firstName?: string;
@@ -50,12 +55,11 @@ export function ProfileForm({
         <p className="text-sm font-medium text-red-500">{error}</p>
       ) : null}
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="space-y-2">
+          <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             First Name
-          </label>
-          <input
-            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
+          </Label>
+          <Input
             placeholder="First name"
             value={form.firstName ?? ""}
             onChange={(e) =>
@@ -63,12 +67,11 @@ export function ProfileForm({
             }
           />
         </div>
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="space-y-2">
+          <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Last Name
-          </label>
-          <input
-            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
+          </Label>
+          <Input
             placeholder="Last name"
             value={form.lastName ?? ""}
             onChange={(e) =>
@@ -76,23 +79,21 @@ export function ProfileForm({
             }
           />
         </div>
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="space-y-2">
+          <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Phone Number
-          </label>
-          <input
-            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
+          </Label>
+          <Input
             placeholder="Phone"
             value={form.phone ?? ""}
             onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
           />
         </div>
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="space-y-2">
+          <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Nationality
-          </label>
-          <input
-            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
+          </Label>
+          <Input
             placeholder="Nationality"
             value={form.nationality ?? ""}
             onChange={(e) =>
@@ -100,12 +101,11 @@ export function ProfileForm({
             }
           />
         </div>
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="space-y-2">
+          <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Passport Number
-          </label>
-          <input
-            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
+          </Label>
+          <Input
             placeholder="Passport Number"
             value={form.passportNumber ?? ""}
             onChange={(e) =>
@@ -114,34 +114,48 @@ export function ProfileForm({
           />
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="space-y-2">
+          <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Date of Birth
-          </label>
-          <input
-            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
-            placeholder="YYYY-MM-DD"
-            type="date"
-            value={form.dateOfBirth ?? ""}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, dateOfBirth: e.target.value }))
-            }
-          />
+          </Label>
+          <div className="h-11 rounded-xl border border-input bg-background transition-all hover:border-primary/50">
+            <DatePicker
+              label=""
+              date={
+                form.dateOfBirth && isValid(parseISO(form.dateOfBirth))
+                  ? parseISO(form.dateOfBirth)
+                  : undefined
+              }
+              setDate={(d) =>
+                setForm((p) => ({
+                  ...p,
+                  dateOfBirth: d ? format(d, "yyyy-MM-dd") : "",
+                }))
+              }
+              openOnHover={false}
+              className="h-full px-4"
+              fromYear={1900}
+              toYear={new Date().getFullYear()}
+            />
+          </div>
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="space-y-2">
+          <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Gender
-          </label>
-          <select
-            className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-all focus:border-brand-red focus:ring-2 focus:ring-brand-red/10"
+          </Label>
+          <Select
             value={form.gender ?? ""}
-            onChange={(e) => setForm((p) => ({ ...p, gender: e.target.value }))}
+            onValueChange={(v) => setForm((p) => ({ ...p, gender: v }))}
           >
-            <option value="">Select gender</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select gender" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="M">Male</SelectItem>
+              <SelectItem value="F">Female</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
       <div className="flex justify-end pt-2">
