@@ -1,3 +1,5 @@
+import { Car } from "@/lib/api/cars";
+
 export type CarCategory =
   | "Economy"
   | "Compact"
@@ -20,23 +22,15 @@ export interface CarExtra {
   icon: string;
 }
 
-export interface CarRental {
-  id: string;
+export interface CarRental extends Car {
   name: string;
   type: string;
-  category: CarCategory;
-  transmission: "Automatic" | "Manual";
-  passengers: number;
   bags: number;
-  pricePerDay: number;
-  image: string;
   partnerNetwork: {
     name: string;
     logo: string;
     rating: number;
   };
-  features: string[];
-  unlimitedMileage: boolean;
   freeCancellation: boolean;
   pickupType: "Terminal" | "Shuttle" | "Meet & Greet";
   location: string;
@@ -48,14 +42,21 @@ export const MOCK_CARS: CarRental[] = [
   {
     id: "car-1",
     name: "Tesla Model 3",
+    make: "Tesla",
+    model: "Model 3",
     type: "Electric Sedan",
     category: "Electric",
     transmission: "Automatic",
-    passengers: 5,
+    seats: 5,
+    doors: 4,
     bags: 2,
+    fuelType: "Electric",
+    airConditioning: true,
     pricePerDay: 85,
-    image:
+    currency: "USD",
+    images: [
       "https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=800&auto=format&fit=crop",
+    ],
     partnerNetwork: {
       name: "Hertz",
       logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Hertz_logo.svg/2560px-Hertz_logo.svg.png",
@@ -100,14 +101,21 @@ export const MOCK_CARS: CarRental[] = [
   {
     id: "car-2",
     name: "Range Rover Sport",
+    make: "Land Rover",
+    model: "Range Rover Sport",
     type: "Luxury SUV",
     category: "SUV",
     transmission: "Automatic",
-    passengers: 5,
+    seats: 5,
+    doors: 5,
     bags: 4,
+    fuelType: "Diesel",
+    airConditioning: true,
     pricePerDay: 145,
-    image:
+    currency: "USD",
+    images: [
       "https://images.unsplash.com/photo-1594502184342-2e12f877aa73?q=80&w=800&auto=format&fit=crop",
+    ],
     partnerNetwork: {
       name: "Sixt",
       logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Sixt_logo.svg/1200px-Sixt_logo.svg.png",
@@ -150,14 +158,21 @@ export const MOCK_CARS: CarRental[] = [
   {
     id: "car-3",
     name: "Volkswagen Polo",
+    make: "Volkswagen",
+    model: "Polo",
     type: "Hatchback",
     category: "Economy",
     transmission: "Manual",
-    passengers: 4,
+    seats: 5,
+    doors: 5,
     bags: 1,
+    fuelType: "Petrol",
+    airConditioning: true,
     pricePerDay: 32,
-    image:
+    currency: "USD",
+    images: [
       "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=800&auto=format&fit=crop",
+    ],
     partnerNetwork: {
       name: "Europcar",
       logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Europcar_logo.svg/2560px-Europcar_logo.svg.png",
@@ -187,14 +202,21 @@ export const MOCK_CARS: CarRental[] = [
   {
     id: "car-4",
     name: "Mercedes-Benz E-Class",
+    make: "Mercedes-Benz",
+    model: "E-Class",
     type: "Executive Sedan",
     category: "Luxury",
     transmission: "Automatic",
-    passengers: 5,
+    seats: 5,
+    doors: 4,
     bags: 3,
+    fuelType: "Hybrid",
+    airConditioning: true,
     pricePerDay: 110,
-    image:
+    currency: "USD",
+    images: [
       "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop",
+    ],
     partnerNetwork: {
       name: "Avis",
       logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Avis_logo.svg/2560px-Avis_logo.svg.png",

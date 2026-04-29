@@ -58,9 +58,18 @@ export default function BookingPage() {
       fullName: string;
       passportNumber: string;
       phoneNumber?: string;
+      gender: "M" | "F";
       type: "ADULT" | "CHILD" | "INFANT";
     }[]
-  >([{ fullName: "", passportNumber: "", phoneNumber: "", type: "ADULT" }]);
+  >([
+    {
+      fullName: "",
+      passportNumber: "",
+      phoneNumber: "",
+      gender: "M",
+      type: "ADULT",
+    },
+  ]);
   const [pricingSolutionXml, setPricingSolutionXml] = useState<string | null>(
     null,
   );
@@ -125,12 +134,13 @@ export default function BookingPage() {
   const checkProfile = async () => {
     if (!session) return;
     try {
-      const profile: any = await apiFetch("/auth/profile");
+      const profile: any = await apiFetch("/profile/me");
       const complete = !!(
         profile &&
         profile.firstName &&
         profile.lastName &&
-        profile.passportNumber
+        profile.passportNumber &&
+        profile.gender
       );
       setIsProfileComplete(complete);
 
@@ -140,6 +150,7 @@ export default function BookingPage() {
             fullName: `${profile.firstName} ${profile.lastName}`,
             passportNumber: profile.passportNumber || "",
             phoneNumber: profile.phone || "",
+            gender: (profile.gender as any) || "M",
             type: "ADULT",
           },
         ]);

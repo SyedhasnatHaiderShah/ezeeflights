@@ -122,29 +122,28 @@ export function PassengerForm({
 
               <div className="space-y-2">
                 <Label className="text-xs font-semibold text-foreground">
+                  Gender
+                </Label>
+                <Select
+                  value={passenger.gender}
+                  onValueChange={(v) =>
+                    updatePassenger(index, "gender", v as any)
+                  }
+                >
+                  <SelectTrigger className="h-11 bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50 rounded-xl">
+                    <SelectValue placeholder="Select Gender" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="M">Male</SelectItem>
+                    <SelectItem value="F">Female</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-foreground">
                   Phone Number
                 </Label>
-
-                <div className="space-y-2">
-                  <Label className="text-xs font-semibold text-foreground">
-                    Gender
-                  </Label>
-                  <Select
-                    value={passenger.gender}
-                    onValueChange={(v) =>
-                      updatePassenger(index, "gender", v as any)
-                    }
-                  >
-                    <SelectTrigger className="h-11 bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50 rounded-xl">
-                      <SelectValue placeholder="Select Gender" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="M">Male</SelectItem>
-                      <SelectItem value="F">Female</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/50">
                     <User className="h-4 w-4" />
