@@ -38,6 +38,35 @@ export const getMonitoringLive = () => adminFetch('/monitoring/live');
 export const getMonitoringHealth = () => adminFetch('/monitoring/health');
 export const getInsightsTopDestinations = (query: { from?: string; to?: string }) => adminFetch(`/insights/top-destinations${toQuery(query)}`);
 export const getInsightsTrends = (query: { from?: string; to?: string; granularity?: string }) => adminFetch(`/insights/trends${toQuery(query)}`);
+export type AdminPromotionKind = 'PERCENT' | 'FIXED';
+export type AdminPromotion = {
+  code: string;
+  title: string;
+  description?: string;
+  kind: AdminPromotionKind;
+  value: number;
+  active?: boolean;
+  startsAt?: string;
+  endsAt?: string;
+  minSubtotal?: number;
+  minTravelers?: number;
+  firstBookingOnly?: boolean;
+  memberOnly?: boolean;
+  partnerCode?: string;
+  campaignTag?: string;
+  autoApply?: boolean;
+  flashSale?: boolean;
+  maxDiscount?: number;
+  usageLimit?: number;
+  redeemedCount?: number;
+};
+
+export const listAdminCoupons = () => adminFetch<AdminPromotion[]>('/promotions/coupons');
+export const saveAdminCoupon = (payload: AdminPromotion) => adminFetch<AdminPromotion>('/promotions/coupons', { method: 'POST', body: JSON.stringify(payload) });
+export const deleteAdminCoupon = (code: string) => adminFetch<void>(`/promotions/coupons/${encodeURIComponent(code)}`, { method: 'DELETE' });
+export const listAdminCampaigns = () => adminFetch<AdminPromotion[]>('/promotions/campaigns');
+export const saveAdminCampaign = (payload: AdminPromotion) => adminFetch<AdminPromotion>('/promotions/campaigns', { method: 'POST', body: JSON.stringify(payload) });
+export const deleteAdminCampaign = (code: string) => adminFetch<void>(`/promotions/campaigns/${encodeURIComponent(code)}`, { method: 'DELETE' });
 export const getExecutiveOverview = async () => {
   const [revenue, operations, settlements] = await Promise.all([
     getRevenueOverview({}),
