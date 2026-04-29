@@ -22,8 +22,14 @@ export class HotelService {
     return { data: providerData, total: providerData.length, page: dto.page, limit: dto.limit, source: 'provider-fallback' };
   }
 
-  getById(id: string) {
-    return this.repository.getById(id);
+  async getById(id: string) {
+    try {
+      return await this.repository.getById(id);
+    } catch (err) {
+      const providerHotel = await this.providerService.getHotelDetails(id);
+      if (providerHotel) return providerHotel;
+      throw err;
+    }
   }
 
   async getRooms(hotelId: string, dto: SearchRoomsDto) {

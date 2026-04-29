@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Injectable, Logger } from '@nestjs/common';
+import { TravelportProvider } from '../../common/providers';
 
 export interface HotelProvider {
   searchHotels(_criteria: Record<string, unknown>): Promise<unknown[]>;
@@ -101,14 +102,50 @@ class ExpediaAdapter implements HotelProvider {
   }
 }
 
+class TravelportAdapter implements HotelProvider {
+  constructor(private readonly provider: TravelportProvider) {}
+
+  async searchHotels(criteria: Record<string, unknown>): Promise<unknown[]> {
+    try {
+      return await this.provider.searchHotels({
+        city: criteria.city as string,
+        checkInDate: criteria.checkInDate as string,
+        checkOutDate: criteria.checkOutDate as string,
+        adults: parseInt(criteria.adults as string) || 2,
+        currency: criteria.currency as string || "USD",
+      });
+    } catch {
+      return [];
+    }
+  }
+
+  async getHotelDetails(hotelId: string): Promise<unknown | null> {
+    const [chainCode, id] = hotelId.split('-');
+    if (!chainCode || !id) return null;
+    try {
+      return await this.provider.getHotelDetails(id, chainCode);
+    } catch {
+      return null;
+    }
+  }
+
+  async getRooms(_hotelId: string): Promise<unknown[]> {
+    return [];
+  }
+}
+
 @Injectable()
 export class BookingProviderService {
   private readonly logger = new Logger(BookingProviderService.name);
+  private readonly providers: HotelProvider[];
 
-  private readonly providers: HotelProvider[] = [
-    new BookingComAdapter(process.env.BOOKING_COM_API_KEY),
-    new ExpediaAdapter(process.env.EXPEDIA_API_KEY),
-  ];
+  constructor(private readonly travelport: TravelportProvider) {
+    this.providers = [
+      new TravelportAdapter(this.travelport),
+      new BookingComAdapter(process.env.BOOKING_COM_API_KEY),
+      new ExpediaAdapter(process.env.EXPEDIA_API_KEY),
+    ];
+  }
 
   async searchHotels(criteria: Record<string, unknown>) {
     for (const provider of this.providers) {

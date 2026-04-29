@@ -16,9 +16,10 @@ import { TicketService } from './services/ticket.service';
 import { TicketingEventListener } from './services/ticketing-listener.service';
 
 import { FlightModule } from '../flight/flight.module';
+import { IntegrationsModule } from '../integrations/integrations.module';
 
 @Module({
-  imports: [BookingModule, NotificationModule, UserModule, FlightModule],
+  imports: [BookingModule, NotificationModule, UserModule, FlightModule, IntegrationsModule],
   controllers: [PnrController],
   providers: [
     PostgresClient,
