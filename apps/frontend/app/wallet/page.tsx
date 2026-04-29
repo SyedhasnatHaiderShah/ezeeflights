@@ -369,12 +369,14 @@ export default function WalletPage() {
                   </li>
                 ))}
               </ul>
-              <Button
-                variant="outline"
-                className="w-full mt-6 border-redmix/30 text-redmix hover:bg-redmix/10 rounded-xl font-bold text-xs"
-              >
-                Explore Reward Center
-              </Button>
+              <Link href="/rewards">
+                <Button
+                  variant="outline"
+                  className="w-full mt-6 border-redmix/30 text-redmix hover:bg-redmix/10 rounded-xl font-bold text-xs"
+                >
+                  Explore Reward Center
+                </Button>
+              </Link>
             </section>
           </aside>
         </div>

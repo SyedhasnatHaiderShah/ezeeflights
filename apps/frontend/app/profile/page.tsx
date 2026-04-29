@@ -5,8 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAuthSession } from "@/lib/hooks/use-auth-session";
 import { useProfile } from "@/lib/hooks/use-profile";
 import { logoutRequest } from "@/lib/api/auth-api";
-import { UserProfile } from "@/lib/api/profile";
-import { apiFetch } from "@/lib/api/client";
+import { deleteTraveler, updateProfile, ProfileOverview, TravelPreferences, UserProfileRecord } from "@/lib/api/profile";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Route } from "next";
 import { LogOut, Eye, EyeOff } from "lucide-react";
@@ -21,6 +20,7 @@ import { TravelerList } from "@/components/profile/TravelerList";
 import { PaymentMethods } from "@/components/profile/PaymentMethods";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { TravelDocumentsPanel } from "@/components/travel-documents/TravelDocumentsPanel";
 
 export default function ProfilePage() {
   const session = useAuthSession();
@@ -69,7 +69,11 @@ export default function ProfilePage() {
       </div>
     );
 
-  const p: UserProfile = profile.data?.profile ?? {};
+  const profileData = profile.data as ProfileOverview | undefined;
+  const p: UserProfileRecord = profileData?.profile ?? {};
+  const travelers = profileData?.travelers ?? [];
+  const loyalty = profileData?.loyaltyAccount;
+  const preferences: TravelPreferences = profileData?.preferences ?? p.preferences ?? {};
   const name = p.firstName
     ? `${p.firstName} ${p.lastName || ""}`.trim()
     : `${session.data.firstName || ""} ${session.data.lastName || ""}`.trim() ||
@@ -87,15 +91,31 @@ export default function ProfilePage() {
           <h2 className="mt-4 text-center text-xl font-bold">{name}</h2>
           <p className="text-center text-sm text-muted-foreground">{email}</p>
           <p className="mx-auto mt-3 w-fit rounded-full bg-brand-yellow/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-brand-yellow border border-brand-yellow/30">
-            Gold Member
+            {loyalty?.tier ?? "Bronze"} Member
           </p>
+          <div className="mt-3 rounded-xl border bg-background p-3 text-center">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Loyalty points</p>
+            <p className="mt-1 text-2xl font-black text-foreground">{loyalty?.pointsBalance ?? 0}</p>
+            <p className="text-xs text-muted-foreground">Lifetime {loyalty?.lifetimePoints ?? 0}</p>
+          </div>
+          <div className="mt-3 rounded-xl border bg-background p-3 text-left text-xs text-muted-foreground">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground">Travel preferences</p>
+            <div className="space-y-1">
+              <p>Seat: {preferences.seatPreference ?? 'Not set'}</p>
+              <p>Meal: {preferences.mealPreference ?? 'Not set'}</p>
+              <p>Cabin: {preferences.cabinClass ?? 'Not set'}</p>
+              <p>Language: {preferences.language ?? 'Not set'}</p>
+              <p>Currency: {preferences.currency ?? 'Not set'}</p>
+            </div>
+          </div>
           <p className="mt-2 text-center text-xs text-muted-foreground">
-            Member since 2023
+            Member since {typeof profileData?.createdAt === "string" ? new Date(profileData.createdAt).getFullYear() : new Date().getFullYear()}
           </p>
           <nav className="mt-5 space-y-1 text-sm">
             {[
               ["personal", "Personal Info"],
               ["travelers", "My Travelers"],
+              ["documents", "My Documents"],
               ["payment", "Payment Methods"],
               ["notifications", "Notifications"],
               ["security", "Security"],
@@ -127,6 +147,7 @@ export default function ProfilePage() {
             <TabsList className="mb-5 h-auto w-full flex-wrap justify-start gap-2 bg-transparent p-0 lg:hidden">
               <TabsTrigger value="personal">Personal</TabsTrigger>
               <TabsTrigger value="travelers">Travelers</TabsTrigger>
+              <TabsTrigger value="documents">Documents</TabsTrigger>
               <TabsTrigger value="payment">Payment</TabsTrigger>
               <TabsTrigger value="notifications">Notifications</TabsTrigger>
               <TabsTrigger value="security">Security</TabsTrigger>
@@ -141,10 +162,7 @@ export default function ProfilePage() {
               <ProfileForm
                 initial={p}
                 onSave={async (payload) => {
-                  await apiFetch("/profile/me", {
-                    method: "PATCH",
-                    body: JSON.stringify(payload),
-                  });
+                  await updateProfile(payload);
                   await queryClient.invalidateQueries({ queryKey: ["profile-me"] });
                   router.push(safeCallbackUrl);
                 }}
@@ -159,12 +177,20 @@ export default function ProfilePage() {
                   </button>
                 </div>
                 <TravelerList
-                  travelers={p.travelers ?? []}
-                  onDelete={(id) =>
-                    apiFetch(`/travelers/${id}`, { method: "DELETE" })
-                  }
+                  travelers={travelers}
+                  onDelete={(id) => deleteTraveler(id)}
                 />
               </div>
+            </TabsContent>
+            <TabsContent value="documents">
+              <TravelDocumentsPanel
+                title="My Travel Documents"
+                profileAware
+                showCompliance
+                onProfileUpdated={async () => {
+                  await queryClient.invalidateQueries({ queryKey: ["profile-me"] });
+                }}
+              />
             </TabsContent>
             <TabsContent value="payment">
               <PaymentMethods />

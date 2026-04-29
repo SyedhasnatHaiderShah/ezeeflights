@@ -1,23 +1,56 @@
 'use client';
 
-import { useState } from 'react';
+
+
 import { useQuery } from '@tanstack/react-query';
+
 import Link from 'next/link';
+
 import { TicketCard } from '@/components/support/TicketCard';
+
 import { SupportTicket } from '@/components/support/types';
+
 import { apiFetch } from '@/lib/api/client';
 
+
+
 export default function SupportTicketsPage() {
-  const [filter, setFilter] = useState('open');
-  const tickets = useQuery({ queryKey: ['support-my-tickets'], queryFn: () => apiFetch<SupportTicket[]>('/support/tickets/me') });
-  const filtered = (tickets.data ?? []).filter((t) => filter === 'all' || t.status === filter || (filter === 'in_progress' && t.status === 'in_progress'));
+
+  const tickets = useQuery({
+
+    queryKey: ['support-my-tickets'],
+
+    queryFn: () => apiFetch<SupportTicket[]>('/support/tickets/me'),
+
+  });
+
+
 
   return (
-    <section className="space-y-4 pb-20">
-      <h1 className="text-2xl font-bold">My Support Tickets</h1>
-      <div className="flex gap-2">{[['open','Open'],['in_progress','In Progress'],['resolved','Resolved'],['all','All']].map(([k,l]) => <button key={k} onClick={() => setFilter(k)} className={`rounded-full border px-3 py-1 text-sm ${filter===k?'bg-brand-red text-white':''}`}>{l}</button>)}</div>
-      <div className="space-y-3">{filtered.map((ticket) => <TicketCard key={ticket.id} ticket={ticket} />)}</div>
-      <Link href="/support/tickets/new" className="fixed bottom-6 right-6 rounded-full bg-brand-red px-5 py-3 text-white shadow-lg">+ New Ticket</Link>
+
+    <section className="space-y-4">
+
+      <div className="flex items-center justify-between">
+
+        <h1 className="text-2xl font-bold">My Support Tickets</h1>
+
+        <Link className="rounded bg-slate-900 px-4 py-2 text-white" href="/support/tickets/new">New ticket</Link>
+
+      </div>
+
+
+
+      <div className="space-y-3">
+
+        {tickets.data?.map((ticket) => <TicketCard key={ticket.id} ticket={ticket} />)}
+
+        {tickets.data?.length === 0 && <p className="rounded border bg-white p-4 text-sm text-slate-600">No tickets yet.</p>}
+
+      </div>
+
     </section>
+
   );
+
 }
+

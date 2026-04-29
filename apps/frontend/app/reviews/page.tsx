@@ -1,386 +1,155 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Filter,
-  Star,
-  CheckCircle2,
-} from "lucide-react";
-import {
-  useFeaturedReviews,
-  useReviewStats,
-  useReviews,
-} from "@/lib/api/reviews";
-import { Skeleton } from "@/components/ui/skeleton";
-import { RatingStars } from "@/components/ui/rating-stars";
+import { motion } from "framer-motion";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
-import { cn } from "@/lib/utils";
+import { REVIEWS } from "@/data/reviews";
+import { ReviewCard } from "@/components/reviews/ReviewCard";
+import { AppImage } from "@/components/ui/app-image";
+import { MessageSquare, Sparkles, Filter, Search, Star } from "lucide-react";
+import { Review } from "@/lib/types/hotels";
 
-export default function ReviewsPage() {
-  const limit = 9;
-  const featuredLimit = 8;
-  const [star, setStar] = useState(0);
-  const [verifiedOnly, setVerifiedOnly] = useState(false);
-  const [page, setPage] = useState(1);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?q=80&w=2000&auto=format&fit=crop";
 
-  const { data: stats } = useReviewStats();
-  const featured = useFeaturedReviews(featuredLimit);
-  const q = useReviews({
-    rating: star || undefined,
-    verified: verifiedOnly || undefined,
-    page,
-    limit,
-  });
-
-  const reviews = useMemo(() => {
-    if (!q.data) return [];
-    if (Array.isArray(q.data)) return q.data;
-    return q.data.data ?? [];
-  }, [q.data]);
-
-  const featuredReviews = featured.data ?? [];
-  const total = Array.isArray(q.data) ? q.data.length : (q.data?.total ?? 0);
-  const totalPages = Math.max(1, Math.ceil(total / limit));
-
-  const visiblePageNumbers = useMemo(() => {
-    const start = Math.max(1, page - 2);
-    const end = Math.min(totalPages, start + 4);
-    const adjustedStart = Math.max(1, end - 4);
-    return Array.from(
-      { length: end - adjustedStart + 1 },
-      (_, idx) => adjustedStart + idx,
-    );
-  }, [page, totalPages]);
-
-  const onFilterToggle = (nextStar: number, nextVerified?: boolean) => {
-    setStar(nextStar);
-    if (typeof nextVerified === "boolean") {
-      setVerifiedOnly(nextVerified);
-    }
-    setPage(1);
-  };
+export default function CommunityReviewsPage() {
+  // Map data/reviews.ts to lib/types/hotels.ts Review type
+  const mappedReviews: Review[] = REVIEWS.map((rev, i) => ({
+    id: rev.id || `rev-${i}`,
+    userName: rev.name,
+    userAvatar: rev.avatarUrl,
+    rating: rev.rating,
+    comment: rev.text,
+    date: rev.date,
+    isVerified: rev.isVerified || false,
+    flightRating: rev.flightRating,
+    hotelRating: rev.hotelRating,
+    carRating: rev.carRating,
+    supplierResponse: rev.supplierResponse,
+    photos: rev.photos,
+  }));
 
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="min-h-screen">
       <Header />
 
-      <main className="flex-grow pt-24 pb-16">
-        <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-12 space-y-12">
-          {/* Header Section */}
-          <section className="relative overflow-hidden rounded-3xl border border-border bg-card p-8 md:p-12 shadow-sm">
-            <div className="absolute top-0 right-0 p-8 opacity-5">
-              <CheckCircle2 className="h-48 w-48" />
+      {/* Hero Section */}
+      <section className="relative min-h-[50vh] w-full overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0"
+        >
+          <AppImage
+            src={HERO_IMAGE}
+            alt="Travel community"
+            fill
+            priority
+            className="object-cover"
+          />
+        </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-background" />
+
+        <div className="relative z-10 mx-auto flex min-h-[50vh] w-full max-w-[1400px] flex-col items-center justify-center px-4 pb-20 text-white">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="space-y-6 text-center"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-red/20 border border-brand-red/30 px-4 py-1.5 text-[10px] font-black tracking-[0.2em] backdrop-blur-md text-brand-red">
+              <Sparkles className="w-3.5 h-3.5" /> Community Voices
+            </span>
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter">
+              Verified{" "}
+              <span className="bg-gradient-to-r from-redmix to-orange-400 bg-clip-text text-transparent">
+                Experiences
+              </span>
+            </h1>
+            <p className="mx-auto max-w-2xl text-lg text-white/70 font-medium">
+              Real stories from our global community of travelers. Transparent,
+              verified, and always helpful.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Stats & Filters */}
+      <section className="relative z-20 -mt-20 mx-auto w-full max-w-6xl px-4">
+        <div className="grid md:grid-cols-3 gap-6 bg-card/60 backdrop-blur-2xl p-8 rounded-[3rem] border border-border/50 shadow-2xl">
+          <div className="flex items-center gap-6 p-4">
+            <div className="w-16 h-16 bg-brand-red/10 rounded-2xl flex items-center justify-center text-brand-red font-black text-3xl">
+              4.9
             </div>
-
-            <div className="relative z-10 grid gap-8 lg:grid-cols-2 lg:items-center">
-              <div>
-                <h1 className="text-4xl font-black tracking-tight text-foreground md:text-5xl">
-                  Traveler <span className="text-brand-red">Reviews</span>
-                </h1>
-                <p className="mt-4 text-lg text-muted-foreground max-w-md">
-                  Real feedback from our global community. Discover why
-                  thousands trust EzeeFlights for their journeys.
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-muted/50 p-6 backdrop-blur-sm">
-                <div className="flex items-center gap-6 mb-6">
-                  <div className="text-center">
-                    <p className="text-5xl font-black text-brand-red">
-                      {stats?.average?.toFixed(1) ?? "0.0"}
-                    </p>
-                    <div className="flex justify-center mt-1">
-                      <RatingStars rating={Math.round(stats?.average ?? 0)} />
-                    </div>
-                  </div>
-                  <div className="h-12 w-px bg-border" />
-                  <div>
-                    <p className="text-xl font-bold">{stats?.total ?? 0}</p>
-                    <p className="text-sm text-muted-foreground font-medium">
-                      Verified Reviews
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  {[5, 4, 3, 2, 1].map((s) => (
-                    <div key={s} className="flex items-center gap-3">
-                      <span className="w-8 text-xs font-bold text-muted-foreground">
-                        {s} <Star className="inline h-3 w-3 -mt-0.5" />
-                      </span>
-                      <div className="h-2 flex-1 rounded-full bg-background overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-brand-red transition-all duration-500"
-                          style={{
-                            width: `${Math.min(100, ((stats?.distribution?.[s] ?? 0) / Math.max(1, stats?.total ?? 1)) * 100)}%`,
-                          }}
-                        />
-                      </div>
-                      <span className="w-10 text-right text-[10px] font-medium text-muted-foreground">
-                        {Math.round(
-                          ((stats?.distribution?.[s] ?? 0) /
-                            Math.max(1, stats?.total ?? 1)) *
-                            100,
-                        )}
-                        %
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Featured Section */}
-          <section className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <h2 className="text-2xl font-bold tracking-tight">
-                  Featured Experiences
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  Hand-picked stories from our most recent travelers.
-                </p>
-              </div>
-              <div className="hidden items-center gap-2 md:flex">
-                <button
-                  type="button"
-                  onClick={() => emblaApi?.scrollPrev()}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card shadow-sm transition hover:bg-muted"
-                  aria-label="Previous featured review"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => emblaApi?.scrollNext()}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card shadow-sm transition hover:bg-muted"
-                  aria-label="Next featured review"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-
-            {featured.isLoading ? (
-              <div className="grid gap-6 md:grid-cols-2">
-                {Array.from({ length: 2 }).map((_, i) => (
-                  <Skeleton key={i} className="h-64 rounded-3xl" />
+            <div>
+              <div className="flex text-amber-500 mb-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3 h-3 fill-current" />
                 ))}
               </div>
-            ) : null}
+              <p className="text-sm font-black">Average Rating</p>
+              <p className="text-[10px] text-muted-foreground font-bold tracking-widest">
+                Global Satisfaction
+              </p>
+            </div>
+          </div>
 
-            {featured.isError ? (
-              <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-8 text-center">
-                <p className="text-sm font-medium text-destructive">
-                  Unable to load featured stories at the moment.
-                </p>
-              </div>
-            ) : null}
+          <div className="flex items-center gap-6 p-4 border-l border-border/50">
+            <div className="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center">
+              <MessageSquare className="w-8 h-8 text-blue-500" />
+            </div>
+            <div>
+              <p className="text-2xl font-black">12.5k+</p>
+              <p className="text-sm font-black">Total Reviews</p>
+              <p className="text-[10px] text-muted-foreground font-bold tracking-widest">
+                Verified Stays
+              </p>
+            </div>
+          </div>
 
-            {!featured.isLoading && !featured.isError ? (
-              <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex gap-6 py-2">
-                  {featuredReviews.map((review) => (
-                    <article
-                      key={review.id}
-                      className="flex-[0_0_100%] rounded-3xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md md:flex-[0_0_50%] lg:flex-[0_0_33%]"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="h-12 w-12 overflow-hidden rounded-full ring-2 ring-brand-red/10">
-                          {review.authorAvatar ? (
-                            <img
-                              src={review.authorAvatar}
-                              alt={review.authorName}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center bg-brand-red text-sm font-bold text-white">
-                              {review.authorName
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")
-                                .slice(0, 2)}
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          <p className="font-bold text-foreground">
-                            {review.authorName}
-                          </p>
-                          <p className="text-xs text-muted-foreground font-medium">
-                            {review.authorLocation}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="mt-4 flex items-center gap-2">
-                        <RatingStars rating={review.rating} />
-                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full">
-                          {review.isVerified ? "Verified Trip" : "Guest Review"}
-                        </span>
-                      </div>
-                      <p className="mt-4 line-clamp-4 text-sm italic leading-relaxed text-muted-foreground">
-                        "{review.text}"
-                      </p>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </section>
-
-          {/* Filters & Grid */}
-          <section className="space-y-8">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between border-t border-border pt-12">
-              <div className="space-y-1">
-                <h2 className="text-2xl font-bold tracking-tight">
-                  All Reviews
-                </h2>
-                <p className="text-sm text-muted-foreground font-medium">
-                  Filtering {total} traveler stories
-                </p>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-2 bg-muted/50 p-1 rounded-full border border-border">
-                  <span className="px-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                    Rating
-                  </span>
-                  <div className="flex gap-1">
-                    {[5, 4, 3, 2, 1].map((s) => (
-                      <button
-                        key={s}
-                        className={cn(
-                          "flex h-8 w-10 items-center justify-center rounded-full text-xs font-bold transition-all",
-                          star === s
-                            ? "bg-brand-red text-white shadow-md"
-                            : "hover:bg-background text-muted-foreground",
-                        )}
-                        onClick={() => onFilterToggle(star === s ? 0 : s)}
-                      >
-                        {s}★
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <label className="flex cursor-pointer items-center gap-3 rounded-full border border-border bg-card px-4 py-2 transition hover:bg-muted">
-                  <div className="relative flex items-center">
-                    <input
-                      type="checkbox"
-                      className="peer sr-only"
-                      checked={verifiedOnly}
-                      onChange={(e) => onFilterToggle(star, e.target.checked)}
-                    />
-                    <div className="h-5 w-9 rounded-full bg-muted transition-colors peer-checked:bg-brand-red"></div>
-                    <div className="absolute left-1 h-3 w-3 rounded-full bg-white transition-transform peer-checked:translate-x-4"></div>
-                  </div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-foreground/80">
-                    Verified Only
-                  </span>
-                </label>
+          <div className="flex items-center gap-4 p-4 border-l border-border/50">
+            <div className="flex-1 space-y-4">
+              <div className="relative group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-brand-red transition-colors" />
+                <input
+                  type="text"
+                  placeholder="Search reviews..."
+                  className="w-full bg-muted/50 border border-border/50 rounded-2xl py-3 pl-12 pr-4 text-xs font-bold focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red outline-none transition-all"
+                />
               </div>
             </div>
-
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {q.isLoading
-                ? Array.from({ length: limit }).map((_, i) => (
-                    <Skeleton key={i} className="h-64 rounded-3xl" />
-                  ))
-                : reviews.map((review, idx) => (
-                    <article
-                      key={review.id}
-                      className="group rounded-3xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 overflow-hidden rounded-full ring-2 ring-brand-red/5">
-                          {review.authorAvatar ? (
-                            <img
-                              src={review.authorAvatar}
-                              alt={review.authorName}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center bg-brand-red/10 text-xs font-bold text-brand-red">
-                              {review.authorName
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")
-                                .slice(0, 2)}
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          <p className="font-bold text-foreground">
-                            {review.authorName}
-                          </p>
-                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                            {review.authorLocation} ·{" "}
-                            {new Date(review.createdAt).toLocaleDateString(
-                              undefined,
-                              { month: "short", year: "numeric" },
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="mt-4 flex items-center gap-2">
-                        <RatingStars rating={review.rating} />
-                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-                          {review.isVerified ? "✓ Verified" : ""}
-                        </span>
-                      </div>
-                      <p className="mt-4 line-clamp-5 text-sm leading-relaxed text-muted-foreground font-medium italic">
-                        "{review.text}"
-                      </p>
-                    </article>
-                  ))}
-            </div>
-
-            {/* Pagination */}
-            {!q.isLoading && totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 pt-8">
-                <button
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card transition hover:bg-muted disabled:opacity-30 disabled:pointer-events-none"
-                  disabled={page <= 1}
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-
-                <div className="flex items-center gap-1">
-                  {visiblePageNumbers.map((pageNo) => (
-                    <button
-                      key={pageNo}
-                      className={cn(
-                        "h-10 w-10 rounded-xl text-sm font-bold transition-all",
-                        pageNo === page
-                          ? "bg-brand-red text-white shadow-md scale-110"
-                          : "bg-card border border-border hover:bg-muted text-muted-foreground",
-                      )}
-                      onClick={() => setPage(pageNo)}
-                    >
-                      {pageNo}
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card transition hover:bg-muted disabled:opacity-30 disabled:pointer-events-none"
-                  disabled={page >= totalPages}
-                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
-            )}
-          </section>
+            <button className="p-3 bg-muted/50 rounded-2xl border border-border/50 hover:border-brand-red/30 transition-all group">
+              <Filter className="w-5 h-5 text-muted-foreground group-hover:text-brand-red" />
+            </button>
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Review Feed */}
+      <section className="mx-auto w-full max-w-[1400px] px-4 py-20">
+        <div className="grid gap-12 lg:grid-cols-2">
+          {mappedReviews.map((review, i) => (
+            <motion.div
+              key={review.id}
+              initial={{ y: 30, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <ReviewCard review={review} />
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="mt-20 text-center space-y-8">
+          <p className="text-sm text-muted-foreground font-bold italic">
+            Showing 5 of 12,542 verified reviews
+          </p>
+          <button className="px-12 py-5 bg-foreground text-background rounded-[2rem] font-black text-lg shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all active:scale-95">
+            Load More Experiences
+          </button>
+        </div>
+      </section>
 
       <Footer />
     </div>
