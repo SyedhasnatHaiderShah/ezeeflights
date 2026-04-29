@@ -1,16 +1,22 @@
-'use client';
+"use client";
 
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 type Passenger = {
   fullName: string;
   passportNumber: string;
-  seatNumber: string;
-  type: 'ADULT' | 'CHILD' | 'INFANT';
+  phoneNumber?: string;
+  seatNumber?: string;
+  type: "ADULT" | "CHILD" | "INFANT";
 };
 
-type SelectedAncillary = { ancillaryId: string; passengerIndex: number; quantity: number; unitPrice: number };
+type SelectedAncillary = {
+  ancillaryId: string;
+  passengerIndex: number;
+  quantity: number;
+  unitPrice: number;
+};
 
 interface BookingFlowState {
   selectedFlightIds: string[];
@@ -35,11 +41,17 @@ export const useBookingFlowStore = create<BookingFlowState>()(
       setFlights: (ids) => set({ selectedFlightIds: ids }),
       setPassengers: (passengers) => set({ passengers }),
       setBookingId: (bookingId) => set({ bookingId }),
-      setSeat: (passengerIndex, seatCode, price) => set((state) => ({ selectedSeats: { ...state.selectedSeats, [passengerIndex]: { seatCode, price } } })),
+      setSeat: (passengerIndex, seatCode, price) =>
+        set((state) => ({
+          selectedSeats: {
+            ...state.selectedSeats,
+            [passengerIndex]: { seatCode, price },
+          },
+        })),
       setAncillaries: (items) => set({ ancillaries: items }),
     }),
     {
-      name: 'ezee-booking-flow',
+      name: "ezee-booking-flow",
       storage: createJSONStorage(() => sessionStorage),
     },
   ),

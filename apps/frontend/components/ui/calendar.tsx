@@ -43,7 +43,7 @@ function Calendar({
         month: "space-y-4 w-full",
         // @ts-ignore
         month_caption:
-          "flex justify-center items-center h-20 relative gap-1 mb-2 px-12",
+          "flex justify-center items-center h-14 relative gap-1 mb-1 px-12",
         caption_label: "hidden",
         nav: "flex items-center justify-between absolute top-1.5 left-1.5 right-1.5 w-[calc(100%-12px)] z-10 pointer-events-none",
         button_previous: cn(
@@ -53,20 +53,20 @@ function Calendar({
           "h-8 w-8 bg-background border border-border shadow-sm rounded-full flex items-center justify-center text-foreground/70 hover:bg-brand-red/10 hover:text-brand-red transition-all active:scale-95 pointer-events-auto",
         ),
         month_grid: "w-full border-collapse space-y-1",
-        weekdays: "flex justify-between w-full mb-2",
+        weekdays: "flex justify-between w-full mb-1",
         weekday:
-          "text-muted-foreground dark:text-blue-200/70 w-10 h-8 text-[11px] font-semibold text-center flex items-center justify-center",
+          "text-muted-foreground dark:text-blue-200/70 w-9 h-8 text-[11px] font-semibold text-center flex items-center justify-center",
         week: "flex w-full",
         // @ts-ignore
         cell: cn(
-          "w-10 h-10 flex items-center justify-center text-center p-0 relative focus-within:relative focus-within:z-20",
+          "w-9 h-9 flex items-center justify-center text-center p-0 relative focus-within:relative focus-within:z-20",
           props.mode === "range"
             ? "[&:has([aria-selected].day-range-end)]:rounded-r-full [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-ezee-red/15"
             : "[&:has([aria-selected])]:bg-transparent",
         ),
         // @ts-ignore
         day_button: cn(
-          "w-10 h-10 p-0 text-foreground dark:text-foreground/90 font-medium rounded-full hover:bg-brand-red/10 hover:text-white transition-colors flex items-center justify-center text-sm cursor-pointer",
+          "w-9 h-9 p-0 text-foreground dark:text-foreground/90 font-medium rounded-full hover:bg-brand-red/10 hover:text-white transition-colors flex items-center justify-center text-sm cursor-pointer",
         ),
         // @ts-ignore
         range_end: "day-range-end",

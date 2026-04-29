@@ -45,7 +45,7 @@ export function DatePicker({
   disablePastDates = false,
   fromYear = 1900,
   toYear = new Date().getFullYear(),
-  captionLayout = "dropdown",
+  captionLayout = "label",
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
@@ -157,14 +157,17 @@ export function DatePicker({
             glassPopover
               ? {
                   button_previous:
-                    "pointer-events-auto h-7 w-7 rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition-all hover:bg-white/20 hover:text-white flex items-center justify-center cursor-pointer",
+                    "pointer-events-auto h-8 w-8 rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition-all hover:bg-white/20 hover:text-white flex items-center justify-center cursor-pointer",
                   button_next:
-                    "pointer-events-auto h-7 w-7 rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition-all hover:bg-white/20 hover:text-white flex items-center justify-center cursor-pointer",
+                    "pointer-events-auto h-8 w-8 rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition-all hover:bg-white/20 hover:text-white flex items-center justify-center cursor-pointer",
+                  month_caption: "flex justify-center items-center h-14 relative gap-1 mb-1 px-12",
                   day_button:
-                    "w-8 h-8 p-0 text-white font-medium rounded-full hover:bg-white/20 transition-colors flex items-center justify-center text-sm cursor-pointer",
-                  caption_label: "text-white font-bold tracking-tight px-10",
+                    "w-9 h-9 p-0 text-white font-medium rounded-full hover:bg-white/20 transition-colors flex items-center justify-center text-sm cursor-pointer",
+                  cell: "w-9 h-9 flex items-center justify-center text-center p-0 relative",
+                  caption_label: "text-white font-bold tracking-tight px-10 text-base",
                   weekday:
-                    "text-white/60 w-10 h-8 text-[11px] font-semibold text-center flex items-center justify-center",
+                    "text-white/60 w-9 h-8 text-[11px] font-semibold text-center flex items-center justify-center",
+                  weekdays: "flex justify-between w-full mb-1",
                   disabled: "text-white/20 opacity-30 cursor-not-allowed",
                   today:
                     "text-white font-bold relative after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:rounded-full after:bg-white",
@@ -187,7 +190,7 @@ export function DatePicker({
                   isBefore(startOfDay(date), startOfDay(new Date()))
               : undefined)
           }
-          defaultMonth={defaultMonth || date || new Date(toYear, 0, 1)}
+          defaultMonth={defaultMonth || date || new Date()}
           fromYear={fromYear}
           toYear={toYear}
           captionLayout={captionLayout}
