@@ -262,7 +262,7 @@ export function Hero({
       </AnimatePresence>
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-center md:px-5 px-3 md:pt-52 pt-32 pb-10 text-white">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-center md:px-5 px-3 md:pt-48 pt-32 pb-10 text-white">
         <span className="mb-4 rounded-full bg-white/20 px-3 py-1 text-xs backdrop-blur">
           {badgeText}
         </span>
@@ -275,10 +275,10 @@ export function Hero({
 
         <div id="booking-form" className="mt-5 w-full">
           <BookingForm defaultTab={defaultTab} heroMode />
-          {/* <RecentSearches /> */}
+          <RecentSearches />
         </div>
 
-        <div className="mt-8 grid w-full grid-cols-2 gap-3 rounded-2xl border border-white/20 bg-white/5 p-4 backdrop-blur-md md:grid-cols-4 text-white">
+        <div className="mt- grid w-full grid-cols-2 gap-3 rounded-2xl border border-white/20 bg-white/5 p-4 backdrop-blur-md md:grid-cols-4 text-white">
           <div className="text-center">
             <div className="text-xl font-extrabold">
               <StatCounter

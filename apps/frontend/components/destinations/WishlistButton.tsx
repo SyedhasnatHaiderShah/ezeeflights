@@ -1,10 +1,19 @@
-'use client';
+"use client";
 
-import { Heart } from 'lucide-react';
-import { useState } from 'react';
-import { addWishlist, removeWishlist } from '@/lib/api/destinations-api';
+import { Heart } from "lucide-react";
+import { useState } from "react";
+import { addWishlist, removeWishlist } from "@/lib/api/destinations-api";
+import { cn } from "@/lib/utils";
 
-export function WishlistButton({ attractionId, defaultSaved = false }: { attractionId: string; defaultSaved?: boolean }) {
+export function WishlistButton({
+  attractionId,
+  defaultSaved = false,
+  className,
+}: {
+  attractionId: string;
+  defaultSaved?: boolean;
+  className?: string;
+}) {
   const [saved, setSaved] = useState(defaultSaved);
   const [loading, setLoading] = useState(false);
 
@@ -28,10 +37,15 @@ export function WishlistButton({ attractionId, defaultSaved = false }: { attract
       type="button"
       onClick={toggle}
       disabled={loading}
-      aria-label={saved ? 'Remove from wishlist' : 'Save to wishlist'}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-black/35 text-white backdrop-blur transition hover:bg-black/55 disabled:opacity-60"
+      aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}
+      className={cn(
+        "inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-black/35 text-white backdrop-blur transition hover:bg-black/55 disabled:opacity-60",
+        className,
+      )}
     >
-      <Heart className={`h-4 w-4 ${saved ? 'fill-brand-red text-brand-red' : ''}`} />
+      <Heart
+        className={`h-4 w-4 ${saved ? "fill-brand-red text-brand-red" : ""}`}
+      />
     </button>
   );
 }

@@ -34,6 +34,7 @@ interface BookingSearchFormProps {
   tripType: string;
   setTripType: (val: string) => void;
   handleSearch: () => void;
+  guestSelector?: React.ReactNode;
 }
 
 const VARIANT_DEFAULTS = {
@@ -142,6 +143,7 @@ export function BookingSearchForm({
   tripType,
   setTripType,
   handleSearch,
+  guestSelector,
 }: BookingSearchFormProps) {
   // Debug log to show form data
   React.useEffect(() => {
@@ -286,15 +288,19 @@ export function BookingSearchForm({
         </div>
 
         <div className="md:w-32 w-full border-b md:border-b-0 md:border-r border-border bg-background">
-          <PassengerSelector
-            passengers={passengers}
-            onChange={handlePassengerChange as any}
-            cabinClass={resolvedFlags.showCabinClass ? cabinClass : null}
-            onCabinChange={
-              resolvedFlags.showCabinClass ? setCabinClass : undefined
-            }
-            className="h-16"
-          />
+          {guestSelector ? (
+            guestSelector
+          ) : (
+            <PassengerSelector
+              passengers={passengers}
+              onChange={handlePassengerChange as any}
+              cabinClass={resolvedFlags.showCabinClass ? cabinClass : null}
+              onCabinChange={
+                resolvedFlags.showCabinClass ? setCabinClass : undefined
+              }
+              className="h-16"
+            />
+          )}
         </div>
 
         <div className="p-1.5 w-full md:flex-1 self-stretch flex items-center bg-background h-[72px] md:max-w-40 md:h-auto">

@@ -5,15 +5,18 @@ import { Drawer } from "vaul";
 import { SlidersHorizontal, Sparkles } from "lucide-react";
 import * as motion from "framer-motion/client";
 import { Button } from "@/components/ui/button";
+import { useSearchParams, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { FlightListItem } from "@/lib/types/flight-api";
 import { useFlightFilterStore } from "@/lib/store/flight-filter-store";
 import { filterFlights } from "@/lib/utils/filter-flights";
-import { FlightCard } from "@/components/flights/FlightCard";
-import { FlightResultSkeleton } from "@/components/flights/FlightCardSkeleton";
+import { FlexibleDateMatrix } from "@/components/flights/FlexibleDateMatrix";
 import { FilterSidebar } from "@/components/flights/FilterSidebar";
+import { FlightCard } from "@/components/flights/FlightCard";
 import { AiSuggestionsPanel } from "./AiSuggestionsPanel";
-import { cn } from "@/lib/utils";
-import { useSearchParams, useRouter } from "next/navigation";
+import { FlightResultSkeleton } from "@/components/flights/FlightCardSkeleton";
+
+type SortMode = "best" | "cheapest" | "fastest" | "duration";
 
 interface Props {
   initialFlights: FlightListItem[];
@@ -22,13 +25,11 @@ interface Props {
   currentPage: number;
 }
 
-type SortMode = "best" | "cheapest" | "fastest" | "duration";
-
-export function FlightSearchContainer({ 
-  initialFlights, 
+export function FlightSearchContainer({
+  initialFlights,
   isLoading,
   totalCount,
-  currentPage 
+  currentPage,
 }: Props) {
   const { filters, setFilter } = useFlightFilterStore();
   const [sortMode, setSortMode] = useState<SortMode>("best");
@@ -36,6 +37,15 @@ export function FlightSearchContainer({
   const [openAiTips, setOpenAiTips] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const basePrice = useMemo(() => {
+    if (initialFlights.length === 0) return 0;
+    return Math.min(...initialFlights.map((f) => f.totalCost));
+  }, [initialFlights]);
+
+  const departureDate = useMemo(() => {
+    return searchParams.get("dDate") || new Date().toISOString().split("T")[0];
+  }, [searchParams]);
 
   // Extract origin/destination for AI panel
   const route = useMemo(() => {
@@ -47,6 +57,8 @@ export function FlightSearchContainer({
       destination: firstLeg.toAirport.cityCode || firstLeg.toAirport.code,
     };
   }, [initialFlights]);
+
+  // ... rest of the component
 
   React.useEffect(() => {
     if (initialFlights.length > 0) {
@@ -97,6 +109,11 @@ export function FlightSearchContainer({
 
       {/* Column 2: Main Results */}
       <main className="md:py-5 py-2 space-y-3 min-w-0 md:h-full md:overflow-y-auto no-scrollbar">
+        <FlexibleDateMatrix
+          departureDate={departureDate}
+          basePrice={basePrice}
+        />
+
         {/* Sticky Mobile Controls */}
         <div className="sticky top-[118px] z-30 md:static bg-slate-50/95 dark:bg-background/95 backdrop-blur-sm -mx-4 px-2 md:p-0 md:bg-transparent">
           <div className="flex items-center gap-2 lg:hidden mb-1.5">
@@ -118,7 +135,8 @@ export function FlightSearchContainer({
 
           <div className="hidden md:flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 rounded-2xl border border-border bg-card px-4 py-2 md:shadow-none shadow-sm">
             <p className="text-xs font-semibold text-foreground capitalize">
-              {totalCount} flights found · Page {currentPage} of {totalPages || 1}
+              {totalCount} flights found · Page {currentPage} of{" "}
+              {totalPages || 1}
             </p>
             <div className="hidden md:flex items-center gap-2 overflow-x-auto pb-0.5 sm:pb-0 no-scrollbar">
               {(["best", "cheapest", "fastest", "duration"] as SortMode[]).map(

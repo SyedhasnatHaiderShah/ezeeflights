@@ -37,6 +37,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AppIcon } from "@/components/ui/app-icon";
+import { CurrencySelector } from "../shared/CurrencySelector";
 import { useSidebarStore } from "@/lib/store/sidebar-store";
 import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
 import { logoutRequest } from "@/lib/api/auth-api";
@@ -558,6 +559,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               </DropdownMenu>
             </div>
 
+            {/* <CurrencySelector /> */}
+
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className={cn(
@@ -586,6 +589,9 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                 <DropdownMenuContent align="end" className="w-52">
                   <DropdownMenuItem onClick={() => router.push("/profile")}>
                     Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                    Dashboard
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => router.push("/my-trips")}>
                     My Trips

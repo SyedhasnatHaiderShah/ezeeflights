@@ -18,9 +18,8 @@ import {
 interface Passenger {
   fullName: string;
   passportNumber: string;
-  dob: string;
+  phoneNumber?: string;
   gender: "M" | "F";
-  seatNumber: string;
   type: "ADULT" | "CHILD" | "INFANT";
 }
 
@@ -123,65 +122,39 @@ export function PassengerForm({
 
               <div className="space-y-2">
                 <Label className="text-xs font-semibold text-foreground">
-                  Date of Birth
+                  Phone Number
                 </Label>
-                <div className="h-11 w-full rounded-xl border border-border bg-background/50 overflow-hidden hover:border-redmix/50 transition-all focus-within:ring-1 focus-within:ring-redmix/10 focus-within:border-redmix/50">
-                  <DatePicker
-                    date={
-                      passenger.dob
-                        ? parse(passenger.dob, "yyyy-MM-dd", new Date())
-                        : undefined
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-semibold text-foreground">
+                    Gender
+                  </Label>
+                  <Select
+                    value={passenger.gender}
+                    onValueChange={(v) =>
+                      updatePassenger(index, "gender", v as any)
                     }
-                    setDate={(date) =>
-                      updatePassenger(
-                        index,
-                        "dob",
-                        date ? format(date, "yyyy-MM-dd") : "",
-                      )
-                    }
-                    label=""
-                    className="h-full px-3"
-                    openOnHover={false}
-                  />
+                  >
+                    <SelectTrigger className="h-11 bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50 rounded-xl">
+                      <SelectValue placeholder="Select Gender" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="M">Male</SelectItem>
+                      <SelectItem value="F">Female</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label className="text-xs font-semibold text-foreground">
-                  Gender
-                </Label>
-                <Select
-                  value={passenger.gender}
-                  onValueChange={(v) =>
-                    updatePassenger(index, "gender", v as any)
-                  }
-                >
-                  <SelectTrigger className="h-11 bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50 rounded-xl">
-                    <SelectValue placeholder="Select Gender" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="M">Male</SelectItem>
-                    <SelectItem value="F">Female</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-xs font-semibold text-foreground">
-                  Seat Preference (Optional)
-                </Label>
                 <div className="relative">
-                  <ShieldCheck className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/50" />
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/50">
+                    <User className="h-4 w-4" />
+                  </span>
                   <Input
                     className="pl-9 bg-background/50 border-border focus:ring-redmix/10 focus:border-redmix/50"
-                    placeholder="e.g. 14A"
-                    value={passenger.seatNumber}
+                    placeholder="e.g. +1234567890"
+                    value={passenger.phoneNumber || ""}
                     onChange={(e) =>
-                      updatePassenger(
-                        index,
-                        "seatNumber",
-                        e.target.value.toUpperCase(),
-                      )
+                      updatePassenger(index, "phoneNumber", e.target.value)
                     }
                   />
                 </div>

@@ -1,88 +1,219 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
+import {
+  User,
+  Calendar,
+  Home,
+  Plus,
+  Trash2,
+  ChevronRight,
+  MessageSquare,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Props {
   roomIds: string[];
-  onSubmit: (guests: Array<{ fullName: string; age: number; type: 'ADULT' | 'CHILD'; roomId: string }>) => void;
+  onSubmit: (
+    guests: Array<{
+      fullName: string;
+      age: number;
+      type: "ADULT" | "CHILD";
+      roomId: string;
+      preferences?: string;
+    }>,
+  ) => void;
 }
 
 export function GuestForm({ roomIds, onSubmit }: Props) {
-  const [guests, setGuests] = useState<Array<{ fullName: string; age: number; type: 'ADULT' | 'CHILD'; roomId: string }>>([
-    { fullName: '', age: 30, type: 'ADULT', roomId: roomIds[0] ?? '' },
+  const [guests, setGuests] = useState<
+    Array<{
+      fullName: string;
+      age: number | string;
+      type: "ADULT" | "CHILD";
+      roomId: string;
+      preferences?: string;
+    }>
+  >([
+    {
+      fullName: "",
+      age: "",
+      type: "ADULT",
+      roomId: roomIds[0] ?? "",
+      preferences: "",
+    },
   ]);
+
+  const addGuest = () => {
+    setGuests((prev) => [
+      ...prev,
+      {
+        fullName: "",
+        age: "",
+        type: "ADULT",
+        roomId: roomIds[0] ?? "",
+        preferences: "",
+      },
+    ]);
+  };
+
+  const removeGuest = (index: number) => {
+    if (guests.length > 1) {
+      setGuests((prev) => prev.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateGuest = (index: number, field: string, value: any) => {
+    const next = [...guests];
+    (next[index] as any)[field] = value;
+    setGuests(next);
+  };
 
   return (
     <form
-      className="space-y-3"
+      className="space-y-8"
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit(guests);
+        onSubmit(guests as any);
       }}
     >
-      {guests.map((guest, index) => (
-        <div key={index} className="grid gap-2 sm:grid-cols-4">
-          <input
-            className="rounded border p-2"
-            placeholder="Full name"
-            value={guest.fullName}
-            onChange={(e) => {
-              const next = [...guests];
-              next[index].fullName = e.target.value;
-              setGuests(next);
-            }}
-          />
-          <input
-            className="rounded border p-2"
-            type="number"
-            min={0}
-            value={guest.age}
-            onChange={(e) => {
-              const next = [...guests];
-              next[index].age = Number(e.target.value);
-              setGuests(next);
-            }}
-          />
-          <select
-            className="rounded border p-2"
-            value={guest.type}
-            onChange={(e) => {
-              const next = [...guests];
-              next[index].type = e.target.value as 'ADULT' | 'CHILD';
-              setGuests(next);
-            }}
+      <div className="space-y-6">
+        {guests.map((guest, index) => (
+          <div
+            key={index}
+            className="group relative p-6 bg-muted/20 rounded-3xl border border-border/50 hover:border-brand-red/20 transition-all animate-in fade-in slide-in-from-left-4 duration-500"
           >
-            <option value="ADULT">Adult</option>
-            <option value="CHILD">Child</option>
-          </select>
-          <select
-            className="rounded border p-2"
-            value={guest.roomId}
-            onChange={(e) => {
-              const next = [...guests];
-              next[index].roomId = e.target.value;
-              setGuests(next);
-            }}
-          >
-            {roomIds.map((roomId) => (
-              <option key={roomId} value={roomId}>
-                {roomId.slice(0, 8)}
-              </option>
-            ))}
-          </select>
-        </div>
-      ))}
+            <div className="flex items-center justify-between mb-6">
+              <h4 className="text-xs font-bold text-muted-foreground flex items-center gap-2">
+                <span className="w-5 h-5 rounded-full bg-brand-red text-white flex items-center justify-center text-[10px]">
+                  {index + 1}
+                </span>
+                Guest Information
+              </h4>
+              {guests.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeGuest(index)}
+                  className="p-2 text-muted-foreground hover:text-brand-red hover:bg-brand-red/5 rounded-xl transition-all"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
 
-      <button
-        type="button"
-        className="rounded border px-2 py-1"
-        onClick={() => setGuests((prev) => [...prev, { fullName: '', age: 10, type: 'CHILD', roomId: roomIds[0] ?? '' }])}
-      >
-        Add guest
-      </button>
-      <button className="ml-2 rounded bg-slate-900 px-3 py-2 text-white" type="submit">
-        Continue
-      </button>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider ml-1">
+                  Full Legal Name
+                </label>
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+                  <input
+                    required
+                    className="w-full bg-background border border-border/50 rounded-2xl py-3.5 pl-11 pr-4 text-sm font-medium focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red outline-hidden transition-all"
+                    placeholder="Enter full name"
+                    value={guest.fullName}
+                    onChange={(e) =>
+                      updateGuest(index, "fullName", e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider ml-1">
+                    Age
+                  </label>
+                  <div className="relative">
+                    <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+                    <input
+                      required
+                      type="number"
+                      min={0}
+                      max={120}
+                      className="w-full bg-background border border-border/50 rounded-2xl py-3.5 pl-11 pr-4 text-sm font-medium focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red outline-hidden transition-all"
+                      placeholder="Age"
+                      value={guest.age}
+                      onChange={(e) =>
+                        updateGuest(index, "age", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider ml-1">
+                    Category
+                  </label>
+                  <select
+                    className="w-full bg-background border border-border/50 rounded-2xl py-3.5 px-4 text-xs font-bold focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red outline-hidden transition-all appearance-none"
+                    value={guest.type}
+                    onChange={(e) => updateGuest(index, "type", e.target.value)}
+                  >
+                    <option value="ADULT">Adult (18+)</option>
+                    <option value="CHILD">Child (0-17)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider ml-1">
+                  Assign to Room
+                </label>
+                <div className="relative">
+                  <Home className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+                  <select
+                    className="w-full bg-background border border-border/50 rounded-2xl py-3.5 pl-11 pr-10 text-xs font-bold focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red outline-hidden transition-all appearance-none"
+                    value={guest.roomId}
+                    onChange={(e) =>
+                      updateGuest(index, "roomId", e.target.value)
+                    }
+                  >
+                    {roomIds.map((id) => (
+                      <option key={id} value={id}>
+                        Room #{id.slice(-4).toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider ml-1">
+                  Preferences (e.g. Non-smoking, Double Bed)
+                </label>
+                <div className="relative">
+                  <MessageSquare className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+                  <input
+                    className="w-full bg-background border border-border/50 rounded-2xl py-3.5 pl-11 pr-4 text-sm font-medium focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red outline-hidden transition-all"
+                    placeholder="Enter preferences"
+                    value={guest.preferences}
+                    onChange={(e) =>
+                      updateGuest(index, "preferences", e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-4 pt-4">
+        <button
+          type="button"
+          onClick={addGuest}
+          className="flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl border-2 border-dashed border-border/50 text-muted-foreground font-bold text-xs hover:border-brand-red/50 hover:text-brand-red hover:bg-brand-red/[0.02] transition-all"
+        >
+          <Plus className="w-4 h-4" /> Add Another Guest
+        </button>
+        <button
+          type="submit"
+          className="flex-[1.5] flex items-center justify-center gap-2 bg-slate-900 dark:bg-brand-red text-white py-4 rounded-2xl font-bold text-xs hover:shadow-2xl hover:shadow-brand-red/20 transition-all active:scale-95"
+        >
+          Proceed to Payment <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
     </form>
   );
 }

@@ -235,16 +235,39 @@ export function BookingForm({
     }
 
     const params = new URLSearchParams();
-    params.set("org", origin);
-    params.set("des", destination);
-    if (departDate) params.set("dDate", format(departDate, "yyyy-MM-dd"));
-    if (returnDate) params.set("rDate", format(returnDate, "yyyy-MM-dd"));
-    params.set("adt", passengers.adults.toString());
-    params.set("chd", passengers.children.toString());
-    params.set("inf", passengers.infants.toString());
-    params.set("class", cabinClass);
-    params.set("trip", tripType);
-    router.push(`/flights/result?${params.toString()}`);
+
+    if (activeTab === "hotels") {
+      params.set("city", destination);
+      if (departDate)
+        params.set("checkInDate", format(departDate, "yyyy-MM-dd"));
+      if (returnDate)
+        params.set("checkOutDate", format(returnDate, "yyyy-MM-dd"));
+      params.set("page", "1");
+      params.set("limit", "12");
+    } else {
+      params.set("org", origin);
+      params.set("des", destination);
+      if (departDate) params.set("dDate", format(departDate, "yyyy-MM-dd"));
+      if (returnDate) params.set("rDate", format(returnDate, "yyyy-MM-dd"));
+      params.set("adt", passengers.adults.toString());
+      params.set("chd", passengers.children.toString());
+      params.set("inf", passengers.infants.toString());
+      params.set("class", cabinClass);
+      params.set("trip", tripType);
+    }
+
+    const baseUrl =
+      activeTab === "flights"
+        ? "/flights/result"
+        : activeTab === "hotels"
+          ? "/hotels/results"
+          : activeTab === "cars"
+            ? "/cars/result"
+            : activeTab === "packages"
+              ? "/packages/result"
+              : "/flights/result";
+
+    router.push(`${baseUrl}?${params.toString()}`);
   };
 
   const cardClass = heroMode
@@ -428,6 +451,7 @@ export function BookingForm({
                 className="rounded-md h-14"
                 glassPopover={heroMode}
                 openOnHover={false}
+                defaultMonth={departDate}
               />
             </motion.div>
             <div
@@ -543,6 +567,7 @@ export function BookingForm({
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}
+              defaultMonth={departDate}
             />
           </motion.div>
           <div
@@ -682,6 +707,7 @@ export function BookingForm({
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}
+              defaultMonth={departDate}
             />
           </motion.div>
           <div
@@ -799,6 +825,7 @@ export function BookingForm({
               className="rounded-md h-14"
               glassPopover={heroMode}
               openOnHover={false}
+              defaultMonth={departDate}
             />
           </motion.div>
           <div

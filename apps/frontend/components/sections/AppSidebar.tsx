@@ -201,7 +201,7 @@ export function AppSidebar() {
                       pathname?.startsWith(`${item.href}/`);
                     const Icon = item.icon;
 
-                    if (item.href === "/profile" && !session) {
+                    if (item.requiresAuth && !session) {
                       return (
                         <li key={item.href}>
                           <button
@@ -217,7 +217,7 @@ export function AppSidebar() {
                             )}
                           >
                             <Icon className="h-4 w-4" />
-                            Profile
+                            {item.label}
                           </button>
                         </li>
                       );

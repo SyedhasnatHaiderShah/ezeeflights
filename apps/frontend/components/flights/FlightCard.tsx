@@ -2,7 +2,9 @@
 
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Plane } from "lucide-react";
+import { Heart, Check, X as XIcon, Info, Sparkles } from "lucide-react";
+import { mockFareTiers } from "@/data/mock-ux";
+import { useState } from "react";
 import { useBookingFlowStore } from "@/lib/store/booking-flow-store";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -19,6 +21,7 @@ import {
 } from "@/components/ui/accordion";
 import { AppIcon } from "../ui/app-icon";
 import { AnimatePresence, motion } from "framer-motion";
+import { CurrencyDisplay } from "../shared/CurrencyDisplay";
 
 interface Props {
   flight: FlightListItem;
@@ -71,6 +74,7 @@ export function FlightCard({ flight }: Props) {
   const searchParams = useSearchParams();
   const setFlights = useBookingFlowStore((state) => state.setFlights);
   const badge = getBadge(flight);
+  const [isWishlisted, setIsWishlisted] = useState(false);
 
   if (!flight.outbound || flight.outbound.length === 0) return null;
 
@@ -90,6 +94,13 @@ export function FlightCard({ flight }: Props) {
 
   return (
     <article className="relative overflow-hidden rounded-2xl border border-border bg-white dark:bg-card shadow-sm hover:shadow-md transition-all mb-3 group">
+      {/* Wishlist Heart */}
+      <button 
+        onClick={() => setIsWishlisted(!isWishlisted)}
+        className="absolute right-4 top-4 z-20 rounded-full bg-white/80 p-2 backdrop-blur-md shadow-sm transition-all hover:scale-110 active:scale-95 border border-border/50"
+      >
+        <Heart className={cn("h-4 w-4 transition-colors", isWishlisted ? "fill-brand-red text-brand-red" : "text-slate-400")} />
+      </button>
       <div className="flex flex-col xl:flex-row">
         {/* Left: Content */}
         <div className="flex-1 p-3 lg:p-5">
@@ -172,8 +183,35 @@ export function FlightCard({ flight }: Props) {
               <AccordionTrigger className="text-xs font-medium text-foreground tracking-wider hover:no-underline flex justify-center gap-2">
                 View Flight Details
               </AccordionTrigger>
-              <AccordionContent className="">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs normal-case tracking-normal">
+              <AccordionContent className="pt-4 px-4">
+                <div className="space-y-8">
+                   {/* Fare Class Breakdown */}
+                   <div>
+                      <div className="flex items-center gap-2 mb-4">
+                        <Sparkles className="h-4 w-4 text-brand-red" />
+                        <h4 className="text-xs font-black uppercase tracking-widest text-slate-900">Fare Class Breakdown</h4>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {mockFareTiers.map((tier) => (
+                          <div key={tier.name} className="rounded-2xl border border-slate-100 p-4 bg-slate-50/30">
+                            <div className="flex items-center justify-between mb-3">
+                              <span className="text-xs font-black uppercase tracking-widest text-slate-900">{tier.name}</span>
+                              <span className="text-[10px] font-black text-brand-red">+{symbol}{tier.priceDiff}</span>
+                            </div>
+                            <ul className="space-y-2">
+                              {tier.benefits.map((b) => (
+                                <li key={b.label} className="flex items-center gap-2 text-[10px] font-bold">
+                                  {b.included ? <Check className="h-3 w-3 text-emerald-500" /> : <XIcon className="h-3 w-3 text-slate-300" />}
+                                  <span className={cn(b.included ? "text-slate-700" : "text-slate-400 line-through")}>{b.label}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                   </div>
+
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs normal-case tracking-normal pt-4 border-t border-slate-50">
                   <div className="space-y-1.5 p-3 rounded-xl bg-slate-50/50 dark:bg-muted/10 border border-border/50">
                     <p className="text-xs font-bold text-foreground tracking-wider mb-2 border-b border-border/50 pb-1">
                       Fare Breakdown
@@ -220,7 +258,8 @@ export function FlightCard({ flight }: Props) {
                     </div>
                   </div>
                 </div>
-              </AccordionContent>
+              </div>
+            </AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
@@ -231,10 +270,11 @@ export function FlightCard({ flight }: Props) {
             <p className="text-[10px] font-bold text-foreground uppercase tracking-widest mb-1">
               Total Price
             </p>
-            <p className="text-2xl font-bold text-foreground leading-none">
-              <span className="text-sm font-bold mr-1">{symbol}</span>
-              {Math.round(flight.totalCost).toLocaleString()}
-            </p>
+            <CurrencyDisplay 
+              amount={flight.totalCost} 
+              currency={flight.currency} 
+              className="items-start md:items-center"
+            />
           </div>
           <Button
             className="w-auto md:w-full bg-redmix text-white font-bold h-11 rounded-xl shadow-lg shadow-redmix/20 hover:brightness-110 active:scale-[0.98] transition-all"
