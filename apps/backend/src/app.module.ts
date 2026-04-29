@@ -28,6 +28,8 @@ import { AdminOpsModule } from './modules/admin-ops/admin-ops.module';
 import { PackageModule } from './modules/packages/package.module';
 import { AiItineraryModule } from './modules/ai-itinerary/ai-itinerary.module';
 import { HybridEngineModule } from './modules/hybrid-engine/hybrid.module';
+import { PromotionsModule } from './modules/promotions/promotions.module';
+import { TravelDocumentsModule } from './modules/travel-documents/travel-documents.module';
 import { DestinationModule } from './modules/destinations/destination.module';
 import { SupportModule } from './modules/support/support.module';
 import { InsuranceModule } from './modules/insurance/insurance.module';
@@ -66,6 +68,8 @@ import { PostgresClient } from './database/postgres.client';
     PackageModule,
     AiItineraryModule,
     HybridEngineModule,
+    PromotionsModule,
+    TravelDocumentsModule,
     DestinationModule,
     SupportModule,
     InsuranceModule,

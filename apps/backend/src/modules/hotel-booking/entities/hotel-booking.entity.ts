@@ -1,5 +1,5 @@
-export type HotelBookingStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED';
-export type HotelPaymentStatus = 'PENDING' | 'PAID' | 'FAILED';
+export type HotelBookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED";
+export type HotelPaymentStatus = "PENDING" | "PAID" | "FAILED";
 
 export interface HotelBookingRoomEntity {
   id: string;
@@ -17,7 +17,8 @@ export interface HotelBookingGuestEntity {
   roomId: string;
   fullName: string;
   age: number;
-  type: 'ADULT' | 'CHILD';
+  type: "ADULT" | "CHILD";
+  preferences?: string;
   createdAt: Date;
   updatedAt: Date;
 }

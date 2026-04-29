@@ -1,28 +1,45 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { PostgresClient } from '../../../database/postgres.client';
-import { CreateBookingDto } from '../dto/create-booking.dto';
-import { BookingDetailsEntity, BookingEntity, TripDetailEntity, TripSummaryEntity } from '../entities/booking.entity';
-import { calculateBookingTotal } from '../utils/price-calculator';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { PostgresClient } from "../../../database/postgres.client";
+import { CreateBookingDto } from "../dto/create-booking.dto";
+import {
+  BookingDetailsEntity,
+  BookingEntity,
+  TripDetailEntity,
+  TripSummaryEntity,
+} from "../entities/booking.entity";
+import { calculateBookingTotal } from "../utils/price-calculator";
 
 @Injectable()
 export class BookingRepository {
   constructor(private readonly db: PostgresClient) {}
 
-  async create(userId: string, dto: CreateBookingDto): Promise<BookingDetailsEntity> {
+  async create(
+    userId: string,
+    dto: CreateBookingDto,
+  ): Promise<BookingDetailsEntity> {
     const duplicateSeats = new Set<string>();
     for (const passenger of dto.passengers) {
       if (passenger.seatNumber) {
         if (duplicateSeats.has(passenger.seatNumber)) {
-          throw new BadRequestException(`Duplicate seat in request: ${passenger.seatNumber}`);
+          throw new BadRequestException(
+            `Duplicate seat in request: ${passenger.seatNumber}`,
+          );
         }
         duplicateSeats.add(passenger.seatNumber);
       }
     }
 
     return this.db.withTransaction(async (client) => {
-      const userRow = await client.query('SELECT id FROM users WHERE id = $1 LIMIT 1', [userId]);
+      const userRow = await client.query(
+        "SELECT id FROM users WHERE id = $1 LIMIT 1",
+        [userId],
+      );
       if (userRow.rows.length === 0) {
-        throw new NotFoundException('User not found');
+        throw new NotFoundException("User not found");
       }
 
       const flightsRes = await client.query(
@@ -34,13 +51,17 @@ export class BookingRepository {
       );
 
       if (flightsRes.rows.length !== dto.flightIds.length) {
-        throw new NotFoundException('One or more flights were not found');
+        throw new NotFoundException("One or more flights were not found");
       }
 
       const currency = dto.currency ?? flightsRes.rows[0].currency;
-      const mixedCurrencies = flightsRes.rows.some((row: { currency: string }) => row.currency !== currency);
+      const mixedCurrencies = flightsRes.rows.some(
+        (row: { currency: string }) => row.currency !== currency,
+      );
       if (mixedCurrencies) {
-        throw new BadRequestException('All selected flights must share the same currency');
+        throw new BadRequestException(
+          "All selected flights must share the same currency",
+        );
       }
 
       for (const seat of duplicateSeats) {
@@ -61,10 +82,12 @@ export class BookingRepository {
         }
       }
 
-      const fares = flightsRes.rows.map((row: { baseFare: number }) => Number(row.baseFare));
+      const fares = flightsRes.rows.map((row: { baseFare: number }) =>
+        Number(row.baseFare),
+      );
       const total = calculateBookingTotal(fares, dto.passengers.length);
-      const paymentStatus = dto.paymentStatus ?? 'PENDING';
-      const status = paymentStatus === 'PAID' ? 'CONFIRMED' : 'PENDING';
+      const paymentStatus = dto.paymentStatus ?? "PENDING";
+      const status = paymentStatus === "PAID" ? "CONFIRMED" : "PENDING";
 
       const bookingRes = await client.query(
         `INSERT INTO bookings (user_id, status, payment_status, total_amount, total_price, currency)
@@ -78,7 +101,9 @@ export class BookingRepository {
       const booking = bookingRes.rows[0] as BookingEntity;
 
       for (const flightId of dto.flightIds) {
-        const flight = flightsRes.rows.find((row: { id: string }) => row.id === flightId);
+        const flight = flightsRes.rows.find(
+          (row: { id: string }) => row.id === flightId,
+        );
         await client.query(
           `INSERT INTO booking_flights (booking_id, flight_id, price)
            VALUES ($1, $2, $3)`,
@@ -88,9 +113,16 @@ export class BookingRepository {
 
       for (const passenger of dto.passengers) {
         await client.query(
-          `INSERT INTO booking_passengers (booking_id, full_name, passport_number, seat_number, type)
-           VALUES ($1, $2, $3, $4, $5)`,
-          [booking.id, passenger.fullName, passenger.passportNumber, passenger.seatNumber, passenger.type],
+          `INSERT INTO booking_passengers (booking_id, full_name, passport_number, phone_number, seat_number, type)
+           VALUES ($1, $2, $3, $4, $5, $6)`,
+          [
+            booking.id,
+            passenger.fullName,
+            passenger.passportNumber,
+            passenger.phoneNumber || null,
+            passenger.seatNumber,
+            passenger.type,
+          ],
         );
       }
 
@@ -98,8 +130,12 @@ export class BookingRepository {
     });
   }
 
-  async findById(id: string, userId?: string, txClient?: any): Promise<BookingDetailsEntity> {
-    const filters = userId ? 'AND b.user_id = $2' : '';
+  async findById(
+    id: string,
+    userId?: string,
+    txClient?: any,
+  ): Promise<BookingDetailsEntity> {
+    const filters = userId ? "AND b.user_id = $2::uuid" : "";
     const params = userId ? [id, userId] : [id];
 
     let bookingRows: BookingDetailsEntity[] = [];
@@ -109,7 +145,7 @@ export class BookingRepository {
             b.total_amount::float8 as "totalAmount", b.total_price::float8 as "totalPrice",
             b.currency, b.created_at as "createdAt", b.updated_at as "updatedAt"
          FROM bookings b
-         WHERE b.id = $1 ${filters}
+         WHERE b.id = $1::uuid ${filters}
          LIMIT 1`,
         params,
       );
@@ -120,7 +156,7 @@ export class BookingRepository {
             b.total_amount::float8 as "totalAmount", b.total_price::float8 as "totalPrice",
             b.currency, b.created_at as "createdAt", b.updated_at as "updatedAt"
          FROM bookings b
-         WHERE b.id = $1 ${filters}
+         WHERE b.id = $1::uuid ${filters}
          LIMIT 1`,
         params,
       );
@@ -128,7 +164,7 @@ export class BookingRepository {
     }
 
     if (bookingRows.length === 0) {
-      throw new NotFoundException('Booking not found');
+      throw new NotFoundException("Booking not found");
     }
 
     const booking = bookingRows[0] as BookingDetailsEntity;
@@ -152,8 +188,8 @@ export class BookingRepository {
       ),
     ]);
 
-    booking.passengers = 'rows' in passengers ? passengers.rows : passengers;
-    booking.flights = 'rows' in flights ? flights.rows : flights;
+    booking.passengers = "rows" in passengers ? passengers.rows : passengers;
+    booking.flights = "rows" in flights ? flights.rows : flights;
 
     return booking;
   }
@@ -171,7 +207,11 @@ export class BookingRepository {
     );
   }
 
-  async listTripsByUser(userId: string, type?: string, status?: string): Promise<TripSummaryEntity[]> {
+  async listTripsByUser(
+    userId: string,
+    type?: string,
+    status?: string,
+  ): Promise<TripSummaryEntity[]> {
     const statusFilter = status ? status.toLowerCase() : undefined;
     const normalizeStatus = (value: string) => value.toLowerCase();
 
@@ -274,10 +314,16 @@ export class BookingRepository {
       [userId, type?.toLowerCase() ?? null, statusFilter ?? null],
     );
 
-    return rows.map((trip) => ({ ...trip, status: normalizeStatus(trip.status) }));
+    return rows.map((trip) => ({
+      ...trip,
+      status: normalizeStatus(trip.status),
+    }));
   }
 
-  async getTripById(userId: string, bookingId: string): Promise<TripDetailEntity> {
+  async getTripById(
+    userId: string,
+    bookingId: string,
+  ): Promise<TripDetailEntity> {
     const [trip] = await this.db.query<TripSummaryEntity>(
       `SELECT * FROM (
         SELECT b.id, 'flight'::text as type, LOWER(b.status) as status,
@@ -293,7 +339,7 @@ export class BookingRepository {
         LEFT JOIN flights f ON f.id = bf.flight_id
         LEFT JOIN pnr_records tp ON tp.booking_id = b.id
         LEFT JOIN LATERAL (SELECT COUNT(*)::int as count FROM booking_passengers p WHERE p.booking_id = b.id) bp ON true
-        WHERE b.user_id = $1 AND b.id = $2
+        WHERE b.user_id = $1::uuid AND b.id = $2::uuid
 
         UNION ALL
 
@@ -301,7 +347,7 @@ export class BookingRepository {
           hb.total_price::float8, hb.check_in_date::text, hb.check_out_date::text,
           h.name, CONCAT(h.city, ', ', h.country), hb.created_at::text
         FROM hotel_bookings hb JOIN hotels h ON h.id = hb.hotel_id
-        WHERE hb.user_id = $1 AND hb.id = $2
+        WHERE hb.user_id = $1::uuid AND hb.id = $2::uuid
 
         UNION ALL
 
@@ -311,7 +357,7 @@ export class BookingRepository {
         FROM car_bookings cb
         JOIN cars c ON c.id = cb.car_id
         LEFT JOIN car_locations cl ON cl.id = cb.pickup_location_id
-        WHERE cb.user_id = $1 AND cb.id = $2
+        WHERE cb.user_id = $1::uuid AND cb.id = $2::uuid
 
         UNION ALL
 
@@ -319,7 +365,7 @@ export class BookingRepository {
           tb.currency, tb.price::float8, tb.pickup_datetime::text, tb.pickup_datetime::text,
           CONCAT(tb.pickup_address, ' → ', tb.dropoff_address), CONCAT(tb.passenger_count, ' passenger(s)'), tb.created_at::text
         FROM transfer_bookings tb
-        WHERE tb.user_id = $1 AND tb.id = $2
+        WHERE tb.user_id = $1::uuid AND tb.id = $2::uuid
 
         UNION ALL
 
@@ -328,32 +374,43 @@ export class BookingRepository {
           p.title, CONCAT(p.destination, ', ', p.country), pb.created_at::text
         FROM package_bookings pb
         JOIN packages p ON p.id = pb.package_id
-        WHERE pb.user_id = $1 AND pb.id = $2
+        WHERE pb.user_id = $1::uuid AND pb.id = $2::uuid
       ) t LIMIT 1`,
       [userId, bookingId],
     );
 
     if (!trip) {
-      throw new NotFoundException('Booking not found');
+      throw new NotFoundException("Booking not found");
     }
 
     const detail: TripDetailEntity = {
       ...trip,
       passengers: [],
       policy: {
-        canCancel: ['pending', 'confirmed', 'payment_pending', 'initiated'].includes(trip.status),
-        cancellationWindow: 'Free cancellation up to 24 hours before start time',
+        canCancel: [
+          "pending",
+          "confirmed",
+          "payment_pending",
+          "initiated",
+        ].includes(trip.status),
+        cancellationWindow:
+          "Free cancellation up to 24 hours before start time",
         refundEstimate: Number((trip.total * 0.85).toFixed(2)),
-        isModifiable: trip.status !== 'cancelled' && trip.status !== 'completed',
+        isModifiable:
+          trip.status !== "cancelled" && trip.status !== "completed",
       },
-      availableDocuments: ['ticket'],
+      availableDocuments: ["ticket"],
     };
 
-    if (trip.type === 'flight') {
-      const passengers = await this.db.query<{ fullName: string; type: string; seatNumber: string }>(
+    if (trip.type === "flight") {
+      const passengers = await this.db.query<{
+        fullName: string;
+        type: string;
+        seatNumber: string;
+      }>(
         `SELECT full_name as "fullName", type, seat_number as "seatNumber"
          FROM booking_passengers
-         WHERE booking_id = $1
+         WHERE booking_id = $1::uuid
          ORDER BY created_at ASC`,
         [bookingId],
       );
@@ -373,7 +430,7 @@ export class BookingRepository {
          FROM booking_flights bf
          JOIN flights f ON f.id = bf.flight_id
          LEFT JOIN pnr_records tp ON tp.booking_id = bf.booking_id
-         WHERE bf.booking_id = $1
+         WHERE bf.booking_id = $1::uuid
          ORDER BY bf.created_at ASC
          LIMIT 1`,
         [bookingId],
@@ -384,16 +441,16 @@ export class BookingRepository {
         detail.flight = {
           ...flight,
           timeline: [
-            { label: 'Departure', value: flight.departureAt },
-            { label: 'Arrival', value: flight.arrivalAt },
+            { label: "Departure", value: flight.departureAt },
+            { label: "Arrival", value: flight.arrivalAt },
           ],
         };
       }
-      detail.availableDocuments = ['ticket', 'insurance'];
+      detail.availableDocuments = ["ticket", "insurance"];
     }
 
-    if (trip.type === 'hotel') {
-      const [hotel] = await this.db.query<TripDetailEntity['hotel']>(
+    if (trip.type === "hotel") {
+      const [hotel] = await this.db.query<TripDetailEntity["hotel"]>(
         `SELECT h.name as "propertyName",
             hb.check_in_date::text as "checkInDate",
             hb.check_out_date::text as "checkOutDate",
@@ -410,11 +467,11 @@ export class BookingRepository {
       );
 
       detail.hotel = hotel;
-      detail.availableDocuments = ['voucher', 'insurance'];
+      detail.availableDocuments = ["voucher", "insurance"];
     }
 
-    if (trip.type === 'car') {
-      const [car] = await this.db.query<TripDetailEntity['car']>(
+    if (trip.type === "car") {
+      const [car] = await this.db.query<TripDetailEntity["car"]>(
         `SELECT CONCAT(c.make, ' ', c.model) as name,
             cb.pickup_datetime::text as "pickupDatetime",
             cb.dropoff_datetime::text as "dropoffDatetime"
@@ -425,11 +482,11 @@ export class BookingRepository {
         [bookingId],
       );
       detail.car = car;
-      detail.availableDocuments = ['voucher'];
+      detail.availableDocuments = ["voucher"];
     }
 
-    if (trip.type === 'transfer') {
-      const [transfer] = await this.db.query<TripDetailEntity['transfer']>(
+    if (trip.type === "transfer") {
+      const [transfer] = await this.db.query<TripDetailEntity["transfer"]>(
         `SELECT pickup_address as "pickupAddress",
             dropoff_address as "dropoffAddress",
             pickup_datetime::text as "pickupDatetime",
@@ -440,11 +497,11 @@ export class BookingRepository {
         [bookingId],
       );
       detail.transfer = transfer;
-      detail.availableDocuments = ['voucher'];
+      detail.availableDocuments = ["voucher"];
     }
 
-    if (trip.type === 'package') {
-      const [pkg] = await this.db.query<TripDetailEntity['package']>(
+    if (trip.type === "package") {
+      const [pkg] = await this.db.query<TripDetailEntity["package"]>(
         `SELECT p.title,
             p.destination,
             p.duration_days as "durationDays"
@@ -455,7 +512,7 @@ export class BookingRepository {
         [bookingId],
       );
       detail.package = pkg;
-      detail.availableDocuments = ['voucher', 'insurance'];
+      detail.availableDocuments = ["voucher", "insurance"];
     }
 
     return detail;
@@ -486,7 +543,11 @@ export class BookingRepository {
     );
   }
 
-  async cancelTripById(userId: string, bookingId: string, reason?: string): Promise<void> {
+  async cancelTripById(
+    userId: string,
+    bookingId: string,
+    reason?: string,
+  ): Promise<void> {
     const flight = await this.db.query<{ id: string }>(
       `UPDATE bookings
        SET status = 'CANCELLED', updated_at = NOW()
@@ -532,6 +593,6 @@ export class BookingRepository {
     );
     if (pkg.length > 0) return;
 
-    throw new NotFoundException('Booking not found or cannot be cancelled');
+    throw new NotFoundException("Booking not found or cannot be cancelled");
   }
 }

@@ -1,5 +1,6 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { BookingService } from '../../booking/services/booking.service';
+import { LoyaltyService } from '../../loyalty/services/loyalty.service';
 import { UserService } from '../../user/services/user.service';
 import { UpsertTravelerDto } from '../dto/saved-traveler.dto';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
@@ -11,15 +12,20 @@ export class ProfileService {
   constructor(
     private readonly repository: ProfileRepository,
     private readonly userService: UserService,
+    private readonly loyaltyService: LoyaltyService,
     @Inject(forwardRef(() => BookingService))
     private readonly bookingService: BookingService,
     private readonly notificationService: NotificationService,
   ) {}
 
   async getMyProfile(userId: string) {
-    const baseUser = await this.userService.getProfile(userId);
-    const profile = await this.repository.findByUserId(userId);
-    const history = await this.bookingService.getUserBookings(userId);
+    const [baseUser, profile, history, loyaltyAccount, travelers] = await Promise.all([
+      this.userService.getProfile(userId),
+      this.repository.findByUserId(userId),
+      this.bookingService.getUserBookings(userId),
+      this.loyaltyService.getMyAccount(userId),
+      this.repository.listTravelers(userId),
+    ]);
 
     const isComplete = !!(
       baseUser.firstName &&
@@ -36,6 +42,9 @@ export class ProfileService {
     return {
       ...baseUser,
       profile,
+      preferences: profile?.preferences ?? {},
+      loyaltyAccount,
+      travelers,
       travelHistory: history,
     };
   }
@@ -50,6 +59,7 @@ export class ProfileService {
       phone: dto.phone,
       nationality: dto.nationality,
       passportNumber: dto.passportNumber,
+      passportExpiry: dto.passportExpiry,
     });
 
     return this.repository.upsert(userId, dto);

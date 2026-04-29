@@ -10,6 +10,7 @@ import {
   Matches,
   ValidateNested,
   ValidateIf,
+  IsIn,
 } from "class-validator";
 import { PassengerType } from "../entities/booking.entity";
 
@@ -27,17 +28,24 @@ class PassengerDto {
   @IsString()
   seatNumber?: string;
 
+  @ApiPropertyOptional({ example: "+1234567890" })
+  @IsOptional()
+  @IsString()
+  phoneNumber?: string;
+
   @ApiProperty({ enum: ["ADULT", "CHILD", "INFANT"] })
-  @IsEnum(["ADULT", "CHILD", "INFANT"])
+  @IsIn(["ADULT", "CHILD", "INFANT"])
   type!: PassengerType;
 
-  @ApiProperty({ example: "2000-01-01" })
+  @ApiPropertyOptional({ example: "2000-01-01" })
+  @IsOptional()
   @IsString()
-  dob!: string;
+  dob?: string;
 
-  @ApiProperty({ enum: ["M", "F"] })
-  @IsEnum(["M", "F"])
-  gender!: "M" | "F";
+  @ApiPropertyOptional({ enum: ["M", "F"] })
+  @IsOptional()
+  @IsIn(["M", "F"])
+  gender?: "M" | "F";
 
   @ApiPropertyOptional({
     format: "uuid",
@@ -53,7 +61,10 @@ export class CreateBookingDto {
   @IsArray()
   @ArrayMinSize(1)
   @IsString({ each: true })
-  @Matches(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, { each: true, message: 'each value in flightIds must be a valid UUID format' })
+  @Matches(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, {
+    each: true,
+    message: "each value in flightIds must be a valid UUID format",
+  })
   flightIds!: string[];
 
   @ApiProperty({ type: [PassengerDto] })
@@ -68,15 +79,17 @@ export class CreateBookingDto {
     default: "PENDING",
   })
   @IsOptional()
-  @IsEnum(["PENDING", "PAID", "FAILED"])
+  @IsIn(["PENDING", "PAID", "FAILED"])
   paymentStatus?: "PENDING" | "PAID" | "FAILED";
 
-  @ApiPropertyOptional({ enum: ["USD", "AED", "EUR", "GBP"] })
+  @ApiPropertyOptional({ enum: ["USD", "AED", "EUR", "GBP", "PKR", "INR"] })
   @IsOptional()
-  @IsEnum(["USD", "AED", "EUR", "GBP"])
-  currency?: "USD" | "AED" | "EUR" | "GBP";
+  @IsString()
+  currency?: string;
 
-  @ApiPropertyOptional({ description: "Raw XML pricing solution for Travelport SOAP API" })
+  @ApiPropertyOptional({
+    description: "Raw XML pricing solution for Travelport SOAP API",
+  })
   @IsOptional()
   @IsString()
   pricingSolutionXml?: string;

@@ -38,6 +38,11 @@ export class UpdateProfileDto {
 
   @ApiPropertyOptional()
   @IsOptional()
+  @IsDateString()
+  passportExpiry?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   @MaxLength(50)
   nationality?: string;

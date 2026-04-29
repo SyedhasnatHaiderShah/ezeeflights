@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <hotel:HotelSearchAvailabilityReq xmlns:hotel="http://www.travelport.com/schema/hotel_v52_0" xmlns:com="http://www.travelport.com/schema/common_v52_0" TargetBranch="P4528021">
+            <com:BillingPointOfSaleInfo OriginApplication="uAPI"/>
+            <hotel:HotelSearchLocation>
+                <hotel:HotelLocation Location="DXB" LocationType="Airport"/>
+            </hotel:HotelSearchLocation>
+            <hotel:HotelSearchModifiers NumberOfAdults="2" NumberOfRooms="1" AvailableHotelsOnly="true" MaxResults="20" PreferredCurrency="USD">
+                <com:PermittedProviders>
+                    <com:Provider Code="1G"/>
+                </com:PermittedProviders>
+            </hotel:HotelSearchModifiers>
+            <hotel:HotelStay>
+                <hotel:CheckinDate>2026-05-25</hotel:CheckinDate>
+                <hotel:CheckoutDate>2026-05-28</hotel:CheckoutDate>
+            </hotel:HotelStay>
+        </hotel:HotelSearchAvailabilityReq>
+    </soap:Body>
+</soap:Envelope>

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TravelportProvider } from '../../common/providers';
+import { IntegrationsModule } from '../integrations/integrations.module';
 import { FlightController } from './controllers/flight.controller';
 import { FlightService } from './services/flight.service';
 import { TravelportBookingService } from './services/travelport-booking.service';
@@ -9,7 +9,9 @@ import { SeatMapService } from './seat-map.service';
 import { SeatMapRepository } from './repositories/seat-map.repository';
 import { AncillariesService } from './ancillaries.service';
 import { AncillariesRepository } from './repositories/ancillaries.repository';
+
 @Module({
+  imports: [IntegrationsModule],
   controllers: [FlightController],
   providers: [
     FlightService,
@@ -20,8 +22,7 @@ import { AncillariesRepository } from './repositories/ancillaries.repository';
     AncillariesService,
     AncillariesRepository,
     PostgresClient,
-    TravelportProvider,
   ],
-  exports: [FlightService, TravelportBookingService, TravelportProvider],
+  exports: [FlightService, TravelportBookingService],
 })
 export class FlightModule { }

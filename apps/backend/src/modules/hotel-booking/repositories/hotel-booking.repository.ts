@@ -1,24 +1,34 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { PostgresClient } from '../../../database/postgres.client';
-import { CreateHotelBookingDto } from '../dto/create-hotel-booking.dto';
-import { HotelBookingEntity } from '../entities/hotel-booking.entity';
-import { calculateHotelBookingTotal } from '../utils/hotel-price-calculator';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { PostgresClient } from "../../../database/postgres.client";
+import { CreateHotelBookingDto } from "../dto/create-hotel-booking.dto";
+import { HotelBookingEntity } from "../entities/hotel-booking.entity";
+import { calculateHotelBookingTotal } from "../utils/hotel-price-calculator";
 
 @Injectable()
 export class HotelBookingRepository {
   constructor(private readonly db: PostgresClient) {}
 
-  async create(userId: string, dto: CreateHotelBookingDto): Promise<HotelBookingEntity> {
+  async create(
+    userId: string,
+    dto: CreateHotelBookingDto,
+  ): Promise<HotelBookingEntity> {
     return this.db.withTransaction(async (client) => {
       const dateNights = this.getNights(dto.checkInDate, dto.checkOutDate);
       if (dateNights < 1) {
-        throw new BadRequestException('Invalid stay dates');
+        throw new BadRequestException("Invalid stay dates");
       }
 
       const roomIds = dto.rooms.map((room) => room.roomId);
-      const hotelExists = await client.query('SELECT id FROM hotels WHERE id = $1 LIMIT 1', [dto.hotelId]);
+      const hotelExists = await client.query(
+        "SELECT id FROM hotels WHERE id = $1 LIMIT 1",
+        [dto.hotelId],
+      );
       if (hotelExists.rows.length === 0) {
-        throw new NotFoundException('Hotel not found');
+        throw new NotFoundException("Hotel not found");
       }
 
       const roomRowsResult = await client.query(
@@ -39,7 +49,9 @@ export class HotelBookingRepository {
       }>;
 
       if (roomRows.length !== roomIds.length) {
-        throw new BadRequestException('One or more rooms do not belong to selected hotel');
+        throw new BadRequestException(
+          "One or more rooms do not belong to selected hotel",
+        );
       }
 
       const roomMap = new Map(roomRows.map((room) => [room.id, room]));
@@ -62,13 +74,17 @@ export class HotelBookingRepository {
         );
         const booked = Number(overlappingResult.rows[0]?.booked ?? 0);
         if (booked + selectedRoom.quantity > Number(room.available_rooms)) {
-          throw new BadRequestException(`No availability for room ${selectedRoom.roomId}`);
+          throw new BadRequestException(
+            `No availability for room ${selectedRoom.roomId}`,
+          );
         }
       }
 
       const currencies = new Set(roomRows.map((room) => room.currency));
       if (currencies.size > 1) {
-        throw new BadRequestException('All selected rooms must have same currency');
+        throw new BadRequestException(
+          "All selected rooms must have same currency",
+        );
       }
       const currency = roomRows[0].currency;
 
@@ -77,14 +93,24 @@ export class HotelBookingRepository {
         return acc + (selected?.pricePerNight ?? 0) * room.quantity;
       }, 0);
 
-      const totalPrice = calculateHotelBookingTotal([perNightSubtotal], dateNights);
+      const totalPrice = calculateHotelBookingTotal(
+        [perNightSubtotal],
+        dateNights,
+      );
 
       const bookingResult = await client.query(
         `INSERT INTO hotel_bookings
            (user_id, hotel_id, total_price, check_in_date, check_out_date, status, payment_status, currency)
          VALUES ($1, $2, $3, $4, $5, 'PENDING', 'PENDING', $6)
          RETURNING id`,
-        [userId, dto.hotelId, totalPrice, dto.checkInDate, dto.checkOutDate, currency],
+        [
+          userId,
+          dto.hotelId,
+          totalPrice,
+          dto.checkInDate,
+          dto.checkOutDate,
+          currency,
+        ],
       );
       const bookingId = bookingResult.rows[0].id as string;
 
@@ -93,15 +119,27 @@ export class HotelBookingRepository {
         await client.query(
           `INSERT INTO booking_rooms (booking_id, room_id, quantity, price)
            VALUES ($1, $2, $3, $4)`,
-          [bookingId, room.roomId, room.quantity, Number(selected?.pricePerNight ?? 0)],
+          [
+            bookingId,
+            room.roomId,
+            room.quantity,
+            Number(selected?.pricePerNight ?? 0),
+          ],
         );
       }
 
       for (const guest of dto.guests) {
         await client.query(
-          `INSERT INTO booking_guests (booking_id, room_id, full_name, age, type)
-           VALUES ($1, $2, $3, $4, $5)`,
-          [bookingId, guest.roomId, guest.fullName, guest.age, guest.type],
+          `INSERT INTO booking_guests (booking_id, room_id, full_name, age, type, preferences)
+           VALUES ($1, $2, $3, $4, $5, $6)`,
+          [
+            bookingId,
+            guest.roomId,
+            guest.fullName,
+            guest.age,
+            guest.type,
+            guest.preferences,
+          ],
         );
       }
 
@@ -109,9 +147,13 @@ export class HotelBookingRepository {
     });
   }
 
-  async findById(id: string, userId?: string, txClient?: any): Promise<HotelBookingEntity> {
+  async findById(
+    id: string,
+    userId?: string,
+    txClient?: any,
+  ): Promise<HotelBookingEntity> {
     const executor = txClient ?? this.db;
-    const filters = userId ? 'AND hb.user_id = $2' : '';
+    const filters = userId ? "AND hb.user_id = $2" : "";
     const params = userId ? [id, userId] : [id];
 
     const bookingRows = await executor.query(
@@ -134,7 +176,7 @@ export class HotelBookingRepository {
     );
 
     if (bookingRows.length === 0) {
-      throw new NotFoundException('Hotel booking not found');
+      throw new NotFoundException("Hotel booking not found");
     }
 
     const booking = bookingRows[0] as HotelBookingEntity;
@@ -149,7 +191,7 @@ export class HotelBookingRepository {
         [id],
       ),
       executor.query(
-        `SELECT id, booking_id as "bookingId", room_id as "roomId", full_name as "fullName", age, type,
+        `SELECT id, booking_id as "bookingId", room_id as "roomId", full_name as "fullName", age, type, preferences,
             created_at as "createdAt", updated_at as "updatedAt"
          FROM booking_guests
          WHERE booking_id = $1
@@ -199,15 +241,21 @@ export class HotelBookingRepository {
     return this.findById(id, userId);
   }
 
-  async storePaymentIntentId(id: string, paymentIntentId: string): Promise<void> {
+  async storePaymentIntentId(
+    id: string,
+    paymentIntentId: string,
+  ): Promise<void> {
     await this.db.query(
       `UPDATE hotel_bookings SET payment_intent_id = $2, updated_at = NOW() WHERE id = $1`,
       [id, paymentIntentId],
     );
   }
 
-  async markPaymentStatus(id: string, paymentStatus: 'PENDING' | 'PAID' | 'FAILED'): Promise<void> {
-    const status = paymentStatus === 'PAID' ? 'CONFIRMED' : 'PENDING';
+  async markPaymentStatus(
+    id: string,
+    paymentStatus: "PENDING" | "PAID" | "FAILED",
+  ): Promise<void> {
+    const status = paymentStatus === "PAID" ? "CONFIRMED" : "PENDING";
     await this.db.query(
       `UPDATE hotel_bookings
        SET payment_status = $2,

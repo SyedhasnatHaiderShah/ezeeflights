@@ -9,7 +9,7 @@ export interface BookingEntity {
   paymentStatus: PaymentStatus;
   totalAmount: number;
   totalPrice: number;
-  currency: 'USD' | 'AED' | 'EUR' | 'GBP';
+  currency: 'USD' | 'AED' | 'EUR' | 'GBP' | 'PKR' | 'INR';
   createdAt: Date;
   updatedAt: Date;
 }
@@ -19,6 +19,7 @@ export interface BookingPassengerEntity {
   bookingId: string;
   fullName: string;
   passportNumber: string;
+  phoneNumber?: string;
   seatNumber: string;
   type: PassengerType;
   createdAt: Date;
