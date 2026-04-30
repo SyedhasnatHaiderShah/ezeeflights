@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PostgresClient } from '../../../database/postgres.client';
-import { UserRecord } from '../entities/user.entity';
+import { UserRecord, UserRole } from '../entities/user.entity';
 
 const USER_COLUMNS = `id,
   email,
@@ -40,7 +40,7 @@ export class UserRepository {
     firstName: string;
     lastName: string | null;
     phone: string | null;
-    role: string;
+    role: UserRole;
     nationality: string | null;
     passportNumber: string | null;
     passportExpiry: string | null;

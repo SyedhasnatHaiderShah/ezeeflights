@@ -12,6 +12,7 @@
     "migrate": "npm run migrate -w apps/backend",
     "db:reset": "node apps/backend/scripts/reset-db.js",
     "seed": "npm run seed -w apps/backend",
+    "seed:admin": "npm run seed:admin -w apps/backend",
     "seed:reviews": "npm run seed -w apps/backend",
     "seed:mock": "npm run seed:mock -w apps/backend"
   },

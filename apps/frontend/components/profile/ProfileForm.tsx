@@ -131,7 +131,7 @@ export function ProfileForm({
           </Label>
           <Input
             type="date"
-            value={form.passportExpiry ?? ""}
+            value={form.passportExpiry ? (form.passportExpiry.includes("T") ? form.passportExpiry.split("T")[0] : form.passportExpiry) : ""}
             onChange={(e) => setForm((p) => ({ ...p, passportExpiry: e.target.value }))}
           />
         </div>

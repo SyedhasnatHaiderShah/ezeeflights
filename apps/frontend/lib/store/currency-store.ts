@@ -69,7 +69,7 @@ export const useCurrencyStore = create<CurrencyState>()(
   persist(
     (set, get) => ({
       baseCurrency: "USD",
-      comparisonCurrencies: ["PKR", "AED"],
+      comparisonCurrencies: [],
       lastUpdated: 0,
       rates: Object.fromEntries(
         Object.entries(SUPPORTED_CURRENCIES).map(([code, data]) => [
@@ -115,11 +115,13 @@ export const useCurrencyStore = create<CurrencyState>()(
 
       fetchRates: async () => {
         try {
-          const response = await fetch("https://open.er-api.com/v6/latest/USD");
-          const data = await response.json();
-          if (data.result === "success") {
+          const { apiClient } = await import("@/lib/api/api-client");
+          const rates = await apiClient<Record<string, number>>(
+            "/public/currency/rates",
+          );
+          if (rates) {
             set({
-              rates: data.rates,
+              rates,
               lastUpdated: Date.now(),
             });
           }
@@ -133,9 +135,17 @@ export const useCurrencyStore = create<CurrencyState>()(
         if (isDetected) return;
 
         try {
-          const response = await fetch("https://ipapi.co/json/");
-          const data = await response.json();
+          const { apiClient } = await import("@/lib/api/api-client");
+          const data = await apiClient<any>("/public/currency/detect");
+
+          if (data && data.ip) {
+            console.log(
+              `[Currency] Detected User IP: ${data.ip} (${data.country || "Unknown"})`,
+            );
+          }
+
           if (
+            data &&
             data.currency &&
             SUPPORTED_CURRENCIES[data.currency as CurrencyCode]
           ) {

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookingForm } from "@/components/booking-form";
-import { Bell, BellRing, DollarSign, Globe } from "lucide-react";
+import { Bell, BellRing, Globe } from "lucide-react";
+import { useCurrencyStore } from "@/lib/store/currency-store";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -23,6 +24,11 @@ export function StickySearchPanel({
 }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [isTracking, setIsTracking] = useState(false);
+  const { getConvertedAmount } = useCurrencyStore();
+
+  const usdRate = 450; // Mock base rate
+  const eurAmount = getConvertedAmount(usdRate, "USD", "EUR");
+  const aedAmount = getConvertedAmount(usdRate, "USD", "AED");
 
   return (
     <div className="bg-card border-b border-border shadow-sm sticky top-16 z-40">
@@ -38,7 +44,7 @@ export function StickySearchPanel({
             <div className="hidden md:flex items-center gap-3 border-l border-border pl-4">
                <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-slate-400">
                  <Globe className="h-3 w-3" />
-                 Simultaneous: $450 | €415 | AED 1,650
+                 Simultaneous: ${usdRate} | €{Math.round(eurAmount)} | AED {Math.round(aedAmount).toLocaleString()}
                </div>
             </div>
           </div>

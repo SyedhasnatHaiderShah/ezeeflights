@@ -114,7 +114,7 @@ export function DatePicker({
                 )}
               >
                 {hasDate && date
-                  ? format(date, "EEE, MMM d")
+                  ? format(date, "EEE, MMM d, yyyy")
                   : open
                     ? ""
                     : "Choose date"}

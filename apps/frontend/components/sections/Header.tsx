@@ -559,7 +559,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
               </DropdownMenu>
             </div>
 
-            {/* <CurrencySelector /> */}
+            <CurrencySelector />
 
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}

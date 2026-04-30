@@ -24,10 +24,18 @@ import { TravelDocumentsPanel } from "@/components/travel-documents/TravelDocume
 
 export default function ProfilePage() {
   const session = useAuthSession();
-  const [activeTab, setActiveTab] = useState("personal");
   const queryClient = useQueryClient();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab") || "personal";
+  const [activeTab, setActiveTab] = useState(tabParam);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", value);
+    router.replace(`/profile?${params.toString()}`);
+  };
   const callbackUrl = searchParams.get("callbackUrl") || "/profile";
   const safeCallbackUrl: Route = callbackUrl.startsWith("/")
     ? (callbackUrl as Route)
@@ -70,7 +78,22 @@ export default function ProfilePage() {
     );
 
   const profileData = profile.data as ProfileOverview | undefined;
-  const p: UserProfileRecord = profileData?.profile ?? {};
+  const p: UserProfileRecord = {
+    firstName: profileData?.firstName,
+    lastName: profileData?.lastName,
+    phone: profileData?.phone,
+    nationality: profileData?.nationality,
+    passportNumber: profileData?.passportNumber,
+    passportExpiry: profileData?.passportExpiry || "",
+    ...(profileData?.profile ?? {}),
+  };
+  // Ensure we don't overwrite with nulls from profile if root has values
+  if (profileData?.firstName) p.firstName = profileData.firstName;
+  if (profileData?.lastName) p.lastName = profileData.lastName;
+  if (profileData?.phone) p.phone = profileData.phone;
+  if (profileData?.nationality) p.nationality = profileData.nationality;
+  if (profileData?.passportNumber) p.passportNumber = profileData.passportNumber;
+  if (profileData?.passportExpiry) p.passportExpiry = profileData.passportExpiry;
   const travelers = profileData?.travelers ?? [];
   const loyalty = profileData?.loyaltyAccount;
   const preferences: TravelPreferences = profileData?.preferences ?? p.preferences ?? {};
@@ -122,7 +145,7 @@ export default function ProfilePage() {
             ].map(([key, label]) => (
               <button
                 key={key}
-                onClick={() => setActiveTab(key)}
+                onClick={() => handleTabChange(key)}
                 className={`w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-all ${
                   activeTab === key
                     ? "bg-redmix/10 text-brand-red shadow-sm"
@@ -143,7 +166,7 @@ export default function ProfilePage() {
         </aside>
 
         <section className="rounded-2xl border bg-card p-4 md:p-6">
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <Tabs value={activeTab} onValueChange={handleTabChange}>
             <TabsList className="mb-5 h-auto w-full flex-wrap justify-start gap-2 bg-transparent p-0 lg:hidden">
               <TabsTrigger value="personal">Personal</TabsTrigger>
               <TabsTrigger value="travelers">Travelers</TabsTrigger>

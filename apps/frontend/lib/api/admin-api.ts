@@ -1,8 +1,8 @@
-const BASE = '/api/v1/admin';
+const BASE = "/api/v1/admin";
 
 export function getAdminToken(): string | null {
-  if (typeof window === 'undefined') return null;
-  return localStorage.getItem('admin_access_token');
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("admin_access_token");
 }
 
 function toQuery(params: Record<string, string | undefined>) {
@@ -11,34 +11,64 @@ function toQuery(params: Record<string, string | undefined>) {
     if (value) query.set(key, value);
   });
   const q = query.toString();
-  return q ? `?${q}` : '';
+  return q ? `?${q}` : "";
 }
 
-export async function adminFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const token = getAdminToken();
+export async function adminFetch<T>(
+  path: string,
+  init: RequestInit = {},
+): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     ...init,
+    credentials: "include",
     headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      "Content-Type": "application/json",
       ...(init.headers ?? {}),
     },
   });
-  if (!res.ok) throw new Error(await res.text() || `Request failed: ${res.status}`);
+  if (!res.ok)
+    throw new Error((await res.text()) || `Request failed: ${res.status}`);
   return res.json() as Promise<T>;
 }
 
-export const getRevenueOverview = (query: { from?: string; to?: string }) => adminFetch(`/revenue/overview${toQuery(query)}`);
-export const getRevenueByModule = (query: { from?: string; to?: string }) => adminFetch<Array<{ module: string; revenue: number; bookings: number }>>(`/revenue/by-module${toQuery(query)}`);
-export const getOperationsStatus = (query: { from?: string; to?: string }) => adminFetch(`/operations/status${toQuery(query)}`);
-export const getOperationsSla = (query: { from?: string; to?: string }) => adminFetch<Array<{ bookingId: string; status: string }>>(`/operations/sla${toQuery(query)}`);
-export const getFinanceSettlements = () => adminFetch<Array<{ id: string; provider: string; totalAmount: number; settledAmount: number; pendingAmount: number }>>('/finance/settlements');
-export const getFinanceReconciliation = () => adminFetch<Array<{ id: string; transactionId: string; status: string }>>('/finance/reconciliation');
-export const getMonitoringLive = () => adminFetch('/monitoring/live');
-export const getMonitoringHealth = () => adminFetch('/monitoring/health');
-export const getInsightsTopDestinations = (query: { from?: string; to?: string }) => adminFetch(`/insights/top-destinations${toQuery(query)}`);
-export const getInsightsTrends = (query: { from?: string; to?: string; granularity?: string }) => adminFetch(`/insights/trends${toQuery(query)}`);
-export type AdminPromotionKind = 'PERCENT' | 'FIXED';
+export const getRevenueOverview = (query: { from?: string; to?: string }) =>
+  adminFetch(`/revenue/overview${toQuery(query)}`);
+export const getRevenueByModule = (query: { from?: string; to?: string }) =>
+  adminFetch<Array<{ module: string; revenue: number; bookings: number }>>(
+    `/revenue/by-module${toQuery(query)}`,
+  );
+export const getOperationsStatus = (query: { from?: string; to?: string }) =>
+  adminFetch(`/operations/status${toQuery(query)}`);
+export const getOperationsSla = (query: { from?: string; to?: string }) =>
+  adminFetch<Array<{ bookingId: string; status: string }>>(
+    `/operations/sla${toQuery(query)}`,
+  );
+export const getFinanceSettlements = () =>
+  adminFetch<
+    Array<{
+      id: string;
+      provider: string;
+      totalAmount: number;
+      settledAmount: number;
+      pendingAmount: number;
+    }>
+  >("/finance/settlements");
+export const getFinanceReconciliation = () =>
+  adminFetch<Array<{ id: string; transactionId: string; status: string }>>(
+    "/finance/reconciliation",
+  );
+export const getMonitoringLive = () => adminFetch("/monitoring/live");
+export const getMonitoringHealth = () => adminFetch("/monitoring/health");
+export const getInsightsTopDestinations = (query: {
+  from?: string;
+  to?: string;
+}) => adminFetch(`/insights/top-destinations${toQuery(query)}`);
+export const getInsightsTrends = (query: {
+  from?: string;
+  to?: string;
+  granularity?: string;
+}) => adminFetch(`/insights/trends${toQuery(query)}`);
+export type AdminPromotionKind = "PERCENT" | "FIXED";
 export type AdminPromotion = {
   code: string;
   title: string;
@@ -61,12 +91,28 @@ export type AdminPromotion = {
   redeemedCount?: number;
 };
 
-export const listAdminCoupons = () => adminFetch<AdminPromotion[]>('/promotions/coupons');
-export const saveAdminCoupon = (payload: AdminPromotion) => adminFetch<AdminPromotion>('/promotions/coupons', { method: 'POST', body: JSON.stringify(payload) });
-export const deleteAdminCoupon = (code: string) => adminFetch<void>(`/promotions/coupons/${encodeURIComponent(code)}`, { method: 'DELETE' });
-export const listAdminCampaigns = () => adminFetch<AdminPromotion[]>('/promotions/campaigns');
-export const saveAdminCampaign = (payload: AdminPromotion) => adminFetch<AdminPromotion>('/promotions/campaigns', { method: 'POST', body: JSON.stringify(payload) });
-export const deleteAdminCampaign = (code: string) => adminFetch<void>(`/promotions/campaigns/${encodeURIComponent(code)}`, { method: 'DELETE' });
+export const listAdminCoupons = () =>
+  adminFetch<AdminPromotion[]>("/promotions/coupons");
+export const saveAdminCoupon = (payload: AdminPromotion) =>
+  adminFetch<AdminPromotion>("/promotions/coupons", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+export const deleteAdminCoupon = (code: string) =>
+  adminFetch<void>(`/promotions/coupons/${encodeURIComponent(code)}`, {
+    method: "DELETE",
+  });
+export const listAdminCampaigns = () =>
+  adminFetch<AdminPromotion[]>("/promotions/campaigns");
+export const saveAdminCampaign = (payload: AdminPromotion) =>
+  adminFetch<AdminPromotion>("/promotions/campaigns", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+export const deleteAdminCampaign = (code: string) =>
+  adminFetch<void>(`/promotions/campaigns/${encodeURIComponent(code)}`, {
+    method: "DELETE",
+  });
 export const getExecutiveOverview = async () => {
   const [revenue, operations, settlements] = await Promise.all([
     getRevenueOverview({}),
@@ -76,3 +122,30 @@ export const getExecutiveOverview = async () => {
 
   return { revenue, operations, settlements };
 };
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  createdAt: string;
+}
+
+export const listUsers = () => adminFetch<AdminUser[]>("/users");
+export const createUser = (
+  payload: Partial<AdminUser> & { password?: string },
+) =>
+  adminFetch<AdminUser>("/users", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+export const updateUser = (id: string, payload: Partial<AdminUser>) =>
+  adminFetch<AdminUser>(`/users/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+export const deleteUser = (id: string) =>
+  adminFetch<{ id: string; deleted: boolean }>(`/users/${id}`, {
+    method: "DELETE",
+  });

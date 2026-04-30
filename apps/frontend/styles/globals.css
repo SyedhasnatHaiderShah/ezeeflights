@@ -651,4 +651,9 @@ bg-gradient-to-br from-redmix to-redmix-light for a modern bottom-right diagonal
   .text-highlight {
     @apply text-yellow font-semibold;
   }
+
+  /* Fix for Radix UI Select/Dropdown items being unclickable inside Dialog */
+  [data-radix-popper-content-wrapper] {
+    pointer-events: auto !important;
+  }
 }

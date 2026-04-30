@@ -1,0 +1,57 @@
+# Flight Booking Flow Verification and Implementation Plan
+
+This plan outlines the required changes to complete the end-to-end flight booking flow, satisfying the request to simplify passenger inputs and wire up the real pricing and booking hold endpoints.
+
+## User Review Required
+> [!IMPORTANT]
+> The backend database table `booking_passengers` currently does not have a `phone_number` column. I can either:
+> 1. Run a database migration to add a `phone_number` column.
+> 2. Skip saving the phone number to the database for now (it will still be collected on the frontend to pass to the booking APIs).
+> 
+> **Please let me know which approach you prefer.** For this plan, I assume we will add the column so the data is properly persisted.
+
+## Proposed Changes
+
+### Backend Updates
+
+#### [MODIFY] `apps/backend/src/modules/booking/dto/create-booking.dto.ts`
+- Make `dob`, `gender`, and `seatNumber` fully optional.
+- Add an optional `phoneNumber` field to `PassengerDto`.
+
+#### [MODIFY] `apps/backend/src/modules/booking/entities/booking.entity.ts`
+- Add `phoneNumber` to `BookingPassengerEntity`.
+
+#### [MODIFY] `apps/backend/src/modules/booking/repositories/booking.repository.ts`
+- Update the `create` method to insert `phone_number` into the `booking_passengers` table.
+- *(We will also run an `ALTER TABLE booking_passengers ADD COLUMN phone_number VARCHAR(50);` query against the database).*
+
+#### [MODIFY] `apps/backend/src/common/providers/travelport.provider.ts`
+- Verify that default values (`1990-01-01` and `M`) are correctly passed when `dob` and `gender` are omitted, preventing SOAP API validation errors.
+
+---
+
+### Frontend Updates
+
+#### [MODIFY] `apps/frontend/components/flights/PassengerForm.tsx`
+- **Keep required inputs**: Full Name, Passport Number, Category.
+- **Add new input**: Phone Number.
+- **Delete extra inputs**: Date of Birth, Gender, Seat Preference.
+- Update the component's state interface accordingly.
+
+#### [MODIFY] `apps/frontend/app/flights/booking/page.tsx`
+- **Update flow to match your exact request**:
+  1. **Travelers Step**: User fills in Full Name, Passport, Phone Number.
+  2. **Fetch Final Price**: When clicking "Continue to Payment", make a request to `POST /flights/price` to get the live, final price and `pricingSolutionXml` from Travelport.
+  3. **Payment Step**: Display the newly fetched final price. 
+  4. **Confirm Booking**: When clicking "Confirm & Pay Now", make a request to `POST /bookings/flights/hold` using the `pricingSolutionXml` and passenger details. This creates the Travelport PNR and generates a payment intent.
+  5. **My Trips**: Display confirmation and provide a button to view the booking in the user's dashboard.
+
+## Verification Plan
+
+### Automated/Manual Verification
+- [ ] Run the frontend and start a flight search.
+- [ ] Select a flight and navigate to `/flights/booking`.
+- [ ] Verify the passenger form only shows Full Name, Passport Number, Phone Number, and Category.
+- [ ] Fill out the form and proceed. Verify that `POST /flights/price` is called and updates the price summary.
+- [ ] Complete the payment step and verify `POST /bookings/flights/hold` successfully generates a PNR without requiring DOB/Gender.
+- [ ] Check the database to ensure the booking and passengers (with phone numbers) are successfully saved.

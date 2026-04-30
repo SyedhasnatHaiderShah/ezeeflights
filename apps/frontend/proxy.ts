@@ -27,7 +27,7 @@ export function proxy(request: NextRequest): NextResponse {
   if (needsAuth) {
     const access = request.cookies.get(ACCESS_COOKIE);
     if (!access?.value) {
-      // If it's an API request, return 401 instead of redirecting
+      // If it's an API request, return 401
       if (pathname.startsWith("/api/")) {
         return NextResponse.json(
           { statusCode: 401, message: "Unauthorized", error: "UNAUTHORIZED" },
@@ -35,9 +35,10 @@ export function proxy(request: NextRequest): NextResponse {
         );
       }
       
-      const login = new URL("/login", request.url);
-      login.searchParams.set("next", pathname);
-      return NextResponse.redirect(login);
+      // For page requests (like /dashboard), we let the request through
+      // but the client component will handle showing the AuthModal.
+      // This prevents the hard redirect to /login and provides a better UX.
+      return NextResponse.next({ request: { headers: requestHeaders } });
     }
   }
 

@@ -47,6 +47,10 @@ export function FlightSearchContainer({
     return searchParams.get("dDate") || new Date().toISOString().split("T")[0];
   }, [searchParams]);
 
+  const flightCurrency = useMemo(() => {
+    return initialFlights[0]?.currency || "USD";
+  }, [initialFlights]);
+
   // Extract origin/destination for AI panel
   const route = useMemo(() => {
     if (initialFlights.length === 0)
@@ -104,6 +108,7 @@ export function FlightSearchContainer({
         <FilterSidebar
           flights={initialFlights}
           resultsCount={sortedFlights.length}
+          sourceCurrency={flightCurrency}
         />
       </div>
 
@@ -112,6 +117,7 @@ export function FlightSearchContainer({
         <FlexibleDateMatrix
           departureDate={departureDate}
           basePrice={basePrice}
+          sourceCurrency={flightCurrency}
         />
 
         {/* Sticky Mobile Controls */}
@@ -236,6 +242,7 @@ export function FlightSearchContainer({
               resultsCount={sortedFlights.length}
               sortMode={sortMode}
               onSortChange={setSortMode}
+              sourceCurrency={flightCurrency}
             />
           </Drawer.Content>
         </Drawer.Portal>

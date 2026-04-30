@@ -8,6 +8,7 @@
     "start": "node dist/main",
     "migrate": "ts-node src/database/migration-runner.ts",
     "seed": "ts-node src/database/seed.ts",
+    "seed:admin": "ts-node src/database/seed-admin.ts",
     "seed:mock": "npm run seed",
     "test": "jest",
     "test:cov": "jest --coverage"

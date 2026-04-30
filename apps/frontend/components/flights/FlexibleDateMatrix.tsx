@@ -4,16 +4,22 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { generateFlexibleDates } from "@/data/mock-ux";
 import { cn } from "@/lib/utils";
+import { useCurrencyStore, SUPPORTED_CURRENCIES } from "@/lib/store/currency-store";
 
 interface FlexibleDateMatrixProps {
   departureDate: string;
   basePrice: number;
+  sourceCurrency?: string;
 }
 
 export function FlexibleDateMatrix({
   departureDate,
   basePrice,
+  sourceCurrency = "USD",
 }: FlexibleDateMatrixProps) {
+  const { baseCurrency, getConvertedAmount } = useCurrencyStore();
+  const currencyMeta = SUPPORTED_CURRENCIES[baseCurrency] || SUPPORTED_CURRENCIES["USD"];
+  
   const dates = React.useMemo(
     () => generateFlexibleDates(departureDate, basePrice),
     [departureDate, basePrice],
@@ -47,6 +53,7 @@ export function FlexibleDateMatrix({
         {dates.map((item) => {
           const isSelected = item.date === departureDate;
           const isCheap = item.status === "cheap";
+          const convertedPrice = getConvertedAmount(item.price, sourceCurrency as any, baseCurrency);
 
           return (
             <motion.button
@@ -67,7 +74,7 @@ export function FlexibleDateMatrix({
                 )}
               >
                 {new Date(item.date)
-                  .toLocaleDateString(undefined, {
+                  .toLocaleDateString("en-US", {
                     weekday: "short",
                     month: "short",
                     day: "numeric",
@@ -85,7 +92,7 @@ export function FlexibleDateMatrix({
                       : "text-foreground",
                 )}
               >
-                ${item.price.toLocaleString()}
+                {currencyMeta.symbol}{Math.round(convertedPrice).toLocaleString()}
               </span>
 
               {isSelected && (

@@ -1,13 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { PostgresClient } from '../../database/postgres.client';
-import { AdminPermissionAction, CreateRolePermissionDto } from './dto/admin.dto';
+import { Injectable } from "@nestjs/common";
+import { PostgresClient } from "../../database/postgres.client";
+import {
+  AdminPermissionAction,
+  CreateRolePermissionDto,
+} from "./dto/admin.dto";
 
 @Injectable()
 export class AdminRepository {
   constructor(private readonly db: PostgresClient) {}
 
   getAdminByUserId(userId: string) {
-    return this.db.queryOne<{ id: string; userId: string; roleId: string; roleName: string }>(
+    return this.db.queryOne<{
+      id: string;
+      userId: string;
+      roleId: string;
+      roleName: string;
+    }>(
       `SELECT au.id, au.user_id as "userId", au.role_id as "roleId", r.name as "roleName"
        FROM admin_users au
        JOIN roles r ON r.id = au.role_id
@@ -16,14 +24,30 @@ export class AdminRepository {
     );
   }
 
+  async isUserAdmin(userId: string): Promise<boolean> {
+    const row = await this.db.queryOne<{ isAdmin: boolean }>(
+      `SELECT EXISTS(SELECT 1 FROM users WHERE id = $1 AND role = 'ADMIN') as "isAdmin"`,
+      [userId],
+    );
+    return row?.isAdmin ?? false;
+  }
+
   findUserWithPasswordByEmail(email: string) {
-    return this.db.queryOne<{ id: string; email: string; passwordHash: string | null }>(
+    return this.db.queryOne<{
+      id: string;
+      email: string;
+      passwordHash: string | null;
+    }>(
       `SELECT id, email, password_hash as "passwordHash" FROM users WHERE lower(email) = lower($1) LIMIT 1`,
       [email],
     );
   }
 
-  async hasModulePermission(userId: string, module: string, action: AdminPermissionAction): Promise<boolean> {
+  async hasModulePermission(
+    userId: string,
+    module: string,
+    action: AdminPermissionAction,
+  ): Promise<boolean> {
     const row = await this.db.queryOne<{ hasAccess: boolean }>(
       `SELECT EXISTS(
          SELECT 1 FROM admin_users au
@@ -39,7 +63,9 @@ export class AdminRepository {
   }
 
   async listRoles() {
-    return this.db.query<{ id: string; name: string }>('SELECT id, name FROM roles ORDER BY name');
+    return this.db.query<{ id: string; name: string }>(
+      "SELECT id, name FROM roles ORDER BY name",
+    );
   }
 
   async listRolePermissions(roleId: string) {
@@ -54,11 +80,19 @@ export class AdminRepository {
   }
 
   createRole(name: string) {
-    return this.db.queryOne<{ id: string; name: string }>('INSERT INTO roles (name, slug) VALUES ($1, lower(replace($1,\' \' ,\'-\'))) RETURNING id, name', [name]);
+    return this.db.queryOne<{ id: string; name: string }>(
+      "INSERT INTO roles (name, slug) VALUES ($1, lower(replace($1,' ' ,'-'))) RETURNING id, name",
+      [name],
+    );
   }
 
-  async setRolePermissions(roleId: string, permissions: CreateRolePermissionDto[]) {
-    await this.db.query('DELETE FROM role_permissions WHERE role_id = $1', [roleId]);
+  async setRolePermissions(
+    roleId: string,
+    permissions: CreateRolePermissionDto[],
+  ) {
+    await this.db.query("DELETE FROM role_permissions WHERE role_id = $1", [
+      roleId,
+    ]);
     for (const permission of permissions) {
       const slug = `${permission.module.toLowerCase()}.${permission.action.toLowerCase()}`;
       const p = await this.db.queryOne<{ id: string }>(
@@ -66,11 +100,16 @@ export class AdminRepository {
          VALUES ($1, upper($2), upper($3), $4)
          ON CONFLICT (slug) DO UPDATE SET module = EXCLUDED.module, action = EXCLUDED.action
          RETURNING id`,
-        [slug, permission.module, permission.action, `Admin ${permission.action} access to ${permission.module}`],
+        [
+          slug,
+          permission.module,
+          permission.action,
+          `Admin ${permission.action} access to ${permission.module}`,
+        ],
       );
       if (p) {
         await this.db.query(
-          'INSERT INTO role_permissions (role_id, permission_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+          "INSERT INTO role_permissions (role_id, permission_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
           [roleId, p.id],
         );
       }
@@ -85,12 +124,32 @@ export class AdminRepository {
   }
 
   listAdminUsers() {
-    return this.db.query<{ id: string; email: string; roleId: string; roleName: string }>(
+    return this.db.query<{
+      id: string;
+      email: string;
+      roleId: string;
+      roleName: string;
+    }>(
       `SELECT u.id, u.email, au.role_id as "roleId", r.name as "roleName"
        FROM admin_users au
        JOIN users u ON u.id = au.user_id
        JOIN roles r ON r.id = au.role_id
        ORDER BY u.email`,
+    );
+  }
+
+  listAllUsers() {
+    return this.db.query<{
+      id: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      role: string;
+      createdAt: string;
+    }>(
+      `SELECT id, email, first_name as "firstName", last_name as "lastName", role, created_at as "createdAt"
+       FROM users
+       ORDER BY created_at DESC`,
     );
   }
 
@@ -103,12 +162,62 @@ export class AdminRepository {
     );
   }
 
+  async createUser(data: { email: string; firstName?: string; lastName?: string; passwordHash?: string; role?: string }) {
+    return this.db.queryOne<{ id: string; email: string }>(
+      `INSERT INTO users (email, first_name, last_name, password_hash, role)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING id, email, first_name as "firstName", last_name as "lastName", role`,
+      [data.email, data.firstName || null, data.lastName || null, data.passwordHash || null, data.role || 'USER']
+    );
+  }
+
+  async updateUser(id: string, data: Partial<{ email: string; firstName: string; lastName: string; role: string }>) {
+    const sets: string[] = [];
+    const values: any[] = [id];
+    let i = 2;
+
+    if (data.email) { sets.push(`email = $${i++}`); values.push(data.email); }
+    if (data.firstName !== undefined) { sets.push(`first_name = $${i++}`); values.push(data.firstName); }
+    if (data.lastName !== undefined) { sets.push(`last_name = $${i++}`); values.push(data.lastName); }
+    if (data.role) { sets.push(`role = $${i++}`); values.push(data.role); }
+
+    if (sets.length === 0) return this.findUserById(id);
+
+    return this.db.queryOne(
+      `UPDATE users SET ${sets.join(', ')}, updated_at = NOW() WHERE id = $1 RETURNING id, email, first_name as "firstName", last_name as "lastName", role`,
+      values
+    );
+  }
+
+  async deleteUser(id: string) {
+    await this.db.query("DELETE FROM users WHERE id = $1", [id]);
+    return { id, deleted: true };
+  }
+
+  async findUserById(id: string) {
+    return this.db.queryOne<{ id: string; email: string; firstName: string; lastName: string; role: string }>(
+      `SELECT id, email, first_name as "firstName", last_name as "lastName", role FROM users WHERE id = $1`,
+      [id]
+    );
+  }
+
   dashboardSummary() {
-    return this.db.queryOne<{ totalRevenue: string; totalBookings: string; activeUsers: string; conversionRate: string }>(
+    return this.db.queryOne<{
+      totalRevenue: string;
+      totalBookings: string;
+      totalUsers: string;
+      totalFlights: string;
+      totalHotels: string;
+      totalCars: string;
+      conversionRate: string;
+    }>(
       `SELECT
         coalesce((SELECT sum(amount)::text FROM payments WHERE status in ('SUCCESS', 'REFUNDED')), '0') as "totalRevenue",
         coalesce((SELECT count(*)::text FROM bookings), '0') as "totalBookings",
-        coalesce((SELECT count(*)::text FROM users WHERE created_at >= NOW() - INTERVAL '30 days'), '0') as "activeUsers",
+        (SELECT count(*)::text FROM users) as "totalUsers",
+        (SELECT count(*)::text FROM bookings WHERE flight_id IS NOT NULL) as "totalFlights",
+        (SELECT count(*)::text FROM bookings WHERE hotel_id IS NOT NULL) as "totalHotels",
+        (SELECT count(*)::text FROM car_bookings) as "totalCars",
         coalesce((SELECT round((count(*) FILTER (WHERE status = 'CONFIRMED')::numeric / nullif(count(*),0))*100,2)::text FROM bookings), '0') as "conversionRate"`,
     );
   }
@@ -128,6 +237,13 @@ export class AdminRepository {
        GROUP BY 1
        ORDER BY 1`,
     );
+    const usersTrend = await this.db.query<{ date: string; value: string }>(
+      `SELECT to_char(date_trunc('day', created_at), 'YYYY-MM-DD') as date, count(*)::text as value
+       FROM users
+       WHERE created_at >= NOW() - INTERVAL '30 days'
+       GROUP BY 1
+       ORDER BY 1`,
+    );
     const cancellations = await this.db.query<{ date: string; value: string }>(
       `SELECT to_char(date_trunc('day', created_at), 'YYYY-MM-DD') as date, count(*)::text as value
        FROM bookings
@@ -135,17 +251,40 @@ export class AdminRepository {
        GROUP BY 1
        ORDER BY 1`,
     );
-    return { bookingsTrend, revenueTrend, cancellations };
+    return { bookingsTrend, revenueTrend, usersTrend, cancellations };
   }
 
-  getBookings() { return this.db.query('SELECT * FROM bookings ORDER BY created_at DESC LIMIT 100'); }
-  updateBooking(id: string, status: string) {
-    return this.db.queryOne('UPDATE bookings SET status = $2 WHERE id = $1 RETURNING *', [id, status]);
+  getBookings() {
+    return this.db.query(
+      "SELECT * FROM bookings ORDER BY created_at DESC LIMIT 100",
+    );
   }
-  getPayments() { return this.db.query('SELECT * FROM payments ORDER BY created_at DESC LIMIT 100'); }
-  getRefunds() { return this.db.query('SELECT * FROM refunds ORDER BY created_at DESC LIMIT 100'); }
-  getAnalytics() { return this.db.query('SELECT * FROM analytics_reports ORDER BY period_start DESC LIMIT 30'); }
-  getSettings() { return this.db.query('SELECT id, key, value, updated_at as "updatedAt" FROM system_settings ORDER BY key'); }
+  updateBooking(id: string, status: string) {
+    return this.db.queryOne(
+      "UPDATE bookings SET status = $2 WHERE id = $1 RETURNING *",
+      [id, status],
+    );
+  }
+  getPayments() {
+    return this.db.query(
+      "SELECT * FROM payments ORDER BY created_at DESC LIMIT 100",
+    );
+  }
+  getRefunds() {
+    return this.db.query(
+      "SELECT * FROM refunds ORDER BY created_at DESC LIMIT 100",
+    );
+  }
+  getAnalytics() {
+    return this.db.query(
+      "SELECT * FROM analytics_reports ORDER BY period_start DESC LIMIT 30",
+    );
+  }
+  getSettings() {
+    return this.db.query(
+      'SELECT id, key, value, updated_at as "updatedAt" FROM system_settings ORDER BY key',
+    );
+  }
   upsertSetting(key: string, value: Record<string, unknown>) {
     return this.db.queryOne(
       `INSERT INTO system_settings (key, value, updated_at) VALUES ($1, $2::jsonb, NOW())
@@ -154,14 +293,30 @@ export class AdminRepository {
       [key, JSON.stringify(value)],
     );
   }
-  getAuditLogs() { return this.db.query('SELECT * FROM audit_logs ORDER BY created_at DESC LIMIT 200'); }
-  insertAuditLog(userId: string, action: string, module: string, metadata: Record<string, unknown>) {
-    return this.db.query('INSERT INTO audit_logs (user_id, action, module, metadata) VALUES ($1, $2, $3, $4::jsonb)', [userId, action, module, JSON.stringify(metadata)]);
+  getAuditLogs() {
+    return this.db.query(
+      "SELECT * FROM audit_logs ORDER BY created_at DESC LIMIT 200",
+    );
   }
-  getAlerts() { return this.db.query('SELECT * FROM alerts ORDER BY created_at DESC LIMIT 100'); }
+  insertAuditLog(
+    userId: string,
+    action: string,
+    module: string,
+    metadata: Record<string, unknown>,
+  ) {
+    return this.db.query(
+      "INSERT INTO audit_logs (user_id, action, module, metadata) VALUES ($1, $2, $3, $4::jsonb)",
+      [userId, action, module, JSON.stringify(metadata)],
+    );
+  }
+  getAlerts() {
+    return this.db.query(
+      "SELECT * FROM alerts ORDER BY created_at DESC LIMIT 100",
+    );
+  }
   createAdminSession(adminId: string, ipAddress: string | null) {
     return this.db.queryOne<{ id: string }>(
-      'INSERT INTO admin_sessions (admin_id, ip_address, login_time) VALUES ($1, $2, NOW()) RETURNING id',
+      "INSERT INTO admin_sessions (admin_id, ip_address, login_time) VALUES ($1, $2, NOW()) RETURNING id",
       [adminId, ipAddress],
     );
   }

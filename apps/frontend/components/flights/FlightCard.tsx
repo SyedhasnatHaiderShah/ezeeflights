@@ -22,6 +22,10 @@ import {
 import { AppIcon } from "../ui/app-icon";
 import { AnimatePresence, motion } from "framer-motion";
 import { CurrencyDisplay } from "../shared/CurrencyDisplay";
+import {
+  useCurrencyStore,
+  SUPPORTED_CURRENCIES,
+} from "@/lib/store/currency-store";
 
 interface Props {
   flight: FlightListItem;
@@ -87,19 +91,24 @@ export function FlightCard({ flight }: Props) {
       : false;
   const stops = Math.max(0, flight.outbound.length - 1);
 
-  const symbol =
-    ({ USD: "$", GBP: "£", EUR: "€", PKR: "Rs" } as Record<string, string>)[
-      flight.currency
-    ] || flight.currency;
+  const { baseCurrency, getConvertedAmount } = useCurrencyStore();
+  const currencyMeta =
+    SUPPORTED_CURRENCIES[baseCurrency] || SUPPORTED_CURRENCIES["USD"];
+  const symbol = currencyMeta.symbol;
 
   return (
     <article className="relative overflow-hidden rounded-2xl border border-border bg-white dark:bg-card shadow-sm hover:shadow-md transition-all mb-3 group">
       {/* Wishlist Heart */}
-      <button 
+      <button
         onClick={() => setIsWishlisted(!isWishlisted)}
         className="absolute right-4 top-4 z-20 rounded-full bg-white/80 p-2 backdrop-blur-md shadow-sm transition-all hover:scale-110 active:scale-95 border border-border/50"
       >
-        <Heart className={cn("h-4 w-4 transition-colors", isWishlisted ? "fill-brand-red text-brand-red" : "text-slate-400")} />
+        <Heart
+          className={cn(
+            "h-4 w-4 transition-colors",
+            isWishlisted ? "fill-brand-red text-brand-red" : "text-slate-400",
+          )}
+        />
       </button>
       <div className="flex flex-col xl:flex-row">
         {/* Left: Content */}
@@ -185,81 +194,130 @@ export function FlightCard({ flight }: Props) {
               </AccordionTrigger>
               <AccordionContent className="pt-4 px-4">
                 <div className="space-y-8">
-                   {/* Fare Class Breakdown */}
-                   <div>
-                      <div className="flex items-center gap-2 mb-4">
-                        <Sparkles className="h-4 w-4 text-brand-red" />
-                        <h4 className="text-xs font-black uppercase tracking-widest text-slate-900">Fare Class Breakdown</h4>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {mockFareTiers.map((tier) => (
-                          <div key={tier.name} className="rounded-2xl border border-slate-100 p-4 bg-slate-50/30">
-                            <div className="flex items-center justify-between mb-3">
-                              <span className="text-xs font-black uppercase tracking-widest text-slate-900">{tier.name}</span>
-                              <span className="text-[10px] font-black text-brand-red">+{symbol}{tier.priceDiff}</span>
-                            </div>
-                            <ul className="space-y-2">
-                              {tier.benefits.map((b) => (
-                                <li key={b.label} className="flex items-center gap-2 text-[10px] font-bold">
-                                  {b.included ? <Check className="h-3 w-3 text-emerald-500" /> : <XIcon className="h-3 w-3 text-slate-300" />}
-                                  <span className={cn(b.included ? "text-slate-700" : "text-slate-400 line-through")}>{b.label}</span>
-                                </li>
-                              ))}
-                            </ul>
+                  {/* Fare Class Breakdown */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <Sparkles className="h-4 w-4 text-brand-red" />
+                      <h4 className="text-xs font-black uppercase tracking-widest text-slate-900">
+                        Fare Class Breakdown
+                      </h4>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {mockFareTiers.map((tier) => (
+                        <div
+                          key={tier.name}
+                          className="rounded-2xl border border-slate-100 p-4 bg-slate-50/30"
+                        >
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-xs font-black uppercase tracking-widest text-slate-900">
+                              {tier.name}
+                            </span>
+                            <span className="text-[10px] font-black text-brand-red">
+                              +{symbol}
+                              {Math.round(
+                                getConvertedAmount(
+                                  tier.priceDiff,
+                                  "USD",
+                                  baseCurrency,
+                                ),
+                              ).toLocaleString("en-US")}
+                            </span>
                           </div>
-                        ))}
-                      </div>
-                   </div>
-
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs normal-case tracking-normal pt-4 border-t border-slate-50">
-                  <div className="space-y-1.5 p-3 rounded-xl bg-slate-50/50 dark:bg-muted/10 border border-border/50">
-                    <p className="text-xs font-bold text-foreground tracking-wider mb-2 border-b border-border/50 pb-1">
-                      Fare Breakdown
-                    </p>
-                    <div className="grid grid-cols-2 gap-y-1">
-                      <span className="text-foreground">Base Fare</span>
-                      <span className="text-right font-semibold">
-                        {symbol}
-                        {flight.flightFare.adultFare.toLocaleString()}
-                      </span>
-                      <span className="text-foreground">Taxes & Fees</span>
-                      <span className="text-right font-semibold">
-                        {symbol}
-                        {flight.flightFare.adultTax.toLocaleString()}
-                      </span>
-                      <div className="col-span-2 border-t border-dashed border-border/50 my-1" />
-                      <span className="text-foreground font-bold">Total</span>
-                      <span className="text-right font-bold text-redmix">
-                        {symbol}
-                        {flight.flightFare.grandTotal.toLocaleString()}
-                      </span>
+                          <ul className="space-y-2">
+                            {tier.benefits.map((b) => (
+                              <li
+                                key={b.label}
+                                className="flex items-center gap-2 text-[10px] font-bold"
+                              >
+                                {b.included ? (
+                                  <Check className="h-3 w-3 text-emerald-500" />
+                                ) : (
+                                  <XIcon className="h-3 w-3 text-slate-300" />
+                                )}
+                                <span
+                                  className={cn(
+                                    b.included
+                                      ? "text-slate-700"
+                                      : "text-slate-400 line-through",
+                                  )}
+                                >
+                                  {b.label}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
-                  <div className="space-y-3">
-                    <div className="p-3 rounded-xl bg-slate-50/50 dark:bg-muted/10 border border-border/50">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs normal-case tracking-normal pt-4 border-t border-slate-50">
+                    <div className="space-y-1.5 p-3 rounded-xl bg-slate-50/50 dark:bg-muted/10 border border-border/50">
                       <p className="text-xs font-bold text-foreground tracking-wider mb-2 border-b border-border/50 pb-1">
-                        Flight Info
+                        Fare Breakdown
                       </p>
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-foreground">Aircraft</span>
-                          <span className="font-bold">
-                            {first.equipmentType || "Boeing 737-800"}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-foreground">Baggage</span>
-                          <span className="font-bold text-emerald-600">
-                            {first.baggageAllowance || "15kg included"}
-                          </span>
+                      <div className="grid grid-cols-2 gap-y-1">
+                        <span className="text-foreground">Base Fare</span>
+                        <span className="text-right font-semibold">
+                          {symbol}
+                          {Math.round(
+                            getConvertedAmount(
+                              flight.flightFare.adultFare,
+                              flight.currency as any,
+                              baseCurrency,
+                            ),
+                          ).toLocaleString("en-US")}
+                        </span>
+                        <span className="text-foreground">Taxes & Fees</span>
+                        <span className="text-right font-semibold">
+                          {symbol}
+                          {Math.round(
+                            getConvertedAmount(
+                              flight.flightFare.adultTax,
+                              flight.currency as any,
+                              baseCurrency,
+                            ),
+                          ).toLocaleString("en-US")}
+                        </span>
+                        <div className="col-span-2 border-t border-dashed border-border/50 my-1" />
+                        <span className="text-foreground font-bold">Total</span>
+                        <span className="text-right font-bold text-redmix">
+                          {symbol}
+                          {Math.round(
+                            getConvertedAmount(
+                              flight.flightFare.grandTotal,
+                              flight.currency as any,
+                              baseCurrency,
+                            ),
+                          ).toLocaleString("en-US")}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="p-3 rounded-xl bg-slate-50/50 dark:bg-muted/10 border border-border/50">
+                        <p className="text-xs font-bold text-foreground tracking-wider mb-2 border-b border-border/50 pb-1">
+                          Flight Info
+                        </p>
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="text-foreground">Aircraft</span>
+                            <span className="font-bold">
+                              {first.equipmentType || "Boeing 737-800"}
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-foreground">Baggage</span>
+                            <span className="font-bold text-emerald-600">
+                              {first.baggageAllowance || "15kg included"}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </AccordionContent>
+              </AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
@@ -270,10 +328,11 @@ export function FlightCard({ flight }: Props) {
             <p className="text-[10px] font-bold text-foreground uppercase tracking-widest mb-1">
               Total Price
             </p>
-            <CurrencyDisplay 
-              amount={flight.totalCost} 
-              currency={flight.currency} 
+            <CurrencyDisplay
+              amount={flight.totalCost}
+              currency={flight.currency}
               className="items-start md:items-center"
+              showComparison={false}
             />
           </div>
           <Button
@@ -308,18 +367,36 @@ export function FlightCard({ flight }: Props) {
                     <span className="text-foreground">Base Fare</span>
                     <span className="text-right font-semibold">
                       {symbol}
-                      {flight.flightFare.adultFare.toLocaleString()}
+                      {Math.round(
+                        getConvertedAmount(
+                          flight.flightFare.adultFare,
+                          flight.currency as any,
+                          baseCurrency,
+                        ),
+                      ).toLocaleString("en-US")}
                     </span>
                     <span className="text-foreground">Taxes & Fees</span>
                     <span className="text-right font-semibold">
                       {symbol}
-                      {flight.flightFare.adultTax.toLocaleString()}
+                      {Math.round(
+                        getConvertedAmount(
+                          flight.flightFare.adultTax,
+                          flight.currency as any,
+                          baseCurrency,
+                        ),
+                      ).toLocaleString("en-US")}
                     </span>
                     <div className="col-span-2 border-t border-dashed border-border/50 my-1" />
                     <span className="text-foreground font-bold">Total</span>
                     <span className="text-right font-bold text-redmix">
                       {symbol}
-                      {flight.flightFare.grandTotal.toLocaleString()}
+                      {Math.round(
+                        getConvertedAmount(
+                          flight.flightFare.grandTotal,
+                          flight.currency as any,
+                          baseCurrency,
+                        ),
+                      ).toLocaleString("en-US")}
                     </span>
                   </div>
                 </div>

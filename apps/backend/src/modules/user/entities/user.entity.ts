@@ -1,11 +1,19 @@
+export enum UserRole {
+  USER = "USER",
+  ADMIN = "ADMIN",
+  SUPPORT = "SUPPORT",
+  FINANCE = "FINANCE",
+  MARKETING = "MARKETING",
+}
+
 export interface UserRecord {
   id: string;
   email: string;
   firstName: string | null;
   lastName: string | null;
-  preferredCurrency: 'USD' | 'AED' | 'EUR' | 'GBP';
+  preferredCurrency: "USD" | "AED" | "EUR" | "GBP";
   phone: string | null;
-  role: string;
+  role: UserRole;
   nationality: string | null;
   passportNumber: string | null;
   passportExpiry: Date | null;
@@ -19,9 +27,9 @@ export interface UserPublicView {
   name: string;
   firstName: string | null;
   lastName: string | null;
-  preferredCurrency: 'USD' | 'AED' | 'EUR' | 'GBP';
+  preferredCurrency: "USD" | "AED" | "EUR" | "GBP";
   phone: string | null;
-  role: string;
+  role: UserRole;
   nationality: string | null;
   passportNumber: string | null;
   passportExpiry: string | null;

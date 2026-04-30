@@ -10,7 +10,7 @@
                 <air:SearchDestination>
                     <com:CityOrAirport Code="DXB" PreferCity="true"/>
                 </air:SearchDestination>
-                <air:SearchDepTime PreferredTime="2026-05-25T00:00:00"/>
+                <air:SearchDepTime PreferredTime="2026-05-29T00:00:00"/>
             </air:SearchAirLeg>
             <air:AirSearchModifiers>
                 <air:PreferredProviders>
@@ -18,6 +18,7 @@
                 </air:PreferredProviders>
             </air:AirSearchModifiers>
             <com:SearchPassenger Code="ADT" Key="P1"/>
+            <com:SearchPassenger Code="ADT" Key="P2"/>
         </air:LowFareSearchReq>
     </soap:Body>
 </soap:Envelope>

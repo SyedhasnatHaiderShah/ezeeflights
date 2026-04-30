@@ -2,7 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { hashPassword } from '../../../common/crypto/password';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { UserPublicView, UserRecord } from '../entities/user.entity';
+import { UserPublicView, UserRecord, UserRole } from '../entities/user.entity';
 import { UserRepository } from '../repositories/user.repository';
 import { RecentSearchRepository } from '../repositories/recent-search.repository';
 import { RecentSearchEntity } from '../entities/recent-search.entity';
@@ -78,7 +78,7 @@ export class UserService {
       firstName: dto.name.trim(),
       lastName: null,
       phone: dto.phone?.trim() || null,
-      role: dto.role?.trim() || 'USER',
+      role: (dto.role?.trim().toUpperCase() as UserRole) || UserRole.USER,
       nationality: dto.nationality?.trim() || null,
       passportNumber: dto.passportNumber?.trim() || null,
       passportExpiry,

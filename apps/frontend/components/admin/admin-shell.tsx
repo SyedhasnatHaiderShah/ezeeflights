@@ -1,40 +1,65 @@
 'use client';
 
-import Link from 'next/link';
-import type { Route } from 'next';
-import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
-import { adminFetch, getAdminToken } from '@/lib/api/admin-api';
-
-const groupedMenu = {
-  OVERVIEW: [{ href: '/admin/dashboard', label: 'Dashboard', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT', 'MARKETING'] }],
-  OPERATIONS: [{ href: '/admin/bookings', label: 'Bookings', roles: ['SUPER_ADMIN', 'ADMIN', 'SUPPORT'] }, { href: '/admin/operations', label: 'Operations', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SUPPORT'] }],
-  MANAGEMENT: [{ href: '/admin/users', label: 'Users', roles: ['SUPER_ADMIN', 'ADMIN'] }, { href: '/admin/payments', label: 'Payments', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] }, { href: '/admin/promotions', label: 'Promotions', roles: ['SUPER_ADMIN', 'ADMIN', 'MARKETING'] }],
-  SYSTEM: [{ href: '/admin/settings', label: 'Settings', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] }, { href: '/admin/logs', label: 'Logs', roles: ['SUPER_ADMIN', 'ADMIN', 'FINANCE'] }],
-} as const;
+import { useRouter } from 'next/navigation';
+import { ReactNode, useEffect, useState } from 'react';
+import { useAuthSession } from '@/lib/hooks/use-auth-session';
+import { ShieldAlert, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export function AdminShell({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
   const router = useRouter();
-  const [role, setRole] = useState<string>('');
-  const [collapsed, setCollapsed] = useState(false);
+  const { data: session, isLoading } = useAuthSession();
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
-  useEffect(() => { const token = getAdminToken(); if (!token) { router.replace('/admin/login'); return; } adminFetch<{ roleName: string }>('/me').then((me) => setRole(me.roleName)).catch(() => { localStorage.removeItem('admin_access_token'); router.replace('/admin/login'); }); }, [router]);
+  useEffect(() => {
+    if (!isLoading) {
+      if (!session) {
+        router.replace('/auth/login');
+      } else if (!session.roles.includes('ADMIN')) {
+        setIsAuthorized(false);
+      } else {
+        setIsAuthorized(true);
+      }
+    }
+  }, [session, isLoading, router]);
 
-  const sections = useMemo(() => Object.entries(groupedMenu).map(([k, items]) => [k, items.filter((i) => i.roles.includes(role as any))] as const), [role]);
+  if (isLoading || isAuthorized === null) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-10 w-10 animate-spin text-brand-red" />
+          <p className="text-slate-500 font-medium tracking-tight">Verifying admin credentials...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isAuthorized === false) {
+    return (
+      <div className="flex min-h-[70vh] flex-col items-center justify-center p-6 text-center">
+        <div className="mb-6 rounded-full bg-red-50 p-6 text-red-600">
+          <ShieldAlert className="h-16 w-16" />
+        </div>
+        <h1 className="mb-2 text-3xl font-black text-slate-900 tracking-tight">Access Denied</h1>
+        <p className="mb-8 max-w-md text-slate-500 text-lg">
+          You do not have the required permissions to access the administrative panel. 
+          Please contact the system administrator if you believe this is an error.
+        </p>
+        <Button 
+          onClick={() => router.push('/')}
+          className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-3 rounded-2xl transition-all"
+        >
+          Return to Home
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      <aside className={`${collapsed ? 'w-20' : 'w-72'} bg-[#072f66] p-4 text-white transition-all`}>
-        <button onClick={() => setCollapsed((v) => !v)} className="mb-4 rounded border border-white/30 px-2 py-1 text-xs">{collapsed ? '>>' : 'Collapse'}</button>
-        {sections.map(([group, items]) => (
-          <div key={group} className="mb-5">
-            {!collapsed && <h3 className="mb-2 text-xs font-bold tracking-widest text-white/60">{group}</h3>}
-            <nav className="space-y-1">{items.map((item) => <Link key={item.href} href={item.href as Route} className={`block rounded px-2 py-2 text-sm ${pathname === item.href ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'}`}>{collapsed ? item.label[0] : item.label}</Link>)}</nav>
-          </div>
-        ))}
-      </aside>
-      <main className="flex-1 p-6">{children}</main>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 animate-in fade-in duration-500">
+      <div className="rounded-[2.5rem] bg-white border border-slate-100 p-8 shadow-xl shadow-slate-200/40">
+        {children}
+      </div>
     </div>
   );
 }

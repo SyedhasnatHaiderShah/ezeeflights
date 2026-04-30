@@ -35,6 +35,13 @@ export class AdminRbacGuard implements CanActivate {
       throw new UnauthorizedException('Missing admin session');
     }
 
+    // 1. Base Role Check: Verify if the user is explicitly marked as ADMIN in the users table
+    const isAdmin = await this.repo.isUserAdmin(userId);
+    if (!isAdmin) {
+      throw new ForbiddenException('User does not have administrative privileges');
+    }
+
+    // 2. Fine-grained Permission Check: If a specific module/action is required, check RBAC tables
     const allowed = await this.repo.hasModulePermission(userId, required.module, required.action);
     if (!allowed) {
       throw new ForbiddenException(`Missing ${required.action} permission for ${required.module}`);

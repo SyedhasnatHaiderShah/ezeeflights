@@ -13,6 +13,7 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { useFlightFilterStore } from "@/lib/store/flight-filter-store";
 import { FlightListItem } from "@/lib/types/flight-api";
+import { useCurrencyStore, SUPPORTED_CURRENCIES } from "@/lib/store/currency-store";
 
 type Props = {
   onClose?: () => void;
@@ -20,6 +21,7 @@ type Props = {
   resultsCount?: number;
   sortMode?: string;
   onSortChange?: (mode: any) => void;
+  sourceCurrency?: string;
 };
 
 const timeBuckets = [
@@ -53,8 +55,11 @@ export function FilterSidebar({
   resultsCount = 0,
   sortMode,
   onSortChange,
+  sourceCurrency = "USD",
 }: Props) {
   const { filters, setFilter, resetFilters } = useFlightFilterStore();
+  const { baseCurrency, getConvertedAmount } = useCurrencyStore();
+  const currencyMeta = SUPPORTED_CURRENCIES[baseCurrency] || SUPPORTED_CURRENCIES["USD"];
   const [showAllAirlines, setShowAllAirlines] = React.useState(false);
 
   const stopsMeta = React.useMemo(() => {
@@ -160,7 +165,7 @@ export function FilterSidebar({
           <AccordionContent>
             <p className={sectionLabel}>Price range</p>
             <p className="text-sm font-bold text-foreground mb-3">
-              ${filters.priceRange[0]} – ${filters.priceRange[1]}
+              {currencyMeta.symbol}{Math.round(getConvertedAmount(filters.priceRange[0], sourceCurrency as any, baseCurrency)).toLocaleString("en-US")} – {currencyMeta.symbol}{Math.round(getConvertedAmount(filters.priceRange[1], sourceCurrency as any, baseCurrency)).toLocaleString("en-US")}
             </p>
             <Slider
               value={filters.priceRange}
@@ -247,7 +252,7 @@ export function FilterSidebar({
                     <span className="truncate">{airline.name}</span>
                   </span>
                   <span className="text-xs text-foreground font-medium">
-                    from ${Math.round(airline.lowest)}
+                    from {currencyMeta.symbol}{Math.round(getConvertedAmount(airline.lowest, sourceCurrency as any, baseCurrency)).toLocaleString("en-US")}
                   </span>
                 </label>
               ))}

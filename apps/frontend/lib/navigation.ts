@@ -115,4 +115,12 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
       },
     ],
   },
+  {
+    title: "ADMIN",
+    items: [
+      { label: "Gateway", href: "/admin" as Route, icon: Shield },
+      { label: "Dashboard", href: "/admin/dashboard" as Route, icon: LayoutDashboard },
+      { label: "Users", href: "/admin/users" as Route, icon: User },
+    ],
+  },
 ];

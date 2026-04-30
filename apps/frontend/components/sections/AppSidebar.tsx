@@ -189,7 +189,12 @@ export function AppSidebar() {
           </div>
 
           <div className="space-y-6">
-            {NAVIGATION_GROUPS.map((group) => (
+            {NAVIGATION_GROUPS.filter((g) => {
+              if (g.title === "ADMIN") {
+                return session?.roles?.includes("ADMIN");
+              }
+              return true;
+            }).map((group) => (
               <div key={group.title}>
                 <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   {group.title}
