@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM worldrix_ezeecrm.tbl_customerdetails
+LIMIT 0, 10
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="Id">2047</field>
+		<field name="bookingRef">252903045411</field>
+		<field name="originFrom">MCO</field>
+		<field name="destinationTo">GYE</field>
+		<field name="airLine">CM</field>
+		<field name="travellType">RoundTrip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-04-17 00:00:00</field>
+		<field name="returnDate">2025-04-27 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">8632415270</field>
+		<field name="email">Paezjor46@gmail.com</field>
+		<field name="totalAmount">215</field>
+		<field name="status">7</field>
+		<field name="work_status">pending</field>
+		<field name="source">JetCost</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-03-28 17:24:21</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">2048</field>
+		<field name="bookingRef">252903050346</field>
+		<field name="originFrom">LHR</field>
+		<field name="destinationTo">DEL</field>
+		<field name="airLine">AI</field>
+		<field name="travellType">OneWay</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-03-31 00:00:00</field>
+		<field name="returnDate">0001-01-01 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">07721702481</field>
+		<field name="email">hhbajaj@yahoo.com</field>
+		<field name="totalAmount">295.17</field>
+		<field name="status">4</field>
+		<field name="work_status">pending</field>
+		<field name="source">Web</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-03-28 17:33:58</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">2049</field>
+		<field name="bookingRef">252903051629</field>
+		<field name="originFrom">RIC</field>
+		<field name="destinationTo">PUJ</field>
+		<field name="airLine">DL</field>
+		<field name="travellType">RoundTrip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-03-31 00:00:00</field>
+		<field name="returnDate">2025-04-04 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">8454012398</field>
+		<field name="email">Christophercancel@yahoo.com</field>
+		<field name="totalAmount">353.86</field>
+		<field name="status">4</field>
+		<field name="work_status">pending</field>
+		<field name="source">farescraper</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-03-28 17:46:39</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">2050</field>
+		<field name="bookingRef">252903052057</field>
+		<field name="originFrom" xsi:nil="true" />
+		<field name="destinationTo" xsi:nil="true" />
+		<field name="airLine">UA</field>
+		<field name="travellType">RoundTrip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-04-17 00:00:00</field>
+		<field name="returnDate">2025-04-27 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">8632415270</field>
+		<field name="email">Paezjor46@gmail.com</field>
+		<field name="totalAmount">209</field>
+		<field name="status">1</field>
+		<field name="work_status">pending</field>
+		<field name="source">JetCost</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-03-28 17:51:08</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">2051</field>
+		<field name="bookingRef">252903052830</field>
+		<field name="originFrom">LAX</field>
+		<field name="destinationTo">GUA</field>
+		<field name="airLine">AS</field>
+		<field name="travellType">RoundTrip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-04-09 00:00:00</field>
+		<field name="returnDate">2025-04-21 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">3236950135</field>
+		<field name="email">josediaz1967@yahoo.com</field>
+		<field name="totalAmount">800</field>
+		<field name="status">7</field>
+		<field name="work_status">pending</field>
+		<field name="source">JetCost</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-03-28 17:58:40</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">6</field>
+		<field name="bookingRef">252702205746</field>
+		<field name="originFrom">EWR</field>
+		<field name="destinationTo">MBJ</field>
+		<field name="airLine">UA</field>
+		<field name="travellType">RoundTrip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-04-25 00:00:00</field>
+		<field name="returnDate">2025-04-29 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">2019696148</field>
+		<field name="email">keybandz3@gmail.com</field>
+		<field name="totalAmount">410</field>
+		<field name="status">4</field>
+		<field name="work_status">pending</field>
+		<field name="source">Web</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-02-27 08:27:45</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">7</field>
+		<field name="bookingRef">252702210130</field>
+		<field name="originFrom">EWR</field>
+		<field name="destinationTo">MBJ</field>
+		<field name="airLine">UA</field>
+		<field name="travellType">RoundTrip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-04-25 00:00:00</field>
+		<field name="returnDate">2025-04-29 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">2019696148</field>
+		<field name="email">keybandz3@gmail.com</field>
+		<field name="totalAmount">410</field>
+		<field name="status">7</field>
+		<field name="work_status">pending</field>
+		<field name="source">Web</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-02-27 08:31:30</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">8</field>
+		<field name="bookingRef">252702224548</field>
+		<field name="originFrom">BDL</field>
+		<field name="destinationTo">LIM</field>
+		<field name="airLine">DL</field>
+		<field name="travellType">RoundTrip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-03-02 00:00:00</field>
+		<field name="returnDate">2025-03-26 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">8608141621</field>
+		<field name="email">davidapari16@gmail.com</field>
+		<field name="totalAmount">1365.38</field>
+		<field name="status">4</field>
+		<field name="work_status">pending</field>
+		<field name="source">JetCost-APP</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-02-27 10:15:48</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">9</field>
+		<field name="bookingRef">252702225650</field>
+		<field name="originFrom">JFK</field>
+		<field name="destinationTo">SDQ</field>
+		<field name="airLine">DL</field>
+		<field name="travellType">OneWay</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-04-01 00:00:00</field>
+		<field name="returnDate">0001-01-01 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">5168308254</field>
+		<field name="email">Juliangrecia@yahoo.com</field>
+		<field name="totalAmount">119.19</field>
+		<field name="status">6</field>
+		<field name="work_status">pending</field>
+		<field name="source">JetCost-APP</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-02-27 10:26:49</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">10</field>
+		<field name="bookingRef">252702225914</field>
+		<field name="originFrom">EWR</field>
+		<field name="destinationTo">MBJ</field>
+		<field name="airLine">UA</field>
+		<field name="travellType">RoundTrip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2025-04-25 00:00:00</field>
+		<field name="returnDate">2025-04-29 00:00:00</field>
+		<field name="address">US</field>
+		<field name="phone">2019696148</field>
+		<field name="email">keybandz3@gmail.com</field>
+		<field name="totalAmount">410</field>
+		<field name="status">6</field>
+		<field name="work_status">pending</field>
+		<field name="source">Web</field>
+		<field name="source_id" xsi:nil="true" />
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2025-02-27 10:29:13</field>
+		<field name="RefundShieldBooking" xsi:nil="true" />
+	</row>
+</resultset>

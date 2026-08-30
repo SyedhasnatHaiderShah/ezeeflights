@@ -1,0 +1,664 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM worldrix_ezeecrm.tbl_review
+LIMIT 0, 50
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="id">1</field>
+		<field name="name">Emma</field>
+		<field name="email">jubair@ezeeflights.com</field>
+		<field name="message">On our milestone tenth wedding anniversary, we wanted to elevate the occasion with a journey to Paris, a city long cherished in our dreams. Utilising Ezee Flight&#39;s tailored search filters, we effortlessly discovered flights perfectly aligned with our budget and itinerary. As we meandered along the enchanting Seine River, entwined hand in hand, the realisation dawned upon us: Ezee Flight had played a pivotal role in crafting an indelible and cherished chapter in our lives, making our anniversary truly unforgettable.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-02-06 05:28:28</field>
+	</row>
+
+	<row>
+		<field name="id">2</field>
+		<field name="name">Adison</field>
+		<field name="email">jubair@ezeeflights.com</field>
+		<field name="message">My Friend Sarah hadn&#39;t seen her family in years due to living abroad. Determined to surprise them for her mother&#39;s birthday, she needed a last-minute flight. With Ezee Flight&#39;s user-friendly interface, she quickly found an affordable ticket. The joy on her family&#39;s faces when she walked through the door was priceless, all made possible by Ezee Flight&#39;s swift booking process.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-02-06 05:37:55</field>
+	</row>
+
+	<row>
+		<field name="id">3</field>
+		<field name="name">Alex</field>
+		<field name="email">jubair@ezeeflights.com</field>
+		<field name="message">My friends and I were feeling spontaneous and decided to plan a last-minute getaway to explore a new city. With EZee Flight&#39;s flexible booking options and extensive flight choices, they were able to snag affordable tickets to their desired destination. Our adventure was filled with laughter, new experiences, and unforgettable memories, all thanks to the convenience of booking with Ezee Flight.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-02-06 05:53:52</field>
+	</row>
+
+	<row>
+		<field name="id">4</field>
+		<field name="name">Mighel</field>
+		<field name="email">jubair@ezeeflights.com</field>
+		<field name="message">I am a busy executive, and needed to attend an important conference on short notice.
+                                        Juggling multiple tasks, I didn&#39;t have time to waste on complicated booking processes.
+                                        Ezee Flight&#39;s efficient booking system allowed her to secure her flights swiftly,
+                                        leaving her more time to prepare for her presentation. Thanks to Ezee Flight, she
+                                        arrived at the conference refreshed and ready to impress.</field>
+		<field name="ranking_star">3</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-02-07 07:42:47</field>
+	</row>
+
+	<row>
+		<field name="id">7</field>
+		<field name="name">Mark. H</field>
+		<field name="email">mark@gmail.com</field>
+		<field name="message">Used Ezee Flights booked through TravelHeights for long haul flight tickets. Alma helped us find convenient flight times on the dates we wanted. Received e-tickets after a short delay over a bank holiday weekend, and all seems to be in order with the airline</field>
+		<field name="ranking_star">4</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2023-10-19 07:13:58</field>
+	</row>
+
+	<row>
+		<field name="id">8</field>
+		<field name="name">Shirin</field>
+		<field name="email">jubair@ezeeflights.com</field>
+		<field name="message">Highly recommended!
+Highly recommended!! Pablo was professional, friendly and got us an amazing deal saving me hundreds of dollars! E-tickets came in less than 48 hours!! Thanks to Pablo, our trip to Cabo for a wedding didn&#39;t end up costing us an arm and a leg. He gave the best price, for the exact day and time of travel while other agents were asking us to move our trip around. I was hesitant at first too based on the reviews but Ezee Flights is a legitimate company. I will be coming back again for sure!!</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-02-07 03:24:48</field>
+	</row>
+
+	<row>
+		<field name="id">9</field>
+		<field name="name">Ranjit Kaur</field>
+		<field name="email">ranjit@gmail.com</field>
+		<field name="message">Rachel from Ezee Flight AMAZING!
+Rachel was super helpful and really helped me to book the alternative flights in the time of distress due to our original Airline being cancelled.
+
+Rachel was very reliable, helpful and answered all my calls when I was very nervous. She made me feel at ease and calm. I was recommend booking with Ezee Flights again and strongly ask for Rachel for future flight bookings.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">GB</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-02-05 07:47:37</field>
+	</row>
+
+	<row>
+		<field name="id">10</field>
+		<field name="name">Karen Almanzar</field>
+		<field name="email">KarenAlmanzar@gmail.com</field>
+		<field name="message">Mr. Cruz the best!!!
+Mr. Cruz was excellent in this new experience for me. Cruz help myself quickly and professionally to choose the best flight for me and my infant daughter. I will recommend it with my eyes closed, to my family and close friends. THANK YOU CRUZ!</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-02-08 07:54:05</field>
+	</row>
+
+	<row>
+		<field name="id">11</field>
+		<field name="name">Rosilia Mesa</field>
+		<field name="email">RosiliaMesa@gmail.com</field>
+		<field name="message">Excelente
+My name is.Rosilia mesa Excelente my experiencia everything Washington very punctual on time.l World reco..mienda it to anyone</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2023-12-27 07:56:08</field>
+	</row>
+
+	<row>
+		<field name="id">12</field>
+		<field name="name">Emily R.</field>
+		<field name="email">EmilyR@gmail.com</field>
+		<field name="message">Saved money AND had a great experience with the employees!
+The tickets were cheaper than what I wouldâ€™ve paid on the airlineâ€™s website, and the associate I spoke with was very nice. She confirmed all my information was correct and sent me my ticket confirmation within 24 hours.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-01-30 07:58:24</field>
+	</row>
+
+	<row>
+		<field name="id">13</field>
+		<field name="name"> moore tara</field>
+		<field name="email">mooretara@gmail.com</field>
+		<field name="message">Antonio is the Best
+We have been traveling for years to Aruba and have always had a wonderful experience purchasing flights with Antonio, Flights to Aruba out of Newark NJ over spring break are usually $1500 and Antonio ALWAYS finds us the cheapest flights on the best airlines. We use United and last few years Jet Bue which have both been wonderful. I highly recommend Antonio for your travel services. We used him for 17 tickets multiple timesâ€¦.No hassle and very pleasant to work with! We will always use Antonio for future vacations</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-01-08 08:03:10</field>
+	</row>
+
+	<row>
+		<field name="id">14</field>
+		<field name="name">Emmanuel Obu</field>
+		<field name="email">EmmanuelObu@gmail.com</field>
+		<field name="message">I don&#39;t usually write reviews but Iâ€¦
+I don&#39;t usually write reviews but I must do this to let others know that this company is legit. I had such a mix feelings about purchasing my tickets with them based on all the bad reviews I read. However, Antonio assured me that everything will be just fine. He did such a great job and all the things he told me manifested and I was very happy. I got my e-Tickets and confirmation number within 24 hours of making payment. I will be using Ezee Flights for all my travel needs henceforth. Thank you again Antonio for saving me a lot of money on this trip.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-01-26 08:04:45</field>
+	</row>
+
+	<row>
+		<field name="id">15</field>
+		<field name="name">Rosalia Henriquez</field>
+		<field name="email">RosaliaHenriquez@gmail.com</field>
+		<field name="message">I have never purchased tickets throughâ€¦
+I have never purchased tickets through them so I was a little skeptical but Miguel was so supportive and helped me through the entire process. His guidance and patience is very much appreciated!</field>
+		<field name="ranking_star">5</field>
+		<field name="country">DO</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-01-30 08:10:11</field>
+	</row>
+
+	<row>
+		<field name="id">16</field>
+		<field name="name">Richard Carter</field>
+		<field name="email">RichardCarter@gmail.com</field>
+		<field name="message">First time buying tickets from a vendor.
+First time buying tickets from a vendor and was nervous. I had to wait a bit to get the e-tickets, but early the next morning all my tickets arrived VIA email and it was about 20% cheaper than buying directly with the airline (think $300 savings).
+
+I was able to email and chat as I had little to no access to my phone, so multi-modal conversations helped greatly. Will definitely be using this service in the future!</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-01-23 08:14:06</field>
+	</row>
+
+	<row>
+		<field name="id">17</field>
+		<field name="name">JennC</field>
+		<field name="email">JennC@gmail.com</field>
+		<field name="message">Happy new customer!
+My friend had been using Ezee flights for years,
+I donâ€™t know what took me so long to also connect with them. What a pleasant experience booking flights. Our rep was very patient as we navigated different dates.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-01-25 08:18:52</field>
+	</row>
+
+	<row>
+		<field name="id">18</field>
+		<field name="name">Julie Zacarias</field>
+		<field name="email">JulieZacarias@gmail.com</field>
+		<field name="message">Great Experience
+I had a great experience with Ezee Flights. Having been my first time using them, I was a bit nervous when I realized I had to wait for airline confirmation, but Daxton called me right away and even texted when my reception was not working for me. He followed up as soon as he could to confirm everything looked great on my end. I will use them again!</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-01-17 08:23:12</field>
+	</row>
+
+	<row>
+		<field name="id">22</field>
+		<field name="name">W C KAMINSKI</field>
+		<field name="email">wckaminski@gamil.com</field>
+		<field name="message">JOSE RODRIGUEZ
+Your representative, Jose Rodriguez is very pleasant and fantastic at his job. He put together airfare for us at a great rate. His correspondence was complete and professional. Will recommend him to my friends and others whenever they need to book a flight.
+
+Date of experience: May 17, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-05-17 12:26:03</field>
+	</row>
+
+	<row>
+		<field name="id">23</field>
+		<field name="name">Harrinarine Chattergoon</field>
+		<field name="email">harrinarinechattergoon@gmail.com</field>
+		<field name="message">Airline tickets
+Mr Daxton was very helpful. I was getting a hard time processing the payment and he was so patient with me until I finished. I really appreciate his patience.
+
+Date of experience: May 21, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-05-21 08:33:46</field>
+	</row>
+
+	<row>
+		<field name="id">24</field>
+		<field name="name">Huiling Lisa Chan</field>
+		<field name="email">huilingchan@gmail.com</field>
+		<field name="message">Don’t hesitate, it’s legit!
+My friend referred me to Miguel but I was hesitant. However, it turned out to be a great choice booking my flights through him. He answered all my questions and was on top of it! He made the process really easy. Best of all we saved more than 2x the cost if I were to book directly with the airlines. Miguel also helped me with adding my precheck info to all 6 tickets I purchased. I got my e-ticket the very next morning after payment. I will definitely use Miguel on all my future travels!
+
+Date of experience: May 19, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-05-19 02:35:36</field>
+	</row>
+
+	<row>
+		<field name="id">25</field>
+		<field name="name">Bear Country</field>
+		<field name="email">Bearcountry224@gmail.com</field>
+		<field name="message">Miguel saved our Cabos annual family…
+Miguel saved our Cabos annual family vacation! He helped us secured flights at the last minute at great pricing. He was patient and responsive throughout the process.
+
+Date of experience: May 20, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-05-22 13:38:02</field>
+	</row>
+
+	<row>
+		<field name="id">26</field>
+		<field name="name">Shafiga Saeed</field>
+		<field name="email">shafigaSaeed234@gmail.com</field>
+		<field name="message">Smooth and easy experience with the best customer service and deal!
+Kenton was amazing. He answered all my questions, all my concerns and assured me, to get the best deal and walked to through every step. And even reassured i will receive my tickets in less than 24hrs.
+I was skeptical at first, but turns out to be the BEST DEAL i ever received and saved over 2k if i had bought the tickets elsewhere.
+Thank you Kenton for the amazing customer service and the BEST deal!!
+
+Date of experience: May 21, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-05-23 12:22:39</field>
+	</row>
+
+	<row>
+		<field name="id">27</field>
+		<field name="name">J P</field>
+		<field name="email">jp2455@gmail.com</field>
+		<field name="message">The costumer service rep was very…helpful
+The costumer service rep was very helpful of my needs with the dates and the time I was looking for . He was patient with holding on the phone for additional information and very detailed giving me the flight information and sending it to my email . I would use there service again in the near future.
+
+Date of experience: May 23, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-05-23 13:58:11</field>
+	</row>
+
+	<row>
+		<field name="id">28</field>
+		<field name="name">Erica Torres</field>
+		<field name="email">ericatorres45732@gmail.com </field>
+		<field name="message">This is my second time going through…
+This is my second time going through Ezee flights and I can't complain. They got my tickets right away with an amazing deal even though I was a little bit difficult of the person. Gabriel was amazing the first time he deal with me and the second time even better!!! I will recommend him to my people for future trips a 100.
+
+Date of experience: May 25, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-05-25 13:33:11</field>
+	</row>
+
+	<row>
+		<field name="id">29</field>
+		<field name="name">Tiffany Rodriguez</field>
+		<field name="email">tiffanyrodriguez3467@gmail.com</field>
+		<field name="message">This is my first time using Ezee…
+This is my first time using Ezee flights and I can honestly say it was a great experience your representative Gabriel is very helpful I was having a hard time processing my payment and he was so patient with me until I finished. I really appreciate his patience and all his help. Thank you Gabriel your awesome
+
+Date of experience: May 29, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-05-29 12:45:23</field>
+	</row>
+
+	<row>
+		<field name="id">30</field>
+		<field name="name">Ann Moskowitz Frisch</field>
+		<field name="email">AnnMoskowitzFrisch@gmail.com</field>
+		<field name="message">Flights to Cancun over presidents week
+Called Martin at ezee flights after seeing the company advertised. He promptly found me the 10 flights I was interested in at a tremendous saving from the airline site. Received my e tickets the following day and promptly picked my seats from the jet blue site. This was a real find. Will definitely use them again!</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-10-05 14:15:20</field>
+	</row>
+
+	<row>
+		<field name="id">31</field>
+		<field name="name">Heather Hutchinson</field>
+		<field name="email">HeatherHutchinson@gmail.com</field>
+		<field name="message">Helpful and efficient
+Thank you Remus for all your help in finding the right flight for me. Your patience, kindness and efficiency were first class. Thank you for taking me through the process of booking so well. Excellent service, thank you.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">GB</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-09-07 09:15:20</field>
+	</row>
+
+	<row>
+		<field name="id">32</field>
+		<field name="name">Sylvia</field>
+		<field name="email">Sylvia325@gmail.com</field>
+		<field name="message">Booking made Easy!
+Kenton helped me booked my tickets in an efficient manner. He was patient as I needed to modify dates, and I feel I got a great price for the ticket I needed: round trip, direct flight. He told me the fees including taxes, so there were no surprises. Third time I have used Ezee tickets, and I am very happy.
+                                                                                                                       Date of experience: September 10, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-09-12 10:35:20</field>
+	</row>
+
+	<row>
+		<field name="id">33</field>
+		<field name="name">Citius</field>
+		<field name="email">Citius@gmail.com</field>
+		<field name="message">Super happy with the end results.
+Price was so good, we were worried it was too good to be true, but we received all 5 tickets as expected and without hassle (within 20 hours) and for the price stated. They had told us we would receive them between 3 and 24 hours from purchase. Verified with Alaska Airlines this morning, and all was good. All 5 seats are grouped together in the same row. I am super happy Daxton from Ezee Flights and with the end results.
+
+Date of experience: September 07, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-09-15 11:42:20</field>
+	</row>
+
+	<row>
+		<field name="id">34</field>
+		<field name="name">Blossom</field>
+		<field name="email">Blossom@gmail.com</field>
+		<field name="message">To be honest- Gabriel provided a truthful, excellent customer service all through
+To be honest, I was a bit sceptical as my flight costs a very high amount which I made payments for instalmentally.
+
+I asked a lot of questions from Gabriel who attended to me , wow! he was an excellent person.
+
+Date of experience: September 27, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">GB</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-09-28 01:42:20</field>
+	</row>
+
+	<row>
+		<field name="id">35</field>
+		<field name="name">Bryce Alvarez</field>
+		<field name="email">BryceAlvarez@gmail.com</field>
+		<field name="message">Rated 5 out of 5 stars
+6 days ago
+It is legit with good price
+At first, I was a bit doubtful, but I called their number to book a flight and received confirmation the day after. Nick helped me a lot and was really patient.
+
+Date of experience: October 03, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-10-04 14:42:20</field>
+	</row>
+
+	<row>
+		<field name="id">36</field>
+		<field name="name">Wayne</field>
+		<field name="email">Wayne783@gmail.com</field>
+		<field name="message">I just want to say a big thank you to…
+I just want to say a big thank you to Elena for helping me booking my ticket on the 3october and by the 4 my reservation has been completed and all set thank u so much
+
+Date of experience: October 03, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">JM</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-10-05 16:06:16</field>
+	</row>
+
+	<row>
+		<field name="id">37</field>
+		<field name="name">
+Selvi Srini</field>
+		<field name="email">
+SelviSrini774@gmail.com</field>
+		<field name="message">Martin was reachable immediately and…
+Martin was reachable immediately and very care service he gave to all our 4 ticket. He is the best
+
+Date of experience: October 05, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-10-06 17:06:16</field>
+	</row>
+
+	<row>
+		<field name="id">38</field>
+		<field name="name">Mr . Hukam Chand Nainawat</field>
+		<field name="email">HukamChandNainawat423@gmail.com</field>
+		<field name="message">It was first time to book flight…
+It was first time to book flight through Ezee Flights and it wasn’t easy. But Remus helped me through out. I got my flight booked and the ticket on time. Thanks. I’ll recommend Ezee Flights if you are looking for reasonable flight.
+
+Date of experience: September 20, 2024</field>
+		<field name="ranking_star">4</field>
+		<field name="country">GB</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-10-05 13:15:02</field>
+	</row>
+
+	<row>
+		<field name="id">39</field>
+		<field name="name">Niry Martinez</field>
+		<field name="email">NiryMartinez@gmail.com</field>
+		<field name="message">nice
+yes, kenton take care me we buy a fly ticket he is very nice guy he is help full to complete the purchase. Im very happy to deal with your guy
+
+Date of experience: October 05, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-10-07 18:11:06</field>
+	</row>
+
+	<row>
+		<field name="id">40</field>
+		<field name="name">Jaime Calle</field>
+		<field name="email">JaimeCalle@gmail.com</field>
+		<field name="message">Kenton was so patient and helpful…
+Kenton was so patient and helpful getting me the best price for my flight. I would definitely use him again for my future trips.
+
+Date of experience: October 07, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-10-08 19:14:09</field>
+	</row>
+
+	<row>
+		<field name="id">41</field>
+		<field name="name">Joan Ojeda</field>
+		<field name="email">JoanOjeda@gmail.com</field>
+		<field name="message">Really appreciate Daxton’s support
+Really appreciate Daxton’s support. He assisted us quickly in booking a last minute flight!
+
+Date of experience: October 09, 2024</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-10-09 03:18:51</field>
+	</row>
+
+	<row>
+		<field name="id">42</field>
+		<field name="name">Ann Moskowitz Frisch</field>
+		<field name="email">AnnMoskowitzFrisch@gmail.com</field>
+		<field name="message">Great fares during a holiday week
+Great fares to Cancun over President’s week 2025. Wasn’t sure if it was a scam but in less than 24 hours got our 10 tickets confirmed and added to our trips in our jet blue app. Would definitely use them again. Saved an enormous amount of money using this company.
+
+Date of experience: October 05, 2024</field>
+		<field name="ranking_star">4</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-10-05 18:24:06</field>
+	</row>
+
+	<row>
+		<field name="id">43</field>
+		<field name="name">Maria</field>
+		<field name="email">María7474@gmail.com</field>
+		<field name="message">Great experience with Fiona
+Fiona helped us and was wonderful. We got our ticket with no issues under the promised price and dates and she was really kind and easy to communicate with. Would definitely work with her again
+
+Date of experience: October 08, 2024
+
+</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">1</field>
+		<field name="created_at">2024-10-09 19:24:06</field>
+	</row>
+
+	<row>
+		<field name="id">44</field>
+		<field name="name">Erica Butler Laster </field>
+		<field name="email">Thadsgirl.eb.eb@gmail.com</field>
+		<field name="message">This company is a fraud. I attempted to book a flight to Jamaica I asked If I could use 2 different cards one I paid 399.00 when attempting to use the other card it kept declining so I was told to wait for the next day the agent name was Antonio when trying to process the payment again on my card as well as my friend it still declined. We tried several options even PayPal, zelle cashapp nothing worked I said well nothing is working what&#39;s gonna happen to my 399.00 he said it will get refunded to my card this happened the end of Aug and I still haven&#39;t gotten my money back. I am now trying to dispute it with my bank DO NOT USE THEM THEY ARE A FRAUD I gave a 1 because I had to in order to post this they deserve a zero</field>
+		<field name="ranking_star">1</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-10-30 12:38:51</field>
+	</row>
+
+	<row>
+		<field name="id">45</field>
+		<field name="name">Jess</field>
+		<field name="email">jessicavega1017@gmail.com</field>
+		<field name="message">They are NOT to be trusted. They were supposed to issue me a refund and have yet to do so. The agent has been dodging my calls, emails and texts. Their customer service has also not been helpful. If I could give 0 stars I would.</field>
+		<field name="ranking_star">1</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-11-05 01:39:34</field>
+	</row>
+
+	<row>
+		<field name="id">46</field>
+		<field name="name">greg</field>
+		<field name="email">greglevine74@yahoo.com</field>
+		<field name="message">SCAM SITE, BEWARE!  checked fares from fll to mde 1/24-1/31, gave me an insanely cheap flight on delta nonstop.  only problem is delta doesnt go nonstop there, i checked on their website.  i talked to customer support for this site and they said its sold out, but somehow it showed me prices and was ready to take my money.  sorry, its not sold out, it just never existed.  only jetblue and spirit go nonstop there.  big scam they are doing</field>
+		<field name="ranking_star">1</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2024-12-28 05:28:05</field>
+	</row>
+
+	<row>
+		<field name="id">47</field>
+		<field name="name">Veronica lopez</field>
+		<field name="email">Veronicalopez295@gmail.com</field>
+		<field name="message">It was great service</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2025-01-07 19:11:10</field>
+	</row>
+
+	<row>
+		<field name="id">48</field>
+		<field name="name">Danny Mora</field>
+		<field name="email">Dannymora118@gmail.com</field>
+		<field name="message">Thank you for the excellent service.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2025-01-11 20:32:56</field>
+	</row>
+
+	<row>
+		<field name="id">49</field>
+		<field name="name">Marzena Sherry</field>
+		<field name="email">Marzenasherry5337@gmail.com</field>
+		<field name="message">Very trusted and helpful service</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2025-01-19 22:10:17</field>
+	</row>
+
+	<row>
+		<field name="id">50</field>
+		<field name="name">Marlon Martinez</field>
+		<field name="email">Marlonmartinez478@gmail.com</field>
+		<field name="message">Muchas gracias Por su exelente ayuda que de satisfecho</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2025-01-11 23:46:48</field>
+	</row>
+
+	<row>
+		<field name="id">51</field>
+		<field name="name">Estephania Vanias</field>
+		<field name="email">Estephaniavanias466@gmail.com</field>
+		<field name="message">Denver was great. Very helpful booking my trip. Will use him again</field>
+		<field name="ranking_star">5</field>
+		<field name="country">DO</field>
+		<field name="status">0</field>
+		<field name="created_at">2025-01-16 18:22:41</field>
+	</row>
+
+	<row>
+		<field name="id">52</field>
+		<field name="name">Faith Betera</field>
+		<field name="email">Faithbetera258@gmail.com</field>
+		<field name="message">Brilliant staff
+They made it easy to get a last minute ticket when I had been stranded all day without any progress.</field>
+		<field name="ranking_star">5</field>
+		<field name="country">GB</field>
+		<field name="status">0</field>
+		<field name="created_at">2025-01-08 15:24:13</field>
+	</row>
+
+	<row>
+		<field name="id">53</field>
+		<field name="name">Yeni Aguirre</field>
+		<field name="email">Yeniaguirre722@gmail.com</field>
+		<field name="message">1000 thanks to Martin Clark & Ezee flights
+On August 2024, I was looking for 6 tickets to travel with my Family to El Salvador. We were planning to spend Christmas and New Year there for the 1st time in almost 30 years. We were so exited but the prices were to high the cheapest ticket we had found were around $1200 per person. We were so worried because it was a lot of money that we could spend with the family. We came across with Ezee Flights and Mr.Martin Clark was so kind , professional and patience. I had so many questions, and to be honest I was skeptical too. My tickets were $663.00 (too good to be true) and I couldn’t pay with my Credit card I called the bank and he was with me on the phone, then bank had already authorized transaction but it was still declined- Mr. Martin helped me to open a PayPal account to pay the tickets. Since, then I keep calling Mr Martin and he always responded nice and polite. When he was unavailable he would returned my calls later. I was so worried thinking that could have been a scam because people would say that the cost was too low in considering the Hollidays. Anyways, Mr. Martin was a blessing for all of us because every time I called him with my doubts, he was very peaceful and professional he resolve all my problems and answered all type of concerns I had. He helped me with my baggage all included. He helped me with info about my kids traveling(minors) he helped with all my concerns about documentation information. He helped me with the confirmation of the tickets with the Airline-Avianca, etc… 1000 THANKS to Mr. Martin, I had so much fun and without any worries I came back on Jan 4, 2025 and I blessed Mr. Martin (our angel) I highly recommend Ezee flights!! Great service, great personal!!! God bless them all!!
+
+Date of experience: January 04, 2025</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2025-01-07 18:27:13</field>
+	</row>
+
+	<row>
+		<field name="id">54</field>
+		<field name="name">Robert Venn</field>
+		<field name="email">Robertvenn437@gmail.com</field>
+		<field name="message">Thankyou Jose and Remus
+
+Thankyou Jose and Remus for an efficient and helpful response! I also recieved my e-tickets within 24 hours!
+
+
+Date of experience: January 12, 2025</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2025-02-12 18:33:42</field>
+	</row>
+
+	<row>
+		<field name="id">55</field>
+		<field name="name">Megan</field>
+		<field name="email">Megan5289@gmail.com</field>
+		<field name="message">If you want a deal… look here
+
+
+I have worked with Steve for two years now and Flying is expensive with a family of 6 & Steve is always able to get me the best deal around for flights. He is patient and makes everything easy.
+
+
+
+Date of experience: January 08, 2025</field>
+		<field name="ranking_star">5</field>
+		<field name="country">US</field>
+		<field name="status">0</field>
+		<field name="created_at">2025-01-10 19:09:39</field>
+	</row>
+</resultset>

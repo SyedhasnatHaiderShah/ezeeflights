@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM worldrix_ezeecrm.tbl_flightdetailshtml where customerId='29159'
+LIMIT 0, 50
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="id">29028</field>
+		<field name="customerId">29159</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24"  /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 30, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:350px; font-size:14px; text-align:right; font-weight:bold;">Duration: 8h 25m</td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-289<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">19:45 LHE</span><br />
+      <span style="font-size:9px;">Jun 30 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">22:05 AUH</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 AUH</span>
+    </td>
+    <td style="width:350px; font-size:12px;text-align:right;">.<br />
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" /><span>Economy</span>
+    </td>
+  </tr><tr><td style="text-align:center;font-size:12px; border-top:1px dashed #bbb; border-bottom:1px dashed #bbb;" colspan="5"> Stop-Over: 3 Hrs. 5 Mins CHANGE OF PLANE REQUIRED.</td></tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-5412<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">01:10 AUH</span><br />
+      <span style="font-size:9px;">Jul 1 AUH</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">03:10 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 1 DXB</span>
+    </td>
+    <td style="width:350px; font-size:12px;text-align:right;">.<br />
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" /><span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights" xsi:nil="true" />
+	</row>
+</resultset>

@@ -1,14 +1,13 @@
-"use client"
+"use client";
 
-import React, { useRef, useState, useEffect } from "react"
-import { cn } from "@/lib/utils"
+import React, { useRef, useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
   minHeight?: string;
-  /** How far before the element enters the viewport to START RENDERING.
-   *  Larger = earlier mount = no stall when user arrives. Default: 800px */
+  /** @deprecated rootMargin no longer used for mounting — kept for API compat */
   rootMargin?: string;
 }
 
@@ -18,68 +17,60 @@ export function ScrollReveal({
   minHeight = "400px",
   rootMargin = "800px",
 }: ScrollRevealProps) {
-  // `isMounted`  → controls whether children are in the DOM (triggers dynamic() load)
-  // `isAnimated` → controls the CSS fade-in (fires when element nears the viewport)
-  const [isMounted, setIsMounted] = useState(false)
-  const [isAnimated, setIsAnimated] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  // Start with hasMounted = true so Server-Side Rendering (SSR) compiles the layout
+  // for SEO crawlers. On client mount, if it's below the fold, we unmount it.
+  const [hasMounted, setHasMounted] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
+    const el = ref.current;
+    if (!el) return;
 
-    // Already within trigger range on mount (e.g. refreshed mid-page)
-    const rect = el.getBoundingClientRect()
-    if (rect.top < window.innerHeight + parseInt(rootMargin)) {
-      setIsMounted(true)
-      requestAnimationFrame(() => setIsAnimated(true))
-      return
+    const rect = el.getBoundingClientRect();
+
+    // If already in or near the viewport: keep visible, mark as animated
+    if (rect.top < window.innerHeight + 100) {
+      setIsVisible(true);
+      setHasAnimated(true);
+      setHasMounted(true);
+      return;
     }
 
-    // Observer 1: mount children early (well before user arrives)
-    // This kicks off the dynamic() import while the section is still off-screen
-    const mountObserver = new IntersectionObserver(
+    // Element is below the fold — hide it and unmount it to save client CPU/memory
+    setIsVisible(false);
+    setHasMounted(false);
+
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsMounted(true)
-          mountObserver.disconnect()
+          setIsVisible(true);
+          setHasAnimated(true);
+          setHasMounted(true);
+          observer.disconnect();
         }
       },
-      { rootMargin: `0px 0px ${rootMargin} 0px`, threshold: 0 }
-    )
+      { rootMargin: "0px 0px 150px 0px", threshold: 0 },
+    );
 
-    // Observer 2: trigger the animation only when truly near the viewport
-    // Preserves your original smooth fade-in feel
-    const animateObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsAnimated(true)
-          animateObserver.disconnect()
-        }
-      },
-      { rootMargin: "0px 0px 100px 0px", threshold: 0.01 }
-    )
-
-    mountObserver.observe(el)
-    animateObserver.observe(el)
-
-    return () => {
-      mountObserver.disconnect()
-      animateObserver.disconnect()
-    }
-  }, [rootMargin])
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div
       ref={ref}
-      style={!isMounted ? { minHeight, contain: "layout style" } : undefined}
+      style={!hasMounted ? { minHeight } : undefined}
       className={cn(
-        "transition-all duration-1000 ease-out will-change-[opacity,transform]",
-        isMounted && (isAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"),
-        className
+        // Only apply transition when we have something to animate
+        !hasAnimated && "transition-all duration-700 ease-out",
+        // Default: fully visible. Only invisible while waiting for scroll-in
+        !isVisible ? "opacity-0 translate-y-6" : "opacity-100 translate-y-0",
+        className,
       )}
     >
-      {isMounted ? children : null}
+      {hasMounted ? children : null}
     </div>
-  )
+  );
 }

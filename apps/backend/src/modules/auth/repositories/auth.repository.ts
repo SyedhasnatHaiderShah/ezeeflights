@@ -1,5 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { PostgresClient } from '../../../database/postgres.client';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { randomUUID } from "crypto";
+import { IsNull, MoreThan, Repository } from "typeorm";
+import { User, UserRole } from "../../user/entities/user.entity";
+import {
+  consumeOAuthExchangeCode,
+  putOAuthExchangeCode,
+} from "../utils/oauth-exchange-code.store";
 
 export interface UserWithPasswordRow {
   id: string;
@@ -21,23 +28,61 @@ export interface TwoFactorRow {
   backupCodesJson: string[];
 }
 
+const CUSTOMER_PERMISSIONS = [
+  "trips.read",
+  "trips.write",
+  "bookings.read",
+  "bookings.write",
+];
+
+const ADMIN_PERMISSIONS = [...CUSTOMER_PERMISSIONS, "admin.users"];
+
+function parseBackupCodes(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value as string[];
+  }
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value) as string[];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
 @Injectable()
 export class AuthRepository {
-  constructor(private readonly db: PostgresClient) {}
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepo: Repository<User>,
+  ) {}
 
-  async findUserWithPasswordByEmail(email: string): Promise<UserWithPasswordRow | null> {
-    return this.db.queryOne<UserWithPasswordRow>(
-      `SELECT id, email, password_hash as "passwordHash"
-       FROM users WHERE lower(email) = lower($1) LIMIT 1`,
-      [email],
-    );
+  async findUserWithPasswordByEmail(
+    email: string,
+  ): Promise<UserWithPasswordRow | null> {
+    const user = await this.userRepo
+      .createQueryBuilder("u")
+      .where("LOWER(u.email) = LOWER(:email)", { email })
+      .getOne();
+    if (!user) {
+      return null;
+    }
+    return {
+      id: user.id,
+      email: user.email,
+      passwordHash: user.passwordHash,
+    };
   }
 
-  async findUserByEmail(email: string): Promise<{ id: string; email: string } | null> {
-    return this.db.queryOne<{ id: string; email: string }>(
-      'SELECT id, email FROM users WHERE lower(email) = lower($1) LIMIT 1',
-      [email],
-    );
+  async findUserByEmail(
+    email: string,
+  ): Promise<{ id: string; email: string } | null> {
+    const user = await this.userRepo
+      .createQueryBuilder("u")
+      .where("LOWER(u.email) = LOWER(:email)", { email })
+      .getOne();
+    return user ? { id: user.id, email: user.email } : null;
   }
 
   async findUserById(id: string): Promise<{
@@ -47,18 +92,21 @@ export class AuthRepository {
     lastName: string | null;
     preferredCurrency: string;
     role: string;
+    phone: string | null;
   } | null> {
-    return this.db.queryOne(
-      `SELECT
-         id,
-         email,
-         first_name as "firstName",
-         last_name as "lastName",
-         preferred_currency as "preferredCurrency",
-         role
-       FROM users WHERE id = $1 LIMIT 1`,
-      [id],
-    );
+    const user = await this.userRepo.findOne({ where: { id } });
+    if (!user) {
+      return null;
+    }
+    return {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      preferredCurrency: user.preferredCurrency,
+      role: user.role,
+      phone: user.phone,
+    };
   }
 
   async insertUser(params: {
@@ -66,106 +114,113 @@ export class AuthRepository {
     passwordHash: string | null;
     firstName: string | null;
     lastName: string | null;
+    phone?: string | null;
   }): Promise<{ id: string; email: string } | null> {
-    return this.db.queryOne<{ id: string; email: string }>(
-      `INSERT INTO users (email, password_hash, first_name, last_name)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id, email`,
-      [params.email, params.passwordHash, params.firstName, params.lastName],
+    const saved = await this.userRepo.save(
+      this.userRepo.create({
+        id: randomUUID(),
+        email: params.email.trim().toLowerCase(),
+        passwordHash: params.passwordHash,
+        firstName: params.firstName,
+        lastName: params.lastName,
+        phone: params.phone ?? null,
+        role: UserRole.USER,
+      }),
     );
+    return { id: saved.id, email: saved.email };
   }
 
-  async insertOAuthUser(email: string, provider: string): Promise<{ id: string; email: string } | null> {
-    return this.db.queryOne<{ id: string; email: string }>(
-      `INSERT INTO users (email, oauth_provider)
-       VALUES ($1, $2)
-       RETURNING id, email`,
-      [email, provider],
+  async insertOAuthUser(
+    email: string,
+    provider: string,
+  ): Promise<{ id: string; email: string } | null> {
+    const saved = await this.userRepo.save(
+      this.userRepo.create({
+        id: randomUUID(),
+        email: email.trim().toLowerCase(),
+        oauthProvider: provider,
+        passwordHash: null,
+        role: UserRole.USER,
+      }),
     );
+    return { id: saved.id, email: saved.email };
   }
 
   async assignRoleBySlug(userId: string, roleSlug: string): Promise<boolean> {
-    const row = await this.db.queryOne<{ userId: string }>(
-      `INSERT INTO user_roles (user_id, role_id)
-       SELECT $1, r.id FROM roles r WHERE r.slug = $2
-       ON CONFLICT DO NOTHING
-       RETURNING user_id as "userId"`,
-      [userId, roleSlug],
-    );
-    if (row) {
-      return true;
-    }
-    const exists = await this.db.queryOne<{ one: number }>(
-      `SELECT 1 as one FROM user_roles ur
-       JOIN roles r ON r.id = ur.role_id
-       WHERE ur.user_id = $1 AND r.slug = $2`,
-      [userId, roleSlug],
-    );
-    return !!exists;
+    const role =
+      roleSlug === "admin" || roleSlug === "ADMIN"
+        ? UserRole.ADMIN
+        : UserRole.USER;
+    const result = await this.userRepo.update(userId, { role });
+    return (result.affected ?? 0) > 0;
   }
 
   async getRoleSlugsForUser(userId: string): Promise<string[]> {
-    const rows = await this.db.query<{ slug: string }>(
-      `SELECT r.slug
-       FROM user_roles ur
-       JOIN roles r ON r.id = ur.role_id
-       WHERE ur.user_id = $1`,
-      [userId],
-    );
-    if (rows.length > 0) {
-      return rows.map((r) => r.slug);
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+      select: { role: true },
+    });
+    if (user?.role === UserRole.ADMIN) {
+      return ["admin"];
     }
-    const legacy = await this.db.queryOne<{ role: string }>('SELECT role FROM users WHERE id = $1', [userId]);
-    if (legacy?.role === 'ADMIN' || legacy?.role === 'admin') {
-      return ['admin'];
+    if (user?.role === UserRole.SUB_ADMIN) {
+      return ["sub-admin"];
     }
-    return ['customer'];
+    return ["customer"];
   }
 
   async getPermissionSlugsForUser(userId: string): Promise<string[]> {
-    const rows = await this.db.query<{ slug: string }>(
-      `SELECT DISTINCT p.slug
-       FROM user_roles ur
-       JOIN role_permissions rp ON rp.role_id = ur.role_id
-       JOIN permissions p ON p.id = rp.permission_id
-       WHERE ur.user_id = $1`,
-      [userId],
-    );
-    return rows.map((r) => r.slug);
+    const roles = await this.getRoleSlugsForUser(userId);
+    return roles.includes("admin") ? ADMIN_PERMISSIONS : CUSTOMER_PERMISSIONS;
   }
 
   async findOAuthAccount(
     provider: string,
     providerUserId: string,
   ): Promise<{ userId: string } | null> {
-    return this.db.queryOne<{ userId: string }>(
-      `SELECT user_id as "userId" FROM oauth_accounts
-       WHERE provider = $1 AND provider_user_id = $2 LIMIT 1`,
-      [provider, providerUserId],
-    );
+    const user = await this.userRepo.findOne({
+      where: { oauthProvider: provider, oauthProviderUserId: providerUserId },
+      select: { id: true },
+    });
+    return user ? { userId: user.id } : null;
   }
 
-  async tryInsertOAuthAccount(userId: string, provider: string, providerUserId: string): Promise<boolean> {
-    const row = await this.db.queryOne<{ id: string }>(
-      `INSERT INTO oauth_accounts (user_id, provider, provider_user_id)
-       VALUES ($1, $2, $3)
-       ON CONFLICT (provider, provider_user_id) DO NOTHING
-       RETURNING id`,
-      [userId, provider, providerUserId],
-    );
-    return !!row;
+  async tryInsertOAuthAccount(
+    userId: string,
+    provider: string,
+    providerUserId: string,
+  ): Promise<boolean> {
+    const existing = await this.findOAuthAccount(provider, providerUserId);
+    if (existing) {
+      return existing.userId === userId;
+    }
+
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    if (!user) {
+      return false;
+    }
+
+    await this.userRepo.update(userId, {
+      oauthProvider: user.oauthProvider ?? provider,
+      oauthProviderUserId: user.oauthProviderUserId ?? providerUserId,
+    });
+    return true;
   }
 
   async getUserEmailById(id: string): Promise<string | null> {
-    const row = await this.db.queryOne<{ email: string }>('SELECT email FROM users WHERE id = $1', [id]);
-    return row?.email ?? null;
+    const user = await this.userRepo.findOne({
+      where: { id },
+      select: { email: true },
+    });
+    return user?.email ?? null;
   }
 
   async updatePasswordHash(userId: string, passwordHash: string): Promise<void> {
-    await this.db.query(`UPDATE users SET password_hash = $1, updated_at = NOW() WHERE id = $2`, [
-      passwordHash,
-      userId,
-    ]);
+    await this.userRepo.update(userId, { passwordHash });
+  }
+
+  async updateOAuthProvider(userId: string, provider: string): Promise<void> {
+    await this.userRepo.update(userId, { oauthProvider: provider });
   }
 
   async insertRefreshToken(params: {
@@ -175,141 +230,183 @@ export class AuthRepository {
     ipAddress: string | null;
     userAgent: string | null;
   }): Promise<{ id: string } | null> {
-    return this.db.queryOne<{ id: string }>(
-      `INSERT INTO refresh_tokens (user_id, token_hash, expires_at, ip_address, user_agent)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING id`,
-      [params.userId, params.tokenHash, params.expiresAt, params.ipAddress, params.userAgent],
-    );
+    const tokenId = randomUUID();
+    await this.userRepo.update(params.userId, {
+      refreshTokenHash: params.tokenHash,
+      refreshTokenExpiresAt: params.expiresAt,
+      refreshTokenRevokedAt: null,
+    });
+    return { id: tokenId };
   }
 
-  async findActiveRefreshTokenByHash(tokenHash: string): Promise<RefreshTokenRow | null> {
-    return this.db.queryOne<RefreshTokenRow>(
-      `SELECT id, user_id as "userId", expires_at as "expiresAt"
-       FROM refresh_tokens
-       WHERE token_hash = $1 AND revoked_at IS NULL AND expires_at > NOW()
-       LIMIT 1`,
-      [tokenHash],
-    );
+  async findActiveRefreshTokenByHash(
+    tokenHash: string,
+  ): Promise<RefreshTokenRow | null> {
+    const user = await this.userRepo.findOne({
+      where: {
+        refreshTokenHash: tokenHash,
+        refreshTokenRevokedAt: IsNull(),
+        refreshTokenExpiresAt: MoreThan(new Date()),
+      },
+      select: {
+        id: true,
+        refreshTokenExpiresAt: true,
+      },
+    });
+    return user && user.refreshTokenExpiresAt
+      ? {
+          id: user.id,
+          userId: user.id,
+          expiresAt: user.refreshTokenExpiresAt,
+        }
+      : null;
   }
 
-  async revokeRefreshToken(id: string, replacedById: string | null): Promise<void> {
-    await this.db.query(
-      `UPDATE refresh_tokens
-       SET revoked_at = NOW(), replaced_by_id = COALESCE($2, replaced_by_id)
-       WHERE id = $1`,
-      [id, replacedById],
-    );
+  async revokeRefreshToken(
+    id: string,
+    _replacedById: string | null,
+  ): Promise<void> {
+    await this.userRepo.update(id, { refreshTokenRevokedAt: new Date() });
   }
 
   async revokeAllRefreshTokensForUser(userId: string): Promise<void> {
-    await this.db.query(`UPDATE refresh_tokens SET revoked_at = NOW() WHERE user_id = $1 AND revoked_at IS NULL`, [
-      userId,
-    ]);
+    await this.userRepo.update(userId, { refreshTokenRevokedAt: new Date() });
   }
 
   async findTwoFactor(userId: string): Promise<TwoFactorRow | null> {
-    const row = await this.db.queryOne<{
-      userId: string;
-      secretCiphertext: string | null;
-      pendingSecretCiphertext: string | null;
-      enabled: boolean;
-      backupCodesJson: unknown;
-    }>(
-      `SELECT
-         user_id as "userId",
-         secret_ciphertext as "secretCiphertext",
-         pending_secret_ciphertext as "pendingSecretCiphertext",
-         enabled,
-         backup_codes_json as "backupCodesJson"
-       FROM user_two_factor
-       WHERE user_id = $1`,
-      [userId],
-    );
-    if (!row) {
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    if (
+      !user ||
+      (!user.twoFactorEnabled &&
+        !user.twoFactorSecretCiphertext &&
+        !user.twoFactorPendingSecretCiphertext)
+    ) {
       return null;
     }
-    const codes = Array.isArray(row.backupCodesJson)
-      ? (row.backupCodesJson as string[])
-      : typeof row.backupCodesJson === 'string'
-        ? (JSON.parse(row.backupCodesJson) as string[])
-        : [];
     return {
-      userId: row.userId,
-      secretCiphertext: row.secretCiphertext,
-      pendingSecretCiphertext: row.pendingSecretCiphertext,
-      enabled: row.enabled,
-      backupCodesJson: codes,
+      userId: user.id,
+      secretCiphertext: user.twoFactorSecretCiphertext,
+      pendingSecretCiphertext: user.twoFactorPendingSecretCiphertext,
+      enabled: user.twoFactorEnabled,
+      backupCodesJson: parseBackupCodes(user.twoFactorBackupCodes),
     };
   }
 
-  async upsertTwoFactorPending(userId: string, pendingCipher: string): Promise<void> {
-    await this.db.query(
-      `INSERT INTO user_two_factor (user_id, pending_secret_ciphertext, enabled, backup_codes_json)
-       VALUES ($1, $2, false, '[]'::jsonb)
-       ON CONFLICT (user_id) DO UPDATE SET
-         pending_secret_ciphertext = EXCLUDED.pending_secret_ciphertext,
-         updated_at = NOW()`,
-      [userId, pendingCipher],
-    );
+  async upsertTwoFactorPending(
+    userId: string,
+    pendingCipher: string,
+  ): Promise<void> {
+    await this.userRepo.update(userId, {
+      twoFactorPendingSecretCiphertext: pendingCipher,
+      twoFactorEnabled: false,
+      twoFactorBackupCodes: [],
+    });
   }
 
-  async finalizeTwoFactor(userId: string, secretCipher: string, backupHashes: string[]): Promise<void> {
-    await this.db.query(
-      `INSERT INTO user_two_factor (user_id, secret_ciphertext, pending_secret_ciphertext, enabled, backup_codes_json)
-       VALUES ($1, $2, NULL, true, $3::jsonb)
-       ON CONFLICT (user_id) DO UPDATE SET
-         secret_ciphertext = EXCLUDED.secret_ciphertext,
-         pending_secret_ciphertext = NULL,
-         enabled = true,
-         backup_codes_json = EXCLUDED.backup_codes_json,
-         updated_at = NOW()`,
-      [userId, secretCipher, JSON.stringify(backupHashes)],
-    );
+  async finalizeTwoFactor(
+    userId: string,
+    secretCipher: string,
+    backupHashes: string[],
+  ): Promise<void> {
+    await this.userRepo.update(userId, {
+      twoFactorSecretCiphertext: secretCipher,
+      twoFactorPendingSecretCiphertext: null,
+      twoFactorEnabled: true,
+      twoFactorBackupCodes: backupHashes,
+    });
   }
 
   async disableTwoFactor(userId: string): Promise<void> {
-    await this.db.query(
-      `UPDATE user_two_factor
-       SET secret_ciphertext = NULL,
-           pending_secret_ciphertext = NULL,
-           enabled = false,
-           backup_codes_json = '[]'::jsonb,
-           updated_at = NOW()
-       WHERE user_id = $1`,
-      [userId],
-    );
+    await this.userRepo.update(userId, {
+      twoFactorSecretCiphertext: null,
+      twoFactorPendingSecretCiphertext: null,
+      twoFactorEnabled: false,
+      twoFactorBackupCodes: [],
+    });
   }
 
-  async removeBackupCode(userId: string, remainingHashes: string[]): Promise<void> {
-    await this.db.query(
-      `UPDATE user_two_factor SET backup_codes_json = $2::jsonb, updated_at = NOW() WHERE user_id = $1`,
-      [userId, JSON.stringify(remainingHashes)],
-    );
+  async removeBackupCode(
+    userId: string,
+    remainingHashes: string[],
+  ): Promise<void> {
+    await this.userRepo.update(userId, {
+      twoFactorBackupCodes: remainingHashes,
+    });
   }
 
   async isTwoFactorEnabled(userId: string): Promise<boolean> {
-    const row = await this.db.queryOne<{ enabled: boolean }>(
-      'SELECT enabled FROM user_two_factor WHERE user_id = $1',
-      [userId],
-    );
-    return row?.enabled === true;
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+      select: { twoFactorEnabled: true },
+    });
+    return user?.twoFactorEnabled === true;
   }
 
-  async insertOAuthExchangeCode(params: { code: string; userId: string; expiresAt: Date }): Promise<void> {
-    await this.db.query(
-      `INSERT INTO oauth_exchange_codes (code, user_id, expires_at) VALUES ($1, $2, $3)`,
-      [params.code, params.userId, params.expiresAt],
-    );
+  async insertOAuthExchangeCode(params: {
+    code: string;
+    userId: string;
+    expiresAt: Date;
+  }): Promise<void> {
+    putOAuthExchangeCode(params.code, params.userId, params.expiresAt);
   }
 
-  async consumeOAuthExchangeCode(code: string): Promise<{ userId: string } | null> {
-    return this.db.queryOne<{ userId: string }>(
-      `UPDATE oauth_exchange_codes
-       SET consumed_at = NOW()
-       WHERE code = $1 AND consumed_at IS NULL AND expires_at > NOW()
-       RETURNING user_id as "userId"`,
-      [code],
+  async consumeOAuthExchangeCode(
+    code: string,
+  ): Promise<{ userId: string } | null> {
+    return consumeOAuthExchangeCode(code);
+  }
+
+  async insertPasswordResetOtp(
+    userId: string,
+    otpHash: string,
+    expiresAt: Date,
+  ): Promise<void> {
+    await this.userRepo.update(userId, {
+      passwordResetOtpId: randomUUID(),
+      passwordResetOtpHash: otpHash,
+      passwordResetOtpExpiresAt: expiresAt,
+    });
+  }
+
+  async findActivePasswordResetOtp(
+    userId: string,
+    otpHash: string,
+  ): Promise<{ id: string } | null> {
+    const user = await this.userRepo.findOne({
+      where: {
+        id: userId,
+        passwordResetOtpHash: otpHash,
+        passwordResetOtpExpiresAt: MoreThan(new Date()),
+      },
+      select: { passwordResetOtpId: true },
+    });
+    return user?.passwordResetOtpId ? { id: user.passwordResetOtpId } : null;
+  }
+
+  async consumePasswordResetOtp(id: string): Promise<boolean> {
+    const result = await this.userRepo.update(
+      { passwordResetOtpId: id },
+      {
+        passwordResetOtpId: null,
+        passwordResetOtpHash: null,
+        passwordResetOtpExpiresAt: null,
+      },
     );
+    return (result.affected ?? 0) > 0;
+  }
+
+  async updatePasswordByEmail(
+    email: string,
+    passwordHash: string,
+  ): Promise<boolean> {
+    const user = await this.userRepo
+      .createQueryBuilder("u")
+      .where("LOWER(u.email) = LOWER(:email)", { email })
+      .getOne();
+    if (!user) {
+      return false;
+    }
+    await this.userRepo.update(user.id, { passwordHash });
+    return true;
   }
 }

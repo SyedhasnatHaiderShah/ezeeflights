@@ -7,6 +7,6 @@ export function useAuthSession() {
   return useQuery({
     queryKey: ['auth-session'],
     queryFn: () => meRequest(),
-    staleTime: 30_000,
+    staleTime: 0,
   });
 }

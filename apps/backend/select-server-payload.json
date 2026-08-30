@@ -1,0 +1,28 @@
+{
+  "id": 0,
+  "searchId": "f669b23f-91bd-4b28-960a-599c3d90b4ae",
+  "tranId": "53bc3de5-2356-4214-b498-e190a3bd9767",
+  "from": "JFK",
+  "to": "PUJ",
+  "depDate": "2026-09-11T00:00:00",
+  "retDate": "2026-09-29T00:00:00",
+  "adult": 1,
+  "child": 1,
+  "infant": 1,
+  "flightWay": 2,
+  "flightClass": 0,
+  "airline": {
+    "id": 0,
+    "code": "",
+    "name": ""
+  },
+  "isDirect": false,
+  "isFlexi": false,
+  "currency": "USD",
+  "siteCode": null,
+  "sourceMedia": null,
+  "isDeepLink": false,
+  "apiKey": null,
+  "preferedAirlines": [],
+  "includePreferedAirlines": false
+}

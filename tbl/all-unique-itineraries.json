@@ -1,0 +1,3230 @@
+[
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5417+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5417 XNB-AUH 2026-07-31T10:20 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T10:20",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5417+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5417 XNB-AUH 2026-07-31T10:20 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T10:20",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5417+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5417 XNB-AUH 2026-07-31T10:20 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T10:20",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5417+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5417 XNB-AUH 2026-07-31T10:20 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T10:20",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5415+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5415 XNB-AUH 2026-07-31T10:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T10:00",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5415+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5415 XNB-AUH 2026-07-31T10:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T10:00",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5415+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5415 XNB-AUH 2026-07-31T10:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T10:00",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5415+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5415 XNB-AUH 2026-07-31T10:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T10:00",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5413+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5413 XNB-AUH 2026-07-31T05:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5413+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5413 XNB-AUH 2026-07-31T05:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5413+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5413 XNB-AUH 2026-07-31T05:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5413+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5413 XNB-AUH 2026-07-31T05:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5411+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5411 XNB-AUH 2026-07-31T03:55 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T03:55",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5411+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5411 XNB-AUH 2026-07-31T03:55 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T03:55",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5411+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5411 XNB-AUH 2026-07-31T03:55 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T03:55",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5411+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5411 XNB-AUH 2026-07-31T03:55 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T03:55",
+    "minPrice": 73682,
+    "maxPrice": 76807,
+    "prices": [
+      73682,
+      76807
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5427+EY284",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 74157,
+    "maxPrice": 77282,
+    "prices": [
+      74157,
+      77282
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5427+EY284",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 74157,
+    "maxPrice": 77282,
+    "prices": [
+      74157,
+      77282
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5427+EY284",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 74157,
+    "maxPrice": 77282,
+    "prices": [
+      74157,
+      77282
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5427+EY284",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 74157,
+    "maxPrice": 77282,
+    "prices": [
+      74157,
+      77282
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5425+EY284",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 74157,
+    "maxPrice": 77282,
+    "prices": [
+      74157,
+      77282
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5425+EY284",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 74157,
+    "maxPrice": 77282,
+    "prices": [
+      74157,
+      77282
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5425+EY284",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 74157,
+    "maxPrice": 77282,
+    "prices": [
+      74157,
+      77282
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5425+EY284",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 74157,
+    "maxPrice": 77282,
+    "prices": [
+      74157,
+      77282
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5427+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5427+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5427+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5427+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5425+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5425+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5425+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5425+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5423+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5423 XNB-AUH 2026-07-31T18:45 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T18:45",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5423+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5423 XNB-AUH 2026-07-31T18:45 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T18:45",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5423+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5423 XNB-AUH 2026-07-31T18:45 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T18:45",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5423+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5423 XNB-AUH 2026-07-31T18:45 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T18:45",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5421+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5421 XNB-AUH 2026-07-31T17:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T17:00",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5421+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5421 XNB-AUH 2026-07-31T17:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T17:00",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5421+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5421 XNB-AUH 2026-07-31T17:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T17:00",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5421+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5421 XNB-AUH 2026-07-31T17:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T17:00",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5416",
+    "retFlights": "EY5419+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5416 AUH-XNB 2026-07-13T08:25",
+    "retDetail": "EY5419 XNB-AUH 2026-07-31T16:10 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T16:10",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5418",
+    "retFlights": "EY5419+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5418 AUH-XNB 2026-07-13T09:15",
+    "retDetail": "EY5419 XNB-AUH 2026-07-31T16:10 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T16:10",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5420",
+    "retFlights": "EY5419+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5420 AUH-XNB 2026-07-13T14:15",
+    "retDetail": "EY5419 XNB-AUH 2026-07-31T16:10 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T16:10",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY285+EY5422",
+    "retFlights": "EY5419+EY288",
+    "outDetail": "EY285 LHE-AUH 2026-07-13T04:40 | EY5422 AUH-XNB 2026-07-13T14:45",
+    "retDetail": "EY5419 XNB-AUH 2026-07-31T16:10 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T04:40",
+    "retDep": "2026-07-31T16:10",
+    "minPrice": 77662,
+    "maxPrice": 81167,
+    "prices": [
+      77662,
+      81167
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5417+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5417 XNB-AUH 2026-07-31T10:20 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T10:20",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5417+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5417 XNB-AUH 2026-07-31T10:20 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T10:20",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5417+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5417 XNB-AUH 2026-07-31T10:20 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T10:20",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5417+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5417 XNB-AUH 2026-07-31T10:20 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T10:20",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5415+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5415 XNB-AUH 2026-07-31T10:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T10:00",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5415+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5415 XNB-AUH 2026-07-31T10:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T10:00",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5415+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5415 XNB-AUH 2026-07-31T10:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T10:00",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5415+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5415 XNB-AUH 2026-07-31T10:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T10:00",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5413+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5413 XNB-AUH 2026-07-31T05:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5413+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5413 XNB-AUH 2026-07-31T05:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5413+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5413 XNB-AUH 2026-07-31T05:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5413+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5413 XNB-AUH 2026-07-31T05:00 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5411+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5411 XNB-AUH 2026-07-31T03:55 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T03:55",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5411+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5411 XNB-AUH 2026-07-31T03:55 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T03:55",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5411+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5411 XNB-AUH 2026-07-31T03:55 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T03:55",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5411+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5411 XNB-AUH 2026-07-31T03:55 | EY288 AUH-LHE 2026-07-31T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T03:55",
+    "minPrice": 67237,
+    "maxPrice": 70082,
+    "prices": [
+      67237,
+      70082
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5427+EY284",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 67712,
+    "maxPrice": 70552,
+    "prices": [
+      67712,
+      70552
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5427+EY284",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 67712,
+    "maxPrice": 70552,
+    "prices": [
+      67712,
+      70552
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5427+EY284",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 67712,
+    "maxPrice": 70552,
+    "prices": [
+      67712,
+      70552
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5427+EY284",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 67712,
+    "maxPrice": 70552,
+    "prices": [
+      67712,
+      70552
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5425+EY284",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 67712,
+    "maxPrice": 70552,
+    "prices": [
+      67712,
+      70552
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5425+EY284",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 67712,
+    "maxPrice": 70552,
+    "prices": [
+      67712,
+      70552
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5425+EY284",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 67712,
+    "maxPrice": 70552,
+    "prices": [
+      67712,
+      70552
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5425+EY284",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY284 AUH-LHE 2026-08-01T23:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 67712,
+    "maxPrice": 70552,
+    "prices": [
+      67712,
+      70552
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5427+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5427+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5427+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5427+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5427 XNB-AUH 2026-07-31T22:30 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:30",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5425+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5425+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5425+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5425+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5425 XNB-AUH 2026-07-31T22:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T22:00",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5423+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5423 XNB-AUH 2026-07-31T18:45 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T18:45",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5423+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5423 XNB-AUH 2026-07-31T18:45 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T18:45",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5423+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5423 XNB-AUH 2026-07-31T18:45 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T18:45",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5423+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5423 XNB-AUH 2026-07-31T18:45 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T18:45",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5421+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5421 XNB-AUH 2026-07-31T17:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T17:00",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5421+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5421 XNB-AUH 2026-07-31T17:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T17:00",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5421+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5421 XNB-AUH 2026-07-31T17:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T17:00",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5421+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5421 XNB-AUH 2026-07-31T17:00 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T17:00",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5412",
+    "retFlights": "EY5419+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5412 AUH-XNB 2026-07-14T01:10",
+    "retDetail": "EY5419 XNB-AUH 2026-07-31T16:10 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T16:10",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5414",
+    "retFlights": "EY5419+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5414 AUH-XNB 2026-07-14T02:45",
+    "retDetail": "EY5419 XNB-AUH 2026-07-31T16:10 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T16:10",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5416",
+    "retFlights": "EY5419+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5416 AUH-XNB 2026-07-14T08:25",
+    "retDetail": "EY5419 XNB-AUH 2026-07-31T16:10 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T16:10",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "EY",
+    "outFlights": "EY289+EY5418",
+    "retFlights": "EY5419+EY288",
+    "outDetail": "EY289 LHE-AUH 2026-07-13T19:45 | EY5418 AUH-XNB 2026-07-14T09:15",
+    "retDetail": "EY5419 XNB-AUH 2026-07-31T16:10 | EY288 AUH-LHE 2026-08-01T14:10",
+    "outDep": "2026-07-13T19:45",
+    "retDep": "2026-07-31T16:10",
+    "minPrice": 71217,
+    "maxPrice": 74442,
+    "prices": [
+      71217,
+      74442
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1019+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76190,
+    "maxPrice": 108700,
+    "prices": [
+      76190,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1015+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76190,
+    "maxPrice": 108700,
+    "prices": [
+      76190,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1023+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76190,
+    "maxPrice": 108700,
+    "prices": [
+      76190,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1007+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76190,
+    "maxPrice": 108700,
+    "prices": [
+      76190,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1019+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1019+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1015+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1015+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1023+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1023+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1007+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1007+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1023+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1003+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1007+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1003+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1019+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1022",
+    "retFlights": "QR1015+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1022 DOH-DXB 2026-07-13T09:20",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1023+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1023+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1003+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1003+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1007+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1007+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1003+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1003+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1019+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1019+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1014",
+    "retFlights": "QR1015+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1018",
+    "retFlights": "QR1015+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1019+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 99505,
+    "maxPrice": 156042,
+    "prices": [
+      99505,
+      156042
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1015+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 99505,
+    "maxPrice": 156042,
+    "prices": [
+      99505,
+      156042
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1023+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 99505,
+    "maxPrice": 156042,
+    "prices": [
+      99505,
+      156042
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1007+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 99505,
+    "maxPrice": 156042,
+    "prices": [
+      99505,
+      156042
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1023+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 99752,
+    "maxPrice": 156289,
+    "prices": [
+      99752,
+      156289
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1003+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 99752,
+    "maxPrice": 156289,
+    "prices": [
+      99752,
+      156289
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1007+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 99752,
+    "maxPrice": 156289,
+    "prices": [
+      99752,
+      156289
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1003+QR628",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 99752,
+    "maxPrice": 156289,
+    "prices": [
+      99752,
+      156289
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1019+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 99752,
+    "maxPrice": 156289,
+    "prices": [
+      99752,
+      156289
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR621+QR1006",
+    "retFlights": "QR1015+QR620",
+    "outDetail": "QR621 LHE-DOH 2026-07-13T03:10 | QR1006 DOH-DXB 2026-07-13T07:55",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T03:10",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 99752,
+    "maxPrice": 156289,
+    "prices": [
+      99752,
+      156289
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1019+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 67000,
+    "maxPrice": 108700,
+    "prices": [
+      67000,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1015+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 67000,
+    "maxPrice": 108700,
+    "prices": [
+      67000,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1023+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 67000,
+    "maxPrice": 108700,
+    "prices": [
+      67000,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1007+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 67000,
+    "maxPrice": 108700,
+    "prices": [
+      67000,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1023+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 67247,
+    "maxPrice": 108947,
+    "prices": [
+      67247,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1003+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 67247,
+    "maxPrice": 108947,
+    "prices": [
+      67247,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1007+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 67247,
+    "maxPrice": 108947,
+    "prices": [
+      67247,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1003+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 67247,
+    "maxPrice": 108947,
+    "prices": [
+      67247,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1019+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 67247,
+    "maxPrice": 108947,
+    "prices": [
+      67247,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1018",
+    "retFlights": "QR1015+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1018 DOH-DXB 2026-07-13T19:10",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 67247,
+    "maxPrice": 108947,
+    "prices": [
+      67247,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1019+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 71265,
+    "maxPrice": 108700,
+    "prices": [
+      71265,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1015+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 71265,
+    "maxPrice": 108700,
+    "prices": [
+      71265,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1023+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 71265,
+    "maxPrice": 108700,
+    "prices": [
+      71265,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1007+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 71265,
+    "maxPrice": 108700,
+    "prices": [
+      71265,
+      108700
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1023+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 71512,
+    "maxPrice": 108947,
+    "prices": [
+      71512,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1003+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 71512,
+    "maxPrice": 108947,
+    "prices": [
+      71512,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1007+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 71512,
+    "maxPrice": 108947,
+    "prices": [
+      71512,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1003+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 71512,
+    "maxPrice": 108947,
+    "prices": [
+      71512,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1019+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 71512,
+    "maxPrice": 108947,
+    "prices": [
+      71512,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1014",
+    "retFlights": "QR1015+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1014 DOH-DXB 2026-07-13T19:05",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 71512,
+    "maxPrice": 108947,
+    "prices": [
+      71512,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1019+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1019+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1015+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1015+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1023+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1023+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1007+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1007+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76437,
+    "maxPrice": 108947,
+    "prices": [
+      76437,
+      108947
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1023+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1023+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1023 DXB-DOH 2026-07-31T13:15 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T13:15",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1003+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1003+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR620 DOH-LHE 2026-07-31T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1007+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1007+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1007 DXB-DOH 2026-07-31T11:45 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T11:45",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1003+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1003+QR628",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1003 DXB-DOH 2026-07-31T05:50 | QR628 DOH-LHE 2026-08-01T02:20",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T05:50",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1019+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1019+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1019 DXB-DOH 2026-07-31T23:25 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:25",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1002",
+    "retFlights": "QR1015+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1002 DOH-DXB 2026-07-14T01:05",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "QR",
+    "outFlights": "QR629+QR1006",
+    "retFlights": "QR1015+QR620",
+    "outDetail": "QR629 LHE-DOH 2026-07-13T09:55 | QR1006 DOH-DXB 2026-07-14T07:55",
+    "retDetail": "QR1015 DXB-DOH 2026-07-31T23:00 | QR620 DOH-LHE 2026-08-01T20:00",
+    "outDep": "2026-07-13T09:55",
+    "retDep": "2026-07-31T23:00",
+    "minPrice": 76684,
+    "maxPrice": 109194,
+    "prices": [
+      76684,
+      109194
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV580",
+    "retFlights": "SV593+SV736",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV580 JED-DXB 2026-07-13T07:10",
+    "retDetail": "SV593 DXB-RUH 2026-07-31T05:00 | SV736 RUH-LHE 2026-07-31T13:25",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 197831,
+    "maxPrice": 291468,
+    "prices": [
+      197831,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV568",
+    "retFlights": "SV593+SV736",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV568 JED-DXB 2026-07-13T10:15",
+    "retDetail": "SV593 DXB-RUH 2026-07-31T05:00 | SV736 RUH-LHE 2026-07-31T13:25",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 197831,
+    "maxPrice": 291468,
+    "prices": [
+      197831,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV588",
+    "retFlights": "SV593+SV736",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV588 JED-DXB 2026-07-13T12:10",
+    "retDetail": "SV593 DXB-RUH 2026-07-31T05:00 | SV736 RUH-LHE 2026-07-31T13:25",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 197831,
+    "maxPrice": 291468,
+    "prices": [
+      197831,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV550",
+    "retFlights": "SV593+SV736",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV550 JED-DXB 2026-07-13T15:35",
+    "retDetail": "SV593 DXB-RUH 2026-07-31T05:00 | SV736 RUH-LHE 2026-07-31T13:25",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 197831,
+    "maxPrice": 291468,
+    "prices": [
+      197831,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV580",
+    "retFlights": "SV551+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV580 JED-DXB 2026-07-13T07:10",
+    "retDetail": "SV551 DXB-JED 2026-07-31T21:00 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T21:00",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV568",
+    "retFlights": "SV551+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV568 JED-DXB 2026-07-13T10:15",
+    "retDetail": "SV551 DXB-JED 2026-07-31T21:00 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T21:00",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV588",
+    "retFlights": "SV551+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV588 JED-DXB 2026-07-13T12:10",
+    "retDetail": "SV551 DXB-JED 2026-07-31T21:00 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T21:00",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV550",
+    "retFlights": "SV551+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV550 JED-DXB 2026-07-13T15:35",
+    "retDetail": "SV551 DXB-JED 2026-07-31T21:00 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T21:00",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV580",
+    "retFlights": "SV589+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV580 JED-DXB 2026-07-13T07:10",
+    "retDetail": "SV589 DXB-JED 2026-07-31T17:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T17:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV568",
+    "retFlights": "SV589+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV568 JED-DXB 2026-07-13T10:15",
+    "retDetail": "SV589 DXB-JED 2026-07-31T17:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T17:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV588",
+    "retFlights": "SV589+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV588 JED-DXB 2026-07-13T12:10",
+    "retDetail": "SV589 DXB-JED 2026-07-31T17:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T17:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV550",
+    "retFlights": "SV589+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV550 JED-DXB 2026-07-13T15:35",
+    "retDetail": "SV589 DXB-JED 2026-07-31T17:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T17:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV580",
+    "retFlights": "SV569+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV580 JED-DXB 2026-07-13T07:10",
+    "retDetail": "SV569 DXB-JED 2026-07-31T15:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T15:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV568",
+    "retFlights": "SV569+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV568 JED-DXB 2026-07-13T10:15",
+    "retDetail": "SV569 DXB-JED 2026-07-31T15:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T15:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV588",
+    "retFlights": "SV569+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV588 JED-DXB 2026-07-13T12:10",
+    "retDetail": "SV569 DXB-JED 2026-07-31T15:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T15:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV550",
+    "retFlights": "SV569+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV550 JED-DXB 2026-07-13T15:35",
+    "retDetail": "SV569 DXB-JED 2026-07-31T15:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T15:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV580",
+    "retFlights": "SV591+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV580 JED-DXB 2026-07-13T07:10",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV568",
+    "retFlights": "SV591+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV568 JED-DXB 2026-07-13T10:15",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV588",
+    "retFlights": "SV591+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV588 JED-DXB 2026-07-13T12:10",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV550",
+    "retFlights": "SV591+SV734",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV550 JED-DXB 2026-07-13T15:35",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 221241,
+    "maxPrice": 291468,
+    "prices": [
+      221241,
+      291468
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV580",
+    "retFlights": "SV591+SV738",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV580 JED-DXB 2026-07-13T07:10",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV738 JED-LHE 2026-07-31T18:05",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 322083,
+    "maxPrice": 322083,
+    "prices": [
+      322083
+    ],
+    "variants": 1
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV739+SV568",
+    "retFlights": "SV591+SV738",
+    "outDetail": "SV739 LHE-JED 2026-07-13T02:40 | SV568 JED-DXB 2026-07-13T10:15",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV738 JED-LHE 2026-07-31T18:05",
+    "outDep": "2026-07-13T02:40",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 322083,
+    "maxPrice": 322083,
+    "prices": [
+      322083
+    ],
+    "variants": 1
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV596",
+    "retFlights": "SV593+SV736",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV596 RUH-DXB 2026-07-14T09:00",
+    "retDetail": "SV593 DXB-RUH 2026-07-31T05:00 | SV736 RUH-LHE 2026-07-31T13:25",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 70120,
+    "maxPrice": 118175,
+    "prices": [
+      70120,
+      118175
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV558",
+    "retFlights": "SV593+SV736",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV558 RUH-DXB 2026-07-14T11:25",
+    "retDetail": "SV593 DXB-RUH 2026-07-31T05:00 | SV736 RUH-LHE 2026-07-31T13:25",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T05:00",
+    "minPrice": 70120,
+    "maxPrice": 118175,
+    "prices": [
+      70120,
+      118175
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV596",
+    "retFlights": "SV551+SV734",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV596 RUH-DXB 2026-07-14T09:00",
+    "retDetail": "SV551 DXB-JED 2026-07-31T21:00 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T21:00",
+    "minPrice": 93530,
+    "maxPrice": 141580,
+    "prices": [
+      93530,
+      141580
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV558",
+    "retFlights": "SV551+SV734",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV558 RUH-DXB 2026-07-14T11:25",
+    "retDetail": "SV551 DXB-JED 2026-07-31T21:00 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T21:00",
+    "minPrice": 93530,
+    "maxPrice": 141580,
+    "prices": [
+      93530,
+      141580
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV596",
+    "retFlights": "SV589+SV734",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV596 RUH-DXB 2026-07-14T09:00",
+    "retDetail": "SV589 DXB-JED 2026-07-31T17:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T17:30",
+    "minPrice": 93530,
+    "maxPrice": 141580,
+    "prices": [
+      93530,
+      141580
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV558",
+    "retFlights": "SV589+SV734",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV558 RUH-DXB 2026-07-14T11:25",
+    "retDetail": "SV589 DXB-JED 2026-07-31T17:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T17:30",
+    "minPrice": 93530,
+    "maxPrice": 141580,
+    "prices": [
+      93530,
+      141580
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV596",
+    "retFlights": "SV569+SV734",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV596 RUH-DXB 2026-07-14T09:00",
+    "retDetail": "SV569 DXB-JED 2026-07-31T15:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T15:30",
+    "minPrice": 93530,
+    "maxPrice": 141580,
+    "prices": [
+      93530,
+      141580
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV558",
+    "retFlights": "SV569+SV734",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV558 RUH-DXB 2026-07-14T11:25",
+    "retDetail": "SV569 DXB-JED 2026-07-31T15:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T15:30",
+    "minPrice": 93530,
+    "maxPrice": 141580,
+    "prices": [
+      93530,
+      141580
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV596",
+    "retFlights": "SV591+SV734",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV596 RUH-DXB 2026-07-14T09:00",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 93530,
+    "maxPrice": 141580,
+    "prices": [
+      93530,
+      141580
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV558",
+    "retFlights": "SV591+SV734",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV558 RUH-DXB 2026-07-14T11:25",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV734 JED-LHE 2026-08-01T01:55",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 93530,
+    "maxPrice": 141580,
+    "prices": [
+      93530,
+      141580
+    ],
+    "variants": 2
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV596",
+    "retFlights": "SV591+SV738",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV596 RUH-DXB 2026-07-14T09:00",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV738 JED-LHE 2026-07-31T18:05",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 181102,
+    "maxPrice": 181102,
+    "prices": [
+      181102
+    ],
+    "variants": 1
+  },
+  {
+    "plating": "SV",
+    "outFlights": "SV743+SV558",
+    "retFlights": "SV591+SV738",
+    "outDetail": "SV743 LHE-RUH 2026-07-13T21:10 | SV558 RUH-DXB 2026-07-14T11:25",
+    "retDetail": "SV591 DXB-JED 2026-07-31T12:30 | SV738 JED-LHE 2026-07-31T18:05",
+    "outDep": "2026-07-13T21:10",
+    "retDep": "2026-07-31T12:30",
+    "minPrice": 181102,
+    "maxPrice": 181102,
+    "prices": [
+      181102
+    ],
+    "variants": 1
+  }
+]

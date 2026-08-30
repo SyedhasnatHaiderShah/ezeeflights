@@ -1,3 +1,8 @@
+import { isNative } from "../capacitor";
+import { nextApiOrigin } from "../bff/config";
+
+const getBaseUrl = () => isNative() ? nextApiOrigin() : "";
+
 async function parseJson<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const message = await response.text();
@@ -16,7 +21,7 @@ function csrfHeaders(): Record<string, string> {
 }
 
 async function bffPost<T>(path: string, body: unknown): Promise<T> {
-  const response = await fetch(path, {
+  const response = await fetch(`${getBaseUrl()}${path}`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -38,7 +43,7 @@ export interface AuthTokens {
 export type LoginResult = { ok: true } | { requiresTwoFactor: true };
 
 export async function loginRequest(body: { email: string; password: string }): Promise<LoginResult> {
-  const response = await fetch('/api/auth/login', {
+  const response = await fetch(`${getBaseUrl()}/api/auth/login`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -66,6 +71,7 @@ export async function registerRequest(body: {
   password: string;
   firstName?: string;
   lastName?: string;
+  phone?: string;
 }): Promise<{ ok: true }> {
   return bffPost<{ ok: true }>('/api/auth/register', body);
 }
@@ -79,7 +85,7 @@ export async function logoutRequest(): Promise<{ ok: boolean }> {
 }
 
 export async function oauthExchangeRequest(body: { code: string }): Promise<LoginResult> {
-  const response = await fetch('/api/auth/oauth/exchange', {
+  const response = await fetch(`${getBaseUrl()}/api/auth/oauth/exchange`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -99,9 +105,10 @@ export async function oauthExchangeRequest(body: { code: string }): Promise<Logi
 }
 
 export async function meRequest() {
-  const response = await fetch('/api/auth/me', {
+  const response = await fetch(`${getBaseUrl()}/api/auth/me`, {
     method: 'GET',
     credentials: 'include',
+    cache: 'no-store',
   });
   if (response.status === 401) {
     return null;
@@ -115,14 +122,81 @@ export async function meRequest() {
     email: string;
     firstName: string | null;
     lastName: string | null;
+    phone?: string;
+    legacyRole?: string;
+    role?: string;
     roles: string[];
     permissions: string[];
     twoFactorEnabled: boolean;
   }>;
 }
 
-export function googleOAuthUrl(): string {
-  const pub = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/v1';
-  const root = pub.replace(/\/v1\/?$/, '');
-  return `${root}/v1/auth/google`;
+export function googleOAuthUrl(customRedirect?: string): string {
+  const pub = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000/v1";
+  let root = pub;
+  if (pub.startsWith("/")) {
+    if (typeof window !== "undefined") {
+      root = `${window.location.origin}${pub}`;
+    } else {
+      root = `http://localhost:4000/v1`;
+    }
+  }
+  root = root.replace(/\/v1\/?$/, "").replace(/\/api\/?$/, "");
+  
+  let redirectUri = customRedirect;
+  if (!redirectUri && typeof window !== "undefined") {
+    if (isNative()) {
+      redirectUri = process.env.NEXT_PUBLIC_NATIVE_REDIRECT_URI || "com.ezeeflights.app://auth/callback";
+    } else {
+      redirectUri = `${window.location.origin}/auth/callback`;
+    }
+  }
+  
+  if (redirectUri) {
+    return `${root}/api/auth/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
+  }
+  return `${root}/api/auth/google`;
+}
+
+export async function nativeGoogleLoginRequest(idToken: string): Promise<LoginResult> {
+  const response = await fetch(`${getBaseUrl()}/api/auth/google/native`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      ...csrfHeaders(),
+    },
+    body: JSON.stringify({ idToken }),
+  });
+  const data = (await response.json().catch(() => ({}))) as Record<string, unknown>;
+  if (!response.ok) {
+    throw new Error((data.message as string) || `Request failed (${response.status})`);
+  }
+  if (data.requiresTwoFactor) {
+    return { requiresTwoFactor: true };
+  }
+  return { ok: true };
+}
+
+export async function forgotPasswordOtpRequest(email: string): Promise<{ ok: true }> {
+  return bffPost<{ ok: true }>("/api/auth/password/forgot", { email });
+}
+
+export async function verifyPasswordResetOtp(
+  email: string,
+  code: string,
+): Promise<{ ok: true }> {
+  return bffPost<{ ok: true }>("/api/auth/password/verify-otp", { email, code });
+}
+
+export async function resetPassword(
+  email: string,
+  code: string,
+  newPassword: string,
+): Promise<{ ok: true }> {
+  return bffPost<{ ok: true }>("/api/auth/password/reset", {
+    email,
+    code,
+    newPassword,
+  });
 }

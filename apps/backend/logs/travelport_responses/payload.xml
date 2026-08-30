@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <air:LowFareSearchReq xmlns:air="http://www.travelport.com/schema/air_v52_0" xmlns:com="http://www.travelport.com/schema/common_v52_0" TargetBranch="P5025267" SolutionResult="true" MaxNumberOfSolutions="200" ReturnBrandedFares="true" ReturnUpsellFare="true" AllowMultiPCCSearch="true" FaresIndicator="AllFares">
+            <com:BillingPointOfSaleInfo OriginApplication="uAPI"/>
+            <air:SearchAirLeg>
+                <air:SearchOrigin>
+                    <com:CityOrAirport Code="LHE" PreferCity="true"/>
+                </air:SearchOrigin>
+                <air:SearchDestination>
+                    <com:CityOrAirport Code="DXB" PreferCity="true"/>
+                </air:SearchDestination>
+                <air:SearchDepTime PreferredTime="2026-07-10T00:00:00"/>
+            </air:SearchAirLeg>
+            <air:AirSearchModifiers MaxSolutions="200">
+                <air:PreferredProviders>
+                    <com:Provider Code="1G"/>
+                </air:PreferredProviders>
+            </air:AirSearchModifiers>
+            <com:SearchPassenger Code="ADT" Key="P1"/>
+        </air:LowFareSearchReq>
+    </soap:Body>
+</soap:Envelope>

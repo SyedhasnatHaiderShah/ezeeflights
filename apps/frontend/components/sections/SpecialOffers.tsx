@@ -9,6 +9,8 @@ import {
   LucideIcon,
 } from "lucide-react";
 import { AppImage } from "@/components/ui/app-image";
+import { Button } from "@/components/ui/button";
+import { getPrimaryPhone } from "@/lib/utils/domain";
 
 interface InfoCard {
   id: number;
@@ -17,14 +19,14 @@ interface InfoCard {
   text: React.ReactNode;
 }
 
-const INFO_CARDS: InfoCard[] = [
+const getInfoCards = (phone: string): InfoCard[] => [
   {
     id: 1,
     icon: Ticket,
     title: "We are now available",
     text: (
       <span>
-        Call <span className="text-brand-red font-bold">+1-888-604-0198</span>{" "}
+        Call <span className="text-brand-red font-bold">{phone}</span>{" "}
         for contact with us
       </span>
     ),
@@ -35,7 +37,7 @@ const INFO_CARDS: InfoCard[] = [
     title: "Call Now for Exclusive Fare Deals",
     text: (
       <span>
-        Call <span className="text-brand-red font-bold">+1-888-604-0198</span>{" "}
+        Call <span className="text-brand-red font-bold">{phone}</span>{" "}
         for contact with us
       </span>
     ),
@@ -46,7 +48,7 @@ const INFO_CARDS: InfoCard[] = [
     title: "Check Refund",
     text: (
       <span>
-        Call <span className="text-brand-red font-bold">+1-888-604-0198</span>{" "}
+        Call <span className="text-brand-red font-bold">{phone}</span>{" "}
         for contact with us
       </span>
     ),
@@ -86,38 +88,97 @@ const OFFERS: Offer[] = [
   },
 ];
 
-import { Button } from "@/components/ui/button";
+const renderInfoCard = (card: InfoCard) => (
+  <div
+    key={card.id}
+    className="bg-card/80 backdrop-blur-md border border-border/60 rounded-2xl p-3.5 flex items-center gap-4 shadow-sm group w-full min-h-[100px]"
+  >
+    <div className="w-10 h-10 shrink-0 bg-brand-red/10 rounded-xl flex items-center justify-center text-brand-red group-hover:scale-105 transition-transform">
+      <card.icon className="w-5 h-5" strokeWidth={2.5} />
+    </div>
+    <div className="flex flex-col min-w-0">
+      <h4 className="text-[13px] font-black text-foreground font-display leading-tight mb-1">
+        {card.title}
+      </h4>
+      <div className="text-[11px] text-muted-foreground font-bold leading-normal whitespace-normal">
+        {card.text}
+      </div>
+    </div>
+  </div>
+);
+
+const renderOfferCard = (offer: Offer) => (
+  <div
+    key={offer.id}
+    className="group flex flex-col sm:flex-row items-center gap-4 p-3 rounded-2xl bg-card border border-border/60 shadow-sm hover:shadow-md transition-all duration-500 h-full w-full"
+  >
+    <div className="w-full sm:w-32 h-32 lg:h-32 shrink-0 relative overflow-hidden rounded-xl">
+      <AppImage
+        src={offer.image}
+        alt={offer.title}
+        fill
+        isCompact={true}
+        className="group-hover:scale-105 transition-transform duration-700 object-cover"
+      />
+    </div>
+    <div className="flex flex-col flex-grow min-w-0 py-1">
+      <h3 className="text-sm font-bold text-brand-red mb-1 font-display group-hover:text-brand-blue dark:group-hover:text-brand-red-light transition-colors truncate">
+        {offer.title}
+      </h3>
+      <p className="text-xs font-medium text-muted-foreground leading-snug mb-3.5 flex-grow line-clamp-2 opacity-90">
+        {offer.description}
+      </p>
+
+      <Button
+        variant="outline"
+        size="sm"
+        shimmer={true}
+        className="inline-flex items-center gap-1 text-brand-blue dark:text-muted-foreground font-bold text-xs tracking-wider hover:opacity-80 transition-colors w-fit border border-border px-3.5 py-1.5 rounded-md hover:bg-muted group/btn shadow-sm active:scale-95 cursor-pointer"
+      >
+        View Offer
+        <ChevronsRight className="w-3 h-3 ml-1 transition-transform group-hover/btn:translate-x-1" />
+      </Button>
+    </div>
+  </div>
+);
 
 export function SpecialOffers() {
+  const [phone, setPhone] = React.useState("+1-888-604-0198");
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setPhone(getPrimaryPhone(window.location.hostname));
+    }
+  }, []);
+
+  const infoCards = getInfoCards(phone);
+
   return (
-    <section className="py-14 bg-muted/30 dark:bg-background transition-colors duration-300 relative overflow-hidden">
-      {/* Information Contact Cards - More Compact Row */}
-      <div className="w-full max-w-7xl mx-auto px-5 md:px-12 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-          {INFO_CARDS.map((card) => (
-            <div
-              key={card.id}
-              className="bg-card border border-border/60 rounded-xl p-3 flex items-center gap-3.5 shadow-sm hover:shadow-md transition-all duration-300 group"
-            >
-              <div className="w-10 h-10 shrink-0 bg-brand-red/5 dark:bg-brand-red/10 rounded-lg flex items-center justify-center text-brand-red group-hover:scale-105 transition-transform">
-                <card.icon className="w-5 h-5" strokeWidth={2} />
+    <section className="md:py-14 py-8 bg-background transition-colors duration-300 relative overflow-hidden">
+      {/* Information Contact Cards */}
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-12 mb-8">
+        {/* Mobile: Native CSS Scroll */}
+        <div className="md:hidden">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 -mx-4 px-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            {infoCards.map((card) => (
+              <div
+                key={card.id}
+                className="w-[85vw] max-w-[320px] shrink-0 snap-start"
+              >
+                {renderInfoCard(card)}
               </div>
-              <div className="flex flex-col min-w-0">
-                <h4 className="text-sm font-bold text-foreground font-display leading-tight truncate">
-                  {card.title}
-                </h4>
-                <div className="text-xs text-muted-foreground font-medium mt-0.5 whitespace-nowrap">
-                  {card.text}
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+        {/* Desktop: static grid */}
+        <div className="hidden md:grid grid-cols-3 gap-3.5">
+          {infoCards.map(renderInfoCard)}
         </div>
       </div>
 
-      {/* Header Banner - Sleeker Height */}
+      {/* Header Banner */}
       <div className="w-full max-w-md mx-auto px-6 md:px-12 mb-8">
-        <div className="w-full bg-gradient-to-br from-redmix via-redmix-light to-redmix-dark py-4 rounded-full shadow-lg border border-blue-800/30 text-center relative overflow-hidden">
+        <div className="w-full bg-gradient-to-r from-redmix-dark via-redmix to-redmix-dark py-4 rounded-full shadow-lg border border-blue-800/30 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:250%_250%] animate-shimmer pointer-events-none" />
           <h2 className="relative z-10 text-xl md:text-2xl font-bold text-white tracking-tight uppercase">
             Special Flight Offers
@@ -125,45 +186,24 @@ export function SpecialOffers() {
         </div>
       </div>
 
+      {/* Offer Cards */}
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5">
-          {OFFERS.map((offer) => (
-            <div
-              key={offer.id}
-              className="group flex flex-col sm:flex-row items-center gap-4 p-3 rounded-xl bg-card border border-border/60 shadow-sm hover:shadow-md transition-all duration-500"
-            >
-              {/* Image Container - Compact Editorial Square */}
-              <div className="w-full sm:w-32 h-32 shrink-0 relative overflow-hidden rounded-lg">
-                <AppImage
-                  src={offer.image}
-                  alt={offer.title}
-                  fill
-                  isCompact={true}
-                  className="group-hover:scale-105 transition-transform duration-700 object-cover"
-                />
+        {/* Mobile: Native CSS Scroll */}
+        <div className="lg:hidden">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-6 px-6 pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            {OFFERS.map((offer) => (
+              <div
+                key={offer.id}
+                className="w-[82vw] max-w-[340px] shrink-0 snap-start"
+              >
+                {renderOfferCard(offer)}
               </div>
-
-              {/* Content - Compact Typography */}
-              <div className="flex flex-col flex-grow min-w-0 py-1">
-                <h3 className="text-sm font-bold text-brand-red mb-1 font-display group-hover:text-brand-blue dark:group-hover:text-brand-red-light transition-colors truncate">
-                  {offer.title}
-                </h3>
-                <p className="text-xs font-medium text-muted-foreground leading-snug mb-3.5 flex-grow line-clamp-2 opacity-90">
-                  {offer.description}
-                </p>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  shimmer={true}
-                  className="w-full sm:w-fit h-8 rounded-lg px-4 border-border/60 text-[10px] font-black uppercase tracking-widest active:scale-95"
-                >
-                  View Offer
-                  <ChevronsRight className="w-3 h-3 ml-1 transition-transform group-hover:translate-x-0.5" />
-                </Button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+        {/* Desktop: static grid */}
+        <div className="hidden lg:grid grid-cols-3 gap-4 md:gap-5">
+          {OFFERS.map(renderOfferCard)}
         </div>
       </div>
     </section>

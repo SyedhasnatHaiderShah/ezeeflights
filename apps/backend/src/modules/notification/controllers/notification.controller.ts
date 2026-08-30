@@ -1,0 +1,219 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+  NotFoundException,
+} from "@nestjs/common";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
+import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
+import { NotificationService } from "../services/notification.service";
+import {
+  CreateTemplateDto,
+  SendNotificationDto,
+} from "../dto/send-notification.dto";
+import { AdminGuard } from "../guards/admin.guard";
+import { PriceAlertService } from "../price-alerts/price-alert.service";
+import { PriceAlertType } from "../price-alerts/price-alert.entity";
+
+interface AuthenticatedRequest {
+  user: { userId: string };
+}
+
+@ApiTags("Notifications")
+@Controller({ path: "notifications", version: "1" })
+export class NotificationController {
+  constructor(
+    private readonly service: NotificationService,
+    private readonly priceAlertService: PriceAlertService,
+  ) {}
+
+  @ApiOperation({ summary: "Send a notification to a user" })
+  @ApiResponse({ status: 200, description: "Notification sent" })
+  @ApiResponse({ status: 400, description: "Validation error" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Post("/send")
+  send(@Body() dto: SendNotificationDto) {
+    return this.service.send(dto);
+  }
+
+  @ApiOperation({ summary: "Create a price alert for flights or hotels" })
+  @ApiResponse({ status: 201, description: "Price alert created" })
+  @ApiResponse({ status: 400, description: "Validation error" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Post("/price-alerts")
+  createPriceAlert(
+    @Req() req: AuthenticatedRequest,
+    @Body()
+    body: {
+      type: PriceAlertType;
+      searchParams: Record<string, unknown>;
+      targetPrice: number;
+      channels?: string[];
+    },
+  ) {
+    return this.priceAlertService.create(
+      req.user.userId,
+      body.type,
+      body.searchParams,
+      body.targetPrice,
+      body.channels,
+    );
+  }
+
+  @ApiOperation({ summary: "List price alerts for the authenticated user" })
+  @ApiResponse({ status: 200, description: "Array of price alerts" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get("/price-alerts")
+  listPriceAlerts(@Req() req: AuthenticatedRequest) {
+    return this.priceAlertService.listUserAlerts(req.user.userId);
+  }
+
+  @ApiOperation({ summary: "Delete a price alert" })
+  @ApiParam({ name: "id", description: "Price alert UUID" })
+  @ApiResponse({ status: 200, description: "Price alert deleted" })
+  @ApiResponse({ status: 404, description: "Alert not found" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Delete("/price-alerts/:id")
+  async deletePriceAlert(
+    @Req() req: AuthenticatedRequest,
+    @Param("id") id: string,
+  ) {
+    await this.priceAlertService.delete(id, req.user.userId);
+    return { ok: true };
+  }
+
+  @ApiOperation({ summary: "Get notification logs (admin)" })
+  @ApiResponse({ status: 200, description: "Notification log entries" })
+  @ApiResponse({ status: 403, description: "Forbidden — admin only" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  @Get("/logs")
+  logs() {
+    return this.service.getLogs();
+  }
+
+  @ApiOperation({ summary: "Create a notification template (admin)" })
+  @ApiResponse({ status: 201, description: "Template created" })
+  @ApiResponse({ status: 400, description: "Validation error" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  @Post("/templates")
+  createTemplate(@Body() dto: CreateTemplateDto) {
+    return this.service.createTemplate(dto);
+  }
+
+  @ApiOperation({ summary: "List notification templates (admin)" })
+  @ApiResponse({ status: 200, description: "Array of templates" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  @Get("/templates")
+  listTemplates() {
+    return this.service.listTemplates();
+  }
+
+  @ApiOperation({ summary: "Get unread notification count" })
+  @ApiResponse({ status: 200, description: "Count of unread notifications" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get("/unread-count")
+  unreadCount(@Req() req: AuthenticatedRequest) {
+    return this.service.getUnreadCount(req.user.userId);
+  }
+
+  @ApiOperation({ summary: "Mark all notifications as read" })
+  @ApiResponse({ status: 200, description: "All marked as read" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Patch("/read-all")
+  markAllRead(@Req() req: AuthenticatedRequest) {
+    return this.service.markAllAsRead(req.user.userId);
+  }
+
+  @ApiOperation({ summary: "Delete all notifications for the authenticated user" })
+  @ApiResponse({ status: 200, description: "All notifications deleted" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Delete("/all")
+  deleteAll(@Req() req: AuthenticatedRequest) {
+    return this.service.deleteAllNotifications(req.user.userId);
+  }
+
+  @ApiOperation({ summary: "Delete a notification by ID" })
+  @ApiParam({ name: "id", description: "Notification UUID" })
+  @ApiResponse({ status: 200, description: "Notification deleted successfully" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Delete("/:id")
+  delete(@Req() req: AuthenticatedRequest, @Param("id") id: string) {
+    return this.service.deleteNotification(id, req.user.userId);
+  }
+
+  @ApiOperation({ summary: "List notifications for the authenticated user" })
+  @ApiResponse({ status: 200, description: "Array of notifications" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get("/")
+  list(
+    @Req() req: AuthenticatedRequest,
+    @Query("page") page?: string,
+    @Query("limit") limit?: string,
+  ) {
+    const parsedLimit = limit ? parseInt(limit, 10) : 20;
+    const safeLimit = Math.min(Math.max(parsedLimit, 1), 50);
+    return this.service.listUserNotifications(
+      req.user.userId,
+      page ? parseInt(page, 10) : 1,
+      safeLimit,
+    );
+  }
+
+  @ApiOperation({ summary: "Mark a notification as read" })
+  @ApiParam({ name: "id", description: "Notification UUID" })
+  @ApiResponse({ status: 200, description: "Marked as read" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Patch(":id/read")
+  markRead(@Req() req: AuthenticatedRequest, @Param("id") id: string) {
+    return this.service.markAsRead(id, req.user.userId);
+  }
+
+  @ApiOperation({ summary: "Get flight details html by customer ID (public test)" })
+  @ApiResponse({ status: 200, description: "Flight details HTML retrieved successfully" })
+  @ApiResponse({ status: 404, description: "Flight details not found" })
+  @Get("/flight-details/:customerId")
+  async getFlightDetails(@Param("customerId") customerId: string) {
+    const details = await this.service.getFlightDetailsByCustomer(customerId);
+    if (!details) {
+      throw new NotFoundException(`Flight details not found for customerId: ${customerId}`);
+    }
+    return details;
+  }
+
+  @ApiOperation({ summary: "Get notification by ID" })
+  @ApiParam({ name: "id", description: "Notification UUID" })
+  @ApiResponse({ status: 200, description: "Notification data" })
+  @ApiResponse({ status: 404, description: "Notification not found" })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get("/:id")
+  getById(@Param("id") id: string) {
+    return this.service.getById(id);
+  }
+}

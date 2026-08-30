@@ -1,74 +1,132 @@
-import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AiService } from '../services/ai.service';
-import { AssistantPromptDto, AiChatDto, AiSearchDto } from '../dto/assistant.dto';
-import { NlpSearchService } from '../nlp-search.service';
-import { ConversationalAgentService } from '../conversational-agent.service';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { PersonalizationService } from '../personalization.service';
+import { Body, Controller, Get, Post, Query, BadRequestException, InternalServerErrorException, Logger } from "@nestjs/common";
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { AiService } from "../services/ai.service";
+import { GeminiService } from "../services/gemini.service";
+import { OpenaiService } from "../services/openai.service";
+import { AssistantPromptDto } from "../dto/assistant.dto";
 
-interface AuthenticatedRequest {
-  user?: { userId: string };
-}
-
-@ApiTags('ai')
-@Controller({ path: 'ai', version: '1' })
+@ApiTags("AI")
+@Controller({ path: "ai", version: "1" })
 export class AiController {
+  private readonly logger = new Logger(AiController.name);
+
   constructor(
     private readonly service: AiService,
-    private readonly nlpSearchService: NlpSearchService,
-    private readonly conversationalAgent: ConversationalAgentService,
-    private readonly personalizationService: PersonalizationService,
+    private readonly geminiService: GeminiService,
+    private readonly openaiService: OpenaiService,
   ) {}
 
-  @Post('assistant')
+  @ApiOperation({ summary: "Extract booking data from natural language" })
+  @ApiResponse({ status: 200, description: "Structured booking data" })
+  @Post("extract-booking")
+  async extractBooking(@Body() body: { prompt: string }) {
+    this.logger.log("Attempting booking extraction using Gemini...");
+    let result: any = null;
+    let geminiError: string | null = null;
+
+    try {
+      result = await this.geminiService.extractBookingData(body.prompt);
+    } catch (err: any) {
+      geminiError = err?.message || String(err);
+    }
+
+    const hasError = result && result._debug_error;
+    const isGeminiFailed = !result || geminiError || hasError;
+
+    if (isGeminiFailed) {
+      const reason = geminiError || result?._debug_error || "Unknown Gemini error";
+      this.logger.warn(`Gemini extraction failed (Reason: ${reason}). Falling back to OpenAI...`);
+      try {
+        const openAiResult = await this.openaiService.extractBookingData(body.prompt);
+        this.logger.log("Booking extraction successfully returned from OpenAI fallback.");
+        return {
+          ...openAiResult,
+          _provider: "OpenAI",
+        };
+      } catch (openAiErr: any) {
+        this.logger.error(`OpenAI fallback also failed: ${openAiErr.message}`);
+        return result || {
+          status: "incomplete",
+          question: "AI assistant is temporarily busy. Please try again in a moment.",
+          data: {},
+        };
+      }
+    }
+
+    this.logger.log("Booking extraction successfully returned from Gemini.");
+    return {
+      ...result,
+      _provider: "Gemini",
+    };
+  }
+
+  @ApiOperation({ summary: "Chat with the AI travel assistant" })
+  @ApiResponse({ status: 200, description: "Assistant response" })
+  @ApiResponse({ status: 400, description: "Prompt too short" })
+  @Post("assistant")
   assistant(@Body() body: AssistantPromptDto) {
     return this.service.assistant(body.prompt);
   }
 
-  @Get('search')
-  naturalSearch(@Query('prompt') prompt: string) {
-    return this.service.naturalLanguageSearch(prompt ?? '');
+  @ApiOperation({ summary: "Natural language flight/hotel search" })
+  @ApiQuery({ name: "prompt", description: "Natural language search query" })
+  @ApiResponse({ status: 200, description: "Parsed search results" })
+  @Get("search")
+  naturalSearch(@Query("prompt") prompt: string) {
+    return this.service.naturalLanguageSearch(prompt ?? "");
   }
 
-  @Get('price-prediction')
-  prediction(@Query('route') route: string) {
-    return this.service.pricePrediction(route ?? 'DXB-LHR');
+  @ApiOperation({ summary: "AI price prediction for a route" })
+  @ApiQuery({ name: "route", description: "Route in IATA format e.g. DXB-LHR" })
+  @ApiResponse({ status: 200, description: "Price prediction data" })
+  @Get("price-prediction")
+  prediction(@Query("route") route: string) {
+    if (!route) {
+      throw new BadRequestException("Route query parameter is required");
+    }
+    return this.service.pricePrediction(route);
   }
 
-  @Post('search')
-  async aiSearch(@Body() body: AiSearchDto, @Req() req: AuthenticatedRequest) {
-    const intent = await this.nlpSearchService.parseNaturalLanguageQuery(body.query, req.user?.userId);
-    const results = await this.nlpSearchService.searchFromIntent(intent);
-    return { intent, results };
+  @ApiOperation({ summary: "Get destination insights by AI" })
+  @ApiQuery({ name: "destination", description: "Destination code, e.g. DXB" })
+  @ApiResponse({ status: 200, description: "Destination insights" })
+  @Get("destination-insights")
+  async getDestinationInsights(@Query("destination") destination: string) {
+    if (!destination) {
+      throw new BadRequestException("Destination query parameter is required");
+    }
+
+    const data = await this.service.getDestinationInsights(destination);
+
+    if (!data) {
+      throw new InternalServerErrorException(
+        `Failed to fetch destination insights for ${destination} from AI services`,
+      );
+    }
+    return { success: true, data };
   }
 
-  @Post('chat')
-  async chat(@Body() body: AiChatDto, @Req() req: AuthenticatedRequest) {
-    const response = await this.conversationalAgent.chat(body.sessionId, body.message, req.user?.userId, body.context);
-    return { ...response, sessionId: body.sessionId };
-  }
+  @ApiOperation({ summary: "Get full city travel insights by AI" })
+  @ApiQuery({ name: "city", description: "City display name, e.g. Dubai" })
+  @ApiQuery({ name: "slug", required: false, description: "URL slug for cache key, e.g. dubai" })
+  @ApiResponse({ status: 200, description: "City travel insights" })
+  @Get("city-insights")
+  async getCityInsights(
+    @Query("city") city: string,
+    @Query("slug") slug?: string,
+  ) {
+    if (!city) {
+      throw new BadRequestException("City query parameter is required");
+    }
 
-  @Get('chat/:sessionId')
-  history(@Param('sessionId') sessionId: string) {
-    return this.conversationalAgent.getConversationHistory(sessionId);
-  }
+    const data = await this.service.getCityInsights(city, slug);
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Get('recommendations/destinations')
-  destinations(@Req() req: AuthenticatedRequest, @Query('limit') limit?: string) {
-    return this.personalizationService.getPersonalizedDestinations(req.user!.userId, Number(limit ?? 5));
-  }
+    if (!data) {
+      throw new InternalServerErrorException(
+        `Failed to fetch city insights for ${city} from AI services`,
+      );
+    }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Get('recommendations/attractions/:destinationId')
-  async attractions(@Req() req: AuthenticatedRequest, @Param('destinationId') destinationId: string) {
-    return this.personalizationService.rankAttractions(req.user!.userId, [
-      { id: `${destinationId}-1`, name: 'Beach Walk', tags: ['beach', 'culture'] },
-      { id: `${destinationId}-2`, name: 'Old Town Food Tour', tags: ['culture', 'food'] },
-      { id: `${destinationId}-3`, name: 'Night Market', tags: ['nightlife', 'food'] },
-    ]);
+    return { success: true, data };
   }
 }

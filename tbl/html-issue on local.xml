@@ -1,0 +1,1084 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM ezeeflights_crm.tbl_flightdetailshtml
+LIMIT 0, 10
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="id">28971</field>
+		<field name="customerId">29102</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 27, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/PK.png" alt="PK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      PK-203<br />PK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">13:05 LHE</span><br />
+      <span style="font-size:9px;">Jun 27 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">15:30 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 27 DXB</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">INBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jul 17, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/PK.png" alt="PK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      PK-204<br />PK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">16:45 DXB</span><br />
+      <span style="font-size:9px;">Jul 17 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">20:55 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 17 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+	</row>
+
+	<row>
+		<field name="id">28972</field>
+		<field name="customerId">29103</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 30, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/PK.png" alt="PK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      PK-303<br />PK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">11:00 LHE</span><br />
+      <span style="font-size:9px;">Jun 30 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">12:45 KHI</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 KHI</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-2107<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">23:55 KHI</span><br />
+      <span style="font-size:9px;">Jun 30 KHI</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:10 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 1 DXB</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">INBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jul 22, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-622<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">21:40 DXB</span><br />
+      <span style="font-size:9px;">Jul 22 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:45 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 23 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+	</row>
+
+	<row>
+		<field name="id">28973</field>
+		<field name="customerId">29104</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 30, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-289<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">19:45 LHE</span><br />
+      <span style="font-size:9px;">Jun 30 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">22:05 AUH</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 AUH</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-5412<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">01:10 AUH</span><br />
+      <span style="font-size:9px;">Jul 1 AUH</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">03:10 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 1 DXB</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">INBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">XNB<br /><span style="font-size:12px;">XNB</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jul 22, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-5417<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">10:20 XNB</span><br />
+      <span style="font-size:9px;">Jul 22 XNB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">12:20 AUH</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 AUH</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-288<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">14:10 AUH</span><br />
+      <span style="font-size:9px;">Jul 22 AUH</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">18:25 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+	</row>
+
+	<row>
+		<field name="id">28974</field>
+		<field name="customerId">29105</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 30, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-285<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">04:40 LHE</span><br />
+      <span style="font-size:9px;">Jun 30 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">07:00 AUH</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 AUH</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-5416<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">08:25 AUH</span><br />
+      <span style="font-size:9px;">Jun 30 AUH</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">10:25 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 DXB</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">INBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">XNB<br /><span style="font-size:12px;">XNB</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jul 22, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-5417<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">10:20 XNB</span><br />
+      <span style="font-size:9px;">Jul 22 XNB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">12:20 AUH</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 AUH</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-288<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">14:10 AUH</span><br />
+      <span style="font-size:9px;">Jul 22 AUH</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">18:25 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+	</row>
+
+	<row>
+		<field name="id">28975</field>
+		<field name="customerId">29106</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 30, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-285<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">04:40 LHE</span><br />
+      <span style="font-size:9px;">Jun 30 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">07:00 AUH</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 AUH</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-5416<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">08:25 AUH</span><br />
+      <span style="font-size:9px;">Jun 30 AUH</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">10:25 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 DXB</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">INBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">XNB<br /><span style="font-size:12px;">XNB</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jul 22, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-5417<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">10:20 XNB</span><br />
+      <span style="font-size:9px;">Jul 22 XNB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">12:20 AUH</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 AUH</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EY.png" alt="EY" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EY-288<br />EY
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">14:10 AUH</span><br />
+      <span style="font-size:9px;">Jul 22 AUH</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">18:25 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+	</row>
+
+	<row>
+		<field name="id">28976</field>
+		<field name="customerId">29107</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 30, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/PK.png" alt="PK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      PK-303<br />PK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">11:00 LHE</span><br />
+      <span style="font-size:9px;">Jun 30 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">12:45 KHI</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 KHI</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-2107<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">23:55 KHI</span><br />
+      <span style="font-size:9px;">Jun 30 KHI</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:10 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 1 DXB</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-622<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">21:40 DXB</span><br />
+      <span style="font-size:9px;">Jul 22 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:45 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 23 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">INBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jul 22, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-622<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">21:40 DXB</span><br />
+      <span style="font-size:9px;">Jul 22 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:45 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 23 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+	</row>
+
+	<row>
+		<field name="id">28977</field>
+		<field name="customerId">29108</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 30, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/PK.png" alt="PK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      PK-303<br />PK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">11:00 LHE</span><br />
+      <span style="font-size:9px;">Jun 30 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">12:45 KHI</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 KHI</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-2107<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">23:55 KHI</span><br />
+      <span style="font-size:9px;">Jun 30 KHI</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:10 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 1 DXB</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-622<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">21:40 DXB</span><br />
+      <span style="font-size:9px;">Jul 22 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:45 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 23 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">INBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jul 22, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-622<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">21:40 DXB</span><br />
+      <span style="font-size:9px;">Jul 22 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:45 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 23 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+	</row>
+
+	<row>
+		<field name="id">28978</field>
+		<field name="customerId">29109</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">Pending<br /><span style="font-size:12px;">Pending</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">Pending<br /><span style="font-size:12px;">Pending</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 7, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EXT.png" alt="EXT" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EXT-Live Result<br />EXT
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">12:11 Pending</span><br />
+      <span style="font-size:9px;">Jun 7 Pending</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">12:11 Pending</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 7 Pending</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="id">28979</field>
+		<field name="customerId">29110</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 30, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/PK.png" alt="PK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      PK-303<br />PK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">11:00 LHE</span><br />
+      <span style="font-size:9px;">Jun 30 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">12:45 KHI</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 KHI</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-2107<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">23:55 KHI</span><br />
+      <span style="font-size:9px;">Jun 30 KHI</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:10 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 1 DXB</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-622<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">21:40 DXB</span><br />
+      <span style="font-size:9px;">Jul 22 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:45 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 23 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">INBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jul 22, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-622<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">21:40 DXB</span><br />
+      <span style="font-size:9px;">Jul 22 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">01:45 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 23 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+	</row>
+
+	<row>
+		<field name="id">28980</field>
+		<field name="customerId">29111</field>
+		<field name="outBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">OUTBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jun 30, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/PK.png" alt="PK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      PK-305<br />PK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">17:00 LHE</span><br />
+      <span style="font-size:9px;">Jun 30 LHE</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">18:45 KHI</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jun 30 KHI</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-603<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">22:55 KHI</span><br />
+      <span style="font-size:9px;">Jun 30 KHI</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">00:05 DXB</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 1 DXB</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-600<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">07:40 DXB</span><br />
+      <span style="font-size:9px;">Jul 22 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">10:45 KHI</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 KHI</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/PK.png" alt="PK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      PK-304<br />PK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">14:00 KHI</span><br />
+      <span style="font-size:9px;">Jul 22 KHI</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">15:50 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+		<field name="inBoundFlights">
+<table style="width:100%;background:#f1f1f1;border-collapse:collapse;border:1px solid #999;" cellpadding="5">
+  <tr>
+    <td style="width:160px;font-size:20px;border-bottom:1px dashed #bbb;font-weight:bold;">INBOUND</td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;">DXB<br /><span style="font-size:12px;">DXB</span></td>
+    <td style="width:60px;border-bottom:1px dashed #bbb;text-align:center;"><img src="https://www.ezeeflights.com/Content/images/plane.png" alt="" width="24" height="24" /></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;text-align:right;">LHE<br /><span style="font-size:12px;">LHE</span></td>
+    <td style="width:160px;border-bottom:1px dashed #bbb;"></td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;font-weight:bold;">Jul 22, 2026</td>
+    <td style="width:160px;"></td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;"></td>
+    <td style="width:160px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/EK.png" alt="EK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      EK-600<br />EK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">07:40 DXB</span><br />
+      <span style="font-size:9px;">Jul 22 DXB</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">10:45 KHI</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 KHI</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:350px;font-size:14px;">
+      <img src="https://www.ezeeflights.com/assets/airlinelogo/PK.png" alt="PK" style="float:left;padding-right:5px;width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none'" />
+      PK-304<br />PK
+    </td>
+    <td style="width:160px;">
+      <span style="font-size:20px;">14:00 KHI</span><br />
+      <span style="font-size:9px;">Jul 22 KHI</span>
+    </td>
+    <td style="width:60px;text-align:center;"></td>
+    <td style="width:160px;text-align:right;">
+      <span style="font-size:20px;">15:50 LHE</span><br />
+      <span style="font-size:9px;text-align:right;display:block;">Jul 22 LHE</span>
+    </td>
+    <td style="width:160px;font-size:12px;text-align:right;vertical-align:top;">
+      <img src="https://www.ezeeflights.com/Content/images/ticket.png" width="12" height="12" alt="" style="vertical-align:middle;" />
+      <span>Economy</span>
+    </td>
+  </tr>
+</table></field>
+	</row>
+</resultset>

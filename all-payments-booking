@@ -1,0 +1,111 @@
+# Flight Booking & Payment Routing Implementation
+
+This document provides a comprehensive overview of the implementation, architecture, and step-by-step test cases for the custom booking payment routing system on **ezeeFlights**.
+
+---
+
+## 1. Overview & Architecture
+
+To support diverse checkout strategies, the flight booking flow dynamically routes inquiries and payment gateways based on user selections:
+
+```mermaid
+graph TD
+    A[Start Booking Page] --> B{Is Bid Deal?}
+    B -- Yes --> C[Status: pending_payment] --> D[Create Bid Deposit Order] --> E[Launch Razorpay Deposit Widget]
+    B -- No --> F{Refund Shield OR Affirm Selected?}
+    F -- Yes --> G[Status: pending_payment] --> H[Backend /payments/initiate Razorpay] --> I[Launch Razorpay Advanced Widget]
+    F -- No --> J[Status: confirmed] --> K[Submit Inquiry & Skip Gateway] --> L[Booking Success Screen]
+```
+
+### The Four Payment Flows
+
+1. **Standby Bid Flow (`isBid`):** Used when the user places a bid on a standby flight deal. A fully refundable deposit is processed immediately using Razorpay to lock in the standby price.
+2. **Refund Shield Flow:** When selected, a **10% discount** is applied to the booking subtotal (including seats, ancillaries, and addons). The booking is submitted as `pending_payment` and checked out via Razorpay.
+3. **Affirm Flow:** To unify the user experience and support global regions, the legacy Affirm SDK is bypassed. Instead, Affirm installment bookings are routed to Razorpay (which supports native EMI/installment payment options).
+4. **Standard Booking Flow:** When no bid, refund shield, or Affirm is selected, the flight is booked immediately without upfront payment. The inquiry is submitted as `confirmed` and manual/offline payment is arranged later.
+
+---
+
+## 2. Implementation Details
+
+### Frontend Architecture
+
+#### 1. Unified Payment Logic ([page.tsx](file:///d:/aws/ezeeflights-aws/apps/frontend/app/flights/booking/page.tsx))
+
+- **Dynamic SDK Injection:** Dynamically injects `https://checkout.razorpay.com/v1/checkout.js` into the document only when a payment flow (Bid, Refund Shield, or Affirm) is active.
+- **`goNext()` Routing:**
+  - Evaluates user options on step completion. If `paymentMethod === "affirm" || refundShieldOpted` is true, routes to `handleAdvancePaymentCheckout()`.
+  - Otherwise, proceeds to `handleSubmit()`.
+- **`handleAdvancePaymentCheckout()`:**
+  - Submits the inquiry with a `pending_payment` status.
+  - Calls the backend `/payments/initiate` API passing `provider: "RAZORPAY"` and metadata context.
+  - Launches the Razorpay checkout widget (or the React-based **Payment Simulator** modal if the order is mocked in sandbox/development mode).
+- **`handleSubmit()`:**
+  - Used for standard bookings (direct confirmation) and Bid deposits (which call `createBidDepositOrder` directly).
+
+#### 2. Visual Trip Summary ([TripSummary.tsx](file:///d:/aws/ezeeflights-aws/apps/frontend/app/flights/booking/components/TripSummary.tsx))
+
+- Computes `refundShieldFee` as a negative value (representing a **10% discount** off the cumulative price of base fare, tax, seats, ancillaries, and addons).
+- Highlights the Refund Shield discount row dynamically in green with a minus sign (e.g., `- PKR 5,000.00`).
+
+### Backend Architecture
+
+#### 1. Gateway Extension (`InitiatePaymentDto`)
+
+- Expanded allowed gateway providers in the backend API to include `RAZORPAY` to process advance booking payments.
+
+---
+
+## 3. Step-by-Step QA Test Cases
+
+### Test Case 1: Standby Bid Flow (Deposit Payment)
+
+- **Goal:** Verify that booking a standby flight successfully routes through the Razorpay Bid deposit flow and requires a deposit.
+- **Pre-conditions:** Start booking a flight with the query parameter `bid=true` and a valid `bidId`.
+- **Steps:**
+  1. Fill in all required passenger details on Step 0.
+  2. Click **Pay Deposit & Bid** / **Next**.
+  3. Verify that the system submits the booking and triggers the Razorpay payment modal.
+  4. _(In Development)_ If the mock simulator modal appears, click **Simulate Payment**.
+  5. Verify redirect / progression to **Booking Confirmed** (Step 2 success screen).
+  6. Verify the reference number displays a formatted `FLT-` prefix.
+
+### Test Case 2: Refund Shield 10% Discount & Razorpay Checkout
+
+- **Goal:** Verify that selecting the Refund Shield applies a 10% discount and routes through Razorpay.
+- **Pre-conditions:** Start a standard flight booking flow (no bid).
+- **Steps:**
+  1. Under the booking add-ons, toggle **Refund Shield** ON.
+  2. Verify in the **Trip Summary** sidebar that a discount of 10% is calculated, highlighted in green, and prefixed with a minus sign.
+  3. Verify the grand total is reduced by exactly 10%.
+  4. Fill in passenger information.
+  5. Click **Next** / **Submit Booking**.
+  6. Verify that the booking status is submitted as `pending_payment` and the Razorpay widget (or Payment Simulator) opens.
+  7. Simulate or complete the payment.
+  8. Verify the success screen is rendered.
+
+### Test Case 3: Affirm Installment Routing via Razorpay
+
+- **Goal:** Verify that selecting "Affirm" routes checkout through Razorpay instead of launching the legacy Affirm SDK modal.
+- **Pre-conditions:** Start a standard flight booking flow (no bid).
+- **Steps:**
+  1. In the Payment Method selector, select **Affirm (Installments)**.
+  2. Verify that the legacy Affirm SDK popup does _not_ open.
+  3. Fill in traveler information.
+  4. Click **Submit Booking**.
+  5. Verify that the Razorpay widget opens (or Payment Simulator triggers with `"Flight Installment Payment"` description).
+  6. Verify the payment metadata includes `paymentMethod: "affirm"`.
+  7. Complete payment simulation and verify transition to the success screen.
+
+### Test Case 4: Standard Booking Flow (Bypass Payment Gateway)
+
+- **Goal:** Verify that standard flight bookings (no bid, refund shield, or Affirm) bypass payment gateways and book immediately.
+- **Pre-conditions:** Start a standard flight booking flow (no bid).
+- **Steps:**
+  1. Keep payment method as **Standard** (default).
+  2. Ensure **Refund Shield** is toggled OFF.
+  3. Fill in traveler details.
+  4. Click **Submit Booking**.
+  5. Verify that **no payment gateway** or simulator modal opens.
+  6. Verify the page immediately transitions to the **Booking Confirmed** success screen.
+  7. Verify the inquiry has been saved in the backend with the status `confirmed`.

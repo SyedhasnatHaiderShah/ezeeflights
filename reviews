@@ -1,0 +1,73 @@
+# Implementation Plan - Add Translations to Reviews Component and Data
+
+We will add internationalization (i18n) support to the Reviews carousel section, the community reviews page, and individual review cards using `react-i18next`. We will also add the exact translations for all review texts and UI strings across all 12 language JSON files.
+
+## Proposed Changes
+
+### Frontend Data
+
+Since `reviews.ts` and `reviews.js` are static data files and cannot use React hooks directly, we will translate the reviews dynamically inside the React components by wrapping the fields (`review.text`, `review.comment`, and `review.supplierResponse`) in the `t()` function. We will keep the data files clean and standard.
+
+### Frontend Components
+
+#### [MODIFY] [Reviews.tsx](file:///d:/aws/ezeeflights-aws/apps/frontend/components/sections/Reviews.tsx)
+- Import `useTranslation` from `react-i18next`.
+- Initialize `t` hook: `const { t } = useTranslation();`.
+- Wrap static UI strings:
+  - `"TESTIMONIALS"` -> `t("TESTIMONIALS")`
+  - `"What Travelers Say"` -> `t("What Travelers Say")`
+  - `"View all reviews"` -> `t("View all reviews")`
+  - `"Unable to load reviews right now. Please check back later."` -> `t("Unable to load reviews right now. Please check back later.")`
+  - `"Retrying..."` -> `t("Retrying...")`
+  - `"Try Again"` -> `t("Try Again")`
+  - `"Verified"` -> `t("Verified")`
+  - `"Guest"` -> `t("Guest")`
+  - `"No reviews yet."` -> `t("No reviews yet.")`
+  - `"View All Reviews"` -> `t("View All Reviews")`
+- Wrap dynamic fields:
+  - Translate the review text before slicing:
+    ```typescript
+    const translatedText = t(review.text);
+    const displayedText = translatedText.length > 200 ? `${translatedText.slice(0, 200)}...` : translatedText;
+    ```
+
+#### [MODIFY] [ReviewCard.tsx](file:///d:/aws/ezeeflights-aws/apps/frontend/components/reviews/ReviewCard.tsx)
+- Import `useTranslation` from `react-i18next`.
+- Initialize `t` hook.
+- Wrap UI and dynamic strings:
+  - `review.comment` -> `t(review.comment)`
+  - `review.supplierResponse` -> `t(review.supplierResponse)`
+  - `"Verified Traveler"` -> `t("Verified Traveler")`
+  - `"Supplier Response"` -> `t("Supplier Response")`
+  - `"Helpful"` -> `t("Helpful")`
+  - `"Reply"` -> `t("Reply")`
+  - `"Report"` -> `t("Report")`
+  - `"Reported"` -> `t("Reported")`
+  - `"Flight"`, `"Hotel"`, `"Car"` categories -> `t("Flight")`, `t("Hotel")`, `t("Car")`
+
+#### [MODIFY] [page.tsx](file:///d:/aws/ezeeflights-aws/apps/frontend/app/reviews/page.tsx)
+- Import `useTranslation` from `react-i18next`.
+- Initialize `t` hook.
+- Wrap UI strings:
+  - `"Community Voices"`
+  - `"Verified"`
+  - `"Experiences"`
+  - `"Real stories from our global community of travelers. Transparent, verified, and always helpful."`
+  - `"Average Rating"`
+  - `"Global Satisfaction"`
+  - `"Total Reviews"`
+  - `"Verified Stays"`
+  - `"Search reviews..."`
+  - `"Showing 5 of 12,542 verified reviews"`
+  - `"Load More Experiences"`
+
+### Translation Files
+
+We will write a Node.js script to automatically generate high-quality translations for all extracted reviews and UI strings and insert them into the 12 target language JSON files in `apps/frontend/translations/`.
+
+Target languages: `en`, `tr`, `ar`, `fr`, `hi`, `es`, `et`, `de`, `zh-hans`, `zh-hant`, `ur`, `tl`.
+
+## Verification Plan
+
+### Automated Build Check
+- Run `npm run build` in `apps/frontend` to ensure the project compiles without TypeScript or linter errors.

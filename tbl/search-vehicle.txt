@@ -1,0 +1,3042 @@
+Vehicle Search
+OpenYou are here
+VehicleReqRsp.xsd
+
+Vehicle Search
+
+Vehicle Search is a generic request for rental cars that are available in a certain city between two specific dates.
+
+By default, responses are sorted from low to high rate only when pickup and drop-off locations are the same. However, when pickup and drop-off locations are different, rates may not appear from low to high rate.
+Modifiers such as specific car types, features, or rental locations can be used to narrow the response.
+Schema
+See the following transactions for Vehicle Search:
+
+VehicleSearchAvailabilityReq
+VehicleSearchAvailabilityRsp
+Request
+VehicleSearchAvailabilityReq is used to search for vehicles.
+
+Enter the minimum required data for a Vehicle Search request in the VehicleDateLocation element:
+The pick-up date and time.
+The return date and time.
+A city or airport code.
+If the VehicleDateLocation/VendorLocation @VendorLocationID is specified in the request, the PickupLocationType is mandatory in the request.
+
+OpenEnter exact locations
+Requests can include single or multiple exact pickup, single exact return for single or multiple vendors, or exact pickup and return locations.
+
+Include VendorLocation @VendorLocationID in the request to specify an exact pickup location OR include VendorDateLocation @ PickupLocation, @PickupLocationType, and @PickupLocationNumber in the request to specify an exact pickup location.
+Include VendorDateLocation @ReturnLocation, @ReturnLocationType, and @ReturnLocationNumber in the request to specify an exact return location.
+If only @ReturnLocation is specified it is assumed to be an airport. If @ReturnLocation is not specified, the pickup location is assumed to be the return location as well.
+
+All schema versions support submitting exact pickup and return locations.
+
+OpenExact Pickup and Return Locations
+Vehicle Search requests can include:
+
+Up to three generic pickup locations and one exact return location.
+Up to three exact pickup locations and one exact return location.
+
+Up to three exact pickup locations with return to pickup Location (return attributes are not specified in the request).
+
+Up to three exact pickup locations with return to airport (return LocationType and VendorLocationID are not specified in request).
+
+When VehicleDateLocation @PickupLocation or @PickupLocationType are specified in the request, an exact pickup location can be specified by including VehicleDateLocation/VendorLocation:
+
+@LocationCode
+@LocationType
+@VendorLocationID
+@VendorCode
+Notes:
+
+For Galileo (1G) and Apollo (1V), the request can include exact pickup locations and an exact return location with one or multiple vendors.
+For Worldspan (1P), the request can include exact pickup and an exact return location with one vendor.
+All attributes must be included in the request (@ProviderCode, @VendorCode, @LocationCode, @LocationType, @VendorLocationID, Type) for both Pickup and Return.
+For one or more exact Pickup and Return to Pickup Location with one vendor (Galileo, Apollo, and Worldspan) or multiple vendors (only Galileo and Apollo support multiple vendors):
+All attributes must be included in the request for Pickup: @ProviderCode, @VendorCode, @LocationCode, @LocationType, @VendorLocationID, and @Type
+The return location for Return to Pickup Location is not included in request, as its included in the Pickup Location.
+For one or more exact Pickup, and default return to airport, for one or multiple vendors (Galileo, Apollo, Worldspan), these attributes must be included in the request for Pickup: @ProviderCode, @VendorCode, @LocationCode, @LocationType, @VendorLocationID, and @Type:
+The return includes @ProviderCode, @VendorCode, @LocationCode, and @Type.
+The return @LocationCode must be the same for all returns.
+For default Pickup to airport and exact Return for one vendor (Galileo, Apollo, Worldspan):
+These attributes must be included in the request for Pickup: @ProviderCode, @VendorCode, @LocationCode, and @Type
+The return includes @ProviderCode, @VendorCode, @LocationCode, @LocationType, @VendorLocationID, and @Type.
+Only one generic return location can be specified:
+
+If VendorLocation @LocationType and @LocationID are not included in the request, the default return location is an airport.
+
+If VendorLocation @Type="Pickup" or ="Return", and VehicleDateLocation attributes are specified, only VendorLocation attributes are processed and a warning is returned.
+OpenShow warnings
+A warning is returned if:
+
+The maximum number of vendors/exact pickup/exact return locations allowed per provider is exceeded. Universal API processes up to the maximum number and ignores all others. The warning lists the pickup and return locations that were not processed.
+The request includes VendorLocation @Type and VehicleDateLocation attributes (@PickupLocation, @PickupLocationType, @PickupLocationNumber, @ReturnLocation, @ReturnLocationType, or @ReturnLocationNumber). The warning lists the VehicleDateLocation attributes that were not processed.
+For exact Pickup and exact Return requests where both VehicleDateLocation/VendorLocation@VendorCode and VehicleSearchModifiers@PermittedVendors are present, Universal API takes the value from VehicleDateLocation/VendorLocation@VendorCode and ignore @PermittedVendors. Universal API returns the following warning message “PermittedVendors “XX” was not processed in the request” where XX = vendor code.
+
+Any /VendorLocation/@Type “Pickup” or “Return” has @VendorLocationID but does not have @LocationType, then Universal API returns the following error message for both single and multiple pickup, or if VehicleSearchAvailabilityReq/VehicleDateLocation/PickupLocationType is not provided in the request, and either VehicleSearchAvailabilityReq/VehicleDateLocation/PickupLocationNumber or VehicleSearchAvailabilityReq/VehicleDateLocation/VendorLocation/VendorLocationID is present:
+"Location Type is mandatory with Location Number for provider."
+
+Multiple Pickup Locations with LocationType and VendorLocationID, the error "Return @LocationType and @VendorLocationID are not allowed with multiple Pickup Locations” returns in the response.
+
+Multiple Pickup Locations are requested and all Return @LocationCode(s) are not the same, Universal API will return the following error: “All Return @LocationCode must be the same.”
+
+See the response for more details.
+
+Enter optional data to refine the search in the VehicleSearchModifiers element.
+Preferred currency can be specified to request vehicle rates in a user's preferred currency.
+OpenShow details
+Use @PreferredCurrency to request a response in the user's preferred currency. E.g., PreferredCurrency="EUR". All converted rates are returned, regardless of the providers to whom the request was submitted.
+
+When ReferencePoint is sent in the request, the location is not required, but can be included. In Galileo, the reference point, location, or both must be provided.
+Notes:
+
+If multiple vendors are specified in a request that includes ReferencePoint, a vehicle type is also required. 
+Some locations types are not supported for ReferencePoint-only searches.
+Add any Discounts, Promotional, and Related Attributes:
+ Vehicle v.34.0 and greater processes the existing @DiscountNumber, @PromotionalCode, @TourCode attributes in the Vehicle Rate response (VehicleSearchAvailabilityRsp/Vehicle/VehicleRate).
+These optional attributes @DiscountNumberApplied, @PromotionalCodeApplied, @TourCodeApplied, @CardNumber, @CardNumberApplied, and @RequestedRateCodeApplied, were added in Vehicle v.34.0.
+Backward Compatibility:
+Universal API populates @DiscountNumberApplied, @PromotionalCodeApplied, @TourCodeApplied, @CardNumber, @CardNumberApplied, @RequestedRateCodeApplied in V.34.0 and later.
+
+In VehiclesearchAvailabilityRsp, @DiscountNumber, @PromotionalCode and @TourCode will not be populated in version 33.0 and earlier.
+
+If a Booking is created with a @DiscountNumber greater than ten characters in v34.0 or later, and then retrieved in an earlier version, Universal API truncates and returns the first 10 characters along with the following warning, “Partial DiscountNumber returned, upgrade to uAPI v34 or higher to retrieve.”
+
+As of Universal API Release 22.2.2, Vehicle Rate allows surcharge to be returned in the vehicle charge category. Release 22.2
+VehicleSearchAvailabilityRsp/Vehicle/VehicleRate/VehicleCharge @Category="Surcharge" .
+
+Corporate / Government Rate Category and Discount Number Best Practices:
+
+The following points are best practices when using Corporate Discount Numbers (CDN) witn Rate Categories, specifically Corporate and Government. For some car vendors, these best practices are requirements and if not followed, results in errors: Release 25.4
+
+Pairing Enforcement:
+
+When a Corporate Discount Number (CDN) is provided, the Rate Category must be either Corporate or Government, or,
+
+When Rate Category is Corporate or Government, a valid CDN must be included in the request.
+
+For some customers:
+
+If CDN is present, the RateCategory must be Corporate or Government, or this error message returns: "Rate Category is required when a Corporate Discount Number (CDN) is provided. Please include a Rate Category of Corporate or Government."
+
+If the Rate Category is Corporate or Government, a CDN must be present, or this error message returns: "Corporate or Government Rate Category requires a Valid Corporate Discount Number (CDN). Please include CDN in your Request."
+
+Vendor Scoping/Identification:
+
+Corporate or Government rate requests must specify a vendor using either VendorLocation@vendor or PermittedVendors/Vendor@code.
+
+If both are provided, the vendor codes must match.
+
+If RateModifier@VendorCode is sent, it must align with the specified vendors. If not, the following error may return: "Corporate or Government Rate Category requires a vendor. Please include VendorLocation@VendorCode or PermittedVendors/Vendor@Code in your request."
+
+Consistency Validation:
+
+The system validates that vendor codes match across VendorLocation@Vendor, PermittedVendors/Vendor@code, and RateModifier@VendorCode (when applicable).
+
+For some customers, if both VendorLocation@vendor and PermittedVendors/Vendor@code are present and the codes don’t match, this error returns: "VendorLocation@VendorCode, PermittedVendors/Vendor@Code and RateModifier@VendorCode does not match in your request. Please review."
+
+Error Handling:
+
+Universal API returns clear, actionable error messages when these requirements are not met, helping you quickly identify and resolve any issues.
+
+VehicleSearchAvailabilityRsp returns Vehicle Search options.
+Response
+Available car rental rate options are returned in order of price. The least expensive options are displayed first, followed by increasingly more expensive rental rates. Any optional qualifiers that are added to request will narrow the response.
+
+By default, responses are sorted from low to high rate only when pickup and drop-off locations are the same.
+However, when pickup and drop-off locations are different, rates may not appear from low to high rate.
+Based on the qualifiers used, the GDS returns a response that includes as many as ten availability options. If additional rate options exist, a ‘More’ indicator is also returned, and subsequent requests can be made.
+
+One of three statuses will be returned with the response:
+
+Available  
+Call (the supplier)
+Closed  
+A search response may contain a NextResultReference if the provider has additional response data that was not returned in that call. This reference token from the provider can be used in a subsequent request to obtain this additional data.
+
+The following data may also be returned in the response:
+
+A "true" indicator if a rate is guaranteed in VehicleRate/RateGuaranteed.
+Pre-payment requirements in VehicleRate/RequiredPayment.
+Rate separator text, when available.
+The InventoryToken when it exists for a rate, so that it can be used in the booking request.
+Any applicable drop charges associated with the rate because the drop-off location is different from the pick-up location.
+Car type description, when available.
+The vendor unique location ID associated to the vehicle.  
+The data base key that is related to a rate, so that it can be used in a reference sell request.
+The source of the rate, so that it can be used in the sell request.
+The door count for specific vehicles.
+The location of the vehicle, e.g., Terminal, ShuttleOnAirport, etc. The /Vehicle@Location also returns the Shuttle Category code in the description text. For example, "S" or "SHTL" code is returned as "Offsite – Shuttle to counter and car" with the Vehicle Search Availability Rate response. See Car Counter Location Shuttle Descriptions for more details.
+For Vehicle.xsd, an ACRISS Standard code.
+The Counter Location Code, which is the four-byte code to identify the Location of the Rental Counter, e.g. OMSO, PHON, etc. Universal API converts the 1G and 1V Counter Location 1-byte value to a 4-byte code, or returns the 1P Counter Location 4-byte code, in the response.
+
+OpenPayNow and PayLater
+@PayNow and @PayLater increase customer awareness for understanding what is due now for a pre-paid rate, as well as what might be due later based on individual rental.
+
+Note: This content is supplier dependent.
+
+To support car suppliers that would like to offer different rates for prepaid booking, the “PayNow and “PayLater" attributes are added in each vehicle response message:
+
+VehicleRules Response
+
+Supplier Rate – PayNow and PayLater
+VehicleCreateReservation Response
+
+Supplier Rate – PayNow and PayLater
+VehicleSearchAvailability Response
+
+Supplier Rate – PayNow and PayLater
+ApproximateRate - PayNow and PayLater
+For example, in the VehicleSearchAvailability Response for a One Way Rental, the supplier returns:
+
+RateCategory = Prepay
+PayNow - Amount due at the time of Booking
+PayLater - Amount due at time of Pickup (One-way fee – Drop off charge)
+Note: The Approximate PayNow and PayLater rates are ONLY returned in the VehicleSearchAvailability response.
+
+OpenPrePay
+To allow car suppliers the ability to offer different rates for prepaid bookings, the RateCategory, “Prepay” is supported in all Universal API Vehicle transactions.
+
+Adding the Rate Category “Prepay” to the request message indicates to the supplier that you want these particular rate plans included in the response.
+
+The ability to get prepay information in the response is supplier dependent.
+
+@RateCategory="Prepay" is a part of
+
+/VehicleSearchModifiers in
+VehicleSearchAvailabilityReq
+VehicleRulesReq
+/Vehicle/VehicleRate in
+VehicleSearchAvailabilityRsp
+VehicleRulesRsp
+VehicleCreateReservationReq
+OpenExact Pickup and Return Locations
+Universal API processes up to the maximum number of vendors and maximum number of exact pickup and return locations allowed per provider and ignores all others. A warning is returned in the response that lists the pickup locations that were not processed.
+
+VehicleSearchRsp @ReturnAtPickup indicates whether a vehicle can be returned at any location (ReturnAtPickup="false") or at the pickup point only (ReturnAtPickup="true"). Only Galileo (1G) and Apollo (1V) support the attribute.
+
+OpenPreferred Currency
+Vehicle/VehicleRate includes:
+
+SupplierRate: Non-converted rates from the vehicle supplier.
+ApproximateRate: Converted rates into the preferred currency specified in the request.
+If PreferredCurrency is specified in the request, converted rates are returned by all providers in the VehicleRate/ApproximateRate element. If PreferredCurrency is not specified, the SupplierRate element is populated.
+
+If Preferred Currency is requested in the same currency as the vendor currency, the rates that are returned are not converted.
+
+All providers return converted rates. However, non-converted rates are returned in the same response as converted rates by Worldspan . Only one type of rate (converted or non-converted) is returned in a response by Galileo or Apollo, not both.
+
+For example, in a request to the Worldspan provider, if the Pseudo City Code (PCC) has a currency of EUR, and @PreferredCurrency="USD" in the Vehicle Search request, non-converted rates are returned in EUR and converted rates are returned in USD. In the same request to the Galileo provider, only rates in the specified preferred currency are returned.
+
+Notes:
+
+This functionality is not backwards compatible.
+See the Exceptions section for further details on /VehicleRate
+OpenGuarantee Required
+If a guarantee is required for a Worldspan (1P) segment, then @RequiredPayment is set to "Guarantee" in VehicleSearchAvailabilityRsp/Vehicle/VehicleRate.
+
+OpenShuttle Category
+The Vehicle Search Availability request returns the location of the Shuttle Category code in the description text. For example:
+
+"S" or "SHTL" code is returned as "Offsite – Shuttle to counter and car" in the Vehicle Search Availability Rate response.
+"S" code is returned as “Offsite – Shuttle to counter and car” as the Location of Counter description text for the Shuttle Category Code in the Vehicle Rules response.
+OpenNext Steps
+A Vehicle Search request can be followed up with one of several transactions:
+
+A request to book a selected car option.
+
+A request for additional results.  
+
+A Car Location Details request for more information about the vendor and rental option.
+
+Exceptions
+OpenWorldspan
+Worldspan does not support PointOfSale in the request. Any value provided is ignored, and a warning is sent in the response: "Separate PointOfSale not supported by provider".
+Worldspan does not return VehicleSearchAvailabilityRsp/Vehicle/VehicleRate/RateInclusions in the response.
+The optional element: MarketingInformation displays marketing text or notices for Suppliers.
+OpenVehicleRate
+OpenRequired Payment
+Vehicle.xsd returns an indicator in Vehicle Search Availability Response to indicate whether a Vehicle Rate required Prepayment at booking. The Pre-payment Required indicator is in VehicleSearchAvailabilityRsp/Vehicle/VehicleRate/@RequiredPayment.
+
+OpenRental Restrictions
+Vehicle.xsd displays the Restricted Mileage Indicator in the Vehicle Rate response. For example, mileage restriction is a Rental Restriction.
+
+The optional attribute is in the VehicleRate element @RentalRestriction (VehicleSearchAvailabilityRsp/Vehicle/VehicleRate/@RentalRestriction)
+The Rental Restriction attribute value is true if vehicle rate has rental restrictions.
+Detailed rental restrictions can be obtained from the Vehicle Rules response.
+OpenFlight Restrictions
+Vehicle.xsd displays the Flight Restriction Indicator in the Vehicle Rate response.
+
+Vehicle.xsd has the optional attribute to the VehicleRate attribute, FlightRestriction (VehicleSearchAvailabilityRsp/Vehicle/VehicleRate/@ FlightRestriction)
+Flight Restriction indicates that flight information is required at booking.
+ 
+
+ 
+
+Was this topic helpful?
+OpenFeedback / Support
+For technical assistance, review the Support page, or raise a case with Travelport's support desk.
+
+Log into https://my.travelport.com/.
+
+From the Help and resources menu, select Travelport support.
+
+Scroll to the bottom of the Home page and select Raise a Case. This option will direct your issue to Travelport support who can assist you with technical questions. If you think an update to the text on this page would have assisted with solving your issue, mention that in your notes to the support agent with the associated topic and help page URL.
+
+OpenRaise a Case detailed instructions
+From the image below, select the Home menu at the top left.
+
+Scroll to the bottom of the page just before the footer and select Open request in the Raise a Case green area.
+
+
+
+Select the Developer Product Services option.
+
+
+
+Complete the form. For Product, select SOAP XML API Services (formerly uAPI) so that the request can be routed to the API Support team, who will be able to assist you.
+
+
+
+If you are a Travelport customer but do not have an account on my.travelport.com, select Create account and register. Follow these instructions.
+
+If you are not yet a Travelport customer, please go to https://www.travelport.com/contact to contact Travelport Sales.
+
+ Vehicle Search Modifiers
+The following modifiers can be added to the search parameters for a basic Vehicle Search request to narrow the responses. While some modifiers are mutually exclusive, others can be combined to further narrow a response.
+
+ 
+
+Modifier
+
+Description
+
+Preferred Currency
+
+The @PreferredCurrency attribute can be added to the request to search by a specific or alternate currency.
+
+Return Source Currency Release 20.3	
+Prior to Vehicle v50.0, when sending a VehicleSearchAvailability request, the Galileo (1G) provider returned a converted rate based on the country of pick-up rather than returning the rate that the vendor provided. Since the rate was converted, it reflected as an approximate rate and did not return the @RateGuaranteed=”True”. This caused a problem for customers who did not display a rate on their website if it was not showing as guaranteed. This caused a loss of sales as certain locations such as MEX always returned with the Galileo (1G) converted currency rather than the guaranteed vendor currency.
+
+Universal API release 20.3.2 and later provides the ability to send a VehicleSearchAvailability request with the modifier ReturnSourceCurrency="True" to return the rate details in vendor-filed currency. The modifier defaults to false. When the rate in the response reflects the currency that the vendor provides, it shows RateForPeriod rather than an approximate, and shows RateGuaranteed=”true” :
+
+<vehicle:Vehicle VendorCode="ZE" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Fullsize" Category="Car" DoorCount="TwoToFourDoors" VendorLocationKey="hBexw7BAAA/BDSqJAAAAAA==" AcrissVehicleCode="FCAR">
+
+<vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="M" RateAvailability="Available" RateCode="AFLXD1" RateCategory="Promotional" RateGuaranteed="true" DropOffChargesIncluded="true">
+
+<vehicle:SupplierRate RateForPeriod="USD73.81" EstimatedTotalAmount="USD73.81" ExtraMileageCharge="USD0.00"/>
+
+<vehicle:RateHostIndicator InventoryToken="E" RateToken="XIMATXW92T"/>
+
+</vehicle:VehicleRate>
+
+VehicleSearchAvailabilityReq/VehicleSearchModifiers @ReturnSourceCurrency
+
+VehicleSearchAvailabilityRsp/Vehicle/VehicleRate
+
+@RateGuaranteed
+/SupplierRate @RateForPeriod
+Unlimited Mileage
+
+If UnlimitedMileage="true", vehicle rate options with unlimited mileage are requested. The default is false.
+
+While responses should return rate options with unlimited mileage, Universal API does not validate the mileage data returned by suppliers. Therefore, some suppliers may return rates that contain mileage restrictions.
+
+Rate Category
+
+Requests availability by rate category. E.g., Association, Business, Corporate, Government, etc.
+
+Rate Guaranteed
+
+The RateGuaranteed modifier is used to request availability for cars with a guaranteed rate. When the Guarantee indicator for vehicle rate is to "true", only vehicles with a guaranteed rate are returned. Rate information in the response is returned in VehicleReservation/Vehicle/VehicleRate.
+
+Rate Period
+
+The RatePeriod attribute identifies the period of time for which the rate should be processed, as most suppliers vary rates based on the unit of rental time requested. E.g., daily, weekly, etc.
+
+Supplier (Permitted Vendors / Prohibited Vendors)
+
+Supplier codes can be added to a request to either permit (include) or prohibit (exclude) specific vendors from the response option.
+
+Vehicle Modifiers
+
+Requests availability by one or more of the following vehicle modifiers:
+
+Air conditioning
+
+Transmission type
+
+Vehicle class
+
+Vehicle category
+
+Door count
+
+Vehicle Type
+
+Requests a standard list or classification of available vehicle types.
+
+Rate Modifiers
+
+Requests availability by one or more of the following vehicle rate modifiers:
+
+Rate code
+
+Discount number (Corporate Discount ID)
+
+Vendor Code
+
+Promotional Code
+Tour Code
+Vendor Location Reference
+
+Rate Type
+
+Requests availability by one or more of the following vehicle rate modifiers:
+
+Rate code
+
+Rate category
+
+Discount number
+
+Supplier (vendor) code
+
+Guaranteed rate
+
+Rate Host Indicator	
+The RateHostIndicator includes two tokens: Inventory Token and Rate Token.
+
+Inventory Token is vendor information about the rate to adjust pricing as needed.
+Rate Token associates the shop response to the sell request.
+Note:The Worldspan providers are expanding Travelport’s car database to be able to accept the Open Travel Alliance (OTA) 2014 standard for Search/Reference ID token size. This enhancement modifies /RateHostIndicator/ @InventoryToken and @RateToken in VehicleSearchAvailabilityRsp, VehicleRulesReq and VehicleCreateReservationReq to support the expansions of the Rate Qualifier node, including the RateAuthorizationCode (expanding 8 Bytes (1-28)) and SequenceNumber (bytes 21-24 moved to 29-32).
+
+Loyalty Card (Loyalty Program)
+
+Supports a frequent traveler loyalty program membership.
+
+Reference Point
+
+Requests a list of available rental cars close to a reference point.
+
+Booking Source
+
+The BookingSource element contains two attributes: Code and Type.
+
+Code is the alternate booking source code or number.
+Type is the type of booking source sent in the Code attribute.
+Notes:
+
+This element is only supported in Worldspan (1P).
+Only the IATA Number (Type="IataNumber") is accepted for Vehicle Search, but the other enumerations are valid for Vehicle Booking, Air Booking, or Hotel Booking.
+Distance (and Direction)
+
+The Vehicle Search request includes four elements for distance and direction as a search parameter for the required vehicle availability.
+
+The response includes distance and direction for each vehicle result.
+
+DriverInfo	
+This element implements an age-based surcharge for younger or older drivers, if applicable.
+
+In the Vehicle Search and Vehicle Rules requests, the DriverInfo @Age modifier is added to determine if a surcharge is applied.
+When vehicle suppliers request to have the age during sell to ensure the proper rates are used, VehicleCreateReservationReq/ReservationName
+/NameOverride @Age is populated.
+Universal API returns the applicable age-based surcharges in the response.
+This benefit allows customers the ability to send the driver's age in vehicle availability response to ensure that they receive back the age based surcharges from participating vendors, which allows them to provide their customers with true price details for the vehicle rental. Release 21.3
+Notes:
+
+The requirement for an age-based surcharge and the surcharge amount is determined by the vehicle supplier.
+Universal API ignores the specified Age and returns a Warning message when Age specified is > 99.
+This enhancement is implemented for Galileo (1G), Apollo (1V), and Worldspan (1P).
+@Age and @Surcharge in
+
+VehicleSearchAvailabilityReq/VehicleSearchModifiers/DriverInfo
+VehicleSearchAvailabilityRsp/Vehicle/VehicleRate/RateInclusions/IncludedItems
+Location Type
+
+Modifies a default Vehicle Search request to include a specific location type such as a railway station, resort, car dealership, or cardinal location from the city center. The location type can also be used to search by a city code rather than an airport code.
+
+Note: This request returns all vendor locations that match the request location type. To request a specific vendor location, search by Unique Location ID.
+
+Unique Location ID
+
+Modifies a default Vehicle Search request to include availability for a specified vehicle rental location.
+
+Note: This request returns results for a specific vendor location. To obtain availability for a general location type, such as a railway, resort, or city code, use Vehicle Search by Location Type.
+
+Sellable Rates Only	
+Vehicle Search Availability request for Vehicles/Rates that are status “SS” only when @SellableRatesOnly is set to "true." This applies to Worldspan (1P), and with Universal API release 22.2.2, SellableRatesOnly option is valid for providers Galileo (1G) and Apollo (1V).Release 22.2
+
+Merchant Rate
+
+Vehicle Search Availability supports multiple Merchant Rates. A Merchant Rate is the ability to request multiple vendor/ multiple specific-pickup-locations in a single request.
+
+Special Equipment	
+The Support Special Equipment was added with Vehicle v33.0. This modifier returns results based on car searches with special equipment.
+
+There are special equipment items, such as NVS-Navigation System , CCL – Cruise Control, CLS – Central, Locked System, COF – Carbon Offset Fee, DIE – Diesel etc., which are often required by customers to add to their car rental requests.
+
+Notes:
+
+When more than 5 SpecialEquipment/@Type is being provided in the request, uAPI will consume first 5 and ignore the rest with a Warning message: “Maximum 5 special equipment’s can be used in the vehicle search request for 1P providers. When more than 5 special equipment’s are being provided in the request, Universal API will consume first 5 and ignore the rest.”
+If the supplier does not edit the special equipment, valid or not, will be ignored by the supplier and car availability is returned for the requested location.
+The inclusion of special equipment in a car availability request does not affect the rates returned in the availability response. Rates for special equipment can be obtained at the sell or in rate rules.
+See the Reference Data topic to review all special equipment type codes.
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Rate Category
+By default, a Vehicle Search returns all available rates that meet the request search parameters. Availability can be requested by the Rate Category qualifier. Rate Category is the general category of the rate. Many of these rates are associated with a negotiated rate for a specific organization or event.
+
+Request
+In Galileo, Rate Categories map exactly to the Universal API enumerations. The RateCategory attributes of the VehicleSearchAvailabilityRequest/VehicleSearchModifiers/ includes the following values:
+
+Association  
+
+Business  
+
+Corporate  
+
+Government  
+
+Industry  
+
+Package  
+
+Inclusive  
+
+Promotional  
+
+Credential  
+
+Standard  
+
+Consortium  
+
+Convention  
+
+Negotiated  
+
+Prepay (Vehicle v44.0 and greater. 1P only) Release 18.1
+
+ 
+
+With Vehicle v48.0 and greater, on Worldspan (1P), Travelport validates on the length of the rental for vendors that have supplied us with maximum rental days for prepay rates. For example one car vendor does not allow pre-pay for rentals exceeding 28 days. Rental car suppliers will receive less unnecessary traffic, which helps reduce performance items such as slower response times and timeouts:
+
+By Travelport limiting VehicleSearchAvailability “prepay” requests to only be sent to the vendor when the length of the rental does not exceed vendor specifications, such as if a rental request is 28 days or less, a significant amount of traffic is prevented from being sent to the vendor.
+Universal API customers, when sending a VehicleSearchAvailability request that includes rate category as prepay, it allows Travelport to validate the length of rental information being sent in the request, and if it is outside of what the vendor or supplier allows for pre-paid, an error returns to block unnecessary traffic that may be impacting supplier performance.
+If more than the set number of days, (for example, 28 days), the following error returns:
+<faultstring>Prepay rates are not available for rental requests that exceed 28 days.</faultstring>
+Corporate / Government Rate Category and Discount Number Best Practices
+The following points are best practices when using Corporate Discount Numbers (CDN) witn Rate Categories, specifically Corporate and Government. For some car vendors, these best practices are requirements and if not followed, results in errors: Release 25.4
+
+Pairing Enforcement:
+
+When a Corporate Discount Number (CDN) is provided, the Rate Category must be either Corporate or Government, or,
+
+When Rate Category is Corporate or Government, a valid CDN must be included in the request.
+
+For some customers:
+
+If CDN is present, the RateCategory must be Corporate or Government, or this error message returns: "Rate Category is required when a Corporate Discount Number (CDN) is provided. Please include a Rate Category of Corporate or Government."
+
+If the Rate Category is Corporate or Government, a CDN must be present, or this error message returns: "Corporate or Government Rate Category requires a Valid Corporate Discount Number (CDN). Please include CDN in your Request."
+
+Vendor Scoping/Identification:
+
+Corporate or Government rate requests must specify a vendor using either VendorLocation@vendor or PermittedVendors/Vendor@code.
+
+If both are provided, the vendor codes must match.
+
+If RateModifier@VendorCode is sent, it must align with the specified vendors. If not, the following error may return: "Corporate or Government Rate Category requires a vendor. Please include VendorLocation@VendorCode or PermittedVendors/Vendor@Code in your request."
+
+Consistency Validation:
+
+The system validates that vendor codes match across VendorLocation@Vendor, PermittedVendors/Vendor@code, and RateModifier@VendorCode (when applicable).
+
+For some customers, if both VendorLocation@vendor and PermittedVendors/Vendor@code are present and the codes don’t match, this error returns: "VendorLocation@VendorCode, PermittedVendors/Vendor@Code and RateModifier@VendorCode does not match in your request. Please review."
+
+Error Handling:
+
+Universal API returns clear, actionable error messages when these requirements are not met, helping you quickly identify and resolve any issues.
+
+Exceptions
+Worldspan supports a maximum of one Rate Category.
+
+Response
+A standard Vehicle Search response is returned in VehicleSearchAvailabilityRsp.
+
+ 
+
+TS-1374 Release 19.1
+
+ 
+
+Was this topic helpful?
+OpenFeedback / Support
+For technical assistance, review the Support page, or raise a case with Travelport's support desk.
+
+Log into https://my.travelport.com/.
+
+From the Help and resources menu, select Travelport support.
+
+Scroll to the bottom of the Home page and select Raise a Case. This option will direct your issue to Travelport support who can assist you with technical questions. If you think an update to the text on this page would have assisted with solving your issue, mention that in your notes to the support agent with the associated topic and help page URL.
+
+OpenRaise a Case detailed instructions
+From the image below, select the Home menu at the top left.
+
+Scroll to the bottom of the page just before the footer and select Open request in the Raise a Case green area.
+
+
+
+Select the Developer Product Services option.
+
+
+
+Complete the form. For Product, select SOAP XML API Services (formerly uAPI) so that the request can be routed to the API Support team, who will be able to assist you.
+
+
+
+If you are a Travelport customer but do not have an account on my.travelport.com, select Create account and register. Follow these instructions.
+
+If you are not yet a Travelport customer, please go to https://www.travelport.com/contact to contact Travelport Sales.
+
+ Vehicle Search by Specific Suppliers
+By default, a Vehicle Search response returns all available suppliers. However, supplier codes can be added to a request to either permit (include) or prohibit (exclude) specific vendors from the response option.
+
+Request
+A standard Vehicle Search request is modified to include permitted or prohibited vendors. In addition to the minimum required search data, the PermittedVendors and ProhibitedVendors children of VehicleSearchAvailabilityReq/VehicleSearchModifiers are used to specify permitted or prohibited suppliers.
+
+Permitted and prohibited vendors cannot be combined in a request.
+
+ClosedShow schema diagram
+Requesting Permitted Vendors
+One or more instances of the PermittedVendors child is sent to include only the supplier codes of one or more permitted Vendors (suppliers) in the response.
+
+ClosedShow schema diagram
+The maximum number of permitted suppliers varies by provider.
+
+Requesting Prohibited Vendors
+One or more instances of the ProhibitedVendors child is sent to exclude the supplier codes of one or more permitted Vendors (suppliers) from the response.
+
+ClosedShow schema diagram
+The availability of prohibited suppliers varies by provider.
+
+Response
+A standard Vehicle Search request is made including a Location Type indicator. In addition to the minimum required search data, the PickupLocationType and ReturnLocationType attributes of VehicleSearchAvailabilityReq/VehicleDateLocation are used to specify the location for the corresponding PickupLocation and ReturnLocation.
+
+Error and Warning Responses
+If none of the suppliers are available for the requested search, a message is returned.
+If the maximum number of permitted suppliers for a provider is exceeded, a warning is returned to indicate which vendors were not sent in the request: Max number of permitted vendors exceeded for this host. The following vendor(s) were not included in the request:[...].
+Exceptions
+ClosedGalileo (1G) and Apollo (1V)
+ClosedWorldspan (1P)
+ 
+
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Vehicle Type
+ClosedYou are here
+By default, a Vehicle Search response returns all available Vehicle types. However, the request can be modified to include vehicle type information such as vehicle categories, classes, door counts, and fuel types.
+
+VehicleModifier attributes can be sent in combination with VehicleType values. Alternately, individual Vehicle modifiers can be requested using VehicleSearchModifiers/VehicleModifier. See Vehicle Search by Vehicle Modifiers for details.
+
+Some providers also permit a combination of Vehicle Modifier attributes and Vehicle Types. See Exceptions for details.
+
+Schema
+See the following transactions for Vehicle Search:
+
+VehicleSearchAvailabilityReq
+VehicleSearchAvailabilityRsp
+How To
+VehicleType is a modifier that can be added into the standard Vehicle Search request.
+
+Enter the minimum required search data for a Vehicle Search in VehicleSearchAvailabilityReq.
+Enter /VehicleSearchModifiers/VehicleType to specify the type of vehicles to include in the search.
+Two types of vehicle type data are accepted in Vehicle Type:
+
+Industry-standard pseudo codes, which combine various types of vehicle modifiers, such as categories, classes, door counts, and fuel types. Pseudo vehicle codes are used as search qualifiers to enable easy retrieval of subsets of vehicles.
+Universal API enumerations of the pseudo codes.
+The vehicle types and number of types supported in a request varies by provider. Either the enumeration or pseudo code can be sent in VehicleType.
+
+ClosedSearch with wild cards (pseudo codes) on Galileo or Apollo.
+A standard Vehicle Search response is returned. However, vehicle types are limited to those that meet the specified search parameters.
+Vehicle Type code enumerations are returned in the response, even if pseudo codes were sent in the request.
+
+Exceptions
+ClosedGalileo and Apollo
+ClosedWorldspan
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Vehicle Modifiers
+By default, a Vehicle Search returns available vehicles with any available types or features. However, the search can be modified by requesting one or more of the following vehicle type qualifiers:
+
+Air conditioning
+Transmission type
+Vehicle class
+Vehicle category
+Door count, which is the number (range) of doors on the vehicle for a given category.
+Fuel type
+Alternately, combined modifiers can be requested using VehicleSearchAvailabilityReq/VehicleSearchModifiers/VehicleType. Some providers also permit a combination of Vehicle Modifier attributes and Vehicle Types. See Vehicle Search By VehicleType for details.
+
+Request
+In addition to the minimum required data for a Vehicle Search, the car type options are added as attributes of VehicleSearchAvailabilityReq/VehicleSearchModifiers/VehicleModifier.
+
+ClosedShow schema diagram
+ 
+
+One or more of the attributes can be added to the request.
+
+Air Conditioning
+Universal API supports a boolean request for air conditioning.
+
+Galileo also supports either air conditioning or no air conditioning in the request.
+
+Worldspan combines air conditioning with a Fuel Type modifier, such as diesel, hybrid, and ethanol.
+
+Transmission Type
+Universal API supports the following Transmission Types.
+
+Enumeration
+
+Galileo
+
+Worldspan
+
+Automatic
+
+A (Automatic Unspecified Drive)
+
+ 
+
+Automatic4WD
+
+B (Automatic 4WD)
+
+ 
+
+AutomaticAWD
+
+D (Automatic AWD)
+
+ 
+
+Manual
+
+M (Manual Unspecified Drive)
+
+ 
+
+Manual4WD
+
+N (Manual 4WD)
+
+ 
+
+ManualAWD
+
+C (Manual AWD)
+
+ 
+
+Vehicle Class
+The following Vehicle Class enumerations are used for VehicleClass in Universal API. The Worldspan vehicle classes map exactly to the Universal API enumerations. However, the Galileo mappings are not exact.
+
+Enumeration
+
+Galileo
+
+Worldspan
+
+Compact  
+
+Compact
+
+Compact  
+
+CompactElite
+
+ 
+
+Compact Elite
+
+Economy  
+
+Economy
+
+Economy  
+
+Fullsize  
+
+Full Size
+
+Full Size
+
+FullsizeElite  
+
+ 
+
+Full Size Elite
+
+EconomyElite  
+
+ 
+
+Economy Elite
+
+Intermediate  
+
+Intermediate
+
+Intermediate  
+
+IntermediateElite  
+
+ 
+
+Intermediate Elite
+
+Luxury  
+
+Luxury
+
+Luxury  
+
+LuxuryElite  
+
+ 
+
+Luxury Elite
+
+Mini  
+
+Mini
+
+Mini  
+
+MiniElite  
+
+ 
+
+Mini Elite
+
+Oversize  
+
+ 
+
+Oversize  
+
+Standard
+
+Standard
+
+Standard
+
+StandardElite
+
+ 
+
+Standard Elite
+
+Premium  
+
+Premium
+
+Premium  
+
+PremiumElite  
+
+ 
+
+Premium Elite
+
+Special  
+
+Special
+
+Special  
+
+Vehicle Category
+The following Vehicle Category enumerations are used for Category in Universal API. However, the mappings to the providers are not exact; the following table shows the mappings between the API and the provider's systems.
+
+The number of vehicle types supported in a request varies by provider.
+
+Galileo supports up to three actual or pseudo vehicle types in a Vehicle Search request, combining the total between Category and VehicleSearchModifiers/VehicleType.
+Worldspan supports up to 10 actual vehicle types in a Vehicle Search request, sent in the Category attribute, OR one pseudo vehicle type sent in VehicleSearchModifiers/VehicleType.
+If VehicleSearchModifiers/VehicleModifier/Category is included in a request that also includes VehicleSearchModifiers/VehicleType, Category is considered before VehicleType.
+
+Note: For both Galileo and Worldspan, car requests by door count are represented by the DoorCount attribute. For both providers, door counts apply only to vehicles in the 'Car' category.
+
+Enumeration
+
+Galileo
+
+Worldspan
+
+Car
+
+Car
+
+Car
+
+Van
+
+Van
+
+Passenger Van
+
+SUV
+
+ 
+
+Sport Utility Vehicle
+
+Convertible
+
+Convertible
+
+Convertible  
+
+Truck
+
+Truck
+
+Commercial (Van or Truck)
+
+StationWagon
+
+Wagon
+
+Wagon/Estate
+
+Pickup
+
+Pick-up 
+
+ 
+
+AllTerrain
+
+All Terrain
+
+Open air - All Terrain
+
+Recreational
+
+Recreation
+
+Recreational Vehicle
+
+Sport
+
+Sport
+
+Sports car
+
+Special
+
+Special
+
+Special  
+
+ExtendedCabPickup
+
+ 
+
+Pickup (extended cab)
+
+RegularCabPickup
+
+ 
+
+Pickup (regular cab)
+
+SpecialOffer
+
+ 
+
+SpecialOffer  
+
+Coupe
+
+ 
+
+Coupe  
+
+Monospace
+
+ 
+
+Monospace  
+
+Roadster
+
+ 
+
+Roadster  
+
+Crossover
+
+ 
+
+Crossover  
+
+Motorcycle
+
+ 
+
+ 
+
+Limo
+
+Limo
+
+Limousine  
+
+Motorhome
+
+ 
+
+Motor Home
+
+TwoWheelVehicle
+
+ 
+
+TwoWheelVehicle  
+
+CommercialVanOrTruck
+
+ 
+
+ 
+
+ 
+
+Four-wheel drive
+
+ 
+
+Door Count
+For both Galileo and Worldspan, car requests by door count are represented by the DoorCount attribute. For both providers, door counts apply only to vehicles in the 'Car' category.
+
+The following Door Count enumerations are used for DoorCount in Universal API. The Worldspan vehicle classes map exactly to the Universal API enumerations. However, the Galileo mappings are not exact.
+
+Enumeration
+
+Galileo
+
+Worldspan
+
+TwoToThreeDoors
+
+2-door
+
+2-3 Door
+
+TwoToFourDoors
+
+2- or 4-door
+
+2 or 4 Door 
+
+FourToFiveDoors
+
+4-door
+
+4-5 Door
+
+Fuel Type
+Worldspan combines Air Conditioning (AC) with a Fuel Type modifier. Galileo supports combined AC/Fuel Types, and also permits Air Conditioning as a Boolean request separate from Fuel Type.
+
+Universal API supports the following Fuel Types.
+
+Enumeration
+
+Air Conditioning
+(Boolean value)
+
+Description
+
+Galileo
+
+Worldspan
+
+Enumeration Not Specifed/Absent
+
+true
+
+Unspecified fuel/power with air conditioning.
+
+R
+
+R
+
+Petrol
+
+true
+
+Petroleum with air conditioning.
+
+V
+
+V
+
+Diesel
+
+true
+
+Diesel with air conditioning.
+
+D
+
+D
+
+Hybrid
+
+true
+
+Hybrid with air conditioning.
+
+H
+
+H
+
+Electric
+
+true
+
+Electric with air conditioning.
+
+E
+
+E
+
+LPGCNG
+
+true
+
+LPG/Compressed gas with air conditioning.
+
+L
+
+L
+
+Hydrogen
+
+true
+
+Hydrogen with air conditioning.
+
+A
+
+A
+
+MultiFuel
+
+true
+
+Multiple fuel types/power with air conditioning.
+
+M
+
+M
+
+Ethanol
+
+true
+
+Ethanol with air conditioning.
+
+U
+
+U
+
+Enumeration Not Specifed/Absent
+
+false
+
+Unspecified fuel/power with no air conditioning.
+
+N
+
+N
+
+Petrol
+
+false
+
+Petroleum with no air conditioning.
+
+Z
+
+Z
+
+Diesel
+
+false
+
+Diesel with no air conditioning.
+
+Q
+
+Q
+
+Hybrid
+
+false
+
+Hybrid with no air conditioning.
+
+I
+
+I
+
+Electric
+
+false
+
+Electric with no air conditioning.
+
+C
+
+C
+
+LPGCNG
+
+false
+
+LPG/Compressed gas with no air conditioning.
+
+S
+
+S
+
+Hydrogen
+
+false
+
+Hydrogen with no air conditioning.
+
+B
+
+B
+
+MultiFuel
+
+false
+
+Multiple fuel types/power with no air conditioning.
+
+F
+
+F
+
+Ethanol
+
+false
+
+Ethanol with no air conditioning.
+
+X
+
+X
+
+ 
+
+Response
+The response returns the available options for a Vehicle Search that meets the requested vehicle type parameters, as well as response data for the vehicle types requested.
+
+Exceptions
+Worldspan
+Worldspan supports wild card searches.
+
+ 
+
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Rate Modifiers
+By default, a Vehicle Search returns all available rates that meet the request search parameters. Availability can be requested by one or more of the following car rate modifiers:
+
+Rate code
+
+Discount number
+
+Supplier (vendor) code
+
+Promotional code/coupon
+Vendor Location Reference
+Tour code
+Request
+In addition to the minimum required data for a Vehicle Search, the car type options are added as attributes of the VehicleSearchAvailabilityRequest/VehicleSearchModifiers/RateModifiers.
+
+ 
+
+Most rate type requests will require the supplier's VendorCode to be included in the request in combination with the rate type modifier(s). One or more of the following attributes can be added to the request to support:
+
+When known, a supplier RateCode can be specified in the request.
+A supplier DiscountNumber identifies a special rate associated with a traveler's organization or supplier promotion.
+VendorCode limits the requested rate to a specific vendor. If VendorCode is not specified, any promotional code is ignored.
+PromotionalCode can be added if the customer has a specified promotional code from the supplier.
+VendorLocationRef is used to associate the /RateModifiers with the VendorLocation/@Key of the same value.
+
+TourCode is issued by an airline to identify the relationship between an air booking and a vehicle booking that are purchased together as a package.
+Rate Codes
+If multiple vendor Rate Codes are specified, multiple vendor DiscountNumbers and LoyaltyCards are not supported when a vendor rate code for the requested provider.
+
+Exceptions
+Worldspan supports a maximum of two Rate Codes.
+
+Corporate Discount Codes (DiscountNumber)
+Universal API supports up to three Corporate Discounts per supplier and one Loyalty Card per supplier when RateModifiers/RateCode is not specified. When a rate code is specified, only one supplier is allowed; therefore, only one Corporate Discount and one Loyalty Card is allowed per transaction.
+
+See Vehicle Search with Loyalty Program for more details about the limitations of Corporate Discount Codes when used in combination with a Loyalty Program.
+
+Corporate / Government Rate Category and Discount Number Best Practices
+The following points are best practices when using Corporate Discount Numbers (CDN) witn Rate Categories, specifically Corporate and Government. For some car vendors, these best practices are requirements and if not followed, results in errors: Release 25.4
+
+Pairing Enforcement:
+
+When a Corporate Discount Number (CDN) is provided, the Rate Category must be either Corporate or Government, or,
+
+When Rate Category is Corporate or Government, a valid CDN must be included in the request.
+
+For some customers:
+
+If CDN is present, the RateCategory must be Corporate or Government, or this error message returns: "Rate Category is required when a Corporate Discount Number (CDN) is provided. Please include a Rate Category of Corporate or Government."
+
+If the Rate Category is Corporate or Government, a CDN must be present, or this error message returns: "Corporate or Government Rate Category requires a Valid Corporate Discount Number (CDN). Please include CDN in your Request."
+
+Vendor Scoping/Identification:
+
+Corporate or Government rate requests must specify a vendor using either VendorLocation@vendor or PermittedVendors/Vendor@code.
+
+If both are provided, the vendor codes must match.
+
+If RateModifier@VendorCode is sent, it must align with the specified vendors. If not, the following error may return: "Corporate or Government Rate Category requires a vendor. Please include VendorLocation@VendorCode or PermittedVendors/Vendor@Code in your request."
+
+Consistency Validation:
+
+The system validates that vendor codes match across VendorLocation@Vendor, PermittedVendors/Vendor@code, and RateModifier@VendorCode (when applicable).
+
+For some customers, if both VendorLocation@vendor and PermittedVendors/Vendor@code are present and the codes don’t match, this error returns: "VendorLocation@VendorCode, PermittedVendors/Vendor@Code and RateModifier@VendorCode does not match in your request. Please review."
+
+Error Handling:
+
+Universal API returns clear, actionable error messages when these requirements are not met, helping you quickly identify and resolve any issues.
+
+Exceptions
+Worldspan supports a maximum of three Corporate Discount IDs.
+
+PermittedVendors and ProhibitedVendors are not applicable with multiple Discount Numbers.
+
+Note: Vehicle v33.0, and earlier, for Worldspan, Universal API processed the VehicleSearchAvailabilityReq @DiscountNumber value (CD number), preceded with the vendor code and a "-"(e.g., ZE-123456), when the vendor code was present in the /RateModifers element. This caused an incorrect Discount/CD Number(s) to be sent to the supplier, which resulted in the supplier returning a format error or ignoring the number all together. This ultimately resulted in no rates associated to the CD number. Vehicle v34.0 and later removes the logic to precede the Discount Number with the Vendor Code and "-" and only send the number. -
+
+Vendor Location Reference
+The Vendor Location Reference associates of the RateModifiers (and LoyaltyCard) information to the correct Pickup and Return Locations.
+
+Notes:
+
+If VendorLocationRef is in the request, the /VendorLocation@Key is required with the same value.
+
+When the VendorLocationRef is present and there is no VendorLocation/@key of the same value, Universal API returns the following error: “Match VendorLocation/@Key to veh:VendorLocationRef and resend request”
+When more than one Pickup Location is requested and the VendorLocation/@Key is not present and/or a VendorLocationRef is not present with a RateModifier or LoyaltyCard, Universal API returns the following error: “Missing VendorLocation/@Key or veh:VendorLocationRef, update and resend request.”
+
+Tour Code
+A tour code is issued by an airline to identify the relationship between an air booking and a vehicle booking that are purchased together as a package. The tour code must be shown on the ticket so that both the airline and the local BSP or ARC know what the fare is, and that the agency has authority to use it.
+
+The code has a maximum of 13 alpha/numeric characters that show on the ticket.
+
+Notes:
+
+Worldspan (1P) Only.
+<common_v50_0:ResponseMessage Code="7816" Type="Warning" ProviderCode="1G">Distance and direction search criteria is not supported with CarMatrix and has been ignored.</common_v50_0:ResponseMessage>
+Response
+A standard Vehicle Search response is returned in VehicleSearchAvailabilityRsp. However, rental options reflect the specified parameters of the request. Rate information in the response is returned in VehicleReservation/Vehicle/VehicleRate.
+
+ 
+
+ 
+
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search with Loyalty Program
+A Vehicle Search request can be modified to include a supplier's Loyalty Program (Frequent Traveler) membership ID.
+
+Request
+In addition to the minimum required data for a Vehicle Search, the car type options are added as attributes of the VehicleSearchAvailabilityRequest/VehicleSearchModifiers/LoyaltyCard.
+
+ClosedShow schema diagram
+ 
+
+The following attributes are required for the request:
+
+SupplierCode, which is the car supplier's ID.          
+CardNumber, which is the traveler's Loyalty Program membership ID with the corresponding supplier.  
+Because travelers may earn credit for a car rental using the car rental company's Loyalty program and/or an air carrier's Loyalty program, SupplierType is used to indicate if the traveler's loyalty membership is affiliated with an Air suppler or a Car supplier.  
+
+Universal API supports up to three Corporate Discounts per supplier and one Loyalty Card per supplier when RateModifiers/RateCode is not specified. When a rate code is specified, only one supplier is allowed; therefore, only one Corporate Discount and one Loyalty Card is allowed per transaction.
+
+Response
+The response returns the available options for a Vehicle Search. The supplier may return rental rates that are modified based on a Loyalty Membership incentive.
+
+Exceptions
+Worldspan
+Worldspan does not support:
+
+Individual traveler's Loyalty Program membership ID. However, a request can be made using the vehicle supplier's Customer ID when a specific supplier is also requested.
+Cross-accrual with Air, Hotel, or other supplier loyalty cards; only Car supplier loyalty cards are recognized.
+PermittedVendors and ProhibitedVendors with multiple Loyalty Cards.
+One to three Customer IDs can be sent in a single call. The supplier code is required for each ID number when multiple IDs are sent.
+
+VendorLocationRef is Worldspan (1P) only:
+
+The Vendor Location Reference associates of the RateModifiers (and LoyaltyCard) information to the correct Pickup and Return Locations.
+If VendorLocationRef is in the request, the /VendorLocation@Key is required with the same value.
+
+When the VendorLocationRef is present and there is no VendorLocation/@key of the same value, Universal API returns the following error: “Match VendorLocation/@Key to veh:VendorLocationRef and resend request”
+When more than one Pickup Location is requested and the VendorLocation/@Key is not present and/or a VendorLocationRef is not present with a RateModifier or LoyaltyCard, Universal API returns the following error: “Missing VendorLocation/@Key or veh:VendorLocationRef, update and resend request.”
+
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Location Type
+By default, a Vehicle Search response returns available vendors by the default airport location of a specified city airport code. However, the request can be modified to include a specific location type such as a railway station, resort, car dealership, or cardinal location from the city center. The location type can also be used to search by a city code rather than an airport code.
+
+Note: This request returns all vendor locations that match the request location type. To request a specific vendor location, search by Unique Location ID.
+
+Request
+A standard Vehicle Search request is made including a Location Type indicator. In addition to the minimum required search data, the PickupLocationType and ReturnLocationType attributes of VehicleSearchAvailabilityReq/VehicleDateLocation are used to specify the location for the corresponding PickupLocation and ReturnLocation.
+
+Location Types
+The following Location Type enumerations are used for PickupLocationType and ReturnLocationType.
+
+However, not all providers support each of the Universal API enumerations for Location Type. The following table shows how the currently supported providers process Location Type enumerations within their host systems.
+
+Enumeration
+
+Galileo
+
+Worldspan
+
+Terminal
+
+Terminal
+
+Terminal
+
+ShuttleOnAirport
+
+Terminal
+
+Not processed.
+
+ShuttleOffAirport
+
+ShuttleOffAirport
+
+ShuttleOffAirport
+
+RailwayStation
+
+RailwayStation
+
+RailwayStation
+
+Hotel
+
+CityCenterDowntown
+
+Hotel
+
+CarDealer  
+
+CityCenterDowntown
+
+Not processed.
+
+CityCenterDowntown
+
+CityCenterDowntown
+
+CityCenterDowntown
+
+EastOfCityCenter  
+
+EastOfCityCenter  
+
+EastOfCityCenter  
+
+SouthOfCityCenter  
+
+SouthOfCityCenter  
+
+SouthOfCityCenter  
+
+WestOfCityCenter
+
+WestOfCityCenter
+
+WestOfCityCenter
+
+NorthOfCityCenter  
+
+NorthOfCityCenter  
+
+NorthOfCityCenter  
+
+PortOrFerry  
+
+PortOrFerry  
+
+PortOrFerry  
+
+NearResort
+
+NearResort
+
+NearResort
+
+Airport  
+
+Terminal
+
+Airport  
+
+Unknown
+
+Terminal
+
+Not processed.
+
+ 
+
+Vehicle Search by City Code
+To request a location by a city a code rather than the default airport code, the 'CityCenterDowntown' value is used for PickupLocationType and ReturnLocationType in the request. In this instance, the API processes the corresponding PickupLocation and ReturnLocation as a city code rather than an airport code.
+
+Response
+A standard Vehicle Search response is returned. However, all rental options are limited to locations that meet the specified search parameters. The requested PickupLocationType and ReturnLocationType attributes are confirmed in VehicleSearchAvailabilityRsp/VehicleDateLocation.
+
+Exceptions
+Worldspan
+Location Type is supported for PickUpLocation but not supported for ReturnLocation.
+
+ 
+
+ 
+
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Distance and Direction
+A vehicle search by distance and direction allows a customer to pick and drop off at a location most convenient to them. Choosing the right provider and location is the key to optimize their travel itinerary, as a customer would like to search for a car vendor that is located as close to his arrival as possible. The Distance and Direction modifiers allow a user to search for cars by including a distance (Direction and Miles) parameter from a particular location (like Terminal, CityCenter, or Downtown).
+
+Request
+In addition to the minimum required data for a Vehicle Search, the car distance options are added as attributes of the VehicleSearchAvailabilityRequest/VehicleSearchModifiers/SearchDistance.
+
+ClosedShow schema diagram
+When using the SearchDistance modifier with distance and direction in the search criteria:
+
+Distance can be a number or a range.
+000-020: Distance between ZERO and 20 MLES
+030: 30 Miles from Reference point.
+Direction can be a single direction or a combination
+N : North (South,East,West)
+SW: South West
+Unit
+For Distance@Units, two unit types are available:
+
+Km: Kilometers
+Mi: Miles
+Default: If the unit is not included in the request, the default is Miles (Mi).
+
+Direction
+For Distance@Direction, Direction can be a single direction or a combination:
+
+N: North (South, East, West) (e.g.: <DistDir>001MN-999</DistDir> )
+NW: North West (e.g.: <DistDir>001MNW-999</DistDir> )
+Distance
+There are two distance modifiers, Minimum and Maximum: Distance @MinDistance and Distance @MaxDistance.
+
+Distance can be a number or a range.
+
+Number: 030 = 30 Miles from Reference point.
+Range: 000-020 = Distance between ZERO and 20 MILES.
+Limit: 3 Bytes (max Limit = 999) (E.g. : <DistDir>800MNW-999</DistDir>)
+
+Default: When only a single two- or three-digit number is in the request, the default starting range = 000. For example, if Distance = 30, then <DistDir>000MN -030</DistDir>)
+
+Both the Distance and Direction are sent in one field. The acceptable values are:
+
+<DistDir>000MN -040</DistDir>: Read as 000 - 040 Miles North of the Reference point.
+<DistDir>010MW-030</DistDir>: Read as 10 – 40 Miles west of the Reference point.
+Response
+A standard Vehicle Search response is returned in VehicleSearchAvailabilityRsp, in \VehicleDateLocation\VendorLocation\Distance\, with either @Units, @Value, or @Direction.
+
+Units
+In the \Distance\Units, the units can be returned two ways:
+
+Km: Kilometers
+Mi: Miles
+Value
+In the \Distance\Value, values for distance can be a number or a range:
+
+<Dist><![CDATA[ 0]]></Dist> Read as 0 Miles
+
+<Dist><![CDADTA[ 1]]></Dist> Read as 1 Mile
+<Dist> 11</Dist> Read as 11 Miles
+Direction
+In the \Distance\Direction, values for direction can be a single direction or a combination:
+
+<Dir>NW</Dir>: Read a North West (Can be displayed as NW)
+<Dir>N</Dir>: Read as North (Can be displayed as N)
+ 
+
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Reference Point
+The location for Vehicle Searches can be modified by using References Points, which are specific locations within city or metropolitan area. Reference points are plotted by latitude and longitude.
+
+A Reference Point can be a location such as an area attraction, business center, hospital, or government office. For example, Reference Points associated with Calgary, Canada include: Calgary International Airport, the Banff National Park Entrance, the Calgary Zoo, the Convention Centre, Foothills Stadium, the IBM corporate location at Fifth Avenue, Mt. Royal College, the University of Calgary, and Lake Louise.
+
+Request
+/VehicleLocationRequest/ReferencePoint is used to assign reference points.
+
+ClosedShow schema diagram
+A maximum of 30 characters and spaces is permitted for a reference point.
+
+A Pick-Up Location (/VehicleDateLocation PickUpLocation is optional in the request if the reference point is present ). Pick-Up Locations can be either a City or Airport code. However, if ReferencePoint is included in the request, without PickUpLocation, the location is always processed as a City code.
+
+Response
+The response returns standard Vehicle Search data in proximity to the reference point.
+
+Errors and Warnings
+If more than 30 characters/spaces are sent, the following error is returned: Max length of Reference Point description is 30 for the requested provider.
+Only one reference point can be sent in a request. If multiple reference points are sent, the following warning is returned: First ReferencePoint in SearchCriteria considered for Availability.
+If an incorrect ReferencePoint or city PickUpLocation location is specified, a list of similar names is returned as "PropName-City, PropName2-City2.", where PropName and City are the similar location and corresponding city code.
+If multiple suppliers are specified, and a Vehicle Type is not included in the request, the following error response is returned: A Vehicle Type is required when searching with multiple vendors.
+Some Location Types are not supported for a ReferencePoint only search without PickUpLocation; an error is returned.
+Exceptions
+Worldspan
+Worldspan does not support search by Reference Point. The following error is returned: Provider does not support search by reference point.
+
+ 
+
+ 
+
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Unique Location ID
+By default, a Vehicle Search response returns availability by the default airport location of a specified city airport code. However, the request can be modified to include availability for a specified vehicle rental location.
+
+In a single request, one or more unique locations or suppliers can be requested:
+
+Multiple unique locations can be requested for a single vendor.
+
+Multiple unique locations can be requested for a multiple vendors.
+
+Note: This request returns results for a specific vendor location. To obtain availability for a general location type, such as a railway, resort, or city code, use Vehicle Search by Location Type.
+
+Request
+A standard Vehicle Search request is made including an IATA reference for the supplier (vendor) locations.
+
+In addition to the minimum required search data, the following attributes in VehicleSearchAvailabilityReq/VehicleDateLocation/VendorLocation are used to specify the unique location ID:
+
+ProviderCode is the provider code for the GDS or other data source used for the request.
+VendorCode is the supplier code used by the referenced provider.
+VendorLocationID is the IATA reference for the supplier (vendor) location.
+ClosedShow schema diagram
+Multiple instances of VendorLocation are used to indicate multiple unique locations for a single supplier, or unique locations from multiple suppliers. The Key attribute is set to a unique value in the request that identifies that request in the corresponding response options.
+
+Response
+The response returns a standard Vehicle Search with availability that is limited to specified rental location(s) from the specified supplier(s). The value of the Key attribute in VehicleSearchAvailabilityRsp/VehicleDateLocation/VendorLocation identifies the corresponding supplier and unique location ID from the request parameters.
+
+Exceptions
+Worldspan
+For Worldspan requests:
+
+PickupLocationType must be provided in VendorDateLocation.
+VendorLocation/VendorLocationID is given preference over VendorDateLocation/PickupLocationNumber.
+If PickupLocationType is not provided and PickupLocationNumber and/or VendorLocationID is provided, a warning is sent in the response: Location Type is mandatory with Location Number for provider.
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Merchant Rates
+Vehicle Search Availability supports multiple Merchant Rates. A Merchant Rate is the ability to request multiple vendor/ multiple specific-pickup-locations in a single request.
+
+Previously, Universal API VehicleSearchAvailability supported one pickup and return location, and one Corporate Discount number, Loyalty number, Tour Code number, and Coupon number. Vehicle v.31.0 search functionality for Merchant Rates allows users search multiple vendor and pickup locations and associate up to five search parameters per vendor code/pickup location, with a maximum of ten vendors.
+
+Search Parameters per vendor/pickup occurrence are:
+
+One Rate code
+One Corporate Discount number (CD)
+One Loyalty number (ID)
+One Tour code number (IT)
+One Coupon – Promotional number
+Request
+Universal API determines whether a request in a "Merchant Rate" request when VehicleDateLocation/VendorLocation attributes are used to request. These parameters are:
+
+VehicleDateLocation/VendorLocation attributes are used to request more than:
+One @VendorCode (same or different.
+One @LocationCode (same).
+One @LocationType (same or different).
+One @VendorLocationID (same or different).
+@Type= “Pickup”.
+VehicleDateLocation/VendorLocation attributes are used to request more than one @VendorCode (same or different), one @LocationCode (same), and for @Type= “Return”.
+
+Note: There may be one or more occurrences of RateModifier elements (these are optional):
+/RateModifiers include the VendorCode and one or more modifiers; i.e. one @Vendor@RateCode and/or one @CorporateDiscount and/or one @TourCode and/or one @PromotionalCode.
+One LoyaltyCard
+Each RateModifiers and/or LoyaltyCard occurrence is mapped to each /VendorLocation/@Key, which is grouped with all veh:VendorLocationRef and com:VendorLocationRef of the same value.
+
+ClosedShow schema diagrams
+Response
+Valid return locations are:
+
+Return to pickup.
+Return to airport.
+Exact return location when request RRD requests are for the same vendor only.
+Note: When more than one VehicleDateLocation/VendorLocation/ @Type=”Pickup” are present, the user must associate all RateModifers and Loyalty Cards to the requested Pickup and Return Locations by using the following attributes:
+
+/veh:VendorLocation/@Key
+/@VendorLocationRef for All /RateModifiers and /@LoyaltyCard
+Errors
+VehicleSearchAvailabilityReq – Different Return Locations Specified error. Multi-Pickup Location requests where the Return Locations (City/Airport Code) are not the same, Universal API request fails and returns the error: “All Return Locations must be the same when Multiple Pickup Locations are requested.”
+VehicleSearchAvailabilityReq – Return Type and Location Specified error. When @Type “Return” @LocationType and @VendorLocationID are populated with Multi-Vendor and Pickup Location requests, Universal API fails and returns the error: “Attributes for Return @LocationType and @LocationID are not allowed with Multi-Vendor or Multi-Pickup Location request.”
+VehicleSearchAvailabilityReq – VendorLocation/@key and vehVendorLocationRef are not equal error. When the vehVendorLocationRef is present and there is no VendorLocation/@key of the same value, Universal API returns the error: “Match VendorLocation/@Key to veh:VendorLocationRef and resend request”
+VehicleSearchAvailabilityReq – Number of Pickup Locations has exceeded 10 error. When /VendorLocation/ @Type = Pickup greater than 10, Universal API request fails and returns the error text: “The number of /VendorLocation/ @Location, @Type “Pickup” has exceeded 10. Please correct and resend request.”
+Missing @Key or @VendorLocationRef Error. When more than one Pickup Location is requested and the VendorLocation/@Key is not present and/or a VendorLocationRef is not present with a RateModifier or LoyaltyCard, Universal API returns the error: “Missing VendorLocation/@Key or veh:VendorLocationRef, update and resend request.”
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Matrix
+The Vehicle Matrix transaction provides a basic Vehicle Search Availability request that returns a maximum amount of vehicle rates in the fastest time possible. This transaction supports web-based applications that display a table of vehicle rates where the axes represent vehicle suppliers by vehicle types. The Vehicle Matrix response provides all of the data necessary to complete this grid in one transaction. Additional (Get More) transactions are not required to obtain all response data.
+
+Important! Wordspan (1P) does not support Vehicle Matrix functionality. If a Vehicle Matrix request is sent to Worldspan (1P), the Matrix-specific request attributes are ignored and a standard Vehicle Search response is returned with a warning message: ReturnAllRates not supported by Worldspan, and has been ignored.
+
+Schema
+See the following transactions for Vehicle Search:
+
+VehicleSearchAvailabilityReq
+VehicleSearchAvailabilityRsp
+Request
+VehicleSearchAvailabilityReq is used to request Vehicle Matrix searches. The Vehicle Matrix request is similar to a standard Vehicle Search request, but is differentiated by a Return All Rates indicator. The response returns all response items in a single call, but typically includes truncated response data for individual Vehicle items.
+
+Note: Vehicle Matrix is equivalent to the CarMatrix transaction in GWS.
+
+Set ReturnAllRates to "True" to return a Vehicle Matrix response.
+
+For a more specific response:
+
+Set ReturnApproximateTotal to "True" to have rates in the response quoted in approximate totals. Because only suppliers with an Inside Availability connection to Apollo or Galileo can support approximate totals, only Inside Availability suppliers are returned. If ReturnApproximateTotal is set to "False", best rates for all applicable suppliers are returned.
+Set ReturnExtraRateInfo to "True" to return expanded rate information in the response. Note that fewer total rates are returned because each rate item is longer.
+NextResultReference data is not included in Vehicle Matrix requests because all data is returned in one response.
+
+VehicleSearchModifiers
+VehicleSearchModifiers/ReferencePoint is not supported for the Vehicle Matrix request; reference points are supported in the response only. Reference point data is ignored if it is sent in the request.
+
+Only Vehicle Class 'A' is supported, so VehicleType must begin with an 'A'. See Vehicle Search by Vehicle Type for a list of supported Vehicle Types.
+
+VehicleSearchModifiers @PreferredCurrency can be specified to request vehicle rates in a user's preferred currency. E.g., PreferredCurrency="EUR". All converted rates are returned, regardless of the providers to whom the request was submitted. See the response for details.
+
+Corporate / Government Rate Category and Discount Number Best Practices
+The following points are best practices when using Corporate Discount Numbers (CDN) witn Rate Categories, specifically Corporate and Government. For some car vendors, these best practices are requirements and if not followed, results in errors: Release 25.4
+
+Pairing Enforcement:
+
+When a Corporate Discount Number (CDN) is provided, the Rate Category must be either Corporate or Government, or,
+
+When Rate Category is Corporate or Government, a valid CDN must be included in the request.
+
+For some customers:
+
+If CDN is present, the RateCategory must be Corporate or Government, or this error message returns: "Rate Category is required when a Corporate Discount Number (CDN) is provided. Please include a Rate Category of Corporate or Government."
+
+If the Rate Category is Corporate or Government, a CDN must be present, or this error message returns: "Corporate or Government Rate Category requires a Valid Corporate Discount Number (CDN). Please include CDN in your Request."
+
+Vendor Scoping/Identification:
+
+Corporate or Government rate requests must specify a vendor using either VendorLocation@vendor or PermittedVendors/Vendor@code.
+
+If both are provided, the vendor codes must match.
+
+If RateModifier@VendorCode is sent, it must align with the specified vendors. If not, the following error may return: "Corporate or Government Rate Category requires a vendor. Please include VendorLocation@VendorCode or PermittedVendors/Vendor@Code in your request."
+
+Consistency Validation:
+
+The system validates that vendor codes match across VendorLocation@Vendor, PermittedVendors/Vendor@code, and RateModifier@VendorCode (when applicable).
+
+For some customers, if both VendorLocation@vendor and PermittedVendors/Vendor@code are present and the codes don’t match, this error returns: "VendorLocation@VendorCode, PermittedVendors/Vendor@Code and RateModifier@VendorCode does not match in your request. Please review."
+
+Error Handling:
+
+Universal API returns clear, actionable error messages when these requirements are not met, helping you quickly identify and resolve any issues.
+
+VehicleDateLocation
+A single VehicleDateLocation/PickupLocation and /PickupLocationNumber item can be requested. Only one PickupLocationType is currently supported by Universal API, and should be considered when using Vehicle Matrix. Only one specific ReturnLocation is currently supported when using Vehicle Matrix.
+
+All schema versions support submitting exact pickup, return, or both pickup and return locations.
+
+Release 24.4.1 enhances the flexibility of car rental location searches beyond traditional location codes. Vehicle matrix requests now support latitude, longitude, and radius criteria. Responses include each qualifying location, geocoordinates, and distance from the search point. Release 24.4
+
+Release 24.4.3 enhances car rental location searches by adding pickup and return time in the GeoSearch response. Release 24.4
+
+Release 25.2.1 provides the ability to include the geo location for both a pickup and drop-off location, for one-way rentals to give travelers the option of selecting car rental companies near a specific location. 1G only and Vehicle v54.0 and greater. Release 25.2
+
+xPath=VehicleSearchAvailabilityReq/VehicleDateLocation
+
+@Latitude
+
+@Longitude
+
+@Distance
+
+@Unit
+
+ClosedVendorLocation
+Response
+A Vehicle Matrix response is returned when ReturnAllRates is set to "True". The response contains all rates in VehicleSearchAvailabilityRsp. If ReturnAllRates is set to "False", a standard Vehicle Search response is returned, based on existing Universal API functionality.
+
+The following elements are not specifically returned in the Vehicle Matrix response; however, Universal API automatically converts the four-letter pseudo Vehicle Type into the applicable description.
+
+TransmissionType
+AirConditioning
+FuelType
+DoorCount
+Because the Vehicle Matrix transaction has limited description and detail, the following elements are not returned. A follow-on Vehicle Rules transaction is required to obtain this data:
+
+Description
+VendorName
+Alternate Vendor
+VehicleRateDescription
+ThirdPartySupplierName
+When specifying all rates, the VendorLocationKey is returned.
+Depending on whether ReturnApproximateTotal is set to "True" or "False" in the request, either Approximate Total Rate or Base Rates are returned:
+
+"True": Rates in the response are quoted in approximate totals in @EstimatedTotalAmount. Because only suppliers with an Inside Availability connection to Apollo or Galileo can support approximate totals, only Inside Availability suppliers are returned.
+"False": Best rates for all applicable suppliers are returned in @BaseRate.
+Note: Vehicle Search Availability requests do not support Approximate Total functionality, regardless of Inside Availability status for the supplier. This functionality is available through Vehicle Matrix only.
+
+DropOffChargesIncluded indicates if the supplier included drop-off charges in the rate. The inclusion of this data is at the discretion of the supplier, and may not always be reflected in the result.
+
+Required Payment information in the response varies depending on whether ReturnExtraRateItems is set to "True" or "False" in the request.
+
+"False": Required Payment information is returned in @RequiredPayment, when applicable.
+"True": Required Payment information is returned in @RateGuaranteeType.
+ClosedExact Pickup and Return Locations
+ClosedExact return location and business operation hours
+ClosedBaggage and Passenger Count
+ClosedVendor Make and Model
+ClosedPreferred Currency
+Exceptions
+ClosedGalileo
+ClosedGalileo and Apollo
+ClosedWorldspan
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Rate Type
+Status: This functionality is currently supported in Galileo.
+
+ 
+
+By default, a Vehicle Search returns all available rates that meet the request search parameters. Requests availability by one or more of the following car rate qualifiers:
+
+Rate code
+
+Rate category
+
+Discount number
+
+Supplier (vendor) code
+
+Guaranteed rate
+
+Request
+In addition to the minimum required data for a Vehicle Search, the car type options are added as attributes of the VehicleSearchAvailabilityRequest/VehicleSearchModifiers/RateModifiers.
+
+Most rate type requests will require the supplier's VendorCode to be included in the request in combination with the rate type modifier(s). One or more of the following attributes can be added to the request to support:
+
+When known, a supplier RateCode can be specified in the request.
+
+A supplier DiscountNumber identifies a special rate associated with a traveler's organization or supplier promotion.
+
+RateGuaranteed returns only guaranteed rates when set to 'true'.
+
+RatePeriod identifies the period of time for which the rate should be processed, as most suppliers vary rates based on the unit of rental time requested.
+
+RateCategory, which is the general category of the rate. Many of these rates are associated with a negotiated rate for a specific organization or event.
+
+In Galileo, Rate Categories map exactly to the Universal API enumerations:
+
+Association  
+
+Business  
+
+Corporate  
+
+Government  
+
+Industry  
+
+Package  
+
+Inclusive  
+
+Promotional  
+
+Credential  
+
+Standard  
+
+Consortium  
+
+Convention  
+
+Negotiated  
+
+ 
+
+Response
+A standard Vehicle Search response is returned in VehicleSearchAvailabilityRsp. However, rental options reflect the specified parameters of the request. Rate information in the response is returned in VehicleReservation/Vehicle/VehicleRate.
+
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Search by Distance and Direction
+A vehicle search by distance and direction allows a customer to pick and drop off at a location most convenient to them. Choosing the right provider and location is the key to optimize their travel itinerary, as a customer would like to search for a car vendor that is located as close to his arrival as possible. The Distance and Direction modifiers allow a user to search for cars by including a distance (Direction and Miles) parameter from a particular location (like Terminal, CityCenter, or Downtown).
+
+Request
+In addition to the minimum required data for a Vehicle Search, the car distance options are added as attributes of the VehicleSearchAvailabilityRequest/VehicleSearchModifiers/SearchDistance.
+
+ClosedShow schema diagram
+When using the SearchDistance modifier with distance and direction in the search criteria:
+
+Distance can be a number or a range.
+000-020: Distance between ZERO and 20 MLES
+030: 30 Miles from Reference point.
+Direction can be a single direction or a combination
+N : North (South,East,West)
+SW: South West
+Unit
+For Distance@Units, two unit types are available:
+
+Km: Kilometers
+Mi: Miles
+Default: If the unit is not included in the request, the default is Miles (Mi).
+
+Direction
+For Distance@Direction, Direction can be a single direction or a combination:
+
+N: North (South, East, West) (e.g.: <DistDir>001MN-999</DistDir> )
+NW: North West (e.g.: <DistDir>001MNW-999</DistDir> )
+Distance
+There are two distance modifiers, Minimum and Maximum: Distance @MinDistance and Distance @MaxDistance.
+
+Distance can be a number or a range.
+
+Number: 030 = 30 Miles from Reference point.
+Range: 000-020 = Distance between ZERO and 20 MILES.
+Limit: 3 Bytes (max Limit = 999) (E.g. : <DistDir>800MNW-999</DistDir>)
+
+Default: When only a single two- or three-digit number is in the request, the default starting range = 000. For example, if Distance = 30, then <DistDir>000MN -030</DistDir>)
+
+Both the Distance and Direction are sent in one field. The acceptable values are:
+
+<DistDir>000MN -040</DistDir>: Read as 000 - 040 Miles North of the Reference point.
+<DistDir>010MW-030</DistDir>: Read as 10 – 40 Miles west of the Reference point.
+Response
+A standard Vehicle Search response is returned in VehicleSearchAvailabilityRsp, in \VehicleDateLocation\VendorLocation\Distance\, with either @Units, @Value, or @Direction.
+
+Units
+In the \Distance\Units, the units can be returned two ways:
+
+Km: Kilometers
+Mi: Miles
+Value
+In the \Distance\Value, values for distance can be a number or a range:
+
+<Dist><![CDATA[ 0]]></Dist> Read as 0 Miles
+
+<Dist><![CDADTA[ 1]]></Dist> Read as 1 Mile
+<Dist> 11</Dist> Read as 11 Miles
+Direction
+In the \Distance\Direction, values for direction can be a single direction or a combination:
+
+<Dir>NW</Dir>: Read a North West (Can be displayed as NW)
+<Dir>N</Dir>: Read as North (Can be displayed as N)
+ 
+
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Location List
+Requests a list of locations for a city or airport code. Optionally, locations can be requested for a specific suppliers and/or location type (city center, resort, suburban, etc.).
+
+Request
+VehicleLocationReq in VehicleLocationService is used to request the location list. The pick-up date and airport or city code are required in the request.
+
+ClosedShow Schema Diagram
+ 
+
+ClosedSearchDistance
+ 
+
+When ReferencePoint is sent in the request, the location is not required, but can be included. In Galileo, the reference point, location, or both must be provided.
+
+Notes:
+
+Only one vendor is allowed in a request that includes ReferencePoint.
+
+Some locations types are not supported for ReferencePoint-only searches.
+
+Response
+The response is returned in VehicleLocationRsp.
+
+ClosedShow Schema Diagram
+Information in the response may include:
+
+Vendor code
+
+City
+
+Location type/category
+
+Location number
+
+Address
+
+Distance
+
+Geo coordinate information
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Location Details
+Requests the location details for a specific vehicle vendor location for a specific date.
+
+Street address
+Local telephone number
+Hours of operation
+
+Location details vary by supplier, but include information such as:
+
+Accepted credit cards
+
+Age restrictions for the renter, if any
+
+If vehicles to be refueled prior to their return
+
+Driver's license requirements
+
+Recommended and required insurance coverage
+
+Makes and models of cars the vendor typically has available for rent
+
+Request
+VehicleLocationDetailReq in the VehicleLocationService is used to request location details.
+
+ClosedShow schema diagram
+The minimum required data for car location request is:
+
+The supplier code for the rental agency in Vendor/Code. (Only one vendor code is permitted.)
+
+Attributes of VehicleDateLocation for:
+
+Pick-up date and time.
+
+Pick-up location (city/airport code).
+
+Drop-off date and time.
+
+Note: When no PickupLocationNumber is provided in the VehicleLocationDetailReq, an error is returned in the response <faultstring>INVALID LOCATION NUMBER ENTERED - NEED TWO NUMERICS</faultstring>:
+
+The PickupLocationNumber is not returned in any of the previous Vehicle related messages.
+The value of the attribute PickupLocationNumber is the same as the value of VendorLocationID, returned as part of VendorLocation@VendorLocationID in a VehicleLocationRsp.
+Response
+VehicleLocationDetailRsp returns location details.
+
+ClosedShow schema diagram
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Details
+Vehicle Details is commonly used during the shopping process to determine traveler preferences. A prerequisite task is typically a Vehicle Search request.
+
+Vehicle Details uses keyword information to detail a vehicle supplier's business policies and services. Description information varies by supplier, but typically includes:
+
+Age restrictions, if any, that the renter must meet
+Vehicle types
+Refueling policies
+Accepted credit cards
+Driver's license requirement
+Recommended and required insurance coverage
+Contact information for the rental location, including street address, local telephone number, and hours of operation.
+Request
+VehicleKeywordReq in the VehicleKeywordsService is used to request Vehicle Details. The request message must contain the:
+
+Vendor code
+
+Pick-up date
+
+Depending on the supplier and the expected results, keywords and sub-keywords may also be required.
+
+ClosedShow schema diagram
+When KeywordList is requested, only keyword names are provided, and no sub-key information is provided.
+
+If PickupDateLocation/Location is anything other than an airport code, both LocationType and PickupLocationNumber are required.
+
+When keyword details are requested for keywords that have sub-keys, only sub-key names and brief descriptions are sent in the response. A subsequent keyword request is required to get sub-key details.
+
+When Keyword/SubKey is included in the request, only one Keyword and one SubKey is allowed. If one Keyword is specified and more than one SubKey is specified, only the first SubKey is sent in the request, and a warning is returned in the response to indicate only one SubKey is allowed.
+
+Response
+The response is returned in VehicleKeywordRsp.
+
+ClosedShow schema diagram
+The response returns the following information:
+
+Keyword name
+
+Keyword description
+
+Keyword number
+
+Textual information associated to the keyword
+
+Sub-keyword name and description (optional)
+
+ 
+
+ 
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Media Request
+A Vehicle Media request allows the user to enter a search ID from a Vehicle Search response that includes images.
+
+Vehicle media and descriptions are stand-alone transactions which do not need to be made as part of any specific travel business process. However, images and descriptions are typically requested as part of shopping functions, such as a Vehicle Search or a Vehicle Details request.
+
+Request
+The request is made using VehicleMediaLinksReq in the VehicleMediaLinksService. Multiple vendors, car types (optional), and locations (city/airport) can be included in the request.
+
+ClosedShow schema diagram
+Response
+The response is returned in VehicleMediaLinksRsp.
+
+Universal API release 24.4.3 enhancements includes Image URLs in the Car Matrix Response. Release 24.4
+
+ClosedShow schema diagram
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Rules
+Vehicle Rules obtain additional information regarding conditions and charges associated with vehicle rentals. Rate rules can be requested:
+
+After a Vehicle Search when rules are requested for selected search response.
+
+After a Vehicle Booking using the booking confirmation number.
+
+Vehicle Rules are also returned as part of the standard Vehicle Booking response. These rules can vary by supplier, but typically include:
+
+Base rate detail
+
+Applicable drop charges
+
+Applicable surcharges or fees
+
+The cost of insurance coverage available
+
+Acceptable credit cards
+
+Pick-up and return station hours
+
+Special Equipment
+Prepayment cancellation advisory rules (1P Only)
+
+A rules request should be made before booking to confirm the terms of the rental. If the traveler fails to adhere to these rules and restrictions, the supplier can assess penalties or revert the rates from discounted to standard. However, a rules request can also be from a sold segment.
+
+Request
+VehicleRulesReq in the Vehicle Service is used to request location details.
+
+ClosedShow schema diagram
+Vehicle Rules after Vehicle Search
+To request Vehicle Rules after a Vehicle Search, the following data is required in the VehicleRulesLookup children VehicleDateLocation and Vehicle Search Modifiers: 
+
+Pick-up date and time
+
+Return date and time
+
+Pick-up location   
+
+ClosedTour Code
+Vehicle modifier information (AirConditioning, TransmissionType, VehicleClass, and Category)
+
+Supplier (Vendor) code
+
+RateHostIndicator and RateToken should be in the vehicle rules request when returned in the availability response. Without these values, requests may return an error for some vendors.
+
+Rate modifier information (RateCode and RateCategory)
+
+RateCategroy and RatePeriod should be present in the VehicleRules request when returned in the VehicleSearchAvailability response.
+
+Note: The Return location is optional in the request. If it is not included, the return location is assumed to be the same as the pick-up location.   
+
+To request Vehicle Rules for a booked segment, the VehicleReservationLocatorCode is required. If no BookingConfirmation is sent in the response, a warning is sent: "Vehicle Rules returned are as of today since Vehicle supplier confirmation is not yet available".
+
+Promotional Codes and Coupon Numbers
+Universal API supports Promotional Codes/Coupon Numbers added to Vehicle Rules. The Vehicle Rules response shows the discounted rate if the supplier accepted the coupon.
+
+If a Promotional Coupon is used, the Promotional category is not returned response unless a Promotional rate category is requested. The category in the request is passed to the suppliers (vendors), but they are not required to send a category back in their response to Travelport. Suppliers frequently ignore the category sent, and sends the best rates that apply for the rental period and all search parameters.
+
+The Promotional Code and Coupon Numbers are requested via VehicleRulesLookup/VehicleSearchModifiers/RateModifiers @PromotionalCode and displayed in the response at VehicleRulesRsp/Vehicle/VehicleRate/SupplierRate @DiscountAmount.
+
+Response
+VehicleRulesRsp returns rules.
+
+ClosedShow schema diagram
+The amount and type of information returned varies by supplier and provider, but typically includes:
+
+Pick-up hours of operation
+
+Return hours of operation
+
+Vehicle supplier (vendor)
+
+Vehicle modifiers
+
+Estimated base rate
+
+Approximate total amount
+
+Rate amount
+
+Rate modifiers
+
+Rate code
+
+Rate category
+
+To allow car suppliers the ability to offer different rates for prepaid bookings, the RateCategory, “Prepay” is supported in all Universal API Vehicle transactions.
+
+Adding the Rate Category “Prepay” to the request message indicates to the supplier that you want these particular rate plans included in the response.
+
+The ability to get prepay information in the response is supplier dependent.
+
+@RateCategory="Prepay" is a part of
+
+/VehicleSearchModifiers in
+VehicleSearchAvailabilityReq
+VehicleRulesReq
+/Vehicle/VehicleRate in
+VehicleSearchAvailabilityRsp
+VehicleRulesRsp
+VehicleCreateReservationReq
+Base rate includes
+
+Approximate total includes
+
+Mileage allowance
+
+Mileage rate
+
+Extra days/hours charge
+
+Drop-off charges
+VehicleRulesRsp/Vehicle/VehicleRate/SupplierRate @DropOffCharge
+Advanced Booking (The Number of Days or Hours in advance that the displayed Car must be booked for the returned rate) for 1P in
+VehicleRulesRsp/Vehicle/VehicleRate@AdvancedBooking
+
+Flight Restrictions ( Indicates flight information is required at booking) FOR 1P in .
+VehicleRulesRsp/Vehicle/VehicleRate@FlightRestriction
+Taxes
+VehicleRulesRsp/Vehicle/VehicleCharge @Category="Tax"
+Surcharges
+VehicleRulesRsp/Vehicle/VehicleCharge @Category="Surcharge"
+
+Coverages
+VehicleRulesRsp/Vehicle/VehicleCharge @Category="Coverage"
+
+Special Equipment (Worldspan Only)
+VehicleRulesRsp/Vehicle/VehicleCharge @Category="Special"
+Note: Universal API populates the @Name attribute with the Special Equipment string code enumeration, and adds the @Description optional attribute to describe the special equipment charge.
+Conditional Fees (Worldspan Only)
+VehicleRulesRsp/Vehicle/VehicleCharge @Category="Conditional"
+Counter Location Code
+VehicleRulesRsp/Vehicle @CounterLocationCode
+Note: This is the four-byte code to identify the Location of the Rental Counter, e.g. OMSO, PHON, etc. Universal API converts the 1G and 1V Counter Location 1-byte value to a 4-byte code, or converts the 1P Counter Location string text to a 4-byte code, in the response
+
+Accepted forms of payment (credit cards)
+
+Guarantee rules
+
+Deposit rules
+
+Prepayment cancellation rules (Worldspan Only)
+VehicleRulesRsp/PrePayCancelInfo/@Code, @Amount, @Percent, @NumberOfDaysHours, @RentalDays
+
+Discount amount
+Location
+VehicleRulesRsp/Vehicle@Location
+Note: The Vehicle Rules returns the location of the Shuttle Category code in the description text. For example, "S" code is returned as “Offsite – Shuttle to counter and car” as the Location of Counter description text for the Shuttle Category Code.
+An ACRISS Standard code.
+Exceptions
+Closed Worldspan
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Booking
+Vehicle booking is a request to store an vehicle itinerary.
+
+Creating Vehicle Bookings
+Vehicle booking creates a reservation for a based on results from a vehicle availability search.
+
+Vehicle bookings can be created using either:
+
+VehicleCreateReservationReq, which creates a new PNR for the booking (and a new Universal Record).
+
+VehicleAdd, which adds a new vehicle booking to an existing Universal Record. Only once vehicle booking can be associated to a single PNR.
+
+Canceling Vehicle Bookings
+Vehicle bookings can be canceled through either the PNR or the Universal Record.
+
+Modifying Vehicle Bookings
+Depending on the type of update, vehicle bookings can be modified through the Universal Record.
+
+ClosedNext Steps
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Creating Vehicle Bookings
+ClosedYou are here
+After the traveler selects a rental vehicle option from a Vehicle Search response, they can reserve the selected vehicle option. Data required for the Vehicle Booking can be taken from the Vehicle Search response for the selected vehicle option.
+
+Schema
+See the following transactions for Vehicle Booking:
+
+VehicleCreateReservationReq
+VehicleCreateReservationRsp
+How To
+Vehicles are booked using VehicleCreateReservationsReq. A vehicle segment can be booked only if it is part of a PNR that contains passenger and booking data for a complete trip, including one or more travel segments (air, car, hotel, or rail). If a reference to an existing Universal Record is indicated, the vehicle segment is added to the PNR. If no Universal Record exists for this booking, a new PNR is created. 
+
+Enter the minimum required data. Unless otherwise noted, all of the elements are direct children of VehicleCreateReservationReq.
+
+Note: All required data includes a Key attribute which uniquely identifies that chunk of data across multiple transactions in a stateless (sessionless) environment.
+
+ClosedShow required data
+Enter optional data to further refine the request.
+
+ClosedShow optional data
+The booking response is returned in VehicleCreateReservationsRsp. A basic Vehicle Reservation response includes the Universal Record, as well as the Vehicle Reservation information for this booking in the VehicleReservation element.
+ClosedProvider ARNK Segment
+ClosedProvider Reservation Info
+ClosedSSR
+The VehicleReservation element contains vehicle information, pick-up and drop-off dates, and booking rate data.
+
+ClosedShow schema diagram
+The amount of rate data that is returned is dependent upon the specific supplier, as not all suppliers return all data.
+
+ClosedLocatorCode
+ClosedBookingTravelerRef
+ClosedVehicle/VehicleRate
+ClosedSellMessage
+ClosedReservationName
+ClosedVehicleDateLocation
+ClosedACRISS Standard Code
+Exceptions
+ClosedGalileo
+ClosedWorldspan
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Credit Card Form of Payment - Hotel and Vehicle
+Using Credit Card as a form of payment for hotels and vehicle can vary by vendor and location. The following table reflects the most common currently available credit cards and their two-digit codes
+
+Credit Card	Code
+American Express	AX
+Bank Card	BC
+Carte Bleu	BL
+Diners Club	DN
+Discover Card	DS
+Eurocard	EC
+Japanese Credit Bureau Credit Card	JC
+Local Card	LC
+Maestro	MA
+Master Card	MC
+Solo	SO
+Union Pay	CU
+Universal Air Travel Card	TP
+Visa Electron	VE
+Visa	VI
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Modifying Vehicle Bookings
+ClosedYou are here
+An existing Universal Record can be modified to add, delete, or update booked vehicle segment data or cancel vehicle segments.
+
+How To
+UniversalRecordModifyReq/UniversalModifyCmd is used to modify Universal Record data for traveler information, general UR information, and segment-related data. If multiple modifications are made to a Universal Record, an instance of UniversalModifyCmd must be associated with each change request.
+
+Adding Vehicle Segments
+Use the VehicleAdd child of UniversalModifyCmd to add a vehicle segment to an existing Universal Record.
+ClosedShow schema diagram
+Include the required @ReservationLocatorCode to identify the PNR to which the travel segment is added. ReservationLocatorCode is assigned by the provider and is distinct from the identifier for the UniversalRecord that is issued by Universal API.
+Make sure the PaymentInformation/BillingReferenceNumber is the same as the reference in the database, or the existing billing reference number is overwritten with the new value.
+If a passive segment is being added to an existing UR:
+With the same traveler, a different PNR, the same supplier, and a different loyalty card, the loyalty card in the passive segment is not added.  
+With a different PNR, a different traveler, the same supplier, and a different loyalty card, the loyalty card is added because a new traveler is added.
+Updating Vehicle Segments
+Use the VehicleUpdate child of UniversalModifyCmd to modify an existing vehicle segment in a Universal Record.
+ClosedShow schema diagram
+Include the required @ReservationLocatorCode to identify the PNR that contains the travel segment that is being modified. ReservationLocatorCode is assigned by the provider and is distinct from the identifier for the UniversalRecord that is issued by Universal API.
+If the PaymentInformation/BillingReferenceNumber is sent but no value exists in the UR, an error is returned. Use the VehicleAdd request to add new payment information.
+Modify the date and time of the pick-up using VehiclePickupDateLocation/PickupDateTime. A pick-up time must be provided or an error is returned. Changes to the PickupDateTime are recorded in Universal Record History.
+Note: PickupDateTime is required for booking and cannot be deleted.
+
+Modify the pick-up location using VehiclePickupDateLocation.
+
+@PickupLocation
+@PickupLocationType
+@PickupLocationNumber
+Note: Only Worldspan (1P) support modifying the pickup location. If a pickup location modification is sent to Galileo (1G) an error is returned: "THE HOST SYSTEM ONLY ALLOWS MODIFICATION OF THE PICKUPDATETIME, CANCEL AND REBOOK THE VEHICLE SEGMENT IF YOU NEED TO CHANGE THE PICK UP LOCATION DETAILS"
+
+Deleting Vehicle Segment Data
+Note: VehicleDelete is not currently used to cancel a vehicle booking from an existing Universal Record. VehicleCancelReq is used to cancel booked vehicle segments. Alternately, UniversalRecordCancelReq is used to cancel the entire Universal Record, including the vehicle booking.
+
+Use the VehicleDelete child of UniversalModifyCmd to delete existing data from a vehicle segment or to delete an entire vehicle segment from an existing Universal Record.
+
+Note: See Canceling Travel Segments via the UR for more information on deleting entire vehicle segments from an existing Universal Record.
+
+Enter required data:
+
+The ReservationLocatorCode attribute identifies the PNR with the associated vehicle segments.
+
+The Element attribute indicates the type of data to be deleted. Because the Element attribute is shared by several segment types, not all enumerations are used by vehicle segments.
+A Key from the PNR is required to identify the specific item to be deleted based on the unique key assigned to that item.
+BillingReferenceNumber should only be deleted if the UR has an existing BillingReferenceNumber and no attribute is passed for the same in the UniversalRecordModifyReq.
+VehiclePickupDateLocation/PickupDateTime is required for booking and cannot be deleted, but it can be modified using VehicleUpdate.
+SpecialEquipment can be partially deleted or totally deleted.
+To partially delete special equipment, submit the special equipment which needs to be retained and leave blanks for the equipment that should be deleted.
+If an already-deleted code or equipment that is not in the booking is submitted, a warning displays: Special Equipment XXX was not present in original booking. Regardless of the warning, valid codes that require deletion are deleted.
+Exceptions
+Galileo
+Galileo does not allow modification of pickup details in a vehicle booking.
+Universal API does not have a discrete equivalent to an end transact (PNRBFEnd). When a created, modified or canceled booking is submitted, Universal API internally processes the end transact as part of the request. There is also no equivalent functionality to PNRBFIgnore.
+
+Worldspan
+Most vehicles booked through Worldspan require a Guarantee or Deposit to book.
+The BillingAddress and Phone for guaranteed Vehicle segments are stored locally by Universal API, rather than by the host. A warning message that notes the local save is also returned.
+
+Note: If a guarantee is required, but is not provided in the request, an error is returned in the response.
+Worldspan does not support LoyaltyCard/SupplierCode in the VehicleAdd request.
+Most of the Worldspan car vendors return an error message when a delete request attempts to delete a loyalty card number. To delete a loyalty card number, a user may have to cancel and rebook the vehicle segment.
+The ReturnDateTime in VehicleUpdate/VehicleReturnDateLocation can be updated but it is required for booking and cannot be deleted.
+Vouchers
+ClosedVouchers
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Canceling Vehicle Bookings
+There are two ways to cancel a Vehicle reservation:
+
+Canceling the vehicle booking using VehicleCancelReq, which cancels the reserved vehicle segment, but retains the associated Universal Record.
+VehicleCancelReq should be used if there are multiple reservations in a Universal Record, and only the vehicle reservation will be canceled. VehicleCancelReq should NOT be used if the vehicle reservation is the only booking in the Universal Record. In this case, the vehicle reservation is canceled but an orphaned Universal Record remains that contains no PNR booking records.
+
+Canceling the entire journey using UniversalRecordCancelReq, which cancels the Universal Record and all PNRs (booking records) contained in that Universal Record.
+UniversalRecordCancelReq should only be used if all reservations in the itinerary will be canceled.
+
+See Universal Records and PNRs for more information about the relationship between PNR booking records and Universal Records.
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Canceling Vehicle Bookings
+There are two ways to cancel one or more vehicle bookings without canceling the entire PNR or UR:
+
+By canceling the Universal Record, which cancels all bookings/PNRs in the Universal Record.
+
+By modifying an individual provider PNR within a Universal Record, which is detailed in this topic.
+
+For more information about canceling an entire trip, or canceling all air, car, hotel segments in a PNR, see Canceling Bookings.
+
+Schema
+See the Cancel Vehicle transactions:
+
+VehicleCancelReq
+VehicleCancelRsp
+Request
+Important! Before canceling a booking, the Universal Record for the booking must be retrieved by Universal API to ensure that all of the booking data is current on the system.
+
+After the booking is retrieved, a vehicle segment in a PNR can be canceled by using VehicleCancelReq in the VehicleCancelService.
+
+ClosedShow schema diagram
+Response
+VehicleCancelRsp is returned.
+
+ClosedShow schema diagram
+The Universal Record is returned with the canceled vehicle segment or segments. The VehicleReservation child of UniversalRecord provides the locator code for the associated PNR. If segments in more than one PNR are canceled, multiple VehicleReservation child elements may be returned.
+
+ARNK (Arrival Unknown) segments are added to the host PNR automatically wherever required, particularly for continuity breaks with the provider PNR. ARNK (Arrival Unknown) segments that are present in Galileo and Apollo provider PNRs are included in the response in the ProviderARNKSegment, to allow agents to view the exact provider PNR composition.
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle: Associated Topics
+The following list provides the available Vehicle associated topics.
+
+Topic
+
+Description
+
+Vehicle Participation Levels	Participation levels are used to indicate the relationship between the provider and supplier in vehicle shopping and booking.
+Requesting Additional Results	This topic allows for the return of additional results if available.
+Vehicle Types	This topic allows a Vehicle Search request to be modified to include vehicle type information including categories, classes, door counts, and fuel types.
+Promotional Codes and Coupons	This topic allows a vehicle search request to be modified to include coupons or supplier discounts.
+Car Counter Location Shuttle Description	This topic contains values returned when searching availability that describe the location of the car counter and any shuttles requirements.
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Participation Levels
+Participation levels (VehicleRate/RateSource) are used in the Vehicle Shopping and Booking process to indicate the relationship between the provider and the supplier.
+
+Participation Levels in Galileo
+Participation Level
+
+Description
+
+Inside Availability
+
+A direct, real-time connection between the supplier's database and Galileo's CarMaster system. Provides seamless access to internal car types, rates, and rules as viewed by the car rental company's own reservation staff.
+
+Inside Availability w/ secondary
+
+Also known as Inside Availability with Alternate Response. If a request returns no information, the Inside Link response matches the requested reference point data with alternate valid reference points.
+
+Link
+
+Also known as Inside Link. Provides instant confirmation of car rental directly from the car supplier's system, but does not provide direct access to availability or other shopping functions.
+
+Link w/ secondary
+
+Also known as Inside Link with Alternate Response. If a request returns no information, the Inside Link response matches the requested reference point data with alternate valid reference points.
+
+Car Database
+
+Also known as CarMaster Only Participant. Retrieves rate, availability, and description information only from the CarMaster system. A sell message must be sent to the supplier, who then issues a confirmation. Agents usually re-display the booking later to see whether the reservation was confirmed.
+
+Car Database with secondary
+
+Also known as CarMaster Only Participant with Alternate Response. If a request returns no information, the Inside Link response matches the requested reference point data with alternate valid reference points.
+
+Direct Sell
+
+Does not rely on a supplier or provider data source from previous shopping transactions for the required booking data. Rather, the data is already known and is entered directly for booking.
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Requesting Additional Results (Get More)
+For some providers, if additional responses data is available after the first response, one or more follow-on transactions can be made to return additional availabilities.
+
+Additional Results for Air, Vehicle, Rail, Queue, and Hotel Search Responses
+NextResultReference is available for air, vehicle, rail, and queue responses, as well as Hotel Search and Hotel Rate and Rule Search responses.
+
+If additional data is available, the first response returns a key in the NextResultReference element. This key is sent, with the applicable provider code, in the following request to indicate the starting point of the second group of responses. Subsequent keys can be used for each additional transaction in the request.
+
+If no key is returned in a NextResultReference response, no additional search responses are available.
+
+Additional Results for Hotel Super Shopper Responses
+Requests for additional properties are not currently supported in Hotel Super Shopper. The NextResultReference token is not currently functional in HotelSuperShopperReq and HotelSuperShopperRsp.
+
+However, requests for additional rates are supported for Hotel Super Shopper. By default, a maximum of 99 rates plans are returned for each hotel property.
+
+If additional rate plans are available for a property, a More Rate indicator is returned (HotelProperty @MoreRates=”true”). An associated More Rates token (HotelProperty @MoreRatesToken) can be used in a subsequent Hotel Rate and Rule Search request for a specified property (HotelDetailsReq/NextResultReference).
+
+@MoreRatesToken is present, but not implemented in HotelProperty for:
+
+HotelSearchAvailabilityRsp
+HotelSearchAvailabilityAsynchRsp
+HotelDetailsReq/Rsp
+HotelRulesReq
+HotelCancelReq/Rsp
+HotelCreateReservationReq/Rsp
+Note: QuickResponse @MoreToken is also not currently supported, and is reserved for future use.
+
+Exceptions
+ClosedGalileo
+ClosedApollo
+ClosedWorldspan
+ 
+
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle Type
+ClosedYou are here
+VehicleType is used to modify a Vehicle Search request to include vehicle type information such as vehicle categories, classes, door counts, and fuel types. VehicleType values can be sent in combination with VehicleType values.
+
+VehicleType is stored in the Universal API database when a PNR is imported or a passive segment is added to the Universal Record.
+
+VehicleType is validated during Universal Record Import, Universal Record Modify, and Passive Bookings. If the VehicleType is invalid, a warning is returned: “CarType has not been saved for some of the segments”.
+
+Schema
+See the following transactions for VehicleType:
+
+VehicleSearchAvailabilityReq
+VehicleRulesReq
+PassiveCreateReservationRsp
+UniversalImportRsp
+UniversalModifyRsp
+Implemented In
+Vehicle Search
+VehicleSearchReq/VehicleSearchModifiers @VehicleType
+
+Vehicle Search in VehicleReqRsp.xsd can include VehicleTypein addition to the minimum required search data to specify the type of vehicles to include in the search.
+
+See the Exceptions section in Vehicle Search by Vehicle Type for Galileo (1G), Apollo (1V), and Worldspan (1P) differences.
+
+Vehicle Rules
+VehicleRulesReq/VehicleRulesLookup/VehicleSearchModifiers @VehicleType
+
+Vehicle Rules in VehicleReqRsp.xsd can include VehicleTypein addition to the minimum required search data.
+
+Passive Booking, Universal Record Import, and Universal Record Modify
+PassiveCreateReservationRsp/UniversalRecord/PassiveReservation/PassiveSegment @VehicleType
+
+UniversalRecordImportRsp/PassiveReservation/PassiveSegment @VehicleType
+
+UniversalRecordModifyRsp/PassiveReservation/PassiveSegment @VehicleType
+
+VehicleType is validated and stored when a Passive Booking is created and when a Universal Record is imported or modified. If the VehicleType is invalid, a warning is returned: “CarType has not been saved for some of the segments”.
+
+See Release Notes for 7.1.1 for additional details.
+
+Vehicle Types
+The vehicle types and number of types supported in a request varies by provider. Either the enumeration or pseudo code can be sent in VehicleType.
+
+The following Vehicle Type pseudo code enumerations are used. However, not all providers support each of the Universal API enumerations for Vehicle Type. The following table shows how the currently supported providers process Vehicle Type enumerations within their host systems.
+
+Enumeration
+
+Galileo Pseudo Code
+
+Worldspan Pseudo Code
+
+AnyVehicle
+
+ACAR
+
+ACAR
+
+Any2-3DoorVehicle
+
+ALLB
+
+ALLB
+
+Any2-3DoorPassengerCar
+
+ALBC
+
+Not supported.
+
+Any2-4DoorVehicle
+
+ALLC
+
+ALLC
+
+Any2-4DoorPassengerCar
+
+ALCC
+
+Not supported.
+
+Any4-5DoorVehicle
+
+ALLD
+
+ALLD
+
+Any4DoorPassengerCar
+
+ALDC
+
+Not supported.
+
+AnyElite
+
+AELT
+
+AELT
+
+AnyCoupe-Roadster
+
+ACPR
+
+ACPR
+
+AnySpecial
+
+ASPC
+
+ASPC
+
+AnyPickUp
+
+APUP
+
+APUP
+
+AnyWagon
+
+AWGN
+
+AWGN
+
+AnyRecreationalVehicle
+
+AREC
+
+AREC
+
+AnySUV
+
+ASUV
+
+ASUV
+
+AnyPassengerVan
+
+AVAN
+
+AVAN
+
+Any6PassengerVanOrSUV
+
+ASIX
+
+ASIX
+
+Any7PassengerVanOrSUV
+
+ASEV
+
+Not supported.
+
+Any8PassengerVanOrSUV
+
+AEIG
+
+AEIG
+
+Any4WOrAllWheelDrive
+
+AFWD
+
+AFWD
+
+AnyAllTerrainVehicle
+
+ATRV
+
+ATRV
+
+AnyCommercialTruck
+
+ACGO
+
+ACGO
+
+AnyLimousine
+
+ALMO
+
+ALMO
+
+AnySport
+
+ASPT
+
+ASPT
+
+AnyConvertible
+
+ACNV
+
+ACNV
+
+AnySpecialOfferVehicle
+
+AOFR
+
+AOFR
+
+AnyMonospace
+
+AMNO
+
+AMNO
+
+AnyMotorHome
+
+AMTO
+
+AMTO
+
+Any2WheelVehicle
+
+AMCY
+
+AMCY
+
+AnyCrossover
+
+ACRS
+
+ACRS
+
+AllManualTransmissionVehicles
+
+AMAN
+
+AMAN
+
+AllAutomaticTransmissionVehicles
+
+AUTO
+
+AUTO
+
+AllGasolineVehicles
+
+AGAS
+
+AGAS
+
+AllPetrolVehicles
+
+APET
+
+APET
+
+AllDieselVehicles
+
+ADSL
+
+ADSL
+
+AnyGreenVehicle
+
+AGRN
+
+AGRN
+
+AllHybridVehicles
+
+AHYB
+
+AHYB
+
+AllElectricVehicles
+
+AELC
+
+AELC
+
+AllHydrogenVehicles
+
+AHYD
+
+AHYD
+
+AllMultiFuelVehicles
+
+AMFP
+
+AMFP
+
+AllPGVVehicles
+
+ACPG
+
+Not supported.
+
+AllEthanlolVehicles
+
+AETH
+
+AETH
+
+Response
+A standard Vehicle Search response is returned. However, vehicle types are limited to those that meet the specified search parameters.
+
+Vehicle Type code enumerations are returned in the response, even if pseudo codes were sent in the request.
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Vehicle: Promotional Codes and Coupons
+RateModifiers @PromotionalCode
+SupplierRate @DiscountAmount
+
+Promotional Codes are rate modifiers that can be added to include coupons or supplier (vendor) discounts for a Vehicle Search request. If a promotional rate is selected, the Promotional Code must be included in subsequent Vehicle Rules or Vehicle Booking requests.
+
+This topic supports the use of promotional codes for Vehicle segments only.
+
+Implementation by Provider
+See Implemented Transactions for provider functionality specific to each transaction.
+
+Provider
+
+Implementation
+
+Galileo (1G)	Supported by Galileo. Implementation varies by transaction.
+Apollo (1V)	Supported by Galileo. Implementation varies by transaction.
+Worldspan (1P)	Supported by Worldspan.
+Schema
+ClosedShow schema diagram
+Request
+To make a vehicle request with a Promotional Code or Coupon:
+
+In RateModifiers @VendorCode, send the supplier associated with the PromotionalCode.
+In RateModifiers @PromotionalCode, send the coupon or promotional code issued by the supplier. A maximum of 19 characters are supported for supplier promotional codes.
+If applicable, send the associated Discount ID (RateModifiers @DiscountNumber). Some suppliers require an associated Discount ID.
+Response
+In the response, the amount of the discount is returned in SupplierRate @DiscountAmount. The amount is a flat amount and not a percentage.
+
+However, Discount Amount is not always returned. Some suppliers return a regular base rate with a discount amount. Other suppliers return a modified base rate with the discount applied (DiscountAmount=Currency0.00).
+
+Note: If a Promotional Coupon is used, the Promotional category is not returned response unless a Promotional rate category is requested. The category in the request is passed to the suppliers (vendors), but they are not required to send a category back in their response to Travelport. Suppliers frequently ignore the category sent, and sends the best rates that apply for the rental period and all search parameters.
+
+Associated Transactions
+ClosedVehicle Search
+ClosedVehicle Rules
+ClosedVehicle Booking
+ 
+
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ Car Counter Location Shuttle Descriptions
+The values in this table may be returned in @Location for VehicleSearchAvailability and VehicleRules Responses.
+
+Car Counter Location Shuttle Description
+
+D.I.R. Car Shuttle Code <LTX> Value
+(Returned in DIR VA response only)	
+GWS/XML Select
+<LocnCarRental> Value
+
+COUNTER IS IN TERMINAL – WALK TO CAR
+
+TERM	
+T
+
+COUNTER IS IN TERMINAL – SHUTTLE TO CAR
+
+CNTR	
+C
+
+OFFSITE – SHUTTLE TO COUNTER AND CAR
+
+SHTL	
+S
+
+CNTR IN TERM-CAR CO SHTTL TO CAR OFF ARPT GRNDS
+
+TCSO	
+D
+
+CNTR IN TERM-ARPT SHTTL TO CAR ON ARPT GRNDS
+
+TASA	
+E
+
+CNTR IN TERM-ARPT SHTTL TO CAR OFF ARPT GRNDS
+
+TASO	
+F
+
+CAR CO SHTTL TO CNTR/CAR OFF ARPT GRNDS
+
+OCSO	
+G
+
+ARPT SHTTL TO CNTR/CAR ON ARPT GRNDS	OASA	A
+ARPT SHTTL TO CNTR/CAR OFF ARPT GRNDS	OASO	B
+MULTIPLE SHTTLS TO CNTR/CAR ON ARPT GRNDS	OMSA	M
+MULTIPLE SHTTLS TO CNTR/CAR OFF ARPT GRNDS	OMSO	N
+PHONE FOR CAR COMPANY PICK-UP	PHON	P
+ 
+
+Was this topic helpful?
+ClosedFeedback / Support
+ 

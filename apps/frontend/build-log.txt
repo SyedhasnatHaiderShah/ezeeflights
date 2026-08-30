@@ -1,0 +1,532 @@
+
+> @ezeeflights/frontend@0.1.0 build:mobile
+> node scripts/mobile-sync.js && node scripts/fix-api-routes.js && cross-env CAPACITOR_BUILD=true next build && node scripts/fix-api-routes.js --revert
+
+[MobileSync] Starting synchronization...
+[MobileSync] Converting / -> (mobile)/m-home
+[MobileSync] Converting flights -> (mobile)/m-flights
+[MobileSync] Converting flights/booking -> (mobile)/m-flights-booking
+[MobileSync] Converting profile -> (mobile)/m-profile
+[MobileSync] Converting hotels -> (mobile)/m-hotels
+[MobileSync] Sync complete.
+[EzeeFlights] Cleared .next cache
+▲ Next.js 16.2.2 (Turbopack)
+- Environments: .env.local, .env
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 22 errors:
+./apps/frontend/app/(mobile)/m-flights-booking/page.tsx:1094:10
+the name `BookingPageContent` is defined multiple times
+  [90m1092 |[0m }
+  [90m1093 |[0m
+[31m[1m>[0m [90m1094 |[0m [36mfunction[0m [33mBookingPageContent[0m(props: any) {
+  [90m     |[0m          [31m[1m^^^^^^^^^^^^^^^^^^[0m
+  [90m1095 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mBookingPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m1096 |[0m }
+  [90m1097 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/(mobile)/m-flights-booking/page.tsx [Client Component Browser]
+    ./apps/frontend/app/(mobile)/m-flights-booking/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/(mobile)/m-flights-booking/page.tsx [Client Component SSR]
+    ./apps/frontend/app/(mobile)/m-flights-booking/page.tsx [Server Component]
+
+
+./apps/frontend/app/flights/booking/page.tsx:1094:10
+the name `BookingPageContent` is defined multiple times
+  [90m1092 |[0m }
+  [90m1093 |[0m
+[31m[1m>[0m [90m1094 |[0m [36mfunction[0m [33mBookingPageContent[0m(props: any) {
+  [90m     |[0m          [31m[1m^^^^^^^^^^^^^^^^^^[0m
+  [90m1095 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mBookingPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m1096 |[0m }
+  [90m1097 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/flights/booking/page.tsx [Client Component Browser]
+    ./apps/frontend/app/flights/booking/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/flights/booking/page.tsx [Client Component SSR]
+    ./apps/frontend/app/flights/booking/page.tsx [Server Component]
+
+
+./apps/frontend/app/payment/checkout/page.tsx:265:10
+the name `CheckoutPageContent` is defined multiple times
+  [90m263 |[0m }
+  [90m264 |[0m
+[31m[1m>[0m [90m265 |[0m [36mfunction[0m [33mCheckoutPageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^[0m
+  [90m266 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mCheckoutPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m267 |[0m }
+  [90m268 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/payment/checkout/page.tsx [Client Component Browser]
+    ./apps/frontend/app/payment/checkout/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/payment/checkout/page.tsx [Client Component SSR]
+    ./apps/frontend/app/payment/checkout/page.tsx [Server Component]
+
+
+./apps/frontend/app/payment/checkout/page.tsx:269:10
+the name `CheckoutPageContent` is defined multiple times
+  [90m267 |[0m }
+  [90m268 |[0m
+[31m[1m>[0m [90m269 |[0m [36mfunction[0m [33mCheckoutPageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^[0m
+  [90m270 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mCheckoutPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m271 |[0m }
+  [90m272 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/payment/checkout/page.tsx [Client Component Browser]
+    ./apps/frontend/app/payment/checkout/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/payment/checkout/page.tsx [Client Component SSR]
+    ./apps/frontend/app/payment/checkout/page.tsx [Server Component]
+
+
+./apps/frontend/app/flights/confirmation/page.tsx:119:10
+the name `ConfirmationPageContent` is defined multiple times
+  [90m117 |[0m }
+  [90m118 |[0m
+[31m[1m>[0m [90m119 |[0m [36mfunction[0m [33mConfirmationPageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m120 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mConfirmationPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m121 |[0m }
+  [90m122 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/flights/confirmation/page.tsx [Client Component Browser]
+    ./apps/frontend/app/flights/confirmation/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/flights/confirmation/page.tsx [Client Component SSR]
+    ./apps/frontend/app/flights/confirmation/page.tsx [Server Component]
+
+
+./apps/frontend/app/flights/confirmation/page.tsx:123:10
+the name `ConfirmationPageContent` is defined multiple times
+  [90m121 |[0m }
+  [90m122 |[0m
+[31m[1m>[0m [90m123 |[0m [36mfunction[0m [33mConfirmationPageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m124 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mConfirmationPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m125 |[0m }
+  [90m126 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/flights/confirmation/page.tsx [Client Component Browser]
+    ./apps/frontend/app/flights/confirmation/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/flights/confirmation/page.tsx [Client Component SSR]
+    ./apps/frontend/app/flights/confirmation/page.tsx [Server Component]
+
+
+./apps/frontend/app/hotels/compare/page.tsx:214:10
+the name `HotelComparePageContent` is defined multiple times
+  [90m212 |[0m }
+  [90m213 |[0m
+[31m[1m>[0m [90m214 |[0m [36mfunction[0m [33mHotelComparePageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m215 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mHotelComparePageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m216 |[0m }
+  [90m217 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/hotels/compare/page.tsx [Client Component Browser]
+    ./apps/frontend/app/hotels/compare/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/hotels/compare/page.tsx [Client Component SSR]
+    ./apps/frontend/app/hotels/compare/page.tsx [Server Component]
+
+
+./apps/frontend/app/hotels/compare/page.tsx:218:10
+the name `HotelComparePageContent` is defined multiple times
+  [90m216 |[0m }
+  [90m217 |[0m
+[31m[1m>[0m [90m218 |[0m [36mfunction[0m [33mHotelComparePageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m219 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mHotelComparePageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m220 |[0m }
+  [90m221 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/hotels/compare/page.tsx [Client Component Browser]
+    ./apps/frontend/app/hotels/compare/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/hotels/compare/page.tsx [Client Component SSR]
+    ./apps/frontend/app/hotels/compare/page.tsx [Server Component]
+
+
+./apps/frontend/app/hotels/search/page.tsx:189:10
+the name `HotelSearchPageContent` is defined multiple times
+  [90m187 |[0m
+  [90m188 |[0m
+[31m[1m>[0m [90m189 |[0m [36mfunction[0m [33mHotelSearchPageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m190 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mHotelSearchPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m191 |[0m }
+  [90m192 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/hotels/search/page.tsx [Client Component Browser]
+    ./apps/frontend/app/hotels/search/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/hotels/search/page.tsx [Client Component SSR]
+    ./apps/frontend/app/hotels/search/page.tsx [Server Component]
+
+
+./apps/frontend/app/hotels/search/page.tsx:193:10
+the name `HotelSearchPageContent` is defined multiple times
+  [90m191 |[0m }
+  [90m192 |[0m
+[31m[1m>[0m [90m193 |[0m [36mfunction[0m [33mHotelSearchPageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m194 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mHotelSearchPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m195 |[0m }
+  [90m196 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/hotels/search/page.tsx [Client Component Browser]
+    ./apps/frontend/app/hotels/search/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/hotels/search/page.tsx [Client Component SSR]
+    ./apps/frontend/app/hotels/search/page.tsx [Server Component]
+
+
+./apps/frontend/app/auth/callback/page.tsx:87:10
+the name `OAuthCallbackPageContent` is defined multiple times
+  [90m85 |[0m }
+  [90m86 |[0m
+[31m[1m>[0m [90m87 |[0m [36mfunction[0m [33mOAuthCallbackPageContent[0m(props: any) {
+  [90m   |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m88 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mOAuthCallbackPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m89 |[0m }
+  [90m90 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/auth/callback/page.tsx [Client Component Browser]
+    ./apps/frontend/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/auth/callback/page.tsx [Client Component SSR]
+    ./apps/frontend/app/auth/callback/page.tsx [Server Component]
+
+
+./apps/frontend/app/auth/callback/page.tsx:91:10
+the name `OAuthCallbackPageContent` is defined multiple times
+  [90m89 |[0m }
+  [90m90 |[0m
+[31m[1m>[0m [90m91 |[0m [36mfunction[0m [33mOAuthCallbackPageContent[0m(props: any) {
+  [90m   |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m92 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mOAuthCallbackPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m93 |[0m }
+  [90m94 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/auth/callback/page.tsx [Client Component Browser]
+    ./apps/frontend/app/auth/callback/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/auth/callback/page.tsx [Client Component SSR]
+    ./apps/frontend/app/auth/callback/page.tsx [Server Component]
+
+
+./apps/frontend/app/packages/book/page.tsx:237:10
+the name `PackageBookingPageContent` is defined multiple times
+  [90m235 |[0m }
+  [90m236 |[0m
+[31m[1m>[0m [90m237 |[0m [36mfunction[0m [33mPackageBookingPageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m238 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mPackageBookingPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m239 |[0m }
+  [90m240 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/packages/book/page.tsx [Client Component Browser]
+    ./apps/frontend/app/packages/book/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/packages/book/page.tsx [Client Component SSR]
+    ./apps/frontend/app/packages/book/page.tsx [Server Component]
+
+
+./apps/frontend/app/packages/book/page.tsx:241:10
+the name `PackageBookingPageContent` is defined multiple times
+  [90m239 |[0m }
+  [90m240 |[0m
+[31m[1m>[0m [90m241 |[0m [36mfunction[0m [33mPackageBookingPageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m242 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mPackageBookingPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m243 |[0m }
+  [90m244 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/packages/book/page.tsx [Client Component Browser]
+    ./apps/frontend/app/packages/book/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/packages/book/page.tsx [Client Component SSR]
+    ./apps/frontend/app/packages/book/page.tsx [Server Component]
+
+
+./apps/frontend/app/payment/failed/page.tsx:28:10
+the name `PaymentFailedPageContent` is defined multiple times
+  [90m26 |[0m }
+  [90m27 |[0m
+[31m[1m>[0m [90m28 |[0m [36mfunction[0m [33mPaymentFailedPageContent[0m(props: any) {
+  [90m   |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m29 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mPaymentFailedPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m30 |[0m }
+  [90m31 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/payment/failed/page.tsx [Client Component Browser]
+    ./apps/frontend/app/payment/failed/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/payment/failed/page.tsx [Client Component SSR]
+    ./apps/frontend/app/payment/failed/page.tsx [Server Component]
+
+
+./apps/frontend/app/payment/failed/page.tsx:32:10
+the name `PaymentFailedPageContent` is defined multiple times
+  [90m30 |[0m }
+  [90m31 |[0m
+[31m[1m>[0m [90m32 |[0m [36mfunction[0m [33mPaymentFailedPageContent[0m(props: any) {
+  [90m   |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m33 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mPaymentFailedPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m34 |[0m }
+  [90m35 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/payment/failed/page.tsx [Client Component Browser]
+    ./apps/frontend/app/payment/failed/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/payment/failed/page.tsx [Client Component SSR]
+    ./apps/frontend/app/payment/failed/page.tsx [Server Component]
+
+
+./apps/frontend/app/payment/success/page.tsx:34:10
+the name `PaymentSuccessPageContent` is defined multiple times
+  [90m32 |[0m }
+  [90m33 |[0m
+[31m[1m>[0m [90m34 |[0m [36mfunction[0m [33mPaymentSuccessPageContent[0m(props: any) {
+  [90m   |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m35 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mPaymentSuccessPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m36 |[0m }
+  [90m37 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/payment/success/page.tsx [Client Component Browser]
+    ./apps/frontend/app/payment/success/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/payment/success/page.tsx [Client Component SSR]
+    ./apps/frontend/app/payment/success/page.tsx [Server Component]
+
+
+./apps/frontend/app/payment/success/page.tsx:38:10
+the name `PaymentSuccessPageContent` is defined multiple times
+  [90m36 |[0m }
+  [90m37 |[0m
+[31m[1m>[0m [90m38 |[0m [36mfunction[0m [33mPaymentSuccessPageContent[0m(props: any) {
+  [90m   |[0m          [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m39 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mPaymentSuccessPageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m40 |[0m }
+  [90m41 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/payment/success/page.tsx [Client Component Browser]
+    ./apps/frontend/app/payment/success/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/payment/success/page.tsx [Client Component SSR]
+    ./apps/frontend/app/payment/success/page.tsx [Server Component]
+
+
+./apps/frontend/app/(mobile)/m-profile/page.tsx:417:10
+the name `ProfilePageContent` is defined multiple times
+  [90m415 |[0m }
+  [90m416 |[0m
+[31m[1m>[0m [90m417 |[0m [36mfunction[0m [33mProfilePageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^[0m
+  [90m418 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mProfilePageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m419 |[0m }
+  [90m420 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/(mobile)/m-profile/page.tsx [Client Component Browser]
+    ./apps/frontend/app/(mobile)/m-profile/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/(mobile)/m-profile/page.tsx [Client Component SSR]
+    ./apps/frontend/app/(mobile)/m-profile/page.tsx [Server Component]
+
+
+./apps/frontend/app/(mobile)/m-profile/page.tsx:421:10
+the name `ProfilePageContent` is defined multiple times
+  [90m419 |[0m }
+  [90m420 |[0m
+[31m[1m>[0m [90m421 |[0m [36mfunction[0m [33mProfilePageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^[0m
+  [90m422 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mProfilePageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m423 |[0m }
+  [90m424 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/(mobile)/m-profile/page.tsx [Client Component Browser]
+    ./apps/frontend/app/(mobile)/m-profile/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/(mobile)/m-profile/page.tsx [Client Component SSR]
+    ./apps/frontend/app/(mobile)/m-profile/page.tsx [Server Component]
+
+
+./apps/frontend/app/profile/page.tsx:417:10
+the name `ProfilePageContent` is defined multiple times
+  [90m415 |[0m }
+  [90m416 |[0m
+[31m[1m>[0m [90m417 |[0m [36mfunction[0m [33mProfilePageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^[0m
+  [90m418 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mProfilePageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m419 |[0m }
+  [90m420 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/profile/page.tsx [Client Component Browser]
+    ./apps/frontend/app/profile/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/profile/page.tsx [Client Component SSR]
+    ./apps/frontend/app/profile/page.tsx [Server Component]
+
+
+./apps/frontend/app/profile/page.tsx:421:10
+the name `ProfilePageContent` is defined multiple times
+  [90m419 |[0m }
+  [90m420 |[0m
+[31m[1m>[0m [90m421 |[0m [36mfunction[0m [33mProfilePageContent[0m(props: any) {
+  [90m    |[0m          [31m[1m^^^^^^^^^^^^^^^^^^[0m
+  [90m422 |[0m   [36mreturn[0m <[33mSuspense[0m fallback={[36mnull[0m}><[33mProfilePageContent[0m {...props} [35m/></Suspense[0m>;
+  [90m423 |[0m }
+  [90m424 |[0m
+
+Ecmascript file had an error
+
+Import traces:
+  Client Component Browser:
+    ./apps/frontend/app/profile/page.tsx [Client Component Browser]
+    ./apps/frontend/app/profile/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/frontend/app/profile/page.tsx [Client Component SSR]
+    ./apps/frontend/app/profile/page.tsx [Server Component]
+
+
+    at <unknown> (./apps/frontend/app/(mobile)/m-flights-booking/page.tsx:1094:10)
+    at <unknown> (./apps/frontend/app/flights/booking/page.tsx:1094:10)
+    at <unknown> (./apps/frontend/app/payment/checkout/page.tsx:265:10)
+    at <unknown> (./apps/frontend/app/payment/checkout/page.tsx:269:10)
+    at <unknown> (./apps/frontend/app/flights/confirmation/page.tsx:119:10)
+    at <unknown> (./apps/frontend/app/flights/confirmation/page.tsx:123:10)
+    at <unknown> (./apps/frontend/app/hotels/compare/page.tsx:214:10)
+    at <unknown> (./apps/frontend/app/hotels/compare/page.tsx:218:10)
+    at <unknown> (./apps/frontend/app/hotels/search/page.tsx:189:10)
+    at <unknown> (./apps/frontend/app/hotels/search/page.tsx:193:10)
+    at <unknown> (./apps/frontend/app/auth/callback/page.tsx:87:10)
+    at <unknown> (./apps/frontend/app/auth/callback/page.tsx:91:10)
+    at <unknown> (./apps/frontend/app/packages/book/page.tsx:237:10)
+    at <unknown> (./apps/frontend/app/packages/book/page.tsx:241:10)
+    at <unknown> (./apps/frontend/app/payment/failed/page.tsx:28:10)
+    at <unknown> (./apps/frontend/app/payment/failed/page.tsx:32:10)
+    at <unknown> (./apps/frontend/app/payment/success/page.tsx:34:10)
+    at <unknown> (./apps/frontend/app/payment/success/page.tsx:38:10)
+    at <unknown> (./apps/frontend/app/(mobile)/m-profile/page.tsx:417:10)
+    at <unknown> (./apps/frontend/app/(mobile)/m-profile/page.tsx:421:10)
+    at <unknown> (./apps/frontend/app/profile/page.tsx:417:10)
+    at <unknown> (./apps/frontend/app/profile/page.tsx:421:10)
+npm error Lifecycle script `build:mobile` failed with error:
+npm error code 1
+npm error path D:\syed hasnat\ezeeflights-aws\apps\frontend
+npm error workspace @ezeeflights/frontend@0.1.0
+npm error location D:\syed hasnat\ezeeflights-aws\apps\frontend
+npm error command failed
+npm error command C:\Windows\system32\cmd.exe /d /s /c node scripts/mobile-sync.js && node scripts/fix-api-routes.js && cross-env CAPACITOR_BUILD=true next build && node scripts/fix-api-routes.js --revert

@@ -6,8 +6,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { randomBytes } from 'crypto';
+import { createHash, randomBytes, randomInt } from 'crypto';
 import { Request, Response } from 'express';
+import axios from 'axios';
 import { generatePlainBackupCodes, hashBackupCode } from '../../../common/crypto/backup-code';
 import { decryptField, encryptField } from '../../../common/crypto/field-encryption';
 import * as bcrypt from 'bcrypt';
@@ -21,6 +22,10 @@ import { Verify2faLoginDto } from '../dto/verify-2fa-login.dto';
 import { Verify2faSetupDto } from '../dto/verify-2fa-setup.dto';
 import { AuthRepository } from '../repositories/auth.repository';
 import { TwoFactorService } from './two-factor.service';
+// import { NotificationService } from '../../notification/services/notification.service';
+import { ForgotPasswordDto } from '../dto/forgot-password.dto';
+import { VerifyOtpDto } from '../dto/verify-otp.dto';
+import { ResetPasswordDto } from '../dto/reset-password.dto';
 
 const REFRESH_COOKIE = 'refresh_token';
 
@@ -35,6 +40,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly repo: AuthRepository,
     private readonly twoFactor: TwoFactorService,
+    // private readonly notificationService: NotificationService,
   ) {}
 
   private setRefreshCookie(res: Response | undefined, raw: string): void {
@@ -57,12 +63,70 @@ export class AuthService {
     res.clearCookie(REFRESH_COOKIE, { path: '/' });
   }
 
-  private oauthFrontendBase(): string {
-    return (
-      process.env.FRONTEND_OAUTH_REDIRECT ??
-      process.env.FRONTEND_ORIGIN ??
-      'http://localhost:3000'
-    ).replace(/\/$/, '');
+  private isAllowedRedirect(urlStr: string): boolean {
+    if (!urlStr) return false;
+    
+    // Allow the mobile app custom URL scheme
+    if (urlStr.startsWith('com.ezeeflights.app://')) {
+      return true;
+    }
+    
+    try {
+      const parsed = new URL(urlStr);
+      const hostname = parsed.hostname;
+      const origin = parsed.origin;
+      
+      // In development mode, allow localhost and private network IPs
+      if (process.env.NODE_ENV !== 'production') {
+        if (
+          hostname === 'localhost' ||
+          hostname === '127.0.0.1' ||
+          /^192\.168\./.test(hostname) ||
+          /^10\./.test(hostname) ||
+          /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(hostname)
+        ) {
+          return true;
+        }
+      }
+      
+      const allowedOrigins = (process.env.FRONTEND_ORIGIN || '')
+        .split(',')
+        .map(o => o.trim().replace(/\/$/, ''))
+        .filter(Boolean);
+        
+      if (allowedOrigins.includes('*')) {
+        return true;
+      }
+        
+      // Always allow localhost:3000 as a fallback
+      allowedOrigins.push('http://localhost:3000');
+      
+      return allowedOrigins.includes(origin);
+    } catch {
+      return false;
+    }
+  }
+
+  getRedirectBase(stateRedirectUri?: string): string {
+    if (stateRedirectUri && this.isAllowedRedirect(stateRedirectUri)) {
+      return stateRedirectUri;
+    }
+    
+    if (process.env.FRONTEND_OAUTH_REDIRECT && this.isAllowedRedirect(process.env.FRONTEND_OAUTH_REDIRECT) && process.env.FRONTEND_OAUTH_REDIRECT !== '*') {
+      return process.env.FRONTEND_OAUTH_REDIRECT;
+    }
+    
+    const origins = (process.env.FRONTEND_ORIGIN || '')
+      .split(',')
+      .map(o => o.trim())
+      .filter(Boolean);
+      
+    const validOrigins = origins.filter(o => o !== '*');
+    if (validOrigins.length > 0) {
+      return validOrigins[0];
+    }
+    
+    return 'http://localhost:3000';
   }
 
   private async resolveOAuthUser(params: {
@@ -80,6 +144,7 @@ export class AuthService {
       if (!email) {
         throw new UnauthorizedException('OAuth user not found');
       }
+      await this.repo.updateOAuthProvider(linked.userId, params.provider);
       return { userId: linked.userId, email };
     }
 
@@ -92,6 +157,7 @@ export class AuthService {
           throw new ConflictException('This OAuth account is already linked to another user');
         }
       }
+      await this.repo.updateOAuthProvider(byEmail.id, params.provider);
       return { userId: byEmail.id, email: byEmail.email };
     }
 
@@ -104,6 +170,7 @@ export class AuthService {
     if (!inserted) {
       throw new ConflictException('OAuth account race condition');
     }
+    
     return { userId: created.id, email: created.email };
   }
 
@@ -160,21 +227,24 @@ export class AuthService {
       throw new ConflictException('Email already exists');
     }
 
+    const passwordHash = await hashPassword(dto.password);
     const user = await this.repo.insertUser({
       email: dto.email.trim().toLowerCase(),
-      passwordHash: await hashPassword(dto.password),
+      passwordHash,
       firstName: dto.firstName ?? null,
       lastName: dto.lastName ?? null,
+      phone: dto.phone ?? null,
     });
 
     if (!user) {
       throw new UnauthorizedException('Failed to create user');
     }
 
-    const assigned = await this.repo.assignRoleBySlug(user.id, 'customer');
-    if (!assigned) {
-      throw new InternalServerErrorException('RBAC seed missing: run database migrations');
-    }
+    await this.repo.assignRoleBySlug(user.id, 'customer');
+
+    // this.notificationService.triggerWelcome(user.id, user.email).catch((err) => {
+    //   console.error('[AuthService] Welcome email failed to queue:', err);
+    // });
 
     return this.issueTokenPair(user.id, user.email, req, res);
   }
@@ -260,7 +330,15 @@ export class AuthService {
     email: string;
     provider: string;
     providerUserId: string;
+    customRedirectUri?: string;
   }): Promise<string> {
+    const debugId = `oauth-redirect-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    console.log(`[${debugId}] [AuthService completeGoogleOAuthForBrowserRedirect] Start`, {
+      provider: params.provider,
+      hasEmail: Boolean(params.email),
+      providerUserIdPreview: params.providerUserId?.slice(0, 8) ?? null,
+      customRedirectUri: params.customRedirectUri ?? null,
+    });
     const { userId } = await this.resolveOAuthUser(params);
     const code = randomBytes(24).toString('hex');
     await this.repo.insertOAuthExchangeCode({
@@ -268,26 +346,62 @@ export class AuthService {
       userId,
       expiresAt: new Date(Date.now() + 120_000),
     });
-    return `${this.oauthFrontendBase()}/auth/callback?code=${encodeURIComponent(code)}`;
+    const base = this.getRedirectBase(params.customRedirectUri).replace(/\/$/, '');
+    const redirectUrl = base.includes('/auth/callback')
+      ? `${base}?code=${encodeURIComponent(code)}`
+      : `${base}/auth/callback?code=${encodeURIComponent(code)}`;
+    console.log(`[${debugId}] [AuthService completeGoogleOAuthForBrowserRedirect] Redirect ready`, {
+      userId,
+      codePreview: code.slice(0, 10),
+      redirectUrl,
+    });
+    return redirectUrl;
   }
 
   async exchangeOAuthCode(dto: { code: string }, req?: Request, res?: Response) {
+    const debugId = `oauth-exchange-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    console.log(`[${debugId}] [AuthService exchangeOAuthCode] Incoming`, {
+      hasCode: Boolean(dto.code),
+      codeLength: dto.code?.length ?? 0,
+      codePreview: dto.code?.slice(0, 10) ?? null,
+      hasReq: Boolean(req),
+      hasRes: Boolean(res),
+    });
     const row = await this.repo.consumeOAuthExchangeCode(dto.code);
     if (!row) {
+      console.warn(`[${debugId}] [AuthService exchangeOAuthCode] Code invalid/expired`);
       throw new UnauthorizedException('Invalid or expired exchange code');
     }
+    console.log(`[${debugId}] [AuthService exchangeOAuthCode] Code consumed`, {
+      userId: row.userId,
+    });
     const email = await this.repo.getUserEmailById(row.userId);
     if (!email) {
+      console.warn(`[${debugId}] [AuthService exchangeOAuthCode] User not found`, {
+        userId: row.userId,
+      });
       throw new UnauthorizedException('User not found');
     }
+
     if (await this.repo.isTwoFactorEnabled(row.userId)) {
       const pendingToken = await this.jwtService.signAsync(
         { sub: row.userId, email, purpose: '2fa_pending' },
         { expiresIn: '5m' },
       );
+      console.log(`[${debugId}] [AuthService exchangeOAuthCode] Requires 2FA`, {
+        userId: row.userId,
+        pendingTokenLength: pendingToken.length,
+      });
       return { requiresTwoFactor: true, pendingToken };
     }
-    return this.issueTokenPair(row.userId, email, req, res);
+    const tokenPair = await this.issueTokenPair(row.userId, email, req, res);
+    console.log(`[${debugId}] [AuthService exchangeOAuthCode] Token pair issued`, {
+      userId: row.userId,
+      accessTokenLength: tokenPair.accessToken?.length ?? 0,
+      refreshTokenLength: tokenPair.refreshToken?.length ?? 0,
+      expiresIn: tokenPair.expiresIn,
+    });
+    return tokenPair;
   }
 
   async refresh(dto: RefreshTokenDto, req: Request, res: Response) {
@@ -369,6 +483,7 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
       preferredCurrency: user.preferredCurrency,
+      phone: (user as any).phone,
       legacyRole: user.role,
       roles,
       permissions,
@@ -442,5 +557,104 @@ export class AuthService {
     }
     await this.repo.disableTwoFactor(userId);
     return { disabled: true };
+  }
+
+  async forgotPassword(dto: ForgotPasswordDto) {
+    const user = await this.repo.findUserByEmail(dto.email);
+    if (!user) {
+      // Return success even if user not found for security
+      return { ok: true };
+    }
+
+    const code = randomInt(100000, 1000000).toString();
+    const otpHash = createHash('sha256').update(code).digest('hex');
+    const expiresAt = new Date(Date.now() + 180_000); // 3 minutes
+
+    await this.repo.insertPasswordResetOtp(user.id, otpHash, expiresAt);
+
+    // await this.notificationService.send({
+    //   userId: user.id,
+    //   type: 'EMAIL',
+    //   email: dto.email,
+    //   templateName: 'password-reset-otp',
+    //   payload: { code, email: dto.email },
+    // });
+
+    return { ok: true };
+  }
+
+  async verifyOtp(dto: VerifyOtpDto) {
+    const user = await this.repo.findUserByEmail(dto.email);
+    if (!user) {
+      throw new UnauthorizedException('Invalid or expired verification code');
+    }
+    const otpHash = createHash('sha256').update(dto.code).digest('hex');
+    const valid = await this.repo.findActivePasswordResetOtp(user.id, otpHash);
+    if (!valid) {
+      throw new UnauthorizedException('Invalid or expired verification code');
+    }
+    return { ok: true };
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const user = await this.repo.findUserByEmail(dto.email);
+    if (!user) {
+      throw new UnauthorizedException('Invalid or expired verification code');
+    }
+    const otpHash = createHash('sha256').update(dto.code).digest('hex');
+    const otpRecord = await this.repo.findActivePasswordResetOtp(user.id, otpHash);
+    const consumed = otpRecord ? await this.repo.consumePasswordResetOtp(otpRecord.id) : false;
+    if (!consumed) {
+      throw new UnauthorizedException('Invalid or expired verification code');
+    }
+
+    const hash = await hashPassword(dto.newPassword);
+    const updated = await this.repo.updatePasswordByEmail(dto.email, hash);
+
+    if (!updated) {
+      throw new InternalServerErrorException('Failed to update password');
+    }
+
+    return { ok: true };
+  }
+
+  async verifyNativeGoogleToken(idToken: string, res?: Response) {
+    if (!idToken) {
+      throw new UnauthorizedException('No ID token provided');
+    }
+    try {
+      const response = await axios.get(
+        `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`,
+      );
+      const payload = response.data;
+
+      if (payload.error_description) {
+        throw new UnauthorizedException(payload.error_description);
+      }
+
+      if (payload.iss !== 'accounts.google.com' && payload.iss !== 'https://accounts.google.com') {
+        throw new UnauthorizedException('Invalid token issuer');
+      }
+
+      const email = payload.email;
+      const providerUserId = payload.sub;
+
+      if (!email || !providerUserId) {
+        throw new UnauthorizedException('Invalid token payload');
+      }
+
+      return this.oauthLogin(
+        {
+          email,
+          provider: 'google',
+          providerUserId,
+        },
+        undefined,
+        res,
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Invalid ID token';
+      throw new UnauthorizedException(`Failed to verify Google ID token: ${message}`);
+    }
   }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<resultset statement="SELECT * FROM worldrix_ezeecrm.affirmbookingforms&#xA;LIMIT 0, 200&#xA;"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <row>
+        <field name="Id">1</field>
+        <field name="UniqueId">1f1d48aae5fb46a5903c6c545ad056cd</field>
+        <field name="PhoneNo">+11234567890</field>
+        <field name="Email">Test@a.c</field>
+        <field name="MarketingClass">Economy</field>
+        <field name="PassengerJson">{"Adults":[{"FirstName":"John","MiddleName":"Robert","LastName":"Doe","Nationality":"US","DobMonth":"09","DobDay":"17","DobYear":"1990","Gender":"male"}],"Children":[],"Infants":[]}</field>
+        <field name="InboundFlightsJson">[{"StopAndTime":"","AirlineCode":"B6","AirlineNameAndNumber":"JetBlue 410","DepartureCity":"Las Americas Intl Airport, Santo Domingo (SDQ)","ArrivalCity":"New York John F Kennedy Airport, (JFK)","DepartureDateAndTime":"Fri 19 Dec, 02:10","ArrivalDateAndTime":"Fri 19 Dec, 05:04","DepartArriveTotalTime":"3h 54m","StopoverTime":""}]</field>
+        <field name="OutboundFlightsJson">[{"StopAndTime":"","AirlineCode":"B6","AirlineNameAndNumber":"JetBlue 309","DepartureCity":"New York John F Kennedy Airport, (JFK)","ArrivalCity":"Las Americas Intl Airport, Santo Domingo (SDQ)","DepartureDateAndTime":"Tue 9 Dec, 05:01","ArrivalDateAndTime":"Tue 9 Dec, 09:44","DepartArriveTotalTime":"3h 43m","StopoverTime":""}]</field>
+        <field name="LinkExpiryDate">2027-04-05 09:01:48</field>
+        <field name="CreatedAt">2026-08-25 13:29:04</field>
+        <field name="Depart">JFK</field>
+        <field name="Arrive">PUJ</field>
+        <field name="DepartDate">2026-04-23</field>
+        <field name="ReturnDate">2026-04-18</field>
+        <field name="AdultsPrice">3500</field>
+        <field name="ChildPrice">0</field>
+        <field name="InfantPrice">0</field>
+    </row>
+    <row>
+        <field name="Id">2</field>
+        <field name="UniqueId">63166b21db544889afb6e79adf487f58</field>
+        <field name="PhoneNo">+923006676031</field>
+        <field name="Email">passenger@ezeeflights.com</field>
+        <field name="MarketingClass">Business</field>
+        <field name="PassengerJson">{"Adults":[{"FirstName":"John","MiddleName":"Robert","LastName":"Doe","Nationality":"US","DobMonth":"09","DobDay":"17","DobYear":"1990","Gender":"male"},{"FirstName":"Hira","MiddleName":"","LastName":"Raza","Nationality":"PK","DobMonth":"09","DobDay":"17","DobYear":"1990","Gender":"female"}],"Children":[{"FirstName":"John","MiddleName":"Robert","LastName":"Doe","Nationality":"US","DobMonth":"09","DobDay":"17","DobYear":"1990","Gender":"male"}],"Infants":[{"FirstName":"John","MiddleName":"Robert","LastName":"Doe","Nationality":"US","DobMonth":"09","DobDay":"17","DobYear":"1990","Gender":"male"}]}</field>
+        <field name="InboundFlightsJson">[{"StopAndTime":"","AirlineCode":"B6","AirlineNameAndNumber":"JetBlue 410","DepartureCity":"Las Americas Intl Airport, Santo Domingo (SDQ)","ArrivalCity":"New York John F Kennedy Airport, (JFK)","DepartureDateAndTime":"Fri 19 Dec, 02:10","ArrivalDateAndTime":"Fri 19 Dec, 05:04","DepartArriveTotalTime":"3h 54m","StopoverTime":""}]</field>
+        <field name="OutboundFlightsJson">[{"StopAndTime":"","AirlineCode":"B6","AirlineNameAndNumber":"JetBlue 309","DepartureCity":"New York John F Kennedy Airport, (JFK)","ArrivalCity":"Las Americas Intl Airport, Santo Domingo (SDQ)","DepartureDateAndTime":"Tue 9 Dec, 05:01","ArrivalDateAndTime":"Tue 9 Dec, 09:44","DepartArriveTotalTime":"3h 43m","StopoverTime":""}]</field>
+        <field name="LinkExpiryDate">2027-12-31 23:59:59</field>
+        <field name="CreatedAt">2026-08-25 13:29:04</field>
+        <field name="Depart">JFK</field>
+        <field name="Arrive">SDQ</field>
+        <field name="DepartDate">2026-12-09</field>
+        <field name="ReturnDate">2026-12-19</field>
+        <field name="AdultsPrice">1000</field>
+        <field name="ChildPrice">500</field>
+        <field name="InfantPrice">100</field>
+    </row>
+</resultset>

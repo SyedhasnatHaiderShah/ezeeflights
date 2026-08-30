@@ -1,7 +1,17 @@
 "use client";
 
-import { LoginContainer } from "@/components/auth/login-container";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
 
 export default function LoginPage() {
-  return <LoginContainer />;
+  const router = useRouter();
+  const openAuth = useAuthModalStore((state) => state.open);
+
+  useEffect(() => {
+    openAuth("login");
+    router.replace("/");
+  }, [openAuth, router]);
+
+  return null;
 }

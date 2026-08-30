@@ -1,0 +1,63 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.REVIEWS = void 0;
+exports.REVIEWS = [
+    {
+        id: "rev-1",
+        name: "Nancy",
+        location: "US",
+        rating: 5,
+        date: "2025-06-06",
+        text: "Ezee is a perfect name because they make life SO easy for their clients. I have worked with Elena for several years & she is polite, efficient & has gotten us fabulous fares. We travel to the same place annually & as soon as we get home she gets in touch with us to confirm our dates for the following year. I highly recommend them & will continue to use their excellent services!",
+        isVerified: true,
+        avatarUrl: "https://i.pravatar.cc/150?u=nancy",
+        hotelRating: 5,
+        flightRating: 5,
+        supplierResponse: "Thank you Nancy! We love having you as a regular traveler. Elena was thrilled to see your review!",
+    },
+    {
+        id: "rev-2",
+        name: "Samantha Richards",
+        location: "US",
+        rating: 5,
+        date: "2025-08-02",
+        text: "Absolutely wonderful experience! I worked with Nick to book 2 round trip tickets to Montego Bay Jamaica and everything went smoothly. I was very skeptical at first but Nick reassured me that the site was legit and was able to secure my tickets within 24 hours at $300 less than the price quoted by the airline. I will definitely work here again for future travel!",
+        isVerified: true,
+        flightRating: 5,
+        carRating: 4,
+        photos: ["https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800"],
+    },
+    {
+        id: "rev-3",
+        name: "Venu Sood",
+        location: "UK",
+        rating: 5,
+        date: "2025-12-19",
+        text: "Well impressed not a typical company that takes your money and leaves you in the lurch. Remus found me the perfect flight at the right price even though it was during absolute peak season and last minute. Would highly recommend Ezee Flights.",
+        isVerified: true,
+        flightRating: 5,
+        supplierResponse: "We appreciate your feedback, Venu! Glad we could help during the peak season.",
+    },
+    {
+        id: "rev-4",
+        name: "Lourdes Santiago",
+        location: "US",
+        rating: 5,
+        date: "2025-11-26",
+        text: "I worked with Mr. Cruz & I can't believe how quick and easy the process was! With sky rocket prices to travel in the month of December to my motherland, Mr. Cruz understood my needs and made sure he met them! He was extremely patient and very attentive to my detailed demands and questions! I would highly recommend him to anyone that may need to purchase flights this upcoming holiday!",
+        isVerified: true,
+        flightRating: 5,
+    },
+    {
+        id: "rev-5",
+        name: "Melissa Rodriguez",
+        location: "US",
+        rating: 4.8,
+        date: "2025-12-05",
+        text: "Ezee Flights is my go to flight agency when in need of an airline ticket! I usually contact Miguel, and he's always very efficient and reliable! I usually travel back during the holidays, which is a very busy and expensive time of the year! Thanks to Miguel I get the best airfare at my convenience! He also makes sure I have a confirmation to my itinerary within a 24 hr time period.",
+        isVerified: true,
+        flightRating: 5,
+        hotelRating: 4,
+    },
+];
+//# sourceMappingURL=reviews.js.map

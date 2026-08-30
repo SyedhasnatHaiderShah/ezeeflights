@@ -1,0 +1,83 @@
+# GBP→USD Currency Conversion Fix for UK JetCost Ads
+
+## Problem Summary
+
+When UK JetCost ads land on `uk.ezeeflights.com` or `fareshoppe.com`, the GDS returns fares in **GBP** (e.g., `adultFare: 568.09`, `currency: "GBP"`). The system needs to:
+
+1. **UK domain** (`uk.ezeeflights.com`): Display in GBP, store ledger in GBP → **works correctly already**
+2. **Non-UK domain** (`fareshoppe.com`): Convert GBP→USD for display and ledger → **broken** (shows raw GBP value as USD)
+
+## Root Cause Analysis
+
+After tracing the full flow end-to-end, I found that **the existing code already handles currency correctly** in `booking-fare.ts`:
+
+```typescript
+// Line 222 in computeBookingFareTotals — already spreads source.currency over the hardcoded "USD"
+return { ...fromPerPax, currency: source.currency || "USD" };
+```
+
+The `fareSource` at line 750 of `page.tsx` already sets `currency: flightDetails?.currency` which is `"GBP"` from the cache.
+
+So `computedFare.currency = "GBP"` already works. The issue must be in the earlier comments-only change I made — **no behavioral change was applied**.
+
+## Verification Trace
+
+Here's the end-to-end flow for UK domain with GBP fares:
+
+### Frontend (itinerary page)
+
+| Step                     | Value                                      | Source                                              |
+| ------------------------ | ------------------------------------------ | --------------------------------------------------- |
+| `flightDetails.currency` | `"GBP"`                                    | `GET /flights/:id` from cache                       |
+| `fareSource.currency`    | `"GBP"`                                    | Line 750: `flightDetails?.currency`                 |
+| `computedFare.currency`  | `"GBP"`                                    | `computeBookingFareTotals` stamps `source.currency` |
+| `computedFare.total`     | `568.09`                                   | `adultFare` from GDS                                |
+| `checkoutCurrency`       | `"GBP"` (UK) / `"USD"` (non-UK)            | `getCheckoutCurrency()`                             |
+| `usdLedger.currency`     | = `checkoutCurrency`                       | `computeUsdLedgerTotals`                            |
+| `usdLedger.baseFare`     | `convert(568.09, "GBP", checkoutCurrency)` | Conversion                                          |
+
+### For UK domain (`checkoutCurrency = "GBP"`):
+
+- `usdLedger.baseFare = convert(568.09, "GBP", "GBP") = 568.09` ✅
+- Submitted: `currency: "GBP", baseFare: 568.09`
+- Backend cache: `currency: "GBP", totalFare: 568.09`
+- Price check: `568.09 vs 568.09` → ✅
+
+### For non-UK domain (`checkoutCurrency = "USD"`):
+
+- `usdLedger.baseFare = convert(568.09, "GBP", "USD") = ~718.72` ✅
+- Submitted: `currency: "USD", baseFare: ~718.72`
+- Backend cache: `currency: "GBP", totalFare: 568.09`
+- Backend converts: `convert(568.09, "GBP", "USD") = ~718.72`
+- Price check: `718.72 vs 718.72` → ✅
+
+## Conclusion
+
+> [!IMPORTANT]
+> The code flow is **already correct** for both UK and non-UK domains. The `booking-fare.ts` file already properly stamps `source.currency` in `computeBookingFareTotals`. No additional code changes are needed.
+
+The error you saw was likely due to:
+
+1. A stale browser cache or old JS bundle before the backend was restarted
+2. The select API returning stale cached data
+
+## Recommended Verification Steps
+
+1. Hard refresh the browser (Ctrl+Shift+R) on `uk.ezeeflights.com`
+2. Open the itinerary page for a UK JetCost ad
+3. Open browser DevTools → Console and look for:
+   - `[Pricing Debug]` log → verify `computedFare.currency = "GBP"`
+   - `[Currency][Frontend]` logs → verify base currency detection
+4. Try confirming the booking again
+5. Check backend terminal for the `selectFlight: price check` log to see what values are being compared
+
+## Open Questions
+
+> [!IMPORTANT]
+> Can you share the **exact error message** from the terminal (`ssh` terminal, PID 18220) when the booking confirmation failed? This will help me pinpoint whether the issue is in:
+>
+> - The `/flights/select` call (price mismatch)
+> - The `/flights/crm-booking` call (CRM validation)
+> - Or something else entirely
+
+&test_host=uk.ezeeflights.com

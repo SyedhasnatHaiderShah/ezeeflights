@@ -1,16 +1,49 @@
 'use client';
 
-export default function GlobalError({ error, reset }: { error: Error; reset: () => void }) {
+import { useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
+import { ErrorDisplay } from '@/components/error/error-display';
+import { isApiError } from '@/lib/api/api-errors';
+
+interface ErrorPageProps {
+  error: Error & { digest?: string };
+  reset: () => void;
+}
+
+/**
+ * App Router segment-level error boundary.
+ * Catches unhandled errors thrown during rendering of any route under app/.
+ */
+export default function ErrorPage({ error, reset }: ErrorPageProps) {
+  const isChunkError =
+    error.name === 'ChunkLoadError' ||
+    error.message.includes('Failed to load chunk') ||
+    error.message.includes('Loading chunk');
+
+  useEffect(() => {
+    if (isChunkError) {
+      window.location.reload();
+      return;
+    }
+
+    const correlationId = isApiError(error) ? error.correlationId : null;
+    Sentry.withScope((scope) => {
+      if (correlationId) scope.setTag('correlationId', correlationId);
+      if (error.digest) scope.setTag('next.digest', error.digest);
+      Sentry.captureException(error);
+    });
+  }, [error, isChunkError]);
+
+  const correlationId = isApiError(error) ? error.correlationId : null;
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] p-8 text-center">
-      <h2 className="text-2xl font-bold text-red-600">Something went wrong</h2>
-      <p className="my-3 text-slate-700 max-w-md">{error.message}</p>
-      <button 
-        className="rounded-full bg-primary px-6 py-2 text-primary-foreground font-semibold hover:opacity-90 transition-opacity" 
-        onClick={() => reset()}
-      >
-        Try again
-      </button>
+    <div className="flex min-h-[50vh] items-center justify-center p-6">
+      <ErrorDisplay
+        message={error.message}
+        correlationId={correlationId}
+        onRetry={isChunkError ? () => window.location.reload() : reset}
+        className="max-w-md w-full"
+      />
     </div>
   );
 }

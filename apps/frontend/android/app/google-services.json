@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "593693636053",
+    "project_id": "ezeeflights-e07ff",
+    "storage_bucket": "ezeeflights-e07ff.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593693636053:android:d475aff035e78f744e395c",
+        "android_client_info": {
+          "package_name": "com.ezeeflights.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593693636053-4701ut2poi7b84koq52psib1ut3v1n0e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ezeeflights.app",
+            "certificate_hash": "d60064f105d465684597a359536103ead12ea4fc"
+          }
+        },
+        {
+          "client_id": "593693636053-sj14g0p9pfodvlvis81cjf80feqqj2r6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ezeeflights.app",
+            "certificate_hash": "b1186e0a50385d3c9f318efc64a862a3e343a89d"
+          }
+        },
+        {
+          "client_id": "593693636053-t2dgq0rjj27unpmjboba26m6g0kefqta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgU6r3z43BlU66ughcATYH7-UNvRCZMKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593693636053-t2dgq0rjj27unpmjboba26m6g0kefqta.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

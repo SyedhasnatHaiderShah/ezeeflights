@@ -1,6 +1,7 @@
-import { NextResponse } from 'next/server';
-import { cookieBase } from '@/lib/bff/auth-cookies';
-import { createCsrfToken, CSRF_COOKIE } from '@/lib/bff/csrf';
+import { NextRequest, NextResponse } from "next/server";
+
+import { cookieBase } from "@/lib/bff/auth-cookies";
+import { createCsrfToken, CSRF_COOKIE } from "@/lib/bff/csrf";
 
 export async function GET() {
   const token = createCsrfToken();

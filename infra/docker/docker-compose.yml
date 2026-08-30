@@ -1,70 +1,101 @@
-version: '3.9'
+version: "3.9"
 
 services:
   frontend:
+    image: ghcr.io/khurramsagoo/ezeeflights-frontend:latest
     build:
       context: ../..
       dockerfile: infra/docker/frontend.Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:4000/v1}
+        NEXT_PUBLIC_MAP_PROVIDER: ${NEXT_PUBLIC_MAP_PROVIDER:-mapbox}
+        NEXT_PUBLIC_AFFIRM_PUBLIC_KEY: ${NEXT_PUBLIC_AFFIRM_PUBLIC_KEY}
+        NEXT_PUBLIC_AFFIRM_SCRIPT_URL: ${NEXT_PUBLIC_AFFIRM_SCRIPT_URL}
+        NEXT_PUBLIC_AFFIRM_PUBLIC_KEY_US: ${NEXT_PUBLIC_AFFIRM_PUBLIC_KEY_US}
+        NEXT_PUBLIC_AFFIRM_SCRIPT_URL_US: ${NEXT_PUBLIC_AFFIRM_SCRIPT_URL_US}
+        NEXT_PUBLIC_AFFIRM_PUBLIC_KEY_CA: ${NEXT_PUBLIC_AFFIRM_PUBLIC_KEY_CA}
+        NEXT_PUBLIC_AFFIRM_SCRIPT_URL_CA: ${NEXT_PUBLIC_AFFIRM_SCRIPT_URL_CA}
     ports:
-      - '3000:3000'
+      - "3000:3000"
+    env_file:
+      - ../../.env
     environment:
       NEXT_PUBLIC_API_BASE_URL: http://localhost:4000/v1
       INTERNAL_API_BASE_URL: http://backend:4000
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      DISABLE_CSRF: ${DISABLE_CSRF:-false}
     depends_on:
       - backend
 
   backend:
+    image: ghcr.io/khurramsagoo/ezeeflights-backend:latest
     build:
       context: ../..
       dockerfile: infra/docker/backend.Dockerfile
+      args:
+        SENTRY_RELEASE: ${SENTRY_RELEASE:-}
     ports:
-      - '4000:4000'
+      - "4000:4000"
     env_file:
       - ../../.env
     environment:
-      FRONTEND_ORIGIN: http://localhost:3000
-      FRONTEND_OAUTH_REDIRECT: http://localhost:3000
-      GOOGLE_CALLBACK_URL: http://localhost:4000/v1/auth/google/callback
+      CORS_ALLOW_ALL: ${CORS_ALLOW_ALL:-false}
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:3000,https://fareshoppe.com,https://www.fareshoppe.com,https://ezeeflights.com,https://www.ezeeflights.com}
+      FRONTEND_OAUTH_REDIRECT: ${FRONTEND_OAUTH_REDIRECT:-http://localhost:3000/auth/callback}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL:-http://localhost:4000/v1/auth/google/callback}
+      BOOKING_COM_API_KEY: ${BOOKING_COM_API_KEY:-}
+      EXPEDIA_API_KEY: ${EXPEDIA_API_KEY:-}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      PAYTABS_SERVER_KEY: ${PAYTABS_SERVER_KEY:-}
+      TABBY_API_KEY: ${TABBY_API_KEY:-}
+      TAMARA_API_KEY: ${TAMARA_API_KEY:-}
+      REDIS_URL: redis://redis:6379
+      MYSQL_SERVER: mysql
+      MYSQL_PORT: 3306
+      MYSQL_UID: ezeeflights
+      MYSQL_DATABASE: ezeeflights_crm
+      MYSQL_PASSWORD: ezeeflights_local
+    # volumes:
+    #   - ../../sql:/app/sql
     depends_on:
-      - postgres
       - redis
-
-  postgres:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ezeeflights
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - '5432:5432'
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-      - ../../sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - mysql
 
   redis:
     image: redis:7-alpine
     ports:
-      - '6379:6379'
+      - "6379:6379"
 
-  elasticsearch:
-    image: elasticsearch:8.12.0
+  # CRM MySQL for local flight-booking sync (production uses remote worldrix_ezeecrm).
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
     environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-      - xpack.security.enabled=false
+      MYSQL_ROOT_PASSWORD: root_local
+      MYSQL_DATABASE: ezeeflights_crm
+      MYSQL_USER: ezeeflights
+      MYSQL_PASSWORD: ezeeflights_local
     ports:
-      - '9200:9200'
+      - "3307:3306"
     volumes:
-      - esdata:/usr/share/elasticsearch/data
-
-  kibana:
-    image: kibana:8.12.0
-    ports:
-      - '5601:5601'
-    depends_on:
-      - elasticsearch
+      - mysql_crm_data:/var/lib/mysql
+      - ../../sql/mysql-crm.sql:/docker-entrypoint-initdb.d/01-crm.sql:ro
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-proot_local",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
-  pg_data:
-  esdata:
+  mysql_crm_data:

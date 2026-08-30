@@ -194,3 +194,12 @@ The repository includes `.github/workflows/ci-cd.yml` with:
 - `docs/auth-flow.md`
 - `infra/aws/README.md`
 
+
+## Packages Module Setup
+1. Run migration `sql/migrations/011_packages_itinerary_module.sql`.
+2. Backend endpoints are available under `/v1/packages` and `/v1/admin/packages`.
+3. Frontend pages:
+   - `/packages`
+   - `/packages/[slug]`
+   - `/packages/book?id=<packageId>`
+   - `/admin/packages`

@@ -1,0 +1,85 @@
+"use client";
+
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+interface StatCounterProps {
+  value: number;
+  suffix?: string;
+  prefix?: string;
+  label?: string;
+  duration?: number;
+  className?: string;
+  valueClassName?: string;
+}
+
+export function StatCounter({
+  value,
+  suffix = "",
+  prefix = "",
+  label,
+  duration = 2000,
+  className,
+  valueClassName,
+}: StatCounterProps) {
+  const [displayValue, setDisplayValue] = React.useState(0);
+  const [hasAnimated, setHasAnimated] = React.useState(false);
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+
+  // Reset animation when value changes (e.g. on tab change)
+  React.useEffect(() => {
+    setDisplayValue(0);
+    setHasAnimated(false);
+  }, [value]);
+
+  React.useEffect(() => {
+    const node = containerRef.current;
+    if (!node || hasAnimated) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting || hasAnimated) {
+          return;
+        }
+
+        setHasAnimated(true);
+        const start = performance.now();
+
+        const animate = (now: number) => {
+          const progress = Math.min((now - start) / duration, 1);
+          setDisplayValue(Math.round(progress * value));
+
+          if (progress < 1) {
+            window.requestAnimationFrame(animate);
+          }
+        };
+
+        window.requestAnimationFrame(animate);
+        observer.disconnect();
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [duration, hasAnimated, value]);
+
+  return (
+    <div ref={containerRef} className={cn("inline-flex flex-col", className)}>
+      <span
+        className={cn(
+          "md:text-3xl text-lg font-bold animate-counter-up",
+          valueClassName,
+        )}
+      >
+        {prefix}
+        {displayValue.toLocaleString()}
+        {suffix}
+      </span>
+      {label && <p className="text-sm text-muted-foreground">{label}</p>}
+    </div>
+  );
+}

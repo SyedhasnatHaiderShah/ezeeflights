@@ -1,44 +1,319 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePaymentDto } from '../dto/create-payment.dto';
+import { BadRequestException, Inject, Injectable, NotFoundException, Optional, UnauthorizedException } from '@nestjs/common';
+import { NotificationService } from '../../notification/services/notification.service';
+import { InitiatePaymentDto } from '../dto/initiate-payment.dto';
+import { RefundPaymentDto } from '../dto/refund-payment.dto';
+import { PaymentProvider, PaymentProvider as ProviderType, PaymentStatus } from '../entities/payment.entity';
 import { PaymentRepository } from '../repositories/payment.repository';
-import { IdempotencyService } from '../../../common/idempotency/idempotency.service';
-import { CircuitBreakerService } from '../../../common/circuit-breaker/circuit-breaker.service';
-import { PaymentEntity } from '../entities/payment.entity';
+import { PaymentProviderDriver } from '../providers/payment-provider.interface';
+import { WalletService } from '../wallet.service';
+import { AppEventBus } from '../../../common/events/app-event-bus.service';
+import { IPaymentProvider } from '../../../common/providers/payment-provider.factory';
 
 @Injectable()
 export class PaymentService {
+  private readonly providers = new Map<ProviderType, PaymentProviderDriver>();
+
   constructor(
     private readonly repository: PaymentRepository,
-    private readonly idempotency: IdempotencyService,
-    private readonly circuitBreaker: CircuitBreakerService,
-  ) {}
+    private readonly notificationService: NotificationService,
+    private readonly events: AppEventBus,
+    @Inject('PAYMENT_PROVIDER_DRIVERS') drivers: PaymentProviderDriver[],
+    @Optional() private readonly walletService?: WalletService,
+  ) {
+    for (const driver of drivers) {
+      this.providers.set(driver.provider, driver);
+    }
+  }
 
-  async createPayment(dto: CreatePaymentDto, idempotencyKey: string): Promise<PaymentEntity> {
-    const cached = await this.idempotency.getCached<PaymentEntity>('payments', idempotencyKey);
-    if (cached) {
-      return cached;
+  async initiatePayment(userId: string, dto: InitiatePaymentDto) {
+    return this.processPayment(userId, dto);
+  }
+
+
+  async createPayment(input: { bookingId: string; userId: string; provider: PaymentProvider; amount: number; currency: "USD" | "AED" | "EUR" | "GBP"; successUrl?: string; failureUrl?: string }) {
+    return this.processPayment(input.userId, {
+      bookingId: input.bookingId,
+      provider: input.provider,
+      amount: input.amount,
+      currency: input.currency,
+      successUrl: input.successUrl ?? "",
+      failureUrl: input.failureUrl ?? "",
+    });
+  }
+
+  async processPayment(userId: string, dto: InitiatePaymentDto) {
+    const booking = await this.repository.findBooking(dto.bookingId);
+    if (!booking) throw new NotFoundException('Booking not found');
+    if (booking.userId !== userId) throw new UnauthorizedException('Booking ownership mismatch');
+
+    const existing = await this.repository.getPaymentByBookingAndUser(dto.bookingId, userId);
+    if (existing?.status === 'SUCCESS') {
+      throw new BadRequestException('Payment already completed for this booking');
     }
 
-    const payment = await this.circuitBreaker.execute(
-      'stripe',
-      () => this.repository.create(dto),
-      async () => ({
-        id: 'unavailable',
+    const requestedWalletAmount = Math.max(0, dto.useWalletAmount ?? 0);
+    const usableWalletAmount = Math.min(requestedWalletAmount, dto.amount);
+
+    if (usableWalletAmount > 0) {
+      const balance = await this.getWalletService().getBalance(userId);
+      if (balance < usableWalletAmount) {
+        throw new BadRequestException('Insufficient wallet balance for requested split payment');
+      }
+      await this.getWalletService().deduct(userId, usableWalletAmount, dto.bookingId);
+    }
+
+    const cardAmount = Number((dto.amount - usableWalletAmount).toFixed(2));
+    const isSplitPayment = usableWalletAmount > 0 && cardAmount > 0;
+
+    const payment =
+      existing ??
+      (await this.repository.createPayment({
         bookingId: dto.bookingId,
+        userId,
+        provider: dto.provider,
         amount: dto.amount,
         currency: dto.currency,
-        provider: dto.provider,
-        providerReference: null,
-        status: 'FAILED',
-        createdAt: new Date(),
-      }),
-    );
+        walletAmount: usableWalletAmount,
+        cardAmount,
+        isSplitPayment,
+        metadata: dto.metadata,
+      }));
 
-    await this.idempotency.setCached('payments', idempotencyKey, payment);
-    return payment;
+    if (!payment) throw new BadRequestException('Failed to create payment record');
+
+    if (cardAmount <= 0) {
+      await this.repository.updatePaymentStatus(payment.id, 'SUCCESS');
+      await this.repository.confirmBooking(payment.bookingId);
+      return {
+        paymentId: payment.id,
+        provider: dto.provider,
+        status: 'SUCCESS' as PaymentStatus,
+        splitPayment: isSplitPayment,
+        walletAmount: usableWalletAmount,
+        cardAmount,
+      };
+    }
+
+    const driver = this.getProvider(dto.provider);
+    const session = await driver.createSession(payment, { ...dto, amount: cardAmount });
+
+    await this.repository.updatePaymentStatus(payment.id, 'PENDING', session.providerPaymentId);
+    await this.repository.createTransaction(payment.id, session.raw, 'PENDING');
+
+    const requiresAction = this.isThreeDSRequired(session.raw);
+    const redirectUrl = this.getThreeDSRedirectUrl(session.raw);
+    if (requiresAction) {
+      await this.repository.updateThreeDS(payment.id, true, redirectUrl);
+      return {
+        paymentId: payment.id,
+        provider: dto.provider,
+        providerPaymentId: session.providerPaymentId,
+        status: 'PENDING' as PaymentStatus,
+        requiresAction: true,
+        redirectUrl,
+      };
+    }
+
+    return {
+      paymentId: payment.id,
+      provider: dto.provider,
+      redirectUrl: session.redirectUrl,
+      providerPaymentId: session.providerPaymentId,
+      status: 'PENDING' as PaymentStatus,
+      splitPayment: isSplitPayment,
+      walletAmount: usableWalletAmount,
+      cardAmount,
+    };
+  }
+
+  async confirmPayment(paymentId: string, paymentIntentId?: string) {
+    const payment = await this.repository.getPaymentById(paymentId);
+    if (!payment) throw new NotFoundException('Payment not found');
+
+    await this.repository.updatePaymentStatus(paymentId, 'SUCCESS', paymentIntentId);
+    await this.repository.createTransaction(paymentId, { paymentIntentId, confirmed: true }, 'SUCCESS');
+    await this.repository.confirmBooking(payment.bookingId);
+
+    this.events.emit('payment.succeeded', {
+      paymentId: payment.id,
+      bookingId: payment.bookingId,
+      userId: payment.userId,
+      amount: payment.amount,
+      currency: payment.currency,
+    });
+
+    return { paymentId, status: 'SUCCESS' as PaymentStatus };
+  }
+
+  async handleWebhook(provider: PaymentProvider, payload: Record<string, unknown>, signature: string | undefined, rawBody: string) {
+    const driver = this.getProvider(provider);
+    if (!driver.verifyWebhook(payload, signature, rawBody)) {
+      throw new UnauthorizedException('Invalid webhook signature');
+    }
+
+    const parsed = driver.parseWebhook(payload);
+    const payment = parsed.paymentId
+      ? await this.repository.getPaymentById(parsed.paymentId)
+      : await this.repository.getPaymentByProviderTransaction(provider, parsed.transactionId);
+
+    if (!payment) {
+      throw new NotFoundException('Payment not found for webhook event');
+    }
+
+    if (payment.status === parsed.status) {
+      await this.repository.createTransaction(payment.id, payload, parsed.status);
+      return { accepted: true, duplicate: true };
+    }
+
+    await this.repository.updatePaymentStatus(payment.id, parsed.status, parsed.transactionId);
+    await this.repository.createTransaction(payment.id, payload, parsed.status);
+
+    if (parsed.status === 'SUCCESS') {
+      await this.repository.confirmBooking(payment.bookingId);
+      await this.notificationService.triggerBookingConfirmed(payment.userId, {
+        paymentId: payment.id,
+        bookingId: payment.bookingId,
+        amount: payment.amount,
+        currency: payment.currency,
+      });
+      this.events.emit('payment.succeeded', {
+        paymentId: payment.id,
+        bookingId: payment.bookingId,
+        userId: payment.userId,
+        amount: payment.amount,
+        currency: payment.currency,
+      });
+    } else if (parsed.status === 'FAILED') {
+      await this.notificationService.send({
+        userId: payment.userId,
+        type: 'EMAIL',
+        templateName: 'payment-failed',
+        payload: { paymentId: payment.id, bookingId: payment.bookingId },
+      });
+    }
+
+    return { accepted: true, status: parsed.status };
+  }
+
+  async refundByPaymentId(requestUserId: string, paymentId: string, amount?: number, roleList: string[] = []) {
+    const dto: RefundPaymentDto = { paymentId, amount };
+    const payment = await this.repository.getPaymentById(dto.paymentId);
+    if (!payment) throw new NotFoundException('Payment not found');
+    const isPrivileged = roleList.includes('admin') || roleList.includes('system');
+    if (!isPrivileged && payment.userId !== requestUserId) throw new UnauthorizedException('Access denied');
+    if (payment.status !== 'SUCCESS') throw new BadRequestException('Refund only allowed for successful payments');
+
+    const refundAmount = dto.amount ?? payment.amount;
+    if (refundAmount > payment.amount) throw new BadRequestException('Refund amount cannot exceed payment amount');
+
+    const driver = this.getProvider(payment.provider);
+    const refund = await driver.refund(payment, refundAmount);
+    const refundRow = await this.repository.createRefund(payment.id, refundAmount, refund.status, refund.providerRefundId);
+    await this.repository.createTransaction(payment.id, refund.raw, refund.status === 'SUCCESS' ? 'REFUNDED' : 'FAILED');
+
+    if (refund.status === 'SUCCESS') {
+      await this.repository.updatePaymentStatus(payment.id, 'REFUNDED');
+      await this.getWalletService().credit(payment.userId, refundAmount, 'refund', payment.id, 'Payment refund credited to wallet');
+    }
+
+    return refundRow;
+  }
+
+  async refund(userId: string, dto: RefundPaymentDto) {
+    return this.refundByPaymentId(userId, dto.paymentId, dto.amount, []);
+  }
+
+  getPaymentById(paymentId: string) {
+    return this.repository.getPaymentById(paymentId);
+  }
+
+  getAdminTransactions(roleList: string[] = []) {
+    if (!roleList.includes('admin')) {
+      throw new UnauthorizedException('Admin role required');
+    }
+    return this.repository.listTransactions();
+  }
+
+  /**
+   * Create a provider PaymentIntent for a hotel booking or insurance policy.
+   * Returns the clientSecret so the frontend can confirm via the provider's SDK.
+   * Does NOT write to the payments table (hotel_bookings / insurance_policies
+   * have their own payment_intent_id columns for tracking).
+   */
+  async createExternalPaymentIntent(
+    amount: number,
+    currency: string,
+    provider: string,
+    metadata: Record<string, unknown>,
+  ): Promise<{ clientSecret: string; paymentIntentId: string; paymentId: string }> {
+    const normalizedProvider = provider.toUpperCase() as PaymentProvider;
+    const driver = this.getProvider(normalizedProvider);
+    const iProvider = driver as unknown as IPaymentProvider;
+    const intent = await iProvider.createPaymentIntent(amount, currency, metadata);
+    if (!intent.clientSecret) {
+      throw new BadRequestException('Payment provider did not return a client secret');
+    }
+
+    // Create internal payment record for tracking
+    const payment = await this.repository.createPayment({
+      bookingId: (metadata.bookingId as string) || '',
+      userId: (metadata.userId as string) || '',
+      provider: normalizedProvider,
+      amount,
+      currency,
+      metadata,
+    });
+
+    return { 
+      clientSecret: intent.clientSecret, 
+      paymentIntentId: intent.id,
+      paymentId: payment?.id || ''
+    };
+  }
+
+  /**
+   * Verify that a PaymentIntent has been successfully confirmed by the client.
+   * Falls back to `true` for providers that do not implement retrieval yet
+   * (non-Stripe BNPL providers handle confirmation via their own webhooks).
+   */
+  async verifyExternalPaymentIntent(paymentIntentId: string, provider: string): Promise<boolean> {
+    const driver = this.getProvider(provider as PaymentProvider);
+    const withRetrieve = driver as { retrievePaymentIntent?: (id: string) => Promise<{ status: string }> };
+    if (typeof withRetrieve.retrievePaymentIntent === 'function') {
+      const result = await withRetrieve.retrievePaymentIntent(paymentIntentId);
+      return result.status === 'SUCCESS';
+    }
+    // BNPL providers (Tabby, Tamara) confirm via webhooks handled separately.
+    return true;
   }
 
   health() {
     return { module: 'payment', status: 'ok' };
+  }
+
+  private isThreeDSRequired(payload: Record<string, unknown>): boolean {
+    return payload.status === 'requires_action' && typeof this.getThreeDSRedirectUrl(payload) === 'string';
+  }
+
+  private getThreeDSRedirectUrl(payload: Record<string, unknown>): string | null {
+    const nextAction = payload.next_action as { redirect_to_url?: { url?: string } } | undefined;
+    return nextAction?.redirect_to_url?.url ?? null;
+  }
+
+
+  private getWalletService(): Pick<WalletService, 'getBalance' | 'deduct' | 'credit'> {
+    if (this.walletService) return this.walletService;
+    return {
+      getBalance: async () => 0,
+      deduct: async () => { throw new BadRequestException('Wallet service unavailable'); },
+      credit: async () => { throw new BadRequestException('Wallet service unavailable'); },
+    };
+  }
+
+  private getProvider(provider: PaymentProvider | string): PaymentProviderDriver {
+    const normalizedProvider = (provider || '').toUpperCase() as PaymentProvider;
+    const driver = this.providers.get(normalizedProvider);
+    if (!driver) throw new BadRequestException(`Unsupported provider: ${provider}`);
+    return driver;
   }
 }

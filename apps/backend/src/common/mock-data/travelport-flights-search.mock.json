@@ -1,0 +1,1148 @@
+[
+  {
+    "id": "noVSM5dGuDKA2BBohNAAAA==",
+    "airline": "QR",
+    "airlineCode": "QR",
+    "flightNumber": "330",
+    "departureAirport": "LGW",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T09:00:00.000+01:00",
+    "arrivalAt": "2026-07-03T10:15:00.000+04:00",
+    "duration": 480,
+    "stops": 1,
+    "totalPrice": "INR46176",
+    "basePrice": "GBP118.00",
+    "taxes": "INR30906",
+    "price": 46176,
+    "basePriceNumeric": 15270,
+    "taxesNumeric": 30906,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAq9AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAp9AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "330",
+        "Origin": "LGW",
+        "Destination": "DOH",
+        "DepartureTime": "2026-07-02T09:00:00.000+01:00",
+        "ArrivalTime": "2026-07-02T17:40:00.000+03:00",
+        "FlightTime": "400",
+        "Distance": "3246",
+        "ETicketability": "Yes",
+        "Equipment": "789",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "25kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAs9AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAr9AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "1006",
+        "Origin": "DOH",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-03T07:55:00.000+03:00",
+        "ArrivalTime": "2026-07-03T10:15:00.000+04:00",
+        "FlightTime": "80",
+        "Distance": "229",
+        "ETicketability": "Yes",
+        "Equipment": "77W",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "25kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKA3BBohNAAAA==",
+    "airline": "PC",
+    "airlineCode": "PC",
+    "flightNumber": "1162",
+    "departureAirport": "STN",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T14:40:00.000+01:00",
+    "arrivalAt": "2026-07-03T03:15:00.000+04:00",
+    "duration": 490,
+    "stops": 1,
+    "totalPrice": "INR47027",
+    "basePrice": "GBP141.00",
+    "taxes": "INR28782",
+    "price": 47027,
+    "basePriceNumeric": 18245,
+    "taxesNumeric": 28782,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAu9AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAt9AohNAAAA==",
+        "Group": "0",
+        "Carrier": "PC",
+        "FlightNumber": "1162",
+        "Origin": "STN",
+        "Destination": "SAW",
+        "DepartureTime": "2026-07-02T14:40:00.000+01:00",
+        "ArrivalTime": "2026-07-02T20:25:00.000+03:00",
+        "FlightTime": "225",
+        "Distance": "1553",
+        "ETicketability": "Yes",
+        "Equipment": "321",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "PolledAvailabilityOption": "No polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "A",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "20kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAw9AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAv9AohNAAAA==",
+        "Group": "0",
+        "Carrier": "PC",
+        "FlightNumber": "740",
+        "Origin": "SAW",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-02T21:50:00.000+03:00",
+        "ArrivalTime": "2026-07-03T03:15:00.000+04:00",
+        "FlightTime": "265",
+        "Distance": "1870",
+        "ETicketability": "Yes",
+        "Equipment": "321",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "PolledAvailabilityOption": "No polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "A",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "20kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKA4BBohNAAAA==",
+    "airline": "QR",
+    "airlineCode": "QR",
+    "flightNumber": "104",
+    "departureAirport": "LHR",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T08:25:00.000+01:00",
+    "arrivalAt": "2026-07-03T10:15:00.000+04:00",
+    "duration": 485,
+    "stops": 1,
+    "totalPrice": "INR49849",
+    "basePrice": "GBP118.00",
+    "taxes": "INR34579",
+    "price": 49849,
+    "basePriceNumeric": 15270,
+    "taxesNumeric": 34579,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKA49AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKA39AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "104",
+        "Origin": "LHR",
+        "Destination": "DOH",
+        "DepartureTime": "2026-07-02T08:25:00.000+01:00",
+        "ArrivalTime": "2026-07-02T17:10:00.000+03:00",
+        "FlightTime": "405",
+        "Distance": "3246",
+        "ETicketability": "Yes",
+        "Equipment": "388",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "25kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAs9AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAr9AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "1006",
+        "Origin": "DOH",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-03T07:55:00.000+03:00",
+        "ArrivalTime": "2026-07-03T10:15:00.000+04:00",
+        "FlightTime": "80",
+        "Distance": "229",
+        "ETicketability": "Yes",
+        "Equipment": "77W",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "25kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKA5BBohNAAAA==",
+    "airline": "GF",
+    "airlineCode": "GF",
+    "flightNumber": "6",
+    "departureAirport": "LHR",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T22:05:00.000+01:00",
+    "arrivalAt": "2026-07-03T09:50:00.000+04:00",
+    "duration": 485,
+    "stops": 1,
+    "totalPrice": "INR58955",
+    "basePrice": "GBP215.00",
+    "taxes": "INR31140",
+    "price": 58955,
+    "basePriceNumeric": 27815,
+    "taxesNumeric": 31140,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKA69AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKA59AohNAAAA==",
+        "Group": "0",
+        "Carrier": "GF",
+        "FlightNumber": "6",
+        "Origin": "LHR",
+        "Destination": "BAH",
+        "DepartureTime": "2026-07-02T22:05:00.000+01:00",
+        "ArrivalTime": "2026-07-03T06:45:00.000+03:00",
+        "FlightTime": "400",
+        "Distance": "3154",
+        "ETicketability": "Yes",
+        "Equipment": "789",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "25kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKA89AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKA79AohNAAAA==",
+        "Group": "0",
+        "Carrier": "GF",
+        "FlightNumber": "502",
+        "Origin": "BAH",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-03T07:25:00.000+03:00",
+        "ArrivalTime": "2026-07-03T09:50:00.000+04:00",
+        "FlightTime": "85",
+        "Distance": "300",
+        "ETicketability": "Yes",
+        "Equipment": "32N",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "25kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKA6BBohNAAAA==",
+    "airline": "QR",
+    "airlineCode": "QR",
+    "flightNumber": "330",
+    "departureAirport": "LGW",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T09:00:00.000+01:00",
+    "arrivalAt": "2026-07-02T21:25:00.000+04:00",
+    "duration": 480,
+    "stops": 1,
+    "totalPrice": "INR66365",
+    "basePrice": "GBP276.00",
+    "taxes": "INR30655",
+    "price": 66365,
+    "basePriceNumeric": 35710,
+    "taxesNumeric": 30655,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAq9AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAp9AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "330",
+        "Origin": "LGW",
+        "Destination": "DOH",
+        "DepartureTime": "2026-07-02T09:00:00.000+01:00",
+        "ArrivalTime": "2026-07-02T17:40:00.000+03:00",
+        "FlightTime": "400",
+        "Distance": "3246",
+        "ETicketability": "Yes",
+        "Equipment": "789",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "30kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAE+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAD+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "1014",
+        "Origin": "DOH",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-02T19:05:00.000+03:00",
+        "ArrivalTime": "2026-07-02T21:25:00.000+04:00",
+        "FlightTime": "80",
+        "Distance": "229",
+        "ETicketability": "Yes",
+        "Equipment": "77W",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "30kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKA7BBohNAAAA==",
+    "airline": "EY",
+    "airlineCode": "EY",
+    "flightNumber": "66",
+    "departureAirport": "LHR",
+    "arrivalAirport": "XNB",
+    "departureAt": "2026-07-02T20:45:00.000+01:00",
+    "arrivalAt": "2026-07-03T10:25:00.000+04:00",
+    "duration": 535,
+    "stops": 1,
+    "totalPrice": "INR66759",
+    "basePrice": "GBP284.00",
+    "taxes": "INR30014",
+    "price": 66759,
+    "basePriceNumeric": 36745,
+    "taxesNumeric": 30014,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAG+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAF+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "EY",
+        "FlightNumber": "66",
+        "Origin": "LHR",
+        "Destination": "AUH",
+        "DepartureTime": "2026-07-02T20:45:00.000+01:00",
+        "ArrivalTime": "2026-07-03T06:40:00.000+04:00",
+        "FlightTime": "415",
+        "Distance": "3409",
+        "ETicketability": "Yes",
+        "Equipment": "789",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "0kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAI+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAH+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "EY",
+        "FlightNumber": "5416",
+        "Origin": "AUH",
+        "Destination": "XNB",
+        "DepartureTime": "2026-07-03T08:25:00.000+04:00",
+        "ArrivalTime": "2026-07-03T10:25:00.000+04:00",
+        "FlightTime": "120",
+        "Distance": "67",
+        "ETicketability": "Yes",
+        "Equipment": "BUS",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "0kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKA8BBohNAAAA==",
+    "airline": "EY",
+    "airlineCode": "EY",
+    "flightNumber": "64",
+    "departureAirport": "LHR",
+    "arrivalAirport": "XNB",
+    "departureAt": "2026-07-02T14:45:00.000+01:00",
+    "arrivalAt": "2026-07-03T04:45:00.000+04:00",
+    "duration": 540,
+    "stops": 1,
+    "totalPrice": "INR67794",
+    "basePrice": "GBP292.00",
+    "taxes": "INR30014",
+    "price": 67794,
+    "basePriceNumeric": 37780,
+    "taxesNumeric": 30014,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAM+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAL+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "EY",
+        "FlightNumber": "64",
+        "Origin": "LHR",
+        "Destination": "AUH",
+        "DepartureTime": "2026-07-02T14:45:00.000+01:00",
+        "ArrivalTime": "2026-07-03T00:45:00.000+04:00",
+        "FlightTime": "420",
+        "Distance": "3409",
+        "ETicketability": "Yes",
+        "Equipment": "388",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "0kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAO+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAN+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "EY",
+        "FlightNumber": "5414",
+        "Origin": "AUH",
+        "Destination": "XNB",
+        "DepartureTime": "2026-07-03T02:45:00.000+04:00",
+        "ArrivalTime": "2026-07-03T04:45:00.000+04:00",
+        "FlightTime": "120",
+        "Distance": "67",
+        "ETicketability": "Yes",
+        "Equipment": "BUS",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "0kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKA9BBohNAAAA==",
+    "airline": "EY",
+    "airlineCode": "EY",
+    "flightNumber": "62",
+    "departureAirport": "LHR",
+    "arrivalAirport": "XNB",
+    "departureAt": "2026-07-02T09:30:00.000+01:00",
+    "arrivalAt": "2026-07-02T22:50:00.000+04:00",
+    "duration": 545,
+    "stops": 1,
+    "totalPrice": "INR68309",
+    "basePrice": "GBP296.00",
+    "taxes": "INR30014",
+    "price": 68309,
+    "basePriceNumeric": 38295,
+    "taxesNumeric": 30014,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAQ+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAP+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "EY",
+        "FlightNumber": "62",
+        "Origin": "LHR",
+        "Destination": "AUH",
+        "DepartureTime": "2026-07-02T09:30:00.000+01:00",
+        "ArrivalTime": "2026-07-02T19:35:00.000+04:00",
+        "FlightTime": "425",
+        "Distance": "3409",
+        "ETicketability": "Yes",
+        "Equipment": "388",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "0kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAS+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAR+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "EY",
+        "FlightNumber": "5424",
+        "Origin": "AUH",
+        "Destination": "XNB",
+        "DepartureTime": "2026-07-02T20:50:00.000+04:00",
+        "ArrivalTime": "2026-07-02T22:50:00.000+04:00",
+        "FlightTime": "120",
+        "Distance": "67",
+        "ETicketability": "Yes",
+        "Equipment": "BUS",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "0kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKA+BBohNAAAA==",
+    "airline": "QR",
+    "airlineCode": "QR",
+    "flightNumber": "12",
+    "departureAirport": "LHR",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T19:25:00.000+01:00",
+    "arrivalAt": "2026-07-03T10:15:00.000+04:00",
+    "duration": 485,
+    "stops": 1,
+    "totalPrice": "INR70038",
+    "basePrice": "GBP276.00",
+    "taxes": "INR34328",
+    "price": 70038,
+    "basePriceNumeric": 35710,
+    "taxesNumeric": 34328,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAU+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAT+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "12",
+        "Origin": "LHR",
+        "Destination": "DOH",
+        "DepartureTime": "2026-07-02T19:25:00.000+01:00",
+        "ArrivalTime": "2026-07-03T04:10:00.000+03:00",
+        "FlightTime": "405",
+        "Distance": "3246",
+        "ETicketability": "Yes",
+        "Equipment": "77L",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "30kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAs9AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAr9AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "1006",
+        "Origin": "DOH",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-03T07:55:00.000+03:00",
+        "ArrivalTime": "2026-07-03T10:15:00.000+04:00",
+        "FlightTime": "80",
+        "Distance": "229",
+        "ETicketability": "Yes",
+        "Equipment": "77W",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "30kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKA/BBohNAAAA==",
+    "airline": "RJ",
+    "airlineCode": "RJ",
+    "flightNumber": "114",
+    "departureAirport": "STN",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T15:40:00.000+01:00",
+    "arrivalAt": "2026-07-03T04:05:00.000+04:00",
+    "duration": 489,
+    "stops": 1,
+    "totalPrice": "INR71304",
+    "basePrice": "GBP246.00",
+    "taxes": "INR39479",
+    "price": 71304,
+    "basePriceNumeric": 31825,
+    "taxesNumeric": 39479,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAW+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAV+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "RJ",
+        "FlightNumber": "114",
+        "Origin": "STN",
+        "Destination": "AMM",
+        "DepartureTime": "2026-07-02T15:40:00.000+01:00",
+        "ArrivalTime": "2026-07-02T22:45:00.000+03:00",
+        "FlightTime": "305",
+        "Distance": "2280",
+        "ETicketability": "Yes",
+        "Equipment": "32N",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "P",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "1 Piece",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAY+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAX+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "RJ",
+        "FlightNumber": "612",
+        "Origin": "AMM",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-03T00:01:00.000+03:00",
+        "ArrivalTime": "2026-07-03T04:05:00.000+04:00",
+        "FlightTime": "184",
+        "Distance": "1255",
+        "ETicketability": "Yes",
+        "Equipment": "32N",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "P",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "1 Piece",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKAACBohNAAAA==",
+    "airline": "SV",
+    "airlineCode": "SV",
+    "flightNumber": "118",
+    "departureAirport": "LHR",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T22:10:00.000+01:00",
+    "arrivalAt": "2026-07-03T14:10:00.000+04:00",
+    "duration": 545,
+    "stops": 1,
+    "totalPrice": "INR72437",
+    "basePrice": "GBP329.00",
+    "taxes": "INR29872",
+    "price": 72437,
+    "basePriceNumeric": 42565,
+    "taxesNumeric": 29872,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAe+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAd+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "118",
+        "Origin": "LHR",
+        "Destination": "JED",
+        "DepartureTime": "2026-07-02T22:10:00.000+01:00",
+        "ArrivalTime": "2026-07-03T06:20:00.000+03:00",
+        "FlightTime": "370",
+        "Distance": "2955",
+        "ETicketability": "Yes",
+        "Equipment": "789",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "P",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "1 Piece",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAg+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAf+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "568",
+        "Origin": "JED",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-03T10:15:00.000+03:00",
+        "ArrivalTime": "2026-07-03T14:10:00.000+04:00",
+        "FlightTime": "175",
+        "Distance": "1048",
+        "ETicketability": "Yes",
+        "Equipment": "320",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "P",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "1 Piece",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKABCBohNAAAA==",
+    "airline": "QR",
+    "airlineCode": "QR",
+    "flightNumber": "120",
+    "departureAirport": "LHR",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T09:30:00.000+01:00",
+    "arrivalAt": "2026-07-02T21:25:00.000+04:00",
+    "duration": 485,
+    "stops": 1,
+    "totalPrice": "INR89958",
+    "basePrice": "GBP430.00",
+    "taxes": "INR34328",
+    "price": 89958,
+    "basePriceNumeric": 55630,
+    "taxesNumeric": 34328,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAi+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAh+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "120",
+        "Origin": "LHR",
+        "Destination": "DOH",
+        "DepartureTime": "2026-07-02T09:30:00.000+01:00",
+        "ArrivalTime": "2026-07-02T18:15:00.000+03:00",
+        "FlightTime": "405",
+        "Distance": "3246",
+        "ETicketability": "Yes",
+        "Equipment": "77W",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "30kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAE+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAD+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "QR",
+        "FlightNumber": "1014",
+        "Origin": "DOH",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-02T19:05:00.000+03:00",
+        "ArrivalTime": "2026-07-02T21:25:00.000+04:00",
+        "FlightTime": "80",
+        "Distance": "229",
+        "ETicketability": "Yes",
+        "Equipment": "77W",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "30kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKACCBohNAAAA==",
+    "airline": "SV",
+    "airlineCode": "SV",
+    "flightNumber": "120",
+    "departureAirport": "LHR",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T14:40:00.000+01:00",
+    "arrivalAt": "2026-07-03T14:10:00.000+04:00",
+    "duration": 545,
+    "stops": 1,
+    "totalPrice": "INR91067",
+    "basePrice": "GBP473.00",
+    "taxes": "INR29872",
+    "price": 91067,
+    "basePriceNumeric": 61195,
+    "taxesNumeric": 29872,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAm+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAl+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "120",
+        "Origin": "LHR",
+        "Destination": "JED",
+        "DepartureTime": "2026-07-02T14:40:00.000+01:00",
+        "ArrivalTime": "2026-07-02T22:50:00.000+03:00",
+        "FlightTime": "370",
+        "Distance": "2955",
+        "ETicketability": "Yes",
+        "Equipment": "789",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "P",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "1 Piece",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAg+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAf+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "SV",
+        "FlightNumber": "568",
+        "Origin": "JED",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-03T10:15:00.000+03:00",
+        "ArrivalTime": "2026-07-03T14:10:00.000+04:00",
+        "FlightTime": "175",
+        "Distance": "1048",
+        "ETicketability": "Yes",
+        "Equipment": "320",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "P",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "1 Piece",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  },
+  {
+    "id": "noVSM5dGuDKADCBohNAAAA==",
+    "airline": "TK",
+    "airlineCode": "TK",
+    "flightNumber": "1244",
+    "departureAirport": "STN",
+    "arrivalAirport": "DXB",
+    "departureAt": "2026-07-02T17:35:00.000+01:00",
+    "arrivalAt": "2026-07-03T06:55:00.000+04:00",
+    "duration": 500,
+    "stops": 1,
+    "totalPrice": "INR107494",
+    "basePrice": "GBP570.00",
+    "taxes": "INR33754",
+    "price": 107494,
+    "basePriceNumeric": 73740,
+    "taxesNumeric": 33754,
+    "currency": "INR",
+    "segments": [
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAo+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAn+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "TK",
+        "FlightNumber": "1244",
+        "Origin": "STN",
+        "Destination": "IST",
+        "DepartureTime": "2026-07-02T17:35:00.000+01:00",
+        "ArrivalTime": "2026-07-02T23:30:00.000+03:00",
+        "FlightTime": "235",
+        "Distance": "1553",
+        "ETicketability": "Yes",
+        "Equipment": "7M9",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "30kg",
+        "CabinClass": "Economy"
+      },
+      {
+        "air:AirAvailInfo": {
+          "ProviderCode": "1G"
+        },
+        "air:FlightDetailsRef": {
+          "Key": "noVSM5dGuDKAq+AohNAAAA=="
+        },
+        "Key": "noVSM5dGuDKAp+AohNAAAA==",
+        "Group": "0",
+        "Carrier": "TK",
+        "FlightNumber": "762",
+        "Origin": "IST",
+        "Destination": "DXB",
+        "DepartureTime": "2026-07-03T01:30:00.000+03:00",
+        "ArrivalTime": "2026-07-03T06:55:00.000+04:00",
+        "FlightTime": "265",
+        "Distance": "1870",
+        "ETicketability": "Yes",
+        "Equipment": "32Q",
+        "ChangeOfPlane": "false",
+        "ParticipantLevel": "Secure Sell",
+        "LinkAvailability": "true",
+        "PolledAvailabilityOption": "Cached status used. Polled avail exists",
+        "OptionalServicesIndicator": "false",
+        "AvailabilitySource": "Q",
+        "AvailabilityDisplayType": "Fare Shop/Optimal Shop",
+        "BaggageAllowance": "30kg",
+        "CabinClass": "Economy"
+      }
+    ],
+    "availableCabinClasses": [
+      "ECONOMY"
+    ]
+  }
+]

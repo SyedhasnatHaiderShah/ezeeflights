@@ -1,23 +1,149 @@
-import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { Transform } from "class-transformer";
+import {
+  IsDateString,
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+} from "class-validator";
 
 export class SearchHotelsDto {
+  @ApiProperty({ example: "Dubai", description: "City name", maxLength: 120 })
   @IsString()
+  @MaxLength(120)
   city!: string;
 
+  @ApiProperty({
+    example: "2025-08-01",
+    description: "Check-in date (ISO date string)",
+  })
+  @Transform(({ value }) => {
+    if (typeof value === "string") {
+      const match = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+      if (match) {
+        const [, year, month, day] = match;
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      }
+    }
+    return value;
+  })
+  @IsDateString()
+  checkInDate!: string;
+
+  @ApiProperty({
+    example: "2025-08-05",
+    description: "Check-out date (ISO date string)",
+  })
+  @Transform(({ value }) => {
+    if (typeof value === "string") {
+      const match = value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+      if (match) {
+        const [, year, month, day] = match;
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      }
+    }
+    return value;
+  })
+  @IsDateString()
+  checkOutDate!: string;
+
+  @ApiPropertyOptional({
+    example: 100,
+    description: "Minimum price per night",
+    minimum: 0,
+  })
   @IsOptional()
+  @Transform(({ value }) => (value !== undefined ? Number(value) : undefined))
+  @IsInt()
+  @Min(0)
+  minPrice?: number;
+
+  @ApiPropertyOptional({
+    example: 500,
+    description: "Maximum price per night",
+    minimum: 0,
+  })
+  @IsOptional()
+  @Transform(({ value }) => (value !== undefined ? Number(value) : undefined))
+  @IsInt()
+  @Min(0)
+  maxPrice?: number;
+
+  @ApiPropertyOptional({
+    example: 4,
+    description: "Minimum star rating (1-5)",
+    minimum: 1,
+    maximum: 5,
+  })
+  @IsOptional()
+  @Transform(({ value }) => (value !== undefined ? Number(value) : undefined))
   @IsInt()
   @Min(1)
   @Max(5)
-  minStars?: number;
+  minRating?: number;
 
+  @ApiPropertyOptional({
+    example: "pool,spa",
+    description: "Comma-separated amenity filters",
+  })
   @IsOptional()
+  @IsString()
+  amenities?: string;
+
+  @ApiPropertyOptional({
+    example: 1,
+    description: "Page number",
+    minimum: 1,
+    default: 1,
+  })
+  @IsOptional()
+  @Transform(({ value }) => (value !== undefined ? Number(value) : 1))
   @IsInt()
   @Min(1)
   page = 1;
 
+  @ApiPropertyOptional({
+    example: 20,
+    description: "Results per page",
+    minimum: 1,
+    maximum: 100,
+    default: 20,
+  })
   @IsOptional()
+  @Transform(({ value }) => (value !== undefined ? Number(value) : 20))
   @IsInt()
   @Min(1)
   @Max(100)
   limit = 20;
+  @ApiPropertyOptional({ example: "USD", description: "Preferred currency" })
+  @IsOptional()
+  @IsString()
+  currency?: string;
+
+  @ApiPropertyOptional({
+    example: 2,
+    description: "Number of adults",
+    minimum: 1,
+    default: 2,
+  })
+  @IsOptional()
+  @Transform(({ value }) => (value !== undefined ? Number(value) : 2))
+  @IsInt()
+  @Min(1)
+  adults?: number;
+
+  @ApiPropertyOptional({
+    example: 1,
+    description: "Number of rooms",
+    minimum: 1,
+    default: 1,
+  })
+  @IsOptional()
+  @Transform(({ value }) => (value !== undefined ? Number(value) : 1))
+  @IsInt()
+  @Min(1)
+  rooms?: number;
 }

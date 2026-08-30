@@ -8,6 +8,9 @@ import {
   ShieldCheck,
   LucideIcon,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
+import { getPrimaryPhone } from "@/lib/utils/domain";
 
 interface Feature {
   icon: LucideIcon;
@@ -15,67 +18,96 @@ interface Feature {
   text: string;
 }
 
-const FEATURES: Feature[] = [
+const getFeatures = (t: (key: string) => string, phone: string): Feature[] => [
   {
     icon: BadgeCheck,
-    title: "Best Price Guarantee",
-    text: "Discover unbeatable prices on international flights with our exclusive deals",
+    title: t("Best Price Guarantee"),
+    text: t(
+      "Discover unbeatable prices on international flights with our exclusive deals",
+    ),
   },
   {
     icon: Smartphone,
-    title: "Easy Booking",
-    text: "Best deals on international flights in just a few clicks",
+    title: t("Easy Booking"),
+    text: t("Best deals on international flights in just a few clicks"),
   },
   {
     icon: PhoneCall,
-    title: "24X7 Support",
-    text: "Get award-winning service and special deals by calling +1-888-604-0198",
+    title: t("24X7 Support"),
+    text: t(
+      "Get award-winning service and special deals by calling +1-888-604-0198",
+    ).replace("+1-888-604-0198", phone),
   },
   {
     icon: ShieldCheck,
-    title: "Trust pay",
-    text: "100% Payment Protection. Easy Return Policy.",
+    title: t("Trust pay"),
+    text: t("100% Payment Protection. Easy Return Policy."),
   },
 ];
 
-import { AppIcon } from "../ui/app-icon";
+function FeatureCard({
+  feature,
+  className,
+}: {
+  feature: Feature;
+  className?: string;
+}) {
+  const Icon = feature.icon;
+
+  return (
+    <article
+      className={cn(
+        "group flex h-full min-h-[132px] w-full items-start gap-4 rounded-[28px] border border-border/60 p-4 shadow-sm transition-all duration-300 hover:border-redmix/20 hover:shadow-md active:scale-[0.99]",
+        className,
+      )}
+    >
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-redmix text-redmix transition-colors group-hover:bg-redmix text-white">
+        <Icon className="h-5 w-5" />
+      </span>
+
+      <div className="min-w-0 flex-1">
+        <h3 className="truncate text-base font-bold text-foreground transition-colors group-hover:text-redmix">
+          {feature.title}
+        </h3>
+        <p className="mt-1 line-clamp-3 text-xs font-medium leading-relaxed text-foreground/80">
+          {feature.text}
+        </p>
+      </div>
+    </article>
+  );
+}
 
 export function WhyChooseUs() {
+  const { t } = useTranslation();
+  const [phone, setPhone] = React.useState("+1-888-604-0198");
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setPhone(getPrimaryPhone(window.location.hostname));
+    }
+  }, []);
+
+  const features = getFeatures(t, phone);
+
   return (
-    <section className="py-14 bg-background relative overflow-hidden border-t border-border/40 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex flex-col items-start mb-8 space-y-1">
-          <span className="text-brand-red font-bold uppercase tracking-[0.2em] text-xs block">
-            The Modern Choice
+    <section className="overflow-x-hidden border-t border-border/40 bg-background py-5 md:py-14">
+      <div className="mx-auto max-w-[1200px] px-5">
+        <div className="mb-6 rounded-[28px] border border-border/50 px-5 py-4 shadow-sm">
+          <span className="block text-[10px] font-bold uppercase tracking-[0.22em] text-redmix">
+            {t("The Modern Choice")}
           </span>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground leading-tight">
-            Why Choose Ezee Flights
+          <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground lg:text-3xl">
+            {t("Why Choose Ezee Flights")}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-          {FEATURES.map((feature, idx) => (
+        <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar lg:grid lg:grid-cols-4 lg:gap-5 lg:overflow-visible lg:pb-0">
+          {features.map((feature, idx) => (
             <div
               key={idx}
-              className="group flex items-center gap-4 p-3 rounded-xl bg-card border border-border/60 hover:border-brand-red/20 hover:bg-brand-red/[0.02] transition-all duration-300"
+              className="w-[85vw] max-w-[320px] shrink-0 snap-start sm:w-[48%] lg:w-auto lg:max-w-none"
             >
-              <div className="shrink-0">
-                <AppIcon
-                  icon={feature.icon}
-                  isFill={true}
-                  isActive={true}
-                  className="w-11 h-11 pointer-events-none"
-                />
-              </div>
-
-              <div className="flex flex-col min-w-0 pr-1">
-                <h3 className="text-base font-bold text-foreground group-hover:text-brand-red transition-colors truncate">
-                  {feature.title}
-                </h3>
-                <p className="text-xs font-medium text-muted-foreground leading-tight line-clamp-3">
-                  {feature.text}
-                </p>
-              </div>
+              <FeatureCard feature={feature} />
             </div>
           ))}
         </div>

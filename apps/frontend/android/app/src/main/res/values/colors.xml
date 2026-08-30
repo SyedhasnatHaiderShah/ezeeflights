@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- EzeeFlights Brand Colors -->
+    <!-- Primary: Dark Navy Blue (matches color-ezee-dark-blue in globals.css) -->
+    <color name="colorPrimary">#0d2353</color>
+    <color name="colorPrimaryDark">#0d2353</color>
+
+    <!-- Accent: EzeeFlights Red (matches color-ezee-red / redmix in globals.css) -->
+    <color name="colorAccent">#c52a28</color>
+
+    <!-- Secondary: Brand Light Blue (matches color-ezee-light-blue) -->
+    <color name="colorSecondary">#304cb2</color>
+
+    <!-- Yellow Accent (matches color-ezee-yellow / brand-yellow) -->
+    <color name="colorYellow">#ffbf27</color>
+
+    <!-- Splash screen background -->
+    <color name="splash_background">#0d2353</color>
+
+    <!-- Status bar colors -->
+    <color name="statusBarColor">#0d2353</color>
+    <color name="statusBarColorLight">#ffffff</color>
+
+    <!-- Navigation bar -->
+    <color name="navigationBarColor">#0e0e0e</color>
+    <color name="navigationBarColorLight">#ffffff</color>
+
+    <!-- Surface / card colors (mirrors CSS vars) -->
+    <color name="colorSurface">#ffffff</color>
+    <color name="colorSurfaceDark">#0a0a0f</color>
+
+    <!-- Text colors -->
+    <color name="colorOnPrimary">#ffffff</color>
+    <color name="colorOnAccent">#ffffff</color>
+</resources>

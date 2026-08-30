@@ -1,0 +1,290 @@
+[
+  {
+    "id": "car-tp-0-SX-EDAR",
+    "name": "Economy Car",
+    "makeModel": "Sample Model",
+    "acrissCode": "EDAR",
+    "category": "Car",
+    "passengerCount": 5,
+    "doorCount": 5,
+    "partnerNetwork": {
+      "name": "SX"
+    },
+    "pricePerDay": 3427.76,
+    "totalPrice": 3427.76,
+    "extraMileageCharge": 0,
+    "distanceUnits": "KM",
+    "currency": "INR",
+    "features": [
+      "Automatic",
+      "A/C"
+    ],
+    "unlimitedMileage": true,
+    "freeCancellation": true,
+    "location": "DXB",
+    "pickupLocationDetails": "COUNTER IS IN TERMINAL - WALK TO CAR",
+    "description": "FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY",
+    "vendorLocationKey": "vB1J0q8Q2BKAOdTOAAAAAA==",
+    "rateToken": "4740341849",
+    "rateCode": "5IU",
+    "rateAvailability": "Available",
+    "rateInclusions": [
+      "YOUNG DRIVER SURCHAR",
+      "CARGO BARRIER BACK",
+      "CARGO BARRIER FRONT",
+      "CRUISE CONTROL"
+    ]
+  },
+  {
+    "id": "car-tp-1-SX-SDAR",
+    "name": "Standard Car",
+    "makeModel": "Sample Model",
+    "acrissCode": "SDAR",
+    "category": "Car",
+    "passengerCount": 5,
+    "doorCount": 5,
+    "partnerNetwork": {
+      "name": "SX"
+    },
+    "pricePerDay": 3984.82,
+    "totalPrice": 3984.82,
+    "extraMileageCharge": 0,
+    "distanceUnits": "KM",
+    "currency": "INR",
+    "features": [
+      "Automatic",
+      "A/C"
+    ],
+    "unlimitedMileage": true,
+    "freeCancellation": true,
+    "location": "DXB",
+    "pickupLocationDetails": "COUNTER IS IN TERMINAL - WALK TO CAR",
+    "description": "FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY",
+    "vendorLocationKey": "vB1J0q8Q2BKAOdTOAAAAAA==",
+    "rateToken": "4740341849",
+    "rateCode": "6IU",
+    "rateAvailability": "Available",
+    "rateInclusions": [
+      "YOUNG DRIVER SURCHAR",
+      "CARGO BARRIER BACK",
+      "CARGO BARRIER FRONT",
+      "CRUISE CONTROL"
+    ]
+  },
+  {
+    "id": "car-tp-2-SX-IDAR",
+    "name": "Intermediate Car",
+    "makeModel": "Sample Model",
+    "acrissCode": "IDAR",
+    "category": "Car",
+    "passengerCount": 5,
+    "doorCount": 5,
+    "partnerNetwork": {
+      "name": "SX"
+    },
+    "pricePerDay": 6318.48,
+    "totalPrice": 6318.48,
+    "extraMileageCharge": 0,
+    "distanceUnits": "KM",
+    "currency": "INR",
+    "features": [
+      "Automatic",
+      "A/C"
+    ],
+    "unlimitedMileage": true,
+    "freeCancellation": true,
+    "location": "DXB",
+    "pickupLocationDetails": "COUNTER IS IN TERMINAL - WALK TO CAR",
+    "description": "FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY",
+    "vendorLocationKey": "vB1J0q8Q2BKAOdTOAAAAAA==",
+    "rateToken": "4740341849",
+    "rateCode": "2IU",
+    "rateAvailability": "Available",
+    "rateInclusions": [
+      "YOUNG DRIVER SURCHAR",
+      "CARGO BARRIER BACK",
+      "CARGO BARRIER FRONT",
+      "CRUISE CONTROL"
+    ]
+  },
+  {
+    "id": "car-tp-3-SX-FDAR",
+    "name": "Fullsize Car",
+    "makeModel": "Sample Model",
+    "acrissCode": "FDAR",
+    "category": "Car",
+    "passengerCount": 5,
+    "doorCount": 5,
+    "partnerNetwork": {
+      "name": "SX"
+    },
+    "pricePerDay": 6956.26,
+    "totalPrice": 6956.26,
+    "extraMileageCharge": 0,
+    "distanceUnits": "KM",
+    "currency": "INR",
+    "features": [
+      "Automatic",
+      "A/C"
+    ],
+    "unlimitedMileage": true,
+    "freeCancellation": true,
+    "location": "DXB",
+    "pickupLocationDetails": "COUNTER IS IN TERMINAL - WALK TO CAR",
+    "description": "FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY",
+    "vendorLocationKey": "vB1J0q8Q2BKAOdTOAAAAAA==",
+    "rateToken": "4740341849",
+    "rateCode": "2IU",
+    "rateAvailability": "Available",
+    "rateInclusions": [
+      "YOUNG DRIVER SURCHAR",
+      "CARGO BARRIER BACK",
+      "CARGO BARRIER FRONT",
+      "CRUISE CONTROL"
+    ]
+  },
+  {
+    "id": "car-tp-4-SX-LDAR",
+    "name": "Luxury Car",
+    "makeModel": "Sample Model",
+    "acrissCode": "LDAR",
+    "category": "Car",
+    "passengerCount": 5,
+    "doorCount": 5,
+    "partnerNetwork": {
+      "name": "SX"
+    },
+    "pricePerDay": 9989.75,
+    "totalPrice": 9989.75,
+    "extraMileageCharge": 0,
+    "distanceUnits": "KM",
+    "currency": "INR",
+    "features": [
+      "Automatic",
+      "A/C"
+    ],
+    "unlimitedMileage": true,
+    "freeCancellation": true,
+    "location": "DXB",
+    "pickupLocationDetails": "COUNTER IS IN TERMINAL - WALK TO CAR",
+    "description": "FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY",
+    "vendorLocationKey": "vB1J0q8Q2BKAOdTOAAAAAA==",
+    "rateToken": "4740341849",
+    "rateCode": "ILY",
+    "rateAvailability": "Available",
+    "rateInclusions": [
+      "YOUNG DRIVER SURCHAR",
+      "CARGO BARRIER BACK",
+      "CARGO BARRIER FRONT",
+      "CRUISE CONTROL"
+    ]
+  },
+  {
+    "id": "car-tp-5-SX-PFAR",
+    "name": "Premium Car",
+    "makeModel": "Sample Model",
+    "acrissCode": "PFAR",
+    "category": "SUV",
+    "passengerCount": 5,
+    "doorCount": 4,
+    "partnerNetwork": {
+      "name": "SX"
+    },
+    "pricePerDay": 10443.4,
+    "totalPrice": 10443.4,
+    "extraMileageCharge": 0,
+    "distanceUnits": "KM",
+    "currency": "INR",
+    "features": [
+      "Automatic",
+      "A/C"
+    ],
+    "unlimitedMileage": true,
+    "freeCancellation": true,
+    "location": "DXB",
+    "pickupLocationDetails": "COUNTER IS IN TERMINAL - WALK TO CAR",
+    "description": "FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY",
+    "vendorLocationKey": "vB1J0q8Q2BKAOdTOAAAAAA==",
+    "rateToken": "4740341849",
+    "rateCode": "1IR",
+    "rateAvailability": "Available",
+    "rateInclusions": [
+      "YOUNG DRIVER SURCHAR",
+      "CARGO BARRIER BACK",
+      "CARGO BARRIER FRONT",
+      "CRUISE CONTROL"
+    ]
+  },
+  {
+    "id": "car-tp-6-SX-FVAR",
+    "name": "Fullsize Car",
+    "makeModel": "Sample Model",
+    "acrissCode": "FVAR",
+    "category": "Van",
+    "passengerCount": 5,
+    "doorCount": 4,
+    "partnerNetwork": {
+      "name": "SX"
+    },
+    "pricePerDay": 11356.05,
+    "totalPrice": 11356.05,
+    "extraMileageCharge": 0,
+    "distanceUnits": "KM",
+    "currency": "INR",
+    "features": [
+      "Automatic",
+      "A/C"
+    ],
+    "unlimitedMileage": true,
+    "freeCancellation": true,
+    "location": "DXB",
+    "pickupLocationDetails": "COUNTER IS IN TERMINAL - WALK TO CAR",
+    "description": "FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY",
+    "vendorLocationKey": "vB1J0q8Q2BKAOdTOAAAAAA==",
+    "rateToken": "4740341849",
+    "rateCode": "7IU",
+    "rateAvailability": "Available",
+    "rateInclusions": [
+      "YOUNG DRIVER SURCHAR",
+      "CARGO BARRIER BACK",
+      "CARGO BARRIER FRONT",
+      "CRUISE CONTROL"
+    ]
+  },
+  {
+    "id": "car-tp-7-SX-PTAR",
+    "name": "Premium Car",
+    "makeModel": "Sample Model",
+    "acrissCode": "PTAR",
+    "category": "Convertible",
+    "passengerCount": 5,
+    "doorCount": 4,
+    "partnerNetwork": {
+      "name": "SX"
+    },
+    "pricePerDay": 11601.56,
+    "totalPrice": 11601.56,
+    "extraMileageCharge": 0,
+    "distanceUnits": "KM",
+    "currency": "INR",
+    "features": [
+      "Automatic",
+      "A/C"
+    ],
+    "unlimitedMileage": true,
+    "freeCancellation": true,
+    "location": "DXB",
+    "pickupLocationDetails": "COUNTER IS IN TERMINAL - WALK TO CAR",
+    "description": "FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY",
+    "vendorLocationKey": "vB1J0q8Q2BKAOdTOAAAAAA==",
+    "rateToken": "4740341849",
+    "rateCode": "5IU",
+    "rateAvailability": "Call",
+    "rateInclusions": [
+      "YOUNG DRIVER SURCHAR",
+      "CARGO BARRIER BACK",
+      "CARGO BARRIER FRONT",
+      "CRUISE CONTROL"
+    ]
+  }
+]

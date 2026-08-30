@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM ezeeflights_crm.refundshieldbookingscnfrm where BookingRef='260608235349'
+LIMIT 0, 50
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="Id">107</field>
+		<field name="BookingRef">260608235349</field>
+		<field name="CustomerId">29125</field>
+		<field name="FirstName">Alex</field>
+		<field name="LastName">Khan</field>
+		<field name="BookingType">TKT</field>
+		<field name="BookingName">LHE to DXB</field>
+		<field name="BookingPaidInFull">1</field>
+		<field name="BookingIsRefundable">1</field>
+		<field name="BookingPaymentValue">556.16</field>
+		<field name="BookingTotalTransactionValue">606.72</field>
+		<field name="CurrencyCode">USD</field>
+		<field name="BookingQuantity">1</field>
+		<field name="DateOfPurchase">2026-06-08 23:53:49</field>
+		<field name="StartDateOfEvent">2026-06-30 00:00:00</field>
+		<field name="EndDateOfEvent" xsi:nil="true" />
+		<field name="Products">[]</field>
+		<field name="CreatedAt">2026-06-08 23:23:49</field>
+		<field name="EditedAt">2026-06-08 23:23:49</field>
+	</row>
+</resultset>

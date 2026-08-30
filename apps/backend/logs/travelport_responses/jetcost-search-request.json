@@ -1,0 +1,17 @@
+{
+  "query": {
+    "Org": "JFK",
+    "Des": "PUJ",
+    "DDate": "2026-8-15",
+    "Adt": "1",
+    "Chld": "0",
+    "Inf": "0",
+    "departureDate": "2026-8-15",
+    "origin": "JFK",
+    "destination": "PUJ",
+    "adults": "1",
+    "children": "0",
+    "infants": "0"
+  },
+  "timestamp": "2026-07-08T09:20:31.105Z"
+}

@@ -1,0 +1,19 @@
+{
+      "checkoutDataType": "VIRTUAL_CARD",
+      "id": "EQWHW3JLDDGKN6OO",
+      "charge_ari": "4G6G-UZ58",
+      "number": "4111111111111111",
+      "cvv": "123",
+      "expiration": "0426",
+      "cardholder_name": "AffirmInc Hanna Lushchyk",
+      "billing_address": {
+            "line1": "650 California St.",
+            "city": "San Francisco",
+            "state": "CA",
+            "zipcode": "94108",
+            "line2": "12th Floor"
+      },
+      "callback_id": "ff4c54f7-bed5-4a7f-ba09-c641cd8482a3",
+      "created": "2026-06-10T12:12:16.287733",
+      "checkout_token": "EQWHW3JLDDGKN6OO"
+}

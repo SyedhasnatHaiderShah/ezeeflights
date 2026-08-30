@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM ezeeflights_crm.tbl_customerdetails
+LIMIT 0, 10
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="Id">29102</field>
+		<field name="bookingRef">260607110808</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">PK</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-27 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">3495</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">44be2dc8-8ebe-4164-af43-4e0b52c5a27f</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 06:08:08</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+
+	<row>
+		<field name="Id">29103</field>
+		<field name="bookingRef">260607111938</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">PK</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-30 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">6472.8</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">b3088948-e186-47cf-b741-ae5bc12536e3</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 06:19:38</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+
+	<row>
+		<field name="Id">29104</field>
+		<field name="bookingRef">260607113710</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">EY</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-30 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">2436</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">02a1f0c8-38e0-45c3-a40a-72417b77ebc2</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 06:37:10</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+
+	<row>
+		<field name="Id">29105</field>
+		<field name="bookingRef">260607114913</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">EY</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-30 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">5280</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">1831fc71-29d2-408f-86b2-a658f10f6c19</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 06:49:13</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+
+	<row>
+		<field name="Id">29106</field>
+		<field name="bookingRef">260607115439</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">EY</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-30 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">2640</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">97ec7ad3-c93c-4ff1-a155-c4caeec36c16</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 06:54:39</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+
+	<row>
+		<field name="Id">29107</field>
+		<field name="bookingRef">260607120104</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">PK</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-30 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">1438.4</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">f66fa712-8928-4e1e-817f-1e38c1325d6f</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 07:01:04</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+
+	<row>
+		<field name="Id">29108</field>
+		<field name="bookingRef">260607120737</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">PK</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-30 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">2157.6000000000004</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">548a8e8f-1525-4f0c-8be3-34a40d6bff8b</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 07:07:37</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+
+	<row>
+		<field name="Id">29109</field>
+		<field name="bookingRef">260607121129</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">EXT</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-30 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">0</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">92c9b65a-7b19-45e0-b99d-221736462143</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 07:11:29</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+
+	<row>
+		<field name="Id">29110</field>
+		<field name="bookingRef">260607121337</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">PK</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-30 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">1438.4</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">341f1302-6457-41be-8175-30740d9525ac</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 07:13:37</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+
+	<row>
+		<field name="Id">29111</field>
+		<field name="bookingRef">260607122202</field>
+		<field name="originFrom">LHE</field>
+		<field name="destinationTo">DXB</field>
+		<field name="airLine">PK</field>
+		<field name="travellType">round-trip</field>
+		<field name="cabin">Economy</field>
+		<field name="departureDate">2026-06-30 00:00:00</field>
+		<field name="returnDate" xsi:nil="true" />
+		<field name="address" xsi:nil="true" />
+		<field name="phone">+923001234567</field>
+		<field name="email">uaf.khurram@gmail.com</field>
+		<field name="totalAmount">2206.2000000000003</field>
+		<field name="status">0</field>
+		<field name="work_status">pending</field>
+		<field name="source">web</field>
+		<field name="source_id">a8cbe6b4-4b24-4868-91ba-f2535e88f6d3</field>
+		<field name="RefundShieldPercent" xsi:nil="true" />
+		<field name="RefundShieldTotalAmount" xsi:nil="true" />
+		<field name="created_at">2026-06-07 07:22:02</field>
+		<field name="RefundShieldBooking">No</field>
+	</row>
+</resultset>

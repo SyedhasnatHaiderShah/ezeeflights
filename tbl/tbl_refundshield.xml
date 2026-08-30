@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM worldrix_ezeecrm.refund_shield where booking_ref='260609143754'
+LIMIT 0, 50
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="id">3513</field>
+		<field name="booking_ref">260609143754</field>
+		<field name="refund_status">NO</field>
+		<field name="refund_price">75.48</field>
+		<field name="trust_status" xsi:nil="true" />
+		<field name="trust_price" xsi:nil="true" />
+		<field name="adult_count">1</field>
+		<field name="child_count">0</field>
+		<field name="infant_count">1</field>
+		<field name="adult_price" xsi:nil="true" />
+		<field name="child_price" xsi:nil="true" />
+		<field name="infant_price" xsi:nil="true" />
+		<field name="grand_tota">754.82</field>
+		<field name="created_at">2026-06-09 14:37:56</field>
+		<field name="updated_at">2026-06-09 14:37:56</field>
+	</row>
+</resultset>

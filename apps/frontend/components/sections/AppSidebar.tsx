@@ -1,269 +1,372 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import type { Route } from "next";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
-import { useSidebarStore } from "@/lib/store/sidebar-store";
-import { Button } from "@/components/ui/button";
 import {
-  Plane,
-  Building2,
   Car,
-  PackageOpen,
-  Map,
-  User,
-  CalendarDays,
+  CircleHelp,
+  Compass,
+  Gift,
+  HandHelping,
   Heart,
+  Home,
+  Hotel,
+  MapPinned,
+  PanelLeftClose,
+  Plane,
+  Shield,
+  Sparkles,
+  Ticket,
+  User,
+  Wallet,
+  LayoutDashboard,
+  LogIn,
+  LogOut,
   Moon,
   Sun,
-  Globe,
-  DollarSign,
-  HelpCircle,
-  Phone,
-  X
 } from "lucide-react";
 import EzeeFlightsLogo from "@/components/ezee-flights-logo";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useSidebarStore } from "@/lib/store/sidebar-store";
+import { usePageScroll } from "@/lib/hooks/use-page-scroll";
+import { useAuthSession } from "@/lib/hooks/use-auth-session";
+import { useAuthModalStore } from "@/lib/store/use-auth-modal-store";
+import { logoutRequest } from "@/lib/api/auth-api";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
-interface NavigationItem {
-  title: string;
-  url: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
-
-interface NavigationGroup {
-  label: string;
-  items: NavigationItem[];
-}
-
-const NAVIGATION_GROUPS: NavigationGroup[] = [
-  {
-    label: "Explore",
-    items: [
-      { title: "Flights", url: "/flights", icon: Plane },
-      { title: "Stays", url: "/stays", icon: Building2 },
-      { title: "Cars", url: "/cars", icon: Car },
-      { title: "Packages", url: "/packages", icon: PackageOpen },
-      { title: "Destinations", url: "/destinations", icon: Map },
-    ],
-  },
-  {
-    label: "Account",
-    items: [
-      { title: "Sign in / Profile", url: "/profile", icon: User },
-      { title: "My Trips", url: "/trips", icon: CalendarDays },
-      { title: "Saved", url: "/saved", icon: Heart },
-    ],
-  },
-  {
-    label: "Preferences",
-    items: [
-      { title: "Currency", url: "?config=currency", icon: DollarSign },
-      { title: "Language", url: "?config=language", icon: Globe },
-    ],
-  },
-  {
-    label: "Support",
-    items: [
-      { title: "Help Center", url: "/help", icon: HelpCircle },
-      { title: "Contact Us", url: "/contact", icon: Phone },
-    ],
-  },
-];
+import { NAVIGATION_GROUPS } from "@/lib/navigation";
+import { FOOTER_LINK_SECTIONS } from "@/lib/footer-links";
+import { CollapsibleLinkSections } from "@/components/shared/CollapsibleLinkSections";
 
 export function AppSidebar() {
-  const { isOpen, close, open } = useSidebarStore();
-  const currentPath = usePathname();
+  const { t } = useTranslation();
+  const pathname = usePathname();
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
+  const { isOpen, close, open } = useSidebarStore();
+  const { data: session } = useAuthSession();
+  const openAuthModal = useAuthModalStore((state) => state.open);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = React.useState(false);
+  const queryClient = useQueryClient();
+
+  const handleLogout = async () => {
+    await logoutRequest();
+    queryClient.invalidateQueries({ queryKey: ["auth-session"] });
+    queryClient.invalidateQueries({ queryKey: ["profile-me"] });
+    close();
+    try {
+      window.sessionStorage.setItem("auth-modal-suppress-next-open", "1");
+    } catch {}
+    const isProtected =
+      pathname.startsWith("/dashboard") ||
+      pathname.startsWith("/profile") ||
+      pathname.startsWith("/admin");
+    if (isProtected) {
+      router.push("/");
+    } else {
+      router.refresh();
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Close sidebar when escape key is pressed
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") close();
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [close]);
 
-  // Click outside to close (mobile and desktop)
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+    const onClickOutside = (event: MouseEvent) => {
+      // Only close on click outside if we are on desktop
+      if (window.innerWidth < 768) return;
+
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
         close();
       }
     };
+
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("mousedown", onClickOutside);
     }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen, close]);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [close, isOpen]);
 
-  const stagger: Variants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.04 } },
-  };
+  const userName =
+    [session?.firstName, session?.lastName].filter(Boolean).join(" ") ||
+    session?.email ||
+    t("Traveler");
+  const userInitial = (userName || "T").charAt(0).toUpperCase();
+  const isDarkMode = mounted && theme === "dark";
+  const isScrolled = usePageScroll(20);
+  const isHomepage = pathname === "/";
+  const isGlossy = isHomepage && !isScrolled;
 
-  const fadeUp: Variants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+  const navigateToRoute = React.useCallback(
+    (href: Route) => {
+      close();
+      router.push(href);
     },
-  };
+    [close, router],
+  );
 
-  const getNavClassName = (active: boolean) =>
-    active
-      ? "bg-brand-red text-white font-medium shadow-md"
-      : "text-muted-foreground hover:bg-muted/80 hover:text-foreground";
+  if (pathname?.startsWith("/auth")) {
+    return null;
+  }
 
   return (
     <>
-      {/* Mobile Backdrop */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm lg:hidden"
-            aria-hidden="true"
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Hover Trigger Zone (Desktop only) */}
-      {!isOpen && (
+      {isOpen && (
         <div
-          className="fixed left-0 top-0 bottom-0 w-3 z-50 hidden lg:block cursor-pointer bg-transparent hover:bg-gradient-to-r from-black/5 to-transparent dark:from-white/5 transition-colors"
-          onMouseEnter={open}
-          aria-label="Open sidebar"
+          className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm md:hidden"
+          onClick={close}
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar Panel */}
-      <div
+      {!isOpen && (
+        <div
+          className="fixed bottom-0 left-0 top-0 z-50 hidden w-3 cursor-pointer bg-transparent transition-colors hover:bg-gradient-to-r hover:from-black/5 hover:to-transparent md:block"
+          onMouseEnter={open}
+          aria-label={t("Open sidebar")}
+        />
+      )}
+
+      <aside
         ref={sidebarRef}
-        className={cn(
-          "fixed top-0 bottom-0 left-0 z-[70] w-[280px] bg-background/95 backdrop-blur-md border-r shadow-2xl flex flex-col",
-          "transition-transform duration-300 ease-in-out lg:duration-400",
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        )}
         onMouseLeave={() => {
-          // Only auto-close on mouse leave for desktop and if it's currently open
-          if (window.innerWidth >= 1024 && isOpen) {
+          if (window.innerWidth >= 768) {
             close();
           }
         }}
+        className={cn(
+          "fixed inset-y-0 left-0 z-[150] hidden w-fit flex-col border-r shadow-2xl transition-all duration-300 md:flex",
+          isGlossy
+            ? "bg-black/60 backdrop-blur-xl border-white/10 text-white"
+            : "bg-background border-border text-foreground",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+        )}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b h-20">
-          <Link href="/" onClick={close} className="flex gap-0.5 group shrink-0">
+        <div
+          className={cn(
+            "z-20 flex h-16 shrink-0 items-center justify-between border-b px-4 transition-all duration-300",
+            isGlossy
+              ? "bg-transparent border-white/10 text-white"
+              : "bg-background border-border",
+          )}
+        >
+          <Link href="/" onClick={close}>
             <EzeeFlightsLogo
-              isDarkMode={mounted && theme === "dark"}
-              className="w-28 h-auto"
+              isDarkMode={isGlossy || (mounted && theme === "dark")}
+              className="h-auto w-28"
             />
           </Link>
           <Button
             variant="ghost"
             size="icon"
             onClick={close}
-            className="h-8 w-8 rounded-full lg:hidden hover:bg-muted"
+            className="rounded-full md:hidden"
           >
-            <X className="h-5 w-5" />
-            <span className="sr-only">Close sidebar</span>
+            <PanelLeftClose className="h-5 w-5" />
           </Button>
         </div>
 
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 no-scrollbar">
-          <AnimatePresence mode="wait">
-            {isOpen && (
-              <motion.div
-                variants={stagger}
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-                className="space-y-6"
-              >
-                {NAVIGATION_GROUPS.map((group) => (
-                  <div key={group.label}>
-                    <motion.h4
-                      variants={fadeUp}
-                      className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3"
-                    >
-                      {group.label}
-                    </motion.h4>
-                    <motion.ul variants={stagger} className="space-y-1">
-                      {group.items.map((item) => {
-                        const isActive = currentPath === item.url;
-                        return (
-                          <motion.li key={item.title} variants={fadeUp}>
-                            <Link
-                              href={item.url as any}
-                              onClick={close}
-                              className={cn(
-                                "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
-                                getNavClassName(isActive)
-                              )}
-                            >
-                              <item.icon
-                                className={cn(
-                                  "h-5 w-5 flex-shrink-0",
-                                  isActive ? "text-white" : "text-muted-foreground"
-                                )}
-                              />
-                              <span className="text-sm font-medium">
-                                {item.title}
-                              </span>
-                            </Link>
-                          </motion.li>
-                        );
-                      })}
-                    </motion.ul>
-                  </div>
-                ))}
-
-                {/* Theme Toggle within Preferences */}
-                <motion.div variants={fadeUp} className="pt-2">
-                  <button
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-all duration-200"
-                  >
-                    <div className="flex items-center gap-3">
-                      {mounted && theme === "dark" ? (
-                        <Moon className="h-5 w-5 flex-shrink-0" />
-                      ) : (
-                        <Sun className="h-5 w-5 flex-shrink-0" />
-                      )}
-                      <span className="text-sm font-medium">Dark Mode</span>
-                    </div>
-                    {/* Visual indicator of switch state */}
-                    <div className="w-10 h-5 bg-muted rounded-full relative flex items-center px-0.5 border">
-                      <div
-                        className={cn(
-                          "w-4 h-4 rounded-full transition-all duration-300 shadow-sm",
-                          mounted && theme === "dark"
-                            ? "bg-primary translate-x-5"
-                            : "bg-background translate-x-0"
-                        )}
-                      />
-                    </div>
-                  </button>
-                </motion.div>
-              </motion.div>
+        <div className="flex-1 overflow-y-auto p-3 flex flex-col min-h-0 relative z-0">
+          <div
+            className={cn(
+              "mb-2 rounded-md border transition-all duration-300",
+              isGlossy
+                ? "border-white/10 bg-white/5 text-white p-3"
+                : "border-border/70 bg-card p-3",
             )}
-          </AnimatePresence>
+          >
+            {session ? (
+              <div className="flex items-center gap-1">
+                {/* <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-brand-red/10 font-semibold text-brand-red">
+                  {userInitial}
+                </span> */}
+                <div>
+                  <p
+                    className={cn(
+                      "text-xs font-semibold transition-all duration-300",
+                      isGlossy
+                        ? "text-white hover:bg-white/10 hover:text-white"
+                        : "text-foreground hover:bg-muted hover:text-foreground",
+                    )}
+                  >
+                    {userName}
+                  </p>
+                  {/* <span className="inline-flex rounded-full bg-brand-yellow/20 px-2 py-0.5 text-[10px] font-semibold text-foreground">
+                    Gold Member
+                  </span> */}
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  className="flex h-10 w-full items-center justify-center rounded-lg bg-brand-red px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-brand-red/90 active:scale-[0.98] cursor-pointer"
+                  onClick={() => {
+                    openAuthModal("login");
+                    close();
+                  }}
+                >
+                  <LogIn className="mr-2 h-4 w-4" />
+                  {t("Sign in")}
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-5">
+            {NAVIGATION_GROUPS.filter((g) => {
+              if (g.title === "ADMIN") {
+                return (
+                  session?.roles?.some(
+                    (role: string) => role.toLowerCase() === "admin",
+                  ) ?? false
+                );
+              }
+              return true;
+            }).map((group) => (
+              <div key={group.title}>
+                <p
+                  className={cn(
+                    "mb-2 px-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300",
+                    isGlossy ? "text-white/50" : "text-foreground",
+                  )}
+                >
+                  {t(group.title)}
+                </p>
+                <ul className="space-y-1">
+                  {group.items.map((item) => {
+                    const active =
+                      pathname === item.href ||
+                      pathname?.startsWith(`${item.href}/`);
+                    const Icon = item.icon;
+
+                    if (item.requiresAuth && !session) {
+                      return (
+                        <li key={item.href}>
+                          <button
+                            onClick={() => {
+                              openAuthModal("login");
+                              close();
+                            }}
+                            className={cn(
+                              "flex w-full items-center gap-1 rounded-lg px-3 py-2.5 text-xs font-medium transition-all duration-300",
+                              active
+                                ? "bg-brand-red/10 text-brand-red font-semibold"
+                                : isGlossy
+                                  ? "text-white hover:bg-white/10 hover:text-white"
+                                  : "text-foreground font-semibold hover:bg-muted hover:text-foreground",
+                            )}
+                          >
+                            <Icon className="h-4 w-4" />
+                            {t(item.label)}
+                          </button>
+                        </li>
+                      );
+                    }
+
+                    return (
+                      <li key={item.href}>
+                        <button
+                          type="button"
+                          onClick={() => navigateToRoute(item.href)}
+                          aria-current={active ? "page" : undefined}
+                          className={cn(
+                            "flex w-full items-center gap-5 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-all duration-300",
+                            active
+                              ? "bg-brand-red/10 text-brand-red font-semibold"
+                              : isGlossy
+                                ? "text-white hover:bg-white/10 hover:text-white"
+                                : "text-foreground font-semibold hover:bg-muted hover:text-foreground",
+                          )}
+                        >
+                          <Icon className="h-4 w-4" />
+                          {t(item.label)}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+
+            {/* <div
+              className={cn(
+                "space-y-2 border-t pt-4",
+                isGlossy ? "border-white/10" : "border-border/60",
+              )}
+            >
+              <CollapsibleLinkSections
+                sections={FOOTER_LINK_SECTIONS}
+                onLinkClick={close}
+              />
+            </div> */}
+
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className={cn(
+                "flex w-full items-center justify-start gap-5 rounded-lg px-3 py-2.5 text-xs font-medium transition-all duration-300",
+                isGlossy
+                  ? "text-white hover:bg-white/10 hover:text-white"
+                  : "text-foreground font-semibold hover:bg-muted hover:text-foreground",
+              )}
+            >
+              <span className="flex items-center gap-1">
+                {isDarkMode ? (
+                  <Moon className="h-4 w-4" />
+                ) : (
+                  <Sun className="h-4 w-4" />
+                )}
+                {/* {t("Theme")} */}
+              </span>
+              <span className="text-xs">
+                {mounted ? (isDarkMode ? t("Dark") : t("Light")) : t("Theme")}
+              </span>
+            </button>
+          </div>
         </div>
-      </div>
+
+        {session && (
+          <div
+            className={cn(
+              "z-20 mt-auto shrink-0 border-t p-3 transition-all duration-300",
+              isGlossy
+                ? "bg-transparent border-white/10"
+                : "bg-background border-border",
+            )}
+          >
+            <button
+              onClick={handleLogout}
+              className={cn(
+                "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-medium transition-all duration-300",
+                isGlossy
+                  ? "text-white hover:bg-white/10 hover:text-white"
+                  : "text-redmix font-semibold hover:bg-muted hover:text-foreground",
+              )}
+            >
+              <LogOut className="h-4 w-4" />
+              {t("Sign Out")}
+            </button>
+          </div>
+        )}
+      </aside>
     </>
   );
 }

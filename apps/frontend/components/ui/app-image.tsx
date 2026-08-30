@@ -39,8 +39,27 @@ export function AppImage({
   ...rest
 }: AppImageProps) {
   const [errored, setErrored] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const resolvedSrc = (errored && fallback) ? fallback : src
+  const [isLoading, setIsLoading] = useState(!priority)
+  let resolvedSrc = (errored && fallback) ? fallback : src
+
+  if (typeof resolvedSrc === "string" && resolvedSrc.includes("unsplash.com")) {
+    try {
+      const url = new URL(resolvedSrc);
+      if (width) {
+        url.searchParams.set("w", String(width));
+      } else if (fill) {
+        const currentW = url.searchParams.get("w");
+        if (!currentW || parseInt(currentW) > 1200) {
+          url.searchParams.set("w", "1200");
+        }
+      }
+      url.searchParams.set("q", "75");
+      url.searchParams.set("auto", "format");
+      resolvedSrc = url.toString();
+    } catch {
+      // fallback
+    }
+  }
 
   // When both the original src and fallback fail
   const hasReallyErrored = errored && (!fallback || (errored && resolvedSrc === fallback))
@@ -78,7 +97,7 @@ export function AppImage({
       )}
     >
       <div className={cn(
-        "absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full",
+        "absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full",
         isCompact ? "animate-shimmer-fast" : "animate-shimmer"
       )} />
     </div>

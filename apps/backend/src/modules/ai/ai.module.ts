@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { HybridEngineModule } from '../hybrid-engine/hybrid.module';
 import { AiController } from './controllers/ai.controller';
 import { AiService } from './services/ai.service';
-import { NlpSearchService } from './nlp-search.service';
-import { ConversationalAgentService } from './conversational-agent.service';
-import { PersonalizationService } from './personalization.service';
-import { FlightModule } from '../flight/flight.module';
-import { HotelModule } from '../hotel/hotel.module';
-import { PostgresClient } from '../../database/postgres.client';
+import { GeminiService } from './services/gemini.service';
+import { OpenaiService } from './services/openai.service';
 
 @Module({
-  imports: [FlightModule, HotelModule],
+  imports: [ConfigModule, HybridEngineModule],
   controllers: [AiController],
-  providers: [AiService, NlpSearchService, ConversationalAgentService, PersonalizationService, PostgresClient],
+  providers: [AiService, GeminiService, OpenaiService],
+  exports: [GeminiService, OpenaiService],
 })
 export class AiModule {}

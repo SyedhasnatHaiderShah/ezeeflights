@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { authenticator } from 'otplib';
+import { generateSecret, generateURI, verifySync } from 'otplib';
 import * as QRCode from 'qrcode';
 
 @Injectable()
 export class TwoFactorService {
   generateSecret(): string {
-    return authenticator.generateSecret();
+    return generateSecret();
   }
 
   otpauthUrl(email: string, secret: string): string {
     const issuer = process.env.TOTP_ISSUER ?? 'ezeeFlights';
-    return authenticator.keyuri(email, issuer, secret);
+    return generateURI({ issuer, label: email, secret });
   }
 
   async qrDataUrl(email: string, secret: string): Promise<string> {
@@ -19,6 +19,7 @@ export class TwoFactorService {
   }
 
   verifyTotp(secret: string, code: string): boolean {
-    return authenticator.verify({ token: code.replace(/\s/g, ''), secret });
+    const result = verifySync({ token: code.replace(/\s/g, ''), secret });
+    return result.valid;
   }
 }

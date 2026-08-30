@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <hotel:HotelSearchAvailabilityReq xmlns:hotel="http://www.travelport.com/schema/hotel_v52_0" xmlns:com="http://www.travelport.com/schema/common_v52_0" TargetBranch="P5025267">
+            <com:BillingPointOfSaleInfo OriginApplication="uAPI"/>
+            <hotel:HotelSearchLocation>
+                <hotel:HotelLocation Location="PUJ"/>
+            </hotel:HotelSearchLocation>
+            <hotel:HotelSearchModifiers ReturnAmenities="true" PreferredCurrency="USD" NumberOfAdults="2" NumberOfRooms="1" AvailableHotelsOnly="false" DistanceUnits="KM" MaxDistance="30">
+                <com:PermittedProviders>
+                    <com:Provider Code="1G"/>
+                </com:PermittedProviders>
+                <hotel:HotelRating RatingProvider="NTM"/>
+            </hotel:HotelSearchModifiers>
+            <hotel:HotelStay>
+                <hotel:CheckinDate>2026-08-01</hotel:CheckinDate>
+                <hotel:CheckoutDate>2026-08-02</hotel:CheckoutDate>
+            </hotel:HotelStay>
+        </hotel:HotelSearchAvailabilityReq>
+    </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,540 @@
+REQUEST
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+      <soapenv:Header />
+      <soapenv:Body>
+            <veh:VehicleSearchAvailabilityReq AuthorizedBy="user" ReturnAllRates="false" TargetBranch="P7054545" TraceId="trace" xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0">
+                  <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns:com="http://www.travelport.com/schema/common_v39_0" />
+                  <veh:VehicleDateLocation PickupDateTime="2017-03-31T10:00:00" PickupLocation="DXB" ReturnDateTime="2017-04-01T10:00:00" ReturnLocationType="CityCenterDowntown" />
+                  <veh:VehicleSearchModifiers PreferredCurrency="INR" />
+            </veh:VehicleSearchAvailabilityReq>
+      </soapenv:Body>
+</soapenv:Envelope>
+
+
+	RESPOSNE
+	
+	<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+      <SOAP:Body>
+            <vehicle:VehicleSearchAvailabilityRsp TraceId="trace" TransactionId="B7D7EFBC0A07643C2E347F5ED00417CF" ResponseTime="6049" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v39_0" xmlns:common_v39_0="http://www.travelport.com/schema/common_v39_0">
+                  <common_v39_0:ResponseMessage Code="0" Type="Warning" ProviderCode="1G">00 U NO RATES FOR OPTIONS SELECTED AT VENDOR LOCATION ZT-DXBT01</common_v39_0:ResponseMessage>
+                  <common_v39_0:ResponseMessage Code="0" Type="Warning" ProviderCode="1G">00 U SUPPLIER DEFINED ERROR REQUESTED CAR TYPE NOT AVAILABLE AT VENDOR LOCATION ZA-DXBT01</common_v39_0:ResponseMessage>
+                  <common_v39_0:ResponseMessage Code="0" Type="Warning" ProviderCode="1G">00 U NO RATES FOR OPTIONS SELECTED AT VENDOR LOCATION ZD-DXBT01</common_v39_0:ResponseMessage>
+                  <common_v39_0:ResponseMessage Code="0" Type="Warning" ProviderCode="1G">00 U SUPPLIER DEFINED ERROR FOR RENTERS UNDER 25 YRS OF AGE SEE KEYWO FOR VENDOR ZE</common_v39_0:ResponseMessage>
+                  <common_v39_0:ResponseMessage Code="0" Type="Warning" ProviderCode="1G">00 U NO RATES FOR OPTIONS SELECTED AT VENDOR LOCATION ZL-DXBT02</common_v39_0:ResponseMessage>
+                  <common_v39_0:ResponseMessage Code="0" Type="Warning" ProviderCode="1G">0 NO RATES FOR OPTIONS SELECTED AT VENDOR LOCATION AL-DXBT72</common_v39_0:ResponseMessage>
+                  <common_v39_0:NextResultReference ProviderCode="1G">4740341849</common_v39_0:NextResultReference>
+                  <vehicle:VehicleDateLocation PickupDateTime="2017-03-31T10:00:00.000+04:00" PickupLocation="DXB" ReturnDateTime="2017-04-01T10:00:00.000+04:00">
+                        <vehicle:VendorLocation ProviderCode="1G" VendorCode="SX" VendorLocationID="01" Key="vB1J0q8Q2BKAOdTOAAAAAA==" LocationType="Terminal" LocationCode="DXB" Type="Pickup" />
+                  </vehicle:VehicleDateLocation>
+                  <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Economy" Category="Car" DoorCount="FourToFiveDoors" Location="COUNTER IS IN TERMINAL - WALK TO CAR" CounterLocationCode="TERM" VendorLocationKey="vB1J0q8Q2BKAOdTOAAAAAA==" AcrissVehicleCode="EDAR" ReturnAtPickup="false">
+                        <vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="I" RateAvailability="Available" RateCode="5IU" RateCategory="Standard" RentalRestriction="true" RateQualifierInd="2">
+                              <vehicle:ApproximateRate RateForPeriod="INR2519.78" BaseRate="INR2519.78" EstimatedTotalAmount="INR3427.76" ExtraMileageCharge="INR0.00" />
+                              <vehicle:VehicleRateDescription>
+                                    <vehicle:Text>FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY</vehicle:Text>
+                              </vehicle:VehicleRateDescription>
+                              <vehicle:RateHostIndicator InventoryToken="0" RateToken="4740341849" />
+                              <vehicle:RateInclusions>
+                                    <vehicle:IncludedItem Code="447" Description="YOUNG DRIVER SURCHAR" />
+                                    <vehicle:IncludedItem Code="018" Description="CARGO BARRIER BACK" />
+                                    <vehicle:IncludedItem Code="019" Description="CARGO BARRIER FRONT" />
+                                    <vehicle:IncludedItem Code="021" Description="CRUISE CONTROL " />
+                              </vehicle:RateInclusions>
+                        </vehicle:VehicleRate>
+                  </vehicle:Vehicle>
+                  <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Standard" Category="Car" DoorCount="FourToFiveDoors" Location="COUNTER IS IN TERMINAL - WALK TO CAR" CounterLocationCode="TERM" VendorLocationKey="vB1J0q8Q2BKAOdTOAAAAAA==" AcrissVehicleCode="SDAR" ReturnAtPickup="false">
+                        <vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="I" RateAvailability="Available" RateCode="6IU" RateCategory="Standard" RentalRestriction="true" RateQualifierInd="2">
+                              <vehicle:ApproximateRate RateForPeriod="INR3076.84" BaseRate="INR3076.84" EstimatedTotalAmount="INR3984.82" ExtraMileageCharge="INR0.00" />
+                              <vehicle:VehicleRateDescription>
+                                    <vehicle:Text>FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY</vehicle:Text>
+                              </vehicle:VehicleRateDescription>
+                              <vehicle:RateHostIndicator InventoryToken="1" RateToken="4740341849" />
+                              <vehicle:RateInclusions>
+                                    <vehicle:IncludedItem Code="447" Description="YOUNG DRIVER SURCHAR" />
+                                    <vehicle:IncludedItem Code="018" Description="CARGO BARRIER BACK" />
+                                    <vehicle:IncludedItem Code="019" Description="CARGO BARRIER FRONT" />
+                                    <vehicle:IncludedItem Code="021" Description="CRUISE CONTROL " />
+                              </vehicle:RateInclusions>
+                        </vehicle:VehicleRate>
+                  </vehicle:Vehicle>
+                  <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Intermediate" Category="Car" DoorCount="FourToFiveDoors" Location="COUNTER IS IN TERMINAL - WALK TO CAR" CounterLocationCode="TERM" VendorLocationKey="vB1J0q8Q2BKAOdTOAAAAAA==" AcrissVehicleCode="IDAR" ReturnAtPickup="false">
+                        <vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="I" RateAvailability="Available" RateCode="2IU" RateCategory="Standard" RentalRestriction="true" RateQualifierInd="2">
+                              <vehicle:ApproximateRate RateForPeriod="INR5410.50" BaseRate="INR5410.50" EstimatedTotalAmount="INR6318.48" ExtraMileageCharge="INR0.00" />
+                              <vehicle:VehicleRateDescription>
+                                    <vehicle:Text>FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY</vehicle:Text>
+                              </vehicle:VehicleRateDescription>
+                              <vehicle:RateHostIndicator InventoryToken="2" RateToken="4740341849" />
+                              <vehicle:RateInclusions>
+                                    <vehicle:IncludedItem Code="447" Description="YOUNG DRIVER SURCHAR" />
+                                    <vehicle:IncludedItem Code="018" Description="CARGO BARRIER BACK" />
+                                    <vehicle:IncludedItem Code="019" Description="CARGO BARRIER FRONT" />
+                                    <vehicle:IncludedItem Code="021" Description="CRUISE CONTROL " />
+                              </vehicle:RateInclusions>
+                        </vehicle:VehicleRate>
+                  </vehicle:Vehicle>
+                  <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Fullsize" Category="Car" DoorCount="FourToFiveDoors" Location="COUNTER IS IN TERMINAL - WALK TO CAR" CounterLocationCode="TERM" VendorLocationKey="vB1J0q8Q2BKAOdTOAAAAAA==" AcrissVehicleCode="FDAR" ReturnAtPickup="false">
+                        <vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="I" RateAvailability="Available" RateCode="2IU" RateCategory="Standard" RentalRestriction="true" RateQualifierInd="2">
+                              <vehicle:ApproximateRate RateForPeriod="INR6048.29" BaseRate="INR6048.29" EstimatedTotalAmount="INR6956.26" ExtraMileageCharge="INR0.00" />
+                              <vehicle:VehicleRateDescription>
+                                    <vehicle:Text>FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY</vehicle:Text>
+                              </vehicle:VehicleRateDescription>
+                              <vehicle:RateHostIndicator InventoryToken="3" RateToken="4740341849" />
+                              <vehicle:RateInclusions>
+                                    <vehicle:IncludedItem Code="447" Description="YOUNG DRIVER SURCHAR" />
+                                    <vehicle:IncludedItem Code="018" Description="CARGO BARRIER BACK" />
+                                    <vehicle:IncludedItem Code="019" Description="CARGO BARRIER FRONT" />
+                                    <vehicle:IncludedItem Code="021" Description="CRUISE CONTROL " />
+                              </vehicle:RateInclusions>
+                        </vehicle:VehicleRate>
+                  </vehicle:Vehicle>
+                  <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Luxury" Category="Car" DoorCount="FourToFiveDoors" Location="COUNTER IS IN TERMINAL - WALK TO CAR" CounterLocationCode="TERM" VendorLocationKey="vB1J0q8Q2BKAOdTOAAAAAA==" AcrissVehicleCode="LDAR" ReturnAtPickup="false">
+                        <vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="I" RateAvailability="Available" RateCode="ILY" RateCategory="Standard" RentalRestriction="true" RateQualifierInd="2">
+                              <vehicle:ApproximateRate RateForPeriod="INR9081.10" BaseRate="INR9081.10" EstimatedTotalAmount="INR9989.75" ExtraMileageCharge="INR0.00" />
+                              <vehicle:VehicleRateDescription>
+                                    <vehicle:Text>FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY</vehicle:Text>
+                              </vehicle:VehicleRateDescription>
+                              <vehicle:RateHostIndicator InventoryToken="4" RateToken="4740341849" />
+                              <vehicle:RateInclusions>
+                                    <vehicle:IncludedItem Code="447" Description="YOUNG DRIVER SURCHAR" />
+                                    <vehicle:IncludedItem Code="018" Description="CARGO BARRIER BACK" />
+                                    <vehicle:IncludedItem Code="019" Description="CARGO BARRIER FRONT" />
+                                    <vehicle:IncludedItem Code="021" Description="CRUISE CONTROL " />
+                              </vehicle:RateInclusions>
+                        </vehicle:VehicleRate>
+                  </vehicle:Vehicle>
+                  <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Premium" Category="SUV" Location="COUNTER IS IN TERMINAL - WALK TO CAR" CounterLocationCode="TERM" VendorLocationKey="vB1J0q8Q2BKAOdTOAAAAAA==" AcrissVehicleCode="PFAR" ReturnAtPickup="false">
+                        <vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="I" RateAvailability="Available" RateCode="1IR" RateCategory="Standard" RentalRestriction="true" RateQualifierInd="2">
+                              <vehicle:ApproximateRate RateForPeriod="INR9535.43" BaseRate="INR9535.43" EstimatedTotalAmount="INR10443.40" ExtraMileageCharge="INR0.00" />
+                              <vehicle:VehicleRateDescription>
+                                    <vehicle:Text>FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY</vehicle:Text>
+                              </vehicle:VehicleRateDescription>
+                              <vehicle:RateHostIndicator InventoryToken="5" RateToken="4740341849" />
+                              <vehicle:RateInclusions>
+                                    <vehicle:IncludedItem Code="447" Description="YOUNG DRIVER SURCHAR" />
+                                    <vehicle:IncludedItem Code="018" Description="CARGO BARRIER BACK" />
+                                    <vehicle:IncludedItem Code="019" Description="CARGO BARRIER FRONT" />
+                                    <vehicle:IncludedItem Code="021" Description="CRUISE CONTROL " />
+                              </vehicle:RateInclusions>
+                        </vehicle:VehicleRate>
+                  </vehicle:Vehicle>
+                  <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Fullsize" Category="Van" Location="COUNTER IS IN TERMINAL - WALK TO CAR" CounterLocationCode="TERM" VendorLocationKey="vB1J0q8Q2BKAOdTOAAAAAA==" AcrissVehicleCode="FVAR" ReturnAtPickup="false">
+                        <vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="I" RateAvailability="Available" RateCode="7IU" RateCategory="Standard" RentalRestriction="true" RateQualifierInd="2">
+                              <vehicle:ApproximateRate RateForPeriod="INR10448.07" BaseRate="INR10448.07" EstimatedTotalAmount="INR11356.05" ExtraMileageCharge="INR0.00" />
+                              <vehicle:VehicleRateDescription>
+                                    <vehicle:Text>FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY</vehicle:Text>
+                              </vehicle:VehicleRateDescription>
+                              <vehicle:RateHostIndicator InventoryToken="6" RateToken="4740341849" />
+                              <vehicle:RateInclusions>
+                                    <vehicle:IncludedItem Code="447" Description="YOUNG DRIVER SURCHAR" />
+                                    <vehicle:IncludedItem Code="018" Description="CARGO BARRIER BACK" />
+                                    <vehicle:IncludedItem Code="019" Description="CARGO BARRIER FRONT" />
+                                    <vehicle:IncludedItem Code="021" Description="CRUISE CONTROL " />
+                              </vehicle:RateInclusions>
+                        </vehicle:VehicleRate>
+                  </vehicle:Vehicle>
+                  <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Premium" Category="Convertible" Location="COUNTER IS IN TERMINAL - WALK TO CAR" CounterLocationCode="TERM" VendorLocationKey="vB1J0q8Q2BKAOdTOAAAAAA==" AcrissVehicleCode="PTAR" ReturnAtPickup="false">
+                        <vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="I" RateAvailability="Call" RateCode="5IU" RateCategory="Standard" RentalRestriction="true" RateQualifierInd="2">
+                              <vehicle:ApproximateRate RateForPeriod="INR10693.58" BaseRate="INR10693.58" EstimatedTotalAmount="INR11601.56" ExtraMileageCharge="INR0.00" />
+                              <vehicle:VehicleRateDescription>
+                                    <vehicle:Text>FULLY QUALIFIED IA RATES - ADDITONAL DROP CHARGE MAY APPLY</vehicle:Text>
+                              </vehicle:VehicleRateDescription>
+                              <vehicle:RateHostIndicator InventoryToken="7" RateToken="4740341849" />
+                              <vehicle:RateInclusions>
+                                    <vehicle:IncludedItem Code="447" Description="YOUNG DRIVER SURCHAR" />
+                                    <vehicle:IncludedItem Code="018" Description="CARGO BARRIER BACK" />
+                                    <vehicle:IncludedItem Code="019" Description="CARGO BARRIER FRONT" />
+                                    <vehicle:IncludedItem Code="021" Description="CRUISE CONTROL " />
+                              </vehicle:RateInclusions>
+                        </vehicle:VehicleRate>
+                  </vehicle:Vehicle>
+            </vehicle:VehicleSearchAvailabilityRsp>
+      </SOAP:Body>
+</SOAP:Envelope>
+
+REQUEST
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+      <soapenv:Header />
+      <soapenv:Body>
+            <veh:VehicleLocationDetailReq AuthorizedBy="user" TargetBranch="P7054545" TraceId="trace" xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0">
+                  <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns:com="http://www.travelport.com/schema/common_v39_0" />
+                  <veh:Vendor Code="SX" />
+                  <veh:VehicleDateLocation PickupDateTime="2017-03-31T10:00:00" PickupLocation="DXB" ReturnDateTime="2017-04-01T10:00:00" ReturnLocationType="CityCenterDowntown">
+                        <veh:VendorLocation Key="vB1J0q8Q2BKAOdTOAAAAAA==" ProviderCode="1G" VendorCode="SX" VendorLocationID="01" />
+                  </veh:VehicleDateLocation>
+            </veh:VehicleLocationDetailReq>
+      </soapenv:Body>
+</soapenv:Envelope>
+
+RESPONSE
+
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+      <SOAP:Body>
+            <vehicle:VehicleLocationDetailRsp TraceId="trace" TransactionId="B7D84E910A07643C2E347F5EF7ADDB07" ResponseTime="117" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v39_0" xmlns:common_v39_0="http://www.travelport.com/schema/common_v39_0">
+                  <common_v39_0:ResponseMessage Code="0" Type="Warning" ProviderCode="1G">The requested modifier - ReturnDateTime is ignored for this provider.</common_v39_0:ResponseMessage>
+                  <vehicle:VendorInfo Code="SX" />
+                  <vehicle:LocationInfo Name="DUBAI INTL ARPT" CounterLocation="TERMINAL">
+                        <common_v39_0:LocationAddress>
+                              <common_v39_0:Street>DUBAI INT. AIRPORT</common_v39_0:Street>
+                              <common_v39_0:City>DUBAI INTL ARPT</common_v39_0:City>
+                        </common_v39_0:LocationAddress>
+                        <common_v39_0:PhoneNumber Type="Business" Number="00971 42200777" />
+                        <vehicle:OperationTime>MON-SUN 0001-2359</vehicle:OperationTime>
+                  </vehicle:LocationInfo>
+                  <vehicle:VehiclePolicy>
+                        <vehicle:VehicleDisclaimer Type="Vehicles" Description="CAR/VEHICLE TYPES" SubType="" />
+                        <vehicle:VehicleDetail Code="EDAR" PassengerCount="5" NumberOfDoors="5" Class="Economy" Category="Car" AirConditioning="true" Transmission="Automatic" MakeModel="MAZDA 2 AUT" AcrissVehicleCode="EDAR" />
+                        <vehicle:VehicleDetail Code="IDAR" PassengerCount="5" NumberOfDoors="4" Class="Intermediate" Category="Car" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ A-CLASS AUT" AcrissVehicleCode="IDAR" />
+                        <vehicle:VehicleDetail Code="ISAR" PassengerCount="5" NumberOfDoors="4" Class="Intermediate" Category="Sport" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ CLA" AcrissVehicleCode="ISAR" />
+                        <vehicle:VehicleDetail Code="SDAR" PassengerCount="5" NumberOfDoors="5" Class="Standard" Category="Car" AirConditioning="true" Transmission="Automatic" MakeModel="VW JETTA" AcrissVehicleCode="SDAR" />
+                        <vehicle:VehicleDetail Code="FDAR" PassengerCount="5" NumberOfDoors="4" Class="Fullsize" Category="Car" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ C-CLASS SALOON A" AcrissVehicleCode="FDAR" />
+                        <vehicle:VehicleDetail Code="FVAR" PassengerCount="7" NumberOfDoors="4" Class="Fullsize" Category="Van" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ VIANO AUT" AcrissVehicleCode="FVAR" />
+                        <vehicle:VehicleDetail Code="PDAR" PassengerCount="5" NumberOfDoors="4" Class="Premium" Category="Car" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ E-200 SALOON" AcrissVehicleCode="PDAR" />
+                        <vehicle:VehicleDetail Code="PTAR" PassengerCount="2" NumberOfDoors="2" Class="Premium" Category="Convertible" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ SLK 200 CABRIO A" AcrissVehicleCode="PTAR" />
+                        <vehicle:VehicleDetail Code="PFAR" PassengerCount="5" NumberOfDoors="5" Class="Premium" Category="SUV" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ GLC 250 AUT" AcrissVehicleCode="PFAR" />
+                        <vehicle:VehicleDetail Code="LDAR" PassengerCount="5" NumberOfDoors="4" Class="Luxury" Category="Car" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ E-CLASS SALOON" AcrissVehicleCode="LDAR" />
+                        <vehicle:VehicleDetail Code="LSAR" PassengerCount="5" NumberOfDoors="3" Class="Luxury" Category="Sport" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ C COUPE AUT" AcrissVehicleCode="LSAR" />
+                        <vehicle:VehicleDetail Code="LTAR" PassengerCount="4" NumberOfDoors="2" Class="Luxury" Category="Convertible" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDE-BENZ E-CLASS COUPE/CON" AcrissVehicleCode="LTAR" />
+                        <vehicle:VehicleDetail Code="LFAR" PassengerCount="5" NumberOfDoors="5" Class="Luxury" Category="SUV" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ ML" AcrissVehicleCode="LFAR" />
+                        <vehicle:VehicleDetail Code="XDAN" PassengerCount="5" NumberOfDoors="4" Class="Special" Category="Car" AirConditioning="false" Transmission="Automatic" MakeModel="MERCEDES-BENZ G-63" AcrissVehicleCode="XDAN" />
+                        <vehicle:VehicleDetail Code="XDAR" PassengerCount="5" NumberOfDoors="4" Class="Special" Category="Car" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ S-CLASS 400 AUT" AcrissVehicleCode="XDAR" />
+                        <vehicle:VehicleDetail Code="XFAR" PassengerCount="7" NumberOfDoors="5" Class="Special" Category="SUV" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDES-BENZ GL AUT" AcrissVehicleCode="XFAR" />
+                        <vehicle:VehicleDetail Code="XLAR" PassengerCount="5" NumberOfDoors="4" Class="Special" Category="Limo" AirConditioning="true" Transmission="Automatic" MakeModel="MERCEDE-BENZ S-CLASS 500 AUT" AcrissVehicleCode="XLAR" />
+                  </vehicle:VehiclePolicy>
+            </vehicle:VehicleLocationDetailRsp>
+      </SOAP:Body>
+</SOAP:Envelope>
+
+REQUEST
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+      <soapenv:Header />
+      <soapenv:Body>
+            <veh:VehicleKeywordReq AuthorizedBy="user" KeywordList="true" TargetBranch="P7054545" TraceId="trace" xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0">
+                  <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns:com="http://www.travelport.com/schema/common_v39_0" />
+                  <veh:Vendor Code="SX" />
+                  <veh:PickupDateLocation Date="2017-03-31" />
+            </veh:VehicleKeywordReq>
+      </soapenv:Body>
+</soapenv:Envelope>
+
+RESPOSNE
+
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+      <SOAP:Body>
+            <vehicle:VehicleKeywordRsp TraceId="trace" TransactionId="B7D859F00A07643C2E347F5ED77E3E0B" ResponseTime="119" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v39_0" xmlns:common_v39_0="http://www.travelport.com/schema/common_v39_0">
+                  <common_v39_0:Keyword Name="COMM" Number="15" Description="COMMISSION AGENTS" />
+                  <common_v39_0:Keyword Name="POLY" Number="25" Description="POLICIES/RQIRMENTS" />
+                  <common_v39_0:Keyword Name="CLUB" Number="33" Description="CLUB/MEMBERSHIP" />
+                  <common_v39_0:Keyword Name="CONT" Number="34" Description="CONTACTS" />
+                  <common_v39_0:Keyword Name="HELP" Number="46" Description="HOW TO BOOK-HELP" />
+                  <common_v39_0:Keyword Name="TITLE" Number="55" Description="VNDR OFFICIAL NAME" />
+            </vehicle:VehicleKeywordRsp>
+      </SOAP:Body>
+</SOAP:Envelope>
+
+
+REQUEST
+
+<VehicleKeywordReq AuthorizedBy="user" KeywordList="false" TargetBranch="P7054545" TraceId="trace">
+      <BillingPointOfSaleInfo OriginApplication="UAPI" />
+      <Vendor Code="SX" />
+      <PickupDateLocation Date="2017-03-31" Location="DXB" />
+      <Keyword Description="COMMISSION AGENTS" Name="COMM" Number="15" />
+      <Keyword Description="POLICIES/RQIRMENTS" Name="POLY" Number="25" />
+      <Keyword Description="CLUB/MEMBERSHIP" Name="CLUB" Number="33" />
+</VehicleKeywordReq>
+
+RESPONSE
+
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+      <SOAP:Body>
+            <vehicle:VehicleKeywordRsp TraceId="trace" TransactionId="B7D85F860A0764788F08332EF36D58C1" ResponseTime="124" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v39_0" xmlns:common_v39_0="http://www.travelport.com/schema/common_v39_0">
+                  <common_v39_0:Keyword Name="COMM" Number="15" Description="COMMISSION AGENTS">
+                        <common_v39_0:Text>****** TRAVEL AGENCY INFORMATION ******</common_v39_0:Text>
+                        <common_v39_0:Text>APPLICABLE AGENCY COMMISSIONS ARE PAID ON EVERY BOOKING</common_v39_0:Text>
+                        <common_v39_0:Text>SPECIAL AGENT RATES ARE AVAILABLE WITH THE</common_v39_0:Text>
+                        <common_v39_0:Text>CD NUMBER: CD-SX791140</common_v39_0:Text>
+                        <common_v39_0:Text>FOR MORE INFO PLEASE CONTACT OUR TRAVEL TRADE</common_v39_0:Text>
+                        <common_v39_0:Text>DEPARTMENT:  ++49 1806 25 9999    PHONE</common_v39_0:Text>
+                        <common_v39_0:Text>++49 381 8070 5034   FAX</common_v39_0:Text>
+                        <common_v39_0:Text>GDS SIXT.COM         EMAIL</common_v39_0:Text>
+                  </common_v39_0:Keyword>
+                  <common_v39_0:Keyword Name="POLY" Number="25" Description="POLICIES/RQIRMENTS">
+                        <common_v39_0:Text>************** SIXT CAR LOCATION POLICY ***************</common_v39_0:Text>
+                        <common_v39_0:Text>IF YOU ARE LOOKING FOR THE SIXT CAR LOCATION POLICY</common_v39_0:Text>
+                        <common_v39_0:Text>PLEASE ENTER:</common_v39_0:Text>
+                        <common_v39_0:Text>CADSXXYZ</common_v39_0:Text>
+                        <common_v39_0:Text>CAD : CAR DESCRIPTION INFORMATION</common_v39_0:Text>
+                        <common_v39_0:Text>SX  : SIXT RENT A CAR</common_v39_0:Text>
+                        <common_v39_0:Text>XYZ : 3 LETTER CODE OF A LOCATION</common_v39_0:Text>
+                  </common_v39_0:Keyword>
+                  <common_v39_0:Keyword Name="CLUB" Number="33" Description="CLUB/MEMBERSHIP">
+                        <common_v39_0:Text>-------------------------------------------------------</common_v39_0:Text>
+                        <common_v39_0:Text>We offer a list of all cooperating Airline Partners</common_v39_0:Text>
+                        <common_v39_0:Text>below:</common_v39_0:Text>
+                        <common_v39_0:Text>-------------------------------------------------------</common_v39_0:Text>
+                        <common_v39_0:Text>Aeromexico</common_v39_0:Text>
+                        <common_v39_0:Text>Aigle Azur - Azur Plus</common_v39_0:Text>
+                        <common_v39_0:Text>AirBaltic - PINS</common_v39_0:Text>
+                        <common_v39_0:Text>Airberlin - topbonus</common_v39_0:Text>
+                        <common_v39_0:Text>Air Dolomiti - Miles and More</common_v39_0:Text>
+                        <common_v39_0:Text>Air France - Flying Blue</common_v39_0:Text>
+                        <common_v39_0:Text>Airmalta - Flypass</common_v39_0:Text>
+                        <common_v39_0:Text>Air Mauritius</common_v39_0:Text>
+                        <common_v39_0:Text>Alitalia - Mille Miglia</common_v39_0:Text>
+                        <common_v39_0:Text>Austrian - Miles and More</common_v39_0:Text>
+                        <common_v39_0:Text>Avianca - Life Miles</common_v39_0:Text>
+                        <common_v39_0:Text>Belavia Belarusian Airlines</common_v39_0:Text>
+                        <common_v39_0:Text>Bulgaria Air</common_v39_0:Text>
+                        <common_v39_0:Text>Carpatair Airlines</common_v39_0:Text>
+                        <common_v39_0:Text>China Airline - Dynasty Flyer</common_v39_0:Text>
+                        <common_v39_0:Text>Croatia Airlines - Miles and More</common_v39_0:Text>
+                        <common_v39_0:Text>Cyprus Airways</common_v39_0:Text>
+                        <common_v39_0:Text>Czech Airlines CSA - OK Plus</common_v39_0:Text>
+                        <common_v39_0:Text>Delta Skymiles</common_v39_0:Text>
+                        <common_v39_0:Text>Egyptair</common_v39_0:Text>
+                        <common_v39_0:Text>El AL - Matmid Frequent Flyer Club</common_v39_0:Text>
+                        <common_v39_0:Text>Emirates - Skywards</common_v39_0:Text>
+                        <common_v39_0:Text>Etihad Airways - Etihad Guest</common_v39_0:Text>
+                        <common_v39_0:Text>Ethiopian Airlines</common_v39_0:Text>
+                        <common_v39_0:Text>Finnair</common_v39_0:Text>
+                        <common_v39_0:Text>Germanwings - Boomerang Club</common_v39_0:Text>
+                        <common_v39_0:Text>Linhas Aeras inteligentes - GOL</common_v39_0:Text>
+                        <common_v39_0:Text>Gulf Air</common_v39_0:Text>
+                        <common_v39_0:Text>Iberia - Iberia Plus</common_v39_0:Text>
+                        <common_v39_0:Text>Icelandair - SAGA Club</common_v39_0:Text>
+                        <common_v39_0:Text>Kingfisher Airline - King Club</common_v39_0:Text>
+                        <common_v39_0:Text>KLM - Flying Blue</common_v39_0:Text>
+                        <common_v39_0:Text>Kuwait Airways - Oasis Club</common_v39_0:Text>
+                        <common_v39_0:Text>Lufthansa - Miles and More</common_v39_0:Text>
+                        <common_v39_0:Text>MEA- Middle East Airlines</common_v39_0:Text>
+                        <common_v39_0:Text>Montenegro Airlines</common_v39_0:Text>
+                        <common_v39_0:Text>Multiplus and TAM Fidelidade</common_v39_0:Text>
+                        <common_v39_0:Text>Oman Air - Sindbad</common_v39_0:Text>
+                        <common_v39_0:Text>Qatar Airways- Privilege Club</common_v39_0:Text>
+                        <common_v39_0:Text>Royal Air Maroc</common_v39_0:Text>
+                        <common_v39_0:Text>Royal Jordanian</common_v39_0:Text>
+                        <common_v39_0:Text>Saudia - Alfursan</common_v39_0:Text>
+                        <common_v39_0:Text>S7 Airlines - S7 Priority</common_v39_0:Text>
+                        <common_v39_0:Text>SAS Scandinavian Airlines - Euro Bonus</common_v39_0:Text>
+                        <common_v39_0:Text>SATA - Imagine</common_v39_0:Text>
+                        <common_v39_0:Text>Sun Express</common_v39_0:Text>
+                        <common_v39_0:Text>Singapore Airlines - Krisflyer</common_v39_0:Text>
+                        <common_v39_0:Text>TAP Portugal - Victoria</common_v39_0:Text>
+                        <common_v39_0:Text>Transaero - Privilege</common_v39_0:Text>
+                        <common_v39_0:Text>Tunisair - Fidelys</common_v39_0:Text>
+                        <common_v39_0:Text>Turkish Airlines - Miles and Smiles</common_v39_0:Text>
+                        <common_v39_0:Text>UIA Ukraine INternational Airlines - Panorama Club</common_v39_0:Text>
+                        <common_v39_0:Text>United Airlines, Continental and Copa - Mileage Plus</common_v39_0:Text>
+                        <common_v39_0:Text>Ural Airlines</common_v39_0:Text>
+                        <common_v39_0:Text>US Airways - Dividend Miles</common_v39_0:Text>
+                        <common_v39_0:Text>Virgin America - Elevate</common_v39_0:Text>
+                        <common_v39_0:Text>Virgin Atlantic - Flying Club</common_v39_0:Text>
+                  </common_v39_0:Keyword>
+            </vehicle:VehicleKeywordRsp>
+      </SOAP:Body>
+</SOAP:Envelope>
+
+REQUEST
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+      <soapenv:Header />
+      <soapenv:Body>
+            <veh:VehicleMediaLinksReq AuthorizedBy="user" TargetBranch="P7054545" TraceId="trace" xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0">
+                  <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns:com="http://www.travelport.com/schema/common_v39_0" />
+                  <veh:VehiclePickupLocation PickUpLocation="DXB">
+                        <veh:Vendor Code="SX" />
+                        <veh:VehicleModifier AirConditioning="true" Category="Car" DoorCount="FourToFiveDoors" TransmissionType="Automatic" VehicleClass="Economy" />
+                  </veh:VehiclePickupLocation>
+            </veh:VehicleMediaLinksReq>
+      </soapenv:Body>
+</soapenv:Envelope>
+
+RESPONSE
+
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+      <SOAP:Body>
+            <vehicle:VehicleMediaLinksRsp TraceId="trace" TransactionId="B7D864B90A076477ABE1460743CA5BE6" ResponseTime="78" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v39_0" xmlns:common_v39_0="http://www.travelport.com/schema/common_v39_0">
+                  <vehicle:VehicleWithMediaItems>
+                        <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Economy" Category="Car" DoorCount="FourToFiveDoors" AcrissVehicleCode="EDAR">
+                              <vehicle:VehicleRate RatePeriod="Other">
+                                    <vehicle:SupplierRate RateForPeriod="USD0.00" ExtraMileageCharge="USD0.00" />
+                              </vehicle:VehicleRate>
+                        </vehicle:Vehicle>
+                        <common_v39_0:MediaItem url="http://images.travelport.com/images/car/SX/AE/SXAEEDAR999W200.jpg" sizeCode="S" />
+                  </vehicle:VehicleWithMediaItems>
+            </vehicle:VehicleMediaLinksRsp>
+      </SOAP:Body>
+</SOAP:Envelope>
+
+REQUEST
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+      <soapenv:Header />
+      <soapenv:Body>
+            <veh:VehicleRulesReq AuthorizedBy="user" TargetBranch="P7054545" TraceId="trace" xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0">
+                  <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns:com="http://www.travelport.com/schema/common_v39_0" />
+                  <veh:VehicleRulesLookup>
+                        <veh:VehicleDateLocation PickupDateTime="2017-03-31T10:00:00" PickupLocation="DXB" ReturnDateTime="2017-04-01T10:00:00" ReturnLocation="DXB" />
+                        <veh:VehicleSearchModifiers RateCategory="Standard" RatePeriod="Daily">
+                              <veh:VehicleModifier AirConditioning="true" Category="Car" DoorCount="FourToFiveDoors" TransmissionType="Automatic" VehicleClass="Economy" />
+                              <veh:RateModifiers RateCode="5IU" VendorCode="SX" />
+                              <veh:RateHostIndicator InventoryToken="0" RateToken="4740341849" />
+                        </veh:VehicleSearchModifiers>
+                  </veh:VehicleRulesLookup>
+            </veh:VehicleRulesReq>
+      </soapenv:Body>
+</soapenv:Envelope>
+
+RESPONSE
+
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+      <SOAP:Body>
+            <vehicle:VehicleRulesRsp TraceId="trace" TransactionId="B7D8975F0A0764788F08332E9E16DB33" ResponseTime="361" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v39_0" xmlns:common_v39_0="http://www.travelport.com/schema/common_v39_0">
+                  <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Economy" Category="Car" DoorCount="FourToFiveDoors" AcrissVehicleCode="EDAR">
+                        <vehicle:VehicleRate RatePeriod="Daily" NumberOfPeriods="1" UnlimitedMileage="true" Units="KM" RateCode="5IU" RateCategory="Standard" AdvancedBooking="000H">
+                              <vehicle:SupplierRate RateForPeriod="AED138.75" BaseRate="AED138.75" EstimatedTotalAmount="AED188.75" DropOffCharge="AED0.00" />
+                              <vehicle:VehicleRateDescription Name="PREMIUM FIFTH">
+                                    <vehicle:Text>PickUp - ** PREMIUM FIFTH **</vehicle:Text>
+                              </vehicle:VehicleRateDescription>
+                        </vehicle:VehicleRate>
+                  </vehicle:Vehicle>
+                  <vehicle:OperationTime>Drop Off Hours OPEN: 0001 - 2359</vehicle:OperationTime>
+                  <vehicle:OperationTime>Hours of Operation OPEN: 0001 - 2359</vehicle:OperationTime>
+                  <vehicle:RentalPeriodRules>
+                        <vehicle:AbsoluteMax RentalUnit="Days" Length="365" />
+                  </vehicle:RentalPeriodRules>
+                  <vehicle:PaymentCreditCard>AE</vehicle:PaymentCreditCard>
+                  <vehicle:VehicleCharge Category="Surcharge" Name="YOUNG DRIVER SURCHAR" Type="Rental" IncludedInRate="NotIncluded">
+                        <vehicle:Amount>AED25.00</vehicle:Amount>
+                  </vehicle:VehicleCharge>
+                  <vehicle:VehicleCharge Category="Surcharge" Name="AIRPORT ACCESS FEE" Type="Rental" IncludedInRate="IncludedInTotal">
+                        <vehicle:Amount>AED50.00</vehicle:Amount>
+                  </vehicle:VehicleCharge>
+                  <vehicle:VehicleCharge Category="Coverage" Name="LDW" Type="Rental" IncludedInRate="IncludedInBase">
+                        <vehicle:Amount>AED0.00</vehicle:Amount>
+                  </vehicle:VehicleCharge>
+                  <vehicle:VehicleCharge Category="Coverage" Name="PAI" Type="Rental" IncludedInRate="NotIncluded">
+                        <vehicle:Amount>AED10.00</vehicle:Amount>
+                  </vehicle:VehicleCharge>
+                  <vehicle:VehicleCharge Category="Coverage" Name="ALI" Type="Rental" IncludedInRate="NotIncluded">
+                        <vehicle:Amount>AED40.00</vehicle:Amount>
+                  </vehicle:VehicleCharge>
+                  <common_v39_0:MarketingInformation>
+                        <common_v39_0:Text>**</common_v39_0:Text>
+                  </common_v39_0:MarketingInformation>
+            </vehicle:VehicleRulesRsp>
+      </SOAP:Body>
+</SOAP:Envelope>
+
+REQUEST
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+      <s:Header>
+            <Action s:mustUnderstand="1" xmlns="http://schemas.microsoft.com/ws/2005/05/addressing/none" />
+      </s:Header>
+      <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <univ:VehicleCreateReservationReq xmlns:univ="http://www.travelport.com/schema/universal_v39_0" xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0" AuthorizedBy="user" TargetBranch="P7054545" TraceId="trace" xmlns:com="http://www.travelport.com/schema/common_v39_0">
+                  <com:BillingPointOfSaleInfo xmlns:com="http://www.travelport.com/schema/common_v39_0" OriginApplication="UAPI" />
+                  <com:BookingTraveler xmlns:com="http://www.travelport.com/schema/common_v39_0" DOB="1993-05-19" Gender="M" Key="GAJOYrVu4hGShsrlYIhwmw==" TravelerType="ADT">
+                        <com:BookingTravelerName First="Kishan" Last="Kumar" Prefix="Mr" />
+                        <com:DeliveryInfo>
+                              <com:ShippingAddress>
+                                    <com:AddressName>Kishan</com:AddressName>
+                                    <com:Street>Bangalore</com:Street>
+                                    <com:Street>Bangalore</com:Street>
+                                    <com:City>Bangalore</com:City>
+                                    <com:State />
+                                    <com:PostalCode>576101</com:PostalCode>
+                                    <com:Country>IN</com:Country>
+                              </com:ShippingAddress>
+                        </com:DeliveryInfo>
+                        <com:PhoneNumber AreaCode="001" CountryCode="091" Key="NKPHONE" Location="DEL" Number="6564666546" Type="Home" />
+                        <com:Email EmailID="kishan@trawex.com" Key="NKMAIL" Type="Home" />
+                        <com:Address>
+                              <com:AddressName>Kishan</com:AddressName>
+                              <com:Street>Bangalore</com:Street>
+                              <com:Street>Bangalore</com:Street>
+                              <com:City>Bangalore</com:City>
+                              <com:State />
+                              <com:PostalCode>576101</com:PostalCode>
+                              <com:Country>IN</com:Country>
+                        </com:Address>
+                  </com:BookingTraveler>
+                  <veh:VehicleDateLocation xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0" PickupDateTime="2017-03-31T10:00:00.000+04:00" PickupLocation="DXB" ReturnDateTime="2017-04-01T10:00:00.000+04:00" PickupLocationType="Terminal" PickupLocationNumber="01" />
+                  <veh:Vehicle xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0" VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Economy" Category="Car" DoorCount="FourToFiveDoors" Location="COUNTER IS IN TERMINAL - WALK TO CAR" VendorLocationKey="vB1J0q8Q2BKAOdTOAAAAAA==" ReturnAtPickup="false">
+                        <veh:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RateSource="I" RateAvailability="Available" RateCode="5IU" RateCategory="Standard">
+                              <veh:ApproximateRate xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0" RateForPeriod="INR2646" BaseRate="INR2646" EstimatedTotalAmount="INR3599" ExtraMileageCharge="INR0.00" />
+                              <veh:RateHostIndicator xmlns:veh="http://www.travelport.com/schema/vehicle_v39_0" InventoryToken="0" RateToken="4740341849" />
+                        </veh:VehicleRate>
+                  </veh:Vehicle>
+                  <com:Guarantee xmlns:com="http://www.travelport.com/schema/common_v39_0" Type="Guarantee">
+                        <com:CreditCard BankCountryCode="IN" BankName="AMEX" ExpDate="2017-06" Number="373900000000000" Type="AX" />
+                  </com:Guarantee>
+            </univ:VehicleCreateReservationReq>
+      </s:Body>
+</s:Envelope>
+
+RESPONSE
+
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
+      <SOAP:Body>
+            <universal:VehicleCreateReservationRsp TraceId="trace" TransactionId="B7D96F790A076477ABE146072F268FE5" ResponseTime="5551" xmlns:universal="http://www.travelport.com/schema/universal_v39_0" xmlns:common_v39_0="http://www.travelport.com/schema/common_v39_0" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v39_0">
+                  <universal:UniversalRecord LocatorCode="MXMJ35" Version="0" Status="Active">
+                        <common_v39_0:BookingTraveler Key="GAJOYrVu4hGShsrlYIhwmw==" TravelerType="ADT" DOB="1993-05-19" Gender="M" ElStat="A">
+                              <common_v39_0:BookingTravelerName Prefix="Mr" First="Kishan" Last="Kumar" />
+                              <common_v39_0:DeliveryInfo>
+                                    <common_v39_0:ShippingAddress Key="qxLM0q3R2BKAJpfOAAAAAA==" ElStat="A">
+                                          <common_v39_0:AddressName>Kishan</common_v39_0:AddressName>
+                                          <common_v39_0:Street>Bangalore</common_v39_0:Street>
+                                          <common_v39_0:Street>Bangalore</common_v39_0:Street>
+                                          <common_v39_0:City>Bangalore</common_v39_0:City>
+                                          <common_v39_0:PostalCode>576101</common_v39_0:PostalCode>
+                                          <common_v39_0:Country>IN</common_v39_0:Country>
+                                          <common_v39_0:ProviderReservationInfoRef Key="qxLM0q3R2BKAdqfOAAAAAA==" />
+                                    </common_v39_0:ShippingAddress>
+                              </common_v39_0:DeliveryInfo>
+                              <common_v39_0:PhoneNumber Key="qxLM0q3R2BKAHpfOAAAAAA==" Type="Home" Location="DEL" CountryCode="091" Number="6564666546" AreaCode="001" ElStat="A">
+                                    <common_v39_0:ProviderReservationInfoRef Key="qxLM0q3R2BKAdqfOAAAAAA==" />
+                              </common_v39_0:PhoneNumber>
+                              <common_v39_0:Email Key="qxLM0q3R2BKAIpfOAAAAAA==" Type="Home" EmailID="kishan@trawex.com" ElStat="A">
+                                    <common_v39_0:ProviderReservationInfoRef Key="qxLM0q3R2BKAdqfOAAAAAA==" />
+                              </common_v39_0:Email>
+                              <common_v39_0:Address Key="qxLM0q3R2BKAKpfOAAAAAA==" ElStat="A">
+                                    <common_v39_0:AddressName>Kishan</common_v39_0:AddressName>
+                                    <common_v39_0:Street>Bangalore</common_v39_0:Street>
+                                    <common_v39_0:Street>Bangalore</common_v39_0:Street>
+                                    <common_v39_0:City>Bangalore</common_v39_0:City>
+                                    <common_v39_0:PostalCode>576101</common_v39_0:PostalCode>
+                                    <common_v39_0:Country>IN</common_v39_0:Country>
+                                    <common_v39_0:ProviderReservationInfoRef Key="qxLM0q3R2BKAdqfOAAAAAA==" />
+                              </common_v39_0:Address>
+                        </common_v39_0:BookingTraveler>
+                        <universal:ProviderReservationInfo Key="qxLM0q3R2BKAdqfOAAAAAA==" ProviderCode="1G" LocatorCode="KS1G08" CreateDate="2017-03-10T10:52:50.494+00:00" ModifiedDate="2017-03-10T10:52:50.494+00:00" HostCreateDate="2017-03-10" OwningPCC="5AQ4" />
+                        <vehicle:VehicleReservation SupplierCode="SX" BookingConfirmation="9841356830" LocatorCode="00T9H05Q" Status="HK" CreateDate="2017-03-10T10:52:50.486+00:00" ModifiedDate="2017-03-10T10:52:50.494+00:00" ProviderReservationInfoRef="qxLM0q3R2BKAdqfOAAAAAA==" TravelOrder="1" ProviderSegmentOrder="1">
+                              <common_v39_0:BookingTravelerRef Key="GAJOYrVu4hGShsrlYIhwmw==" />
+                              <common_v39_0:ReservationName>
+                                    <common_v39_0:BookingTravelerRef Key="GAJOYrVu4hGShsrlYIhwmw==" />
+                              </common_v39_0:ReservationName>
+                              <vehicle:VehicleDateLocation PickupDateTime="2017-03-31T10:00:00.000+04:00" PickupLocation="DXB" PickupLocationType="Terminal" PickupLocationNumber="1" ReturnDateTime="2017-04-01T10:00:00.000+04:00" />
+                              <vehicle:Vehicle VendorCode="SX" AirConditioning="true" TransmissionType="Automatic" VehicleClass="Economy" Category="Car" DoorCount="FourToFiveDoors" AcrissVehicleCode="EDAR">
+                                    <vehicle:VehicleRate RatePeriod="Daily" UnlimitedMileage="true" Units="KM" RequiredCharges="AED50.00" RateCode="5IU" RateCategory="Standard" RateGuaranteed="true" RateGuaranteeType="Rate Guaranteed">
+                                          <vehicle:SupplierRate RateForPeriod="AED138.75" EstimatedTotalAmount="AED188.75" />
+                                    </vehicle:VehicleRate>
+                              </vehicle:Vehicle>
+                              <common_v39_0:Guarantee Type="Guarantee" Key="qxLM0q3R2BKAbqfOAAAAAA==" Reusable="false" ElStat="A">
+                                    <common_v39_0:CreditCard Type="AX" Number="***********0000" ExpDate="2017-06" />
+                              </common_v39_0:Guarantee>
+                              <common_v39_0:BookingSource Type="IataNumber" Code="14346743" />
+                        </vehicle:VehicleReservation>
+                        <common_v39_0:GeneralRemark Key="qxLM0q3R2BKAaqfOAAAAAA==" Category="Vendor" TypeInGds="Vendor" SupplierType="Vehicle" ProviderReservationInfoRef="qxLM0q3R2BKAdqfOAAAAAA==" SupplierCode="SX" Direction="Incoming" CreateDate="2017-03-10T10:52:00.000+00:00" ElStat="A">
+                              <common_v39_0:RemarkData>THANK YOU FOR BOOKING SIXT *</common_v39_0:RemarkData>
+                        </common_v39_0:GeneralRemark>
+                        <common_v39_0:AgencyInfo>
+                              <common_v39_0:AgentAction ActionType="Created" AgentCode="UAPI7301356748-FEDD4DDF" BranchCode="P7054545" AgencyCode="S7054538" EventTime="2017-03-10T10:52:45.079+00:00" />
+                        </common_v39_0:AgencyInfo>
+                  </universal:UniversalRecord>
+            </universal:VehicleCreateReservationRsp>
+      </SOAP:Body>
+</SOAP:Envelope>

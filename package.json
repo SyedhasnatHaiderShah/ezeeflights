@@ -8,6 +8,31 @@
   "scripts": {
     "dev": "npm run dev -w apps/backend & npm run dev -w apps/frontend",
     "build": "npm run build -w apps/backend && npm run build -w apps/frontend",
-    "test": "npm run test -w apps/backend"
+    "test": "npm run test -w apps/backend",
+    "migrate": "npm run migrate -w apps/backend",
+    "migrate:prod": "npm run migrate:prod -w apps/backend",
+    "db:reset": "node apps/backend/scripts/reset-db.js",
+    "seed": "npm run seed -w apps/backend",
+    "seed:prod": "npm run seed:prod -w apps/backend",
+    "seed:admin": "npm run seed:admin -w apps/backend",
+    "seed:admin:prod": "npm run seed:admin:prod -w apps/backend",
+    "seed:reviews": "npm run seed -w apps/backend",
+    "seed:mock": "npm run seed:mock -w apps/backend",
+    "seed:mock:prod": "npm run seed:mock:prod -w apps/backend",
+    "send:reminder": "npm run send:reminder -w apps/backend",
+    "send:reminder:booking": "npm run send:reminder:booking -w apps/backend",
+    "send:reminder:prod": "npm run send:reminder:prod -w apps/backend",
+    "send:reminder:booking:prod": "npm run send:reminder:booking:prod -w apps/backend",
+    "cap:android": "npm run cap:android -w apps/frontend",
+    "cap:android:prod": "npm run cap:android:prod -w apps/frontend",
+    "cap:ios": "npm run cap:ios -w apps/frontend",
+    "cap:ios:prod": "npm run cap:ios:prod -w apps/frontend",
+    "cap:sync": "npm run cap:sync -w apps/frontend",
+    "cap:sync:prod": "npm run cap:sync:prod -w apps/frontend"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "xlsx": "^0.18.5"
   }
 }

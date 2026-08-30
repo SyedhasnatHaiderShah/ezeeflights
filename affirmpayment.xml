@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM worldrix_ezeecrm.affirmpayment
+LIMIT 0, 10
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="Id">1</field>
+		<field name="BookingRef">253112151847</field>
+		<field name="CheckoutToken">EZRNH9KVJK96EZUJ</field>
+		<field name="PaymentAmount">523.40</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"253112151847","CheckoutToken":"EZRNH9KVJK96EZUJ","Amount":523.4,"Currency":"USD","Phone":"+15005550006","Email":"shoaib@ezeeflights.com","FullCardResponse":"{\"created\":\"2025-12-31T09:48:59.480216\",\"checkout_token\":\"EZRNH9KVJK96EZUJ\",\"id\":\"EZRNH9KVJK96EZUJ\",\"charge_ari\":\"738I-7XPS\",\"callback_id\":\"2d43d482-9ff0-43da-a84a-e4c8e8d98e39\",\"number\":\"4111111111111111\",\"cvv\":\"123\",\"expiration\":\"0426\",\"cardholder_name\":\"AffirmInc Punit Mahor\",\"billing_address\":{\"line1\":\"650 California St.\",\"city\":\"San Francisco\",\"state\":\"CA\",\"zipcode\":\"94108\",\"line2\":\"12th Floor\"}}"}</field>
+		<field name="Phone">+15005550006</field>
+		<field name="Email">shoaib@ezeeflights.com</field>
+		<field name="PaidAt">2025-12-31 09:49:14</field>
+		<field name="CreatedAt">2025-12-31 09:49:14</field>
+		<field name="FullCardResponse">{"created":"2025-12-31T09:48:59.480216","checkout_token":"EZRNH9KVJK96EZUJ","id":"EZRNH9KVJK96EZUJ","charge_ari":"738I-7XPS","callback_id":"2d43d482-9ff0-43da-a84a-e4c8e8d98e39","number":"4111111111111111","cvv":"123","expiration":"0426","cardholder_name":"AffirmInc Punit Mahor","billing_address":{"line1":"650 California St.","city":"San Francisco","state":"CA","zipcode":"94108","line2":"12th Floor"}}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by">Tyler</field>
+		<field name="flagged_at">2025-12-31 09:58:04</field>
+		<field name="payment_review_status">success</field>
+		<field name="reviewed_by">Tyler</field>
+		<field name="reviewed_at">2025-12-31 10:04:39</field>
+	</row>
+
+	<row>
+		<field name="Id">5</field>
+		<field name="BookingRef">3a13e34deb3843fb9f61ba17ba6f226a</field>
+		<field name="CheckoutToken">FKPDA59V71S0M7NO</field>
+		<field name="PaymentAmount">1292.50</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"3a13e34deb3843fb9f61ba17ba6f226a","CheckoutToken":"FKPDA59V71S0M7NO","Amount":1292.5,"Currency":"USD","Phone":"+12404213227","Email":"AkilahFearon@gmail.com","FullCardResponse":"{\"created\":\"2026-01-15T19:04:38.047611\",\"checkout_token\":\"FKPDA59V71S0M7NO\",\"id\":\"FKPDA59V71S0M7NO\",\"charge_ari\":\"HCYI-PNJH\",\"callback_id\":\"b4aff227-eb35-4bc9-b7a2-79bd95ffbadf\",\"number\":\"4811740351758232\",\"cvv\":\"964\",\"expiration\":\"0229\",\"cardholder_name\":\"AffirmInc Akilah Fearon\",\"billing_address\":{\"line1\":\"650 California St.\",\"city\":\"San Francisco\",\"state\":\"CA\",\"zipcode\":\"94108\",\"line2\":\"12th Floor\"}}"}</field>
+		<field name="Phone">+12404213227</field>
+		<field name="Email">AkilahFearon@gmail.com</field>
+		<field name="PaidAt">2026-01-15 19:04:54</field>
+		<field name="CreatedAt">2026-01-15 19:04:54</field>
+		<field name="FullCardResponse">{"created":"2026-01-15T19:04:38.047611","checkout_token":"FKPDA59V71S0M7NO","id":"FKPDA59V71S0M7NO","charge_ari":"HCYI-PNJH","callback_id":"b4aff227-eb35-4bc9-b7a2-79bd95ffbadf","number":"4811740351758232","cvv":"964","expiration":"0229","cardholder_name":"AffirmInc Akilah Fearon","billing_address":{"line1":"650 California St.","city":"San Francisco","state":"CA","zipcode":"94108","line2":"12th Floor"}}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by">John</field>
+		<field name="flagged_at">2026-01-15 19:07:14</field>
+		<field name="payment_review_status">success</field>
+		<field name="reviewed_by">John</field>
+		<field name="reviewed_at">2026-01-15 19:27:24</field>
+	</row>
+
+	<row>
+		<field name="Id">11</field>
+		<field name="BookingRef">14bb99a26ef7473682bd7c0ccfb57295</field>
+		<field name="CheckoutToken">61EK0TZKBPVKUB4Y</field>
+		<field name="PaymentAmount">3839.00</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"14bb99a26ef7473682bd7c0ccfb57295","CheckoutToken":"61EK0TZKBPVKUB4Y","Amount":3839.0,"Currency":"USD","Phone":"+19175451262","Email":"Vacirca603@gmail.com","FullCardResponse":"{\"checkoutDataType\":\"VIRTUAL_CARD\",\"id\":\"61EK0TZKBPVKUB4Y\",\"charge_ari\":\"3HFO-VGR2\",\"number\":\"4811740365597279\",\"cvv\":\"024\",\"expiration\":\"0329\",\"cardholder_name\":\"Maria vacirca\",\"billing_address\":{\"city\":\"San Francisco\",\"state\":\"CA\",\"zipcode\":\"94108\",\"line1\":\"650 California St\",\"line2\":\"12th Floor\"},\"callback_id\":\"746d5b63-066e-447e-a838-4d6e46a5ecbe\",\"created\":\"2026-03-07T14:18:24.070767\",\"checkout_token\":\"61EK0TZKBPVKUB4Y\"}"}</field>
+		<field name="Phone">+19175451262</field>
+		<field name="Email">Vacirca603@gmail.com</field>
+		<field name="PaidAt">2026-03-07 14:18:24</field>
+		<field name="CreatedAt">2026-03-07 14:18:24</field>
+		<field name="FullCardResponse">{"checkoutDataType":"VIRTUAL_CARD","id":"61EK0TZKBPVKUB4Y","charge_ari":"3HFO-VGR2","number":"4811740365597279","cvv":"024","expiration":"0329","cardholder_name":"Maria vacirca","billing_address":{"city":"San Francisco","state":"CA","zipcode":"94108","line1":"650 California St","line2":"12th Floor"},"callback_id":"746d5b63-066e-447e-a838-4d6e46a5ecbe","created":"2026-03-07T14:18:24.070767","checkout_token":"61EK0TZKBPVKUB4Y"}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by">John</field>
+		<field name="flagged_at">2026-03-07 15:21:42</field>
+		<field name="payment_review_status">success</field>
+		<field name="reviewed_by">John</field>
+		<field name="reviewed_at">2026-03-07 15:30:56</field>
+	</row>
+
+	<row>
+		<field name="Id">12</field>
+		<field name="BookingRef">261903170529</field>
+		<field name="CheckoutToken">FFN1MMJ7KSNNLU7E</field>
+		<field name="PaymentAmount">98.41</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"261903170529","CheckoutToken":"FFN1MMJ7KSNNLU7E","Amount":98.41,"Currency":"USD","Phone":"9393585140","Email":"dra.sylvia.alamo@gmail.com","FullCardResponse":"{\"checkoutDataType\":\"VIRTUAL_CARD\",\"id\":\"FFN1MMJ7KSNNLU7E\",\"charge_ari\":\"1HUT-EZT7\",\"number\":\"4811740367214154\",\"cvv\":\"900\",\"expiration\":\"0329\",\"cardholder_name\":\"Sylvia Alamo\",\"billing_address\":{\"city\":\"San Francisco\",\"state\":\"CA\",\"zipcode\":\"94108\",\"line1\":\"650 California St\",\"line2\":\"12th Floor\"},\"callback_id\":\"f4170239-8abc-4c46-8562-69449ed1f7a7\",\"created\":\"2026-03-19T11:40:13.076311\",\"checkout_token\":\"FFN1MMJ7KSNNLU7E\"}"}</field>
+		<field name="Phone">9393585140</field>
+		<field name="Email">dra.sylvia.alamo@gmail.com</field>
+		<field name="PaidAt">2026-03-19 11:40:16</field>
+		<field name="CreatedAt">2026-03-19 11:40:16</field>
+		<field name="FullCardResponse">{"checkoutDataType":"VIRTUAL_CARD","id":"FFN1MMJ7KSNNLU7E","charge_ari":"1HUT-EZT7","number":"4811740367214154","cvv":"900","expiration":"0329","cardholder_name":"Sylvia Alamo","billing_address":{"city":"San Francisco","state":"CA","zipcode":"94108","line1":"650 California St","line2":"12th Floor"},"callback_id":"f4170239-8abc-4c46-8562-69449ed1f7a7","created":"2026-03-19T11:40:13.076311","checkout_token":"FFN1MMJ7KSNNLU7E"}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by">John</field>
+		<field name="flagged_at">2026-03-19 16:08:12</field>
+		<field name="payment_review_status">success</field>
+		<field name="reviewed_by">John</field>
+		<field name="reviewed_at">2026-03-19 16:22:15</field>
+	</row>
+
+	<row>
+		<field name="Id">13</field>
+		<field name="BookingRef">63166b21db544889afb6e79adf487f58</field>
+		<field name="CheckoutToken">NYZQJLA9PX47QGNV</field>
+		<field name="PaymentAmount">1700.00</field>
+		<field name="Currency">CAD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"63166b21db544889afb6e79adf487f58","CheckoutToken":"NYZQJLA9PX47QGNV","Amount":1700.0,"Currency":"CAD","Phone":"14165550123","Email":"Test@gmail.com","FullCardResponse":"{\"created\":\"2026-04-01T14:10:54.728929\",\"checkout_token\":\"NYZQJLA9PX47QGNV\",\"id\":\"NYZQJLA9PX47QGNV\",\"charge_ari\":\"GB3T-0HM6\",\"callback_id\":\"49ef9694-b4d9-49ff-89a9-db2dcb5f674a\",\"number\":\"4111111111111111\",\"cvv\":\"123\",\"expiration\":\"0526\",\"cardholder_name\":\"AffirmInc Steven J\",\"billing_address\":{\"line1\":\"155 Wellington St.\",\"city\":\"Toronto\",\"state\":\"ON\",\"zipcode\":\"M5V 3H1\",\"line2\":\"W Suite 3740\"}}"}</field>
+		<field name="Phone">14165550123</field>
+		<field name="Email">Test@gmail.com</field>
+		<field name="PaidAt">2026-04-01 14:10:59</field>
+		<field name="CreatedAt">2026-04-01 14:10:59</field>
+		<field name="FullCardResponse">{"created":"2026-04-01T14:10:54.728929","checkout_token":"NYZQJLA9PX47QGNV","id":"NYZQJLA9PX47QGNV","charge_ari":"GB3T-0HM6","callback_id":"49ef9694-b4d9-49ff-89a9-db2dcb5f674a","number":"4111111111111111","cvv":"123","expiration":"0526","cardholder_name":"AffirmInc Steven J","billing_address":{"line1":"155 Wellington St.","city":"Toronto","state":"ON","zipcode":"M5V 3H1","line2":"W Suite 3740"}}</field>
+		<field name="is_flagged">1</field>
+		<field name="flagged_by">remus</field>
+		<field name="flagged_at">2026-04-24 12:20:27</field>
+		<field name="payment_review_status" xsi:nil="true" />
+		<field name="reviewed_by" xsi:nil="true" />
+		<field name="reviewed_at" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">14</field>
+		<field name="BookingRef">fa5dd57b614b4ad286b5792bef289d13</field>
+		<field name="CheckoutToken">M8UME25SSERCBO9J</field>
+		<field name="PaymentAmount">2088.90</field>
+		<field name="Currency">CAD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"fa5dd57b614b4ad286b5792bef289d13","CheckoutToken":"M8UME25SSERCBO9J","Amount":2088.9,"Currency":"CAD","Phone":"19059620405","Email":"test_ed0405@hotmail.com","FullCardResponse":"{\"created\":\"2026-04-20T17:11:48.266085\",\"checkout_token\":\"M8UME25SSERCBO9J\",\"id\":\"M8UME25SSERCBO9J\",\"charge_ari\":\"5SFI-HY2O\",\"callback_id\":\"93902135-d24f-4532-a965-a94ce383b41a\",\"number\":\"4804110093764071\",\"cvv\":\"019\",\"expiration\":\"0427\",\"cardholder_name\":\"AffirmInc EDMUNDO DOMINGO\",\"billing_address\":{\"line1\":\"155 Wellington St.\",\"city\":\"Toronto\",\"state\":\"ON\",\"zipcode\":\"M5V 3H1\",\"line2\":\"W Suite 3740\"}}"}</field>
+		<field name="Phone">19059620405</field>
+		<field name="Email">test_ed0405@hotmail.com</field>
+		<field name="PaidAt">2026-04-20 17:11:51</field>
+		<field name="CreatedAt">2026-04-20 17:11:51</field>
+		<field name="FullCardResponse">{"created":"2026-04-20T17:11:48.266085","checkout_token":"M8UME25SSERCBO9J","id":"M8UME25SSERCBO9J","charge_ari":"5SFI-HY2O","callback_id":"93902135-d24f-4532-a965-a94ce383b41a","number":"4804110093764071","cvv":"019","expiration":"0427","cardholder_name":"AffirmInc EDMUNDO DOMINGO","billing_address":{"line1":"155 Wellington St.","city":"Toronto","state":"ON","zipcode":"M5V 3H1","line2":"W Suite 3740"}}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by">Darry</field>
+		<field name="flagged_at">2026-04-20 17:16:53</field>
+		<field name="payment_review_status">success</field>
+		<field name="reviewed_by">Darry</field>
+		<field name="reviewed_at">2026-04-20 17:32:36</field>
+	</row>
+
+	<row>
+		<field name="Id">15</field>
+		<field name="BookingRef">0eb4599b084f464c8b6a3c83da1605d6</field>
+		<field name="CheckoutToken">L5LTWZD4KRZ3O9XV</field>
+		<field name="PaymentAmount">2059.00</field>
+		<field name="Currency">CAD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"0eb4599b084f464c8b6a3c83da1605d6","CheckoutToken":"L5LTWZD4KRZ3O9XV","Amount":2059.0,"Currency":"CAD","Phone":"19056167019","Email":"Farcast68@hotmail.com","FullCardResponse":"{\"created\":\"2026-04-21T16:45:23.393027\",\"checkout_token\":\"L5LTWZD4KRZ3O9XV\",\"id\":\"L5LTWZD4KRZ3O9XV\",\"charge_ari\":\"0Y6C-1771\",\"callback_id\":\"82b4291e-253e-42c6-993f-9cb8049a9b00\",\"number\":\"4804110097896911\",\"cvv\":\"909\",\"expiration\":\"0427\",\"cardholder_name\":\"AffirmInc Farah Castillejos\",\"billing_address\":{\"line1\":\"155 Wellington St.\",\"city\":\"Toronto\",\"state\":\"ON\",\"zipcode\":\"M5V 3H1\",\"line2\":\"W Suite 3740\"}}"}</field>
+		<field name="Phone">19056167019</field>
+		<field name="Email">Farcast68@hotmail.com</field>
+		<field name="PaidAt">2026-04-21 16:45:26</field>
+		<field name="CreatedAt">2026-04-21 16:45:26</field>
+		<field name="FullCardResponse">{"created":"2026-04-21T16:45:23.393027","checkout_token":"L5LTWZD4KRZ3O9XV","id":"L5LTWZD4KRZ3O9XV","charge_ari":"0Y6C-1771","callback_id":"82b4291e-253e-42c6-993f-9cb8049a9b00","number":"4804110097896911","cvv":"909","expiration":"0427","cardholder_name":"AffirmInc Farah Castillejos","billing_address":{"line1":"155 Wellington St.","city":"Toronto","state":"ON","zipcode":"M5V 3H1","line2":"W Suite 3740"}}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by"></field>
+		<field name="flagged_at">2026-04-21 16:51:35</field>
+		<field name="payment_review_status">success</field>
+		<field name="reviewed_by"></field>
+		<field name="reviewed_at">2026-04-22 12:48:32</field>
+	</row>
+
+	<row>
+		<field name="Id">16</field>
+		<field name="BookingRef">7849127875ba4c728450e7cc85df953a</field>
+		<field name="CheckoutToken">J98MD7TFU0EU0H8K</field>
+		<field name="PaymentAmount">1395.93</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"7849127875ba4c728450e7cc85df953a","CheckoutToken":"J98MD7TFU0EU0H8K","Amount":1395.93,"Currency":"USD","Phone":"+14847357051","Email":"michaelkulp6@gmail.com","FullCardResponse":"{\"checkoutDataType\":\"VIRTUAL_CARD\",\"id\":\"J98MD7TFU0EU0H8K\",\"charge_ari\":\"M4ZL-O21L\",\"number\":\"4811740197818315\",\"cvv\":\"753\",\"expiration\":\"0329\",\"cardholder_name\":\"Michael Kulp\",\"billing_address\":{\"city\":\"San Francisco\",\"state\":\"CA\",\"zipcode\":\"94108\",\"line1\":\"650 California St\",\"line2\":\"12th Floor\"},\"callback_id\":\"0e140b5e-5268-4c48-9444-9425c1b2b2c6\",\"created\":\"2026-04-23T15:00:00.180476\",\"checkout_token\":\"J98MD7TFU0EU0H8K\"}"}</field>
+		<field name="Phone">+14847357051</field>
+		<field name="Email">michaelkulp6@gmail.com</field>
+		<field name="PaidAt">2026-04-23 15:00:03</field>
+		<field name="CreatedAt">2026-04-23 15:00:03</field>
+		<field name="FullCardResponse">{"checkoutDataType":"VIRTUAL_CARD","id":"J98MD7TFU0EU0H8K","charge_ari":"M4ZL-O21L","number":"4811740197818315","cvv":"753","expiration":"0329","cardholder_name":"Michael Kulp","billing_address":{"city":"San Francisco","state":"CA","zipcode":"94108","line1":"650 California St","line2":"12th Floor"},"callback_id":"0e140b5e-5268-4c48-9444-9425c1b2b2c6","created":"2026-04-23T15:00:00.180476","checkout_token":"J98MD7TFU0EU0H8K"}</field>
+		<field name="is_flagged">1</field>
+		<field name="flagged_by">John</field>
+		<field name="flagged_at">2026-05-04 20:56:26</field>
+		<field name="payment_review_status">failed</field>
+		<field name="reviewed_by"></field>
+		<field name="reviewed_at">2026-04-24 12:36:24</field>
+	</row>
+
+	<row>
+		<field name="Id">17</field>
+		<field name="BookingRef">7849127875ba4c728450e7cc85df953a</field>
+		<field name="CheckoutToken">IEFHD7376GPT644M</field>
+		<field name="PaymentAmount">1395.93</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"7849127875ba4c728450e7cc85df953a","CheckoutToken":"IEFHD7376GPT644M","Amount":1395.93,"Currency":"USD","Phone":"+14847357051","Email":"michaelkulp6@gmail.com","FullCardResponse":"{\"checkoutDataType\":\"VIRTUAL_CARD\",\"id\":\"IEFHD7376GPT644M\",\"charge_ari\":\"LHP4-6XK0\",\"number\":\"4811740198932206\",\"cvv\":\"262\",\"expiration\":\"0629\",\"cardholder_name\":\"Michael Kulp\",\"billing_address\":{\"city\":\"San Francisco\",\"state\":\"CA\",\"zipcode\":\"94108\",\"line1\":\"650 California St\",\"line2\":\"12th Floor\"},\"callback_id\":\"6e1f916d-fc39-4f2d-8ee2-9d9df8b5b51e\",\"created\":\"2026-04-23T15:09:44.812856\",\"checkout_token\":\"IEFHD7376GPT644M\"}"}</field>
+		<field name="Phone">+14847357051</field>
+		<field name="Email">michaelkulp6@gmail.com</field>
+		<field name="PaidAt">2026-04-23 15:09:48</field>
+		<field name="CreatedAt">2026-04-23 15:09:48</field>
+		<field name="FullCardResponse">{"checkoutDataType":"VIRTUAL_CARD","id":"IEFHD7376GPT644M","charge_ari":"LHP4-6XK0","number":"4811740198932206","cvv":"262","expiration":"0629","cardholder_name":"Michael Kulp","billing_address":{"city":"San Francisco","state":"CA","zipcode":"94108","line1":"650 California St","line2":"12th Floor"},"callback_id":"6e1f916d-fc39-4f2d-8ee2-9d9df8b5b51e","created":"2026-04-23T15:09:44.812856","checkout_token":"IEFHD7376GPT644M"}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by" xsi:nil="true" />
+		<field name="flagged_at" xsi:nil="true" />
+		<field name="payment_review_status" xsi:nil="true" />
+		<field name="reviewed_by" xsi:nil="true" />
+		<field name="reviewed_at" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">18</field>
+		<field name="BookingRef">0dba3ac7b2ce40f7aaa41b45d12b9d53</field>
+		<field name="CheckoutToken">D7V65Z50RJDR43QI</field>
+		<field name="PaymentAmount">1585.00</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"0dba3ac7b2ce40f7aaa41b45d12b9d53","CheckoutToken":"D7V65Z50RJDR43QI","Amount":1585.0,"Currency":"USD","Phone":"+14847357051","Email":"michaelkulp6@gmail.com","FullCardResponse":"{\"checkoutDataType\":\"VIRTUAL_CARD\",\"id\":\"D7V65Z50RJDR43QI\",\"charge_ari\":\"7SX8-ZS0V\",\"number\":\"4811740327261683\",\"cvv\":\"288\",\"expiration\":\"0529\",\"cardholder_name\":\"Michael Kulp\",\"billing_address\":{\"city\":\"San Francisco\",\"state\":\"CA\",\"zipcode\":\"94108\",\"line1\":\"650 California St\",\"line2\":\"12th Floor\"},\"callback_id\":\"82838bf3-3d4d-4cc5-9c6f-b3a232df737c\",\"created\":\"2026-04-24T12:34:19.322314\",\"checkout_token\":\"D7V65Z50RJDR43QI\"}"}</field>
+		<field name="Phone">+14847357051</field>
+		<field name="Email">michaelkulp6@gmail.com</field>
+		<field name="PaidAt">2026-04-24 12:34:22</field>
+		<field name="CreatedAt">2026-04-24 12:34:22</field>
+		<field name="FullCardResponse">{"checkoutDataType":"VIRTUAL_CARD","id":"D7V65Z50RJDR43QI","charge_ari":"7SX8-ZS0V","number":"4811740327261683","cvv":"288","expiration":"0529","cardholder_name":"Michael Kulp","billing_address":{"city":"San Francisco","state":"CA","zipcode":"94108","line1":"650 California St","line2":"12th Floor"},"callback_id":"82838bf3-3d4d-4cc5-9c6f-b3a232df737c","created":"2026-04-24T12:34:19.322314","checkout_token":"D7V65Z50RJDR43QI"}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by"></field>
+		<field name="flagged_at">2026-04-24 12:36:56</field>
+		<field name="payment_review_status">success</field>
+		<field name="reviewed_by"></field>
+		<field name="reviewed_at">2026-04-24 17:56:53</field>
+	</row>
+</resultset>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <vehicle:VehicleSearchAvailabilityReq AuthorizedBy="user" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v52_0" xmlns:com="http://www.travelport.com/schema/common_v52_0" TargetBranch="P5025267">
+            <com:BillingPointOfSaleInfo OriginApplication="uAPI"/>
+            <vehicle:VehicleDateLocation PickupLocation="PUJ" ReturnLocation="PUJ" PickupDateTime="2026-08-01T10:00:00" ReturnDateTime="2026-08-02T10:00:00"/>
+            <vehicle:VehicleSearchModifiers PreferredCurrency="USD" />
+        </vehicle:VehicleSearchAvailabilityReq>
+    </soap:Body>
+</soap:Envelope>

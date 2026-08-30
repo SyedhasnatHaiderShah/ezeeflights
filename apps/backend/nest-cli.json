@@ -1,13 +1,17 @@
 {
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
-  "entryFile": "main",
   "compilerOptions": {
     "assets": [
       {
-        "include": "database/migrations/**/*",
-        "watchAssets": true
+        "include": "common/utils/active-airports.json",
+        "outDir": "dist"
+      },
+      {
+        "include": "common/mock-data/*.json",
+        "outDir": "dist"
       }
-    ]
+    ],
+    "watchAssets": true
   }
 }

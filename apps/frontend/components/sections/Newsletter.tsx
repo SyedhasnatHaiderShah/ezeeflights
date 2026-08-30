@@ -1,47 +1,93 @@
 "use client";
 
-import * as React from "react";
-import { Mail } from "lucide-react";
-import { Button } from "../ui/button";
+import { useTranslation } from "react-i18next";
+import { Checkbox } from "@/components/ui/checkbox";
+import { AppImage } from "@/components/ui/app-image";
+import { useState } from "react";
 
 export function Newsletter() {
-  return (
-    <section className="w-full bg-muted dark:bg-card border-y border-border py-12 transition-colors duration-300">
-      <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
-        <div className="mb-6 space-y-1">
-          <h2 className="text-2xl font-bold text-foreground font-display">
-            Stay Updated
-          </h2>
-          <p className="text-xs text-muted-foreground font-medium tracking-wide">
-            Subscribe for exclusive flight deals and travel insights
-          </p>
-        </div>
+  const { t } = useTranslation();
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
 
-        <form
-          className="flex flex-col sm:flex-row w-full max-w-lg mx-auto shadow-xl rounded-full overflow-hidden border border-border"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          {/* Input Area */}
-          <div className="flex-grow relative h-12 md:h-14">
-            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-              <Mail className="h-4 w-4 text-muted-foreground" />
-            </div>
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubscribed(true);
+    }
+  };
+
+  return (
+    <section className="relative py-20">
+      <div className="absolute inset-0">
+        <AppImage
+          src="https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=1600&auto=format&fit=crop"
+          alt="Travel"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 to-black/75" />
+      </div>
+      <div className="relative z-10 mx-auto max-w-3xl px-6 text-center text-white">
+        <p className="text-xs font-bold tracking-[0.2em]">
+          {t("✉ STAY IN THE LOOP")}
+        </p>
+        <h2 className="mt-2 text-section text-4xl font-bold">
+          {t("Get the Best Deals in Your Inbox")}
+        </h2>
+        <p className="mt-3 text-white/80">
+          {t("Join 2M+ travelers who never miss a deal")}
+        </p>
+
+        {subscribed ? (
+          <div className="mt-6 rounded-xl bg-white/10 backdrop-blur-sm p-6 text-center border border-white/20 max-w-md mx-auto">
+            <p className="text-lg font-bold text-brand-yellow">
+              🎉 {t("You're subscribed!")}
+            </p>
+            <p className="mt-1.5 text-sm text-white/90">
+              {t("Thank you! We've sent a confirmation to")}{" "}
+              <span className="font-semibold text-white">{email}</span>.
+            </p>
+          </div>
+        ) : (
+          <form
+            className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-[1fr_auto]"
+            onSubmit={handleSubmit}
+          >
             <input
               type="email"
-              placeholder="Enter Your Email"
               required
-              className="w-full h-full pl-12 pr-4 bg-background text-foreground placeholder:text-muted-foreground font-medium text-sm outline-none focus:bg-muted/50 transition-colors shimmer"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t("Enter your email")}
+              className="h-12 rounded-xl border border-white/30 bg-white/20 px-4 text-white placeholder:text-white/60 outline-none focus:bg-white/30"
             />
-          </div>
+            <button
+              type="submit"
+              className="h-12 rounded-xl bg-brand-yellow px-6 font-bold text-gray-900 hover:bg-brand-yellow/90"
+            >
+              {t("Subscribe")}
+            </button>
+          </form>
+        )}
 
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="h-12 md:h-14 px-8 rounded-none bg-brand-red hover:bg-brand-red-dark text-white text-sm font-bold font-display tracking-wide transition-all duration-300 flex items-center justify-center shrink-0 active:scale-95 cursor-pointer"
-          >
-            Subscribe
-          </Button>
-        </form>
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-white/70">
+          <label className="flex items-center gap-2">
+            <Checkbox defaultChecked />
+            {t("Flights")}
+          </label>
+          <label className="flex items-center gap-2">
+            <Checkbox defaultChecked />
+            {t("Hotels")}
+          </label>
+          <label className="flex items-center gap-2">
+            <Checkbox defaultChecked />
+            {t("Cars")}
+          </label>
+        </div>
+        <p className="mt-3 text-xs text-white/50">
+          {t("Unsubscribe anytime · No spam · Privacy protected")}
+        </p>
       </div>
     </section>
   );

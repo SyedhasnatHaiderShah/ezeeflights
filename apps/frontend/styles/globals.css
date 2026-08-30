@@ -1,98 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
-@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@plugin "tailwindcss-animate";
-
-@custom-variant dark (&:where(.dark, .dark *));
-
-@theme {
-  --font-sans:
-    "Noto Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --font-display:
-    "Noto Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-
-  --color-surface-container-low: hsl(var(--surface-container-low));
-  --color-surface-container-lowest: hsl(var(--surface-container-lowest));
-  --color-surface-container-highest: hsl(var(--surface-container-highest));
-
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-xl: 1.5rem;
-
-  --color-ezee-red: #c52a28;
-  --color-ezee-dark-blue: #0d2353;
-  --color-ezee-light-blue: #304cb2;
-  --color-ezee-yellow: #ffbf27;
-  --color-ezee-cream: #f5f5f5;
-
-  --color-brand-red: #c52a28;
-  --color-brand-red-light: #e54d4b;
-  --color-brand-blue: #1c2652;
-  --color-brand-dark: #192024;
-  --color-brand-gray: #a1a1a1;
-  --color-brand-gray-light: #f8f9fa;
-  --color-brand-yellow: #edbf26;
-  --color-brand-orange: #ff9c00;
-
-  --animate-shimmer: shimmer 2s infinite;
-  --animate-shimmer-fast: shimmer 1s infinite;
-
-  @keyframes shimmer {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(100%);
-    }
-  }
-  --color-redmix: #c52a28;
-  --color-redmix-light: #f73b37;
-  --color-redmix-dark: #a12220;
-}
-
-/* bg-gradient-to-r from-brand-red to-brand-red-light for a smooth horizontal gradient.
-bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right diagonal */
+/* bg-gradient-to-r from-redmix to-redmix-light for a smooth horizontal gradient.
+   bg-gradient-to-br from-redmix to-redmix-light for a modern bottom-right diagonal */
 
 @layer base {
   :root {
+    --font-inter: "Inter", sans-serif;
+    --font-noto: "Noto Sans", sans-serif;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 226 82% 33%;
+    --primary: 1 66% 46%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -104,62 +28,145 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 226 82% 33%;
+    --ring: 1 66% 46%;
     --radius: 1rem;
     --surface-container-low: 240 33% 98%;
     --surface-container-lowest: 0 0% 100%;
     --surface-container-highest: 240 10% 92%;
+
+    --brand-dark: #192024;
+    --brand-dark-light: #282828;
+    --brand-blue: #1c2652;
   }
 
   .dark {
-    --background: 223 32% 9%;
-    --foreground: 229 30% 91%;
-    --card: 219 21% 13%;
-    --card-foreground: 229 30% 91%;
-    --popover: 219 21% 13%;
-    --popover-foreground: 229 30% 91%;
-    --primary: 230 100% 86%;
-    --primary-foreground: 223 100% 26%;
-    --secondary: 223 13% 22%;
-    --secondary-foreground: 229 30% 91%;
-    --muted: 219 23% 12%;
-    --muted-foreground: 233 8% 59%;
-    --accent: 223 13% 22%;
-    --accent-foreground: 229 30% 91%;
-    --destructive: 356 100% 50%;
-    --destructive-foreground: 0 100% 99%;
-    --border: 232 10% 30%;
-    --input: 232 10% 30%;
-    --ring: 230 100% 86%;
-    --surface-container-low: 219 23% 12%;
-    --surface-container-lowest: 222 40% 6%;
-    --surface-container-highest: 223 13% 22%;
+    --background: 180 2.2% 8.8%;
+    --foreground: 0 0% 98%;
+    --card: 180 2.2% 8.8%;
+    --card-foreground: 0 0% 98%;
+    --popover: 180 2.2% 8.8%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 72% 51%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 180 2.2% 14.8%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 180 2.2% 14.8%;
+    --muted-foreground: 180 2.2% 64.9%;
+    --accent: 180 2.2% 14.8%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 180 2.2% 20.8%;
+    --input: 180 2.2% 20.8%;
+    --ring: 0 72% 51%;
+    --surface-container-low: 180 2.2% 10%;
+    --surface-container-lowest: 180 2.2% 7%;
+    --surface-container-highest: 180 2.2% 15%;
+
+    --brand-dark: #e6edf5;
+    --brand-dark-light: #b6c3d1;
+    --brand-blue: #93c5fd;
   }
 }
 
 @layer base {
+  /* In @layer base, replace the html rule */
   html {
     scroll-behavior: smooth;
+    color-scheme: light;
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    transition:
+      background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
   * {
     @apply border-border;
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    &::-webkit-scrollbar {
-      display: none;
+    /* Remove universal transition from here as it causes performance issues */
+    /* Hide scrollbar completely on mobile screens */
+    @media (max-width: 1023px) {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
     }
-    /* Hide scrollbar for IE, Edge and Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+
+    /* Styled narrow scrollbar for desktop (lg and above) */
+    @media (min-width: 1024px) {
+      &::-webkit-scrollbar {
+        display: block;
+        width: 6px;
+        height: 6px;
+      }
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #c52a28;
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: #a12220;
+      }
+      scrollbar-width: thin;
+      scrollbar-color: #c52a28 transparent;
+    }
   }
   body {
     @apply bg-background text-foreground font-sans;
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    &::-webkit-scrollbar {
-      display: none;
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    /* Smooth theme transition for background and text */
+    transition:
+      background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    &,
+    * {
+      /* Apply a smoother transition specifically for color-related properties on all elements */
+      /* but avoid transitioning layout properties by default */
+      transition-property:
+        background-color, border-color, color, fill, stroke, box-shadow, opacity;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 300ms;
     }
-    /* Hide scrollbar for IE, Edge and Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+
+    /* Hide scrollbar completely on mobile screens */
+    @media (max-width: 1023px) {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    /* Styled narrow scrollbar for desktop (lg and above) */
+    @media (min-width: 1024px) {
+      &::-webkit-scrollbar {
+        display: block;
+        width: 6px;
+        height: 6px;
+      }
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #c52a28;
+        border-radius: 10px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: #a12220;
+      }
+      scrollbar-width: thin;
+      scrollbar-color: #c52a28 transparent;
+    }
   }
 }
 
@@ -167,6 +174,50 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   /* Glassmorphism Rule */
   .glass {
     @apply bg-background/80 backdrop-blur-xl border border-white/20;
+  }
+
+  .bg-gradient-hero {
+    background-image: var(--gradient-hero);
+  }
+
+  .bg-gradient-brand {
+    background-image: var(--gradient-brand);
+  }
+
+  .bg-gradient-gold {
+    background-image: var(--gradient-gold);
+  }
+
+  .bg-gradient-overlay {
+    background-image: var(--gradient-overlay);
+  }
+
+  .text-hero {
+    font-size: var(--text-hero);
+  }
+
+  .text-section {
+    font-size: var(--text-section);
+  }
+
+  .animate-float {
+    animation: var(--animate-float);
+  }
+
+  .animate-counter-up {
+    animation: var(--animate-counter-up);
+  }
+
+  .animate-marquee {
+    animation: var(--animate-marquee);
+  }
+
+  .animate-pulse-glow {
+    animation: var(--animate-pulse-glow);
+  }
+
+  .animate-ken-burns {
+    animation: var(--animate-ken-burns);
   }
 
   /* No-Line rule */
@@ -187,7 +238,40 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   }
 
   .bg-redmix {
-    @apply bg-gradient-to-tl from-brand-red to-brand-red-light shadow-sm;
+    @apply bg-gradient-to-tl from-redmix to-redmix-light shadow-sm;
+  }
+
+  .flight-filters-sidebar {
+    --filter-title-size: 0.875rem;
+    --filter-body-size: 0.75rem;
+  }
+
+  .flight-filters-sidebar .filter-card {
+    @apply rounded-2xl border border-border/60 bg-card/95 overflow-hidden;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  }
+
+  .dark .flight-filters-sidebar .filter-card {
+    @apply bg-card border-border/70;
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.45);
+  }
+
+  .flight-filters-sidebar .filter-card-header {
+    @apply px-3.5 py-2.5 bg-muted/20 border-b border-border/50;
+  }
+
+  .dark .flight-filters-sidebar .filter-card-header {
+    @apply bg-muted/45 border-border/60;
+  }
+
+  .flight-filters-sidebar .filter-card-title {
+    font-size: var(--filter-title-size);
+    @apply font-semibold tracking-wide text-foreground;
+  }
+
+  .flight-filters-sidebar .filter-card-body {
+    @apply p-3.5;
+    font-size: var(--filter-body-size);
   }
 
   /* Consolidation for Clean Tab Triggers */
@@ -209,7 +293,7 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
   }
 
   .tab-trigger[data-state="active"]::after {
-    @apply bg-gradient-to-tl from-brand-red to-brand-red-light shadow-sm opacity-100;
+    @apply bg-gradient-to-tl from-redmix to-redmix-light shadow-sm opacity-100;
   }
 
   /* Consolidated Tab Icon styling */
@@ -220,27 +304,257 @@ bg-gradient-to-br from-brand-red to-brand-red-light for a modern bottom-right di
 
   /* Hover effect for the icon when the tab is hovered */
   .tab-trigger:hover .tab-icon-box {
-    @apply bg-brand-red/10;
+    @apply bg-redmix/10;
   }
 
   /* Active effect for the icon when the tab is selected */
   .tab-trigger[data-state="active"] .tab-icon-box {
-    @apply bg-gradient-to-tl from-brand-red to-brand-red-light shadow-sm text-white shadow-lg shadow-brand-red/20 scale-105;
+    @apply bg-gradient-to-tl from-redmix to-redmix-light shadow-sm text-white shadow-lg shadow-redmix/20 scale-105;
   }
 
   .bg-brand-yellow {
-    background-color: #edbf26;
+    @apply bg-yellow;
   }
 
   .text-brand-yellow {
-    color: #edbf26;
+    @apply text-yellow;
   }
 
-  .bg-brand-orange {
-    background-color: #ff9c00;
-  }
-
-  .text-brand-orange {
+  /* .text-brand-orange {
     color: #ff9c00;
+  } */
+
+  /* Reusable Shimmer Effect */
+  .shimmer-effect {
+    @apply absolute inset-0 opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-500 pointer-events-none z-0;
+    /* Light mode: Redmix gradient shimmer */
+    background-color: rgba(197, 42, 40, 0.03);
+    background-image: linear-gradient(
+      45deg,
+      transparent 25%,
+      rgba(197, 42, 40, 0.05) 50%,
+      transparent 75%
+    );
+    background-size: 250% 250%;
+  }
+
+  .dark .shimmer-effect {
+    /* Dark mode: Gray/Light gradient shimmer */
+    background-color: rgba(255, 255, 255, 0.03);
+    background-image: linear-gradient(
+      45deg,
+      transparent 25%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 75%
+    );
+  }
+
+  /* =====================================================
+     CAPACITOR / NATIVE MOBILE UTILITIES
+     Matches EzeeFlights brand (globals.css color tokens)
+     ===================================================== */
+
+  /* iOS/Android Safe Area insets — used around the bottom nav and top header */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .pl-safe {
+    padding-left: env(safe-area-inset-left, 0px);
+  }
+
+  .pr-safe {
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  /* Combined: bottom nav always clears home indicator on iOS */
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Full viewport safe area (for modals / full-screen views on notched devices) */
+  .inset-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  /* Remove tap highlight on mobile (blue/gray flash on Android & iOS) */
+  .hide-tap-highlight {
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+  }
+
+  /* Native-feel touch scaling (used on buttons and cards on mobile) */
+  .touch-scale {
+    @apply transition-transform active:scale-[0.97] select-none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Minimum touch target size per Material Design / Apple HIG (44×44px) */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent text selection on interactive elements on mobile */
+  .no-select {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Overscroll bounce fix (prevents rubber-band stretch on native WebView) */
+  .no-overscroll {
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+  }
+
+  .touch-pan-y {
+    touch-action: pan-y pinch-zoom;
+  }
+
+  /*
+   * Android WebView scroll: use body as the single scroll container.
+   * Nested overflow-x-hidden wrappers otherwise trap touch events in the middle of the page.
+   */
+  html[data-native-app="true"] {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  html[data-native-app="true"] body {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  html[data-native-app="true"] .native-app-shell {
+    overflow: visible;
+    min-height: min-content;
+  }
+
+  /* Smooth momentum scrolling on iOS WebKit (matches native feel) */
+  .scroll-native {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Robust Accordion Transitions for Mobile */
+  [data-state="open"] > .accordion-content-inner {
+    animation: accordion-down 0.2s ease-out;
+  }
+  [data-state="closed"] > .accordion-content-inner {
+    animation: accordion-up 0.2s ease-out;
+  }
+
+  /* Transition for visibility/opacity components */
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  /* Fix for Mobile Drawer/Vaul visibility */
+  [data-vaul-drawer][data-state="open"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Animation Utilities to replace tailwindcss-animate */
+  .animate-in {
+    animation-name: enter;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+  }
+  .animate-out {
+    animation-name: exit;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+  }
+  .fade-in {
+    --tw-enter-opacity: 0;
+  }
+  .fade-out {
+    --tw-exit-opacity: 0;
+  }
+  .zoom-in-95 {
+    --tw-enter-scale: 0.95;
+  }
+  .zoom-out-95 {
+    --tw-exit-scale: 0.95;
+  }
+  .slide-in-from-top-2 {
+    --tw-enter-translate-y: -0.5rem;
+  }
+  .slide-in-from-bottom-2 {
+    --tw-enter-translate-y: 0.5rem;
+  }
+  .slide-in-from-left-2 {
+    --tw-enter-translate-x: -0.5rem;
+  }
+  .slide-in-from-right-2 {
+    --tw-enter-translate-x: 0.5rem;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(197, 42, 40, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(197, 42, 40, 0.45);
+  }
+}
+
+@layer utilities {
+  .text-hero {
+    font-size: clamp(2rem, 5vw, 4.25rem);
+    line-height: 1.08;
+  }
+  .text-section {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+  }
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+  }
+  .text-important {
+    @apply text-redmix font-bold tracking-tight;
+  }
+  .text-highlight {
+    @apply text-yellow font-semibold;
+  }
+
+  /* Fix for Radix UI Select/Dropdown items being unclickable inside Dialog */
+  [data-radix-popper-content-wrapper] {
+    pointer-events: auto !important;
+  }
+
+  /* Utility to hide scrollbars */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none !important; /* IE and Edge */
+    scrollbar-width: none !important; /* Firefox */
   }
 }

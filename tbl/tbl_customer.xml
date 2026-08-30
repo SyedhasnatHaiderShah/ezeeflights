@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM ezeeflights_crm.tbl_customer where customerId='29121'
+LIMIT 0, 50
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="cId">43791</field>
+		<field name="customerId">29121</field>
+		<field name="fullName">Alex Khan</field>
+		<field name="dob">1988-03-12 00:00:00</field>
+		<field name="gender">MALE</field>
+		<field name="pessengerType">ADT</field>
+		<field name="adtPrice">479.4666666666667</field>
+		<field name="chdPrice" xsi:nil="true" />
+		<field name="infPrice" xsi:nil="true" />
+		<field name="adtQty">1</field>
+		<field name="chdQty" xsi:nil="true" />
+		<field name="infQty" xsi:nil="true" />
+		<field name="nationality">Åland Islands</field>
+	</row>
+
+	<row>
+		<field name="cId">43792</field>
+		<field name="customerId">29121</field>
+		<field name="fullName">Zain Khan</field>
+		<field name="dob">2016-09-14 00:00:00</field>
+		<field name="gender">MALE</field>
+		<field name="pessengerType">CHD</field>
+		<field name="adtPrice" xsi:nil="true" />
+		<field name="chdPrice">479.4666666666667</field>
+		<field name="infPrice" xsi:nil="true" />
+		<field name="adtQty" xsi:nil="true" />
+		<field name="chdQty">1</field>
+		<field name="infQty" xsi:nil="true" />
+		<field name="nationality">American Samoa</field>
+	</row>
+
+	<row>
+		<field name="cId">43793</field>
+		<field name="customerId">29121</field>
+		<field name="fullName">Noah Khan</field>
+		<field name="dob">2025-02-10 00:00:00</field>
+		<field name="gender">MALE</field>
+		<field name="pessengerType">INF</field>
+		<field name="adtPrice" xsi:nil="true" />
+		<field name="chdPrice" xsi:nil="true" />
+		<field name="infPrice">479.4666666666667</field>
+		<field name="adtQty" xsi:nil="true" />
+		<field name="chdQty" xsi:nil="true" />
+		<field name="infQty">1</field>
+		<field name="nationality">Pakistan</field>
+	</row>
+</resultset>

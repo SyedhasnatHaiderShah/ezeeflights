@@ -1,0 +1,6 @@
+-- Enhance packages table with extra columns
+ALTER TABLE packages ADD COLUMN IF NOT EXISTS origin_city VARCHAR(150);
+ALTER TABLE packages ADD COLUMN IF NOT EXISTS airline_name VARCHAR(150);
+ALTER TABLE packages ADD COLUMN IF NOT EXISTS is_flash_sale BOOLEAN DEFAULT FALSE;
+ALTER TABLE packages ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ;
+ALTER TABLE packages ADD COLUMN IF NOT EXISTS type VARCHAR(20) DEFAULT 'package';

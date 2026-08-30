@@ -1,0 +1,4 @@
+cId,customerId,fullName,dob,gender,pessengerType,adtPrice,chdPrice,infPrice,adtQty,chdQty,infQty,nationality
+43791,29121,"Alex Khan","1988-03-12 00:00:00",MALE,ADT,479.4666666666667,NULL,NULL,1,NULL,NULL,"Åland Islands"
+43792,29121,"Zain Khan","2016-09-14 00:00:00",MALE,CHD,NULL,479.4666666666667,NULL,NULL,1,NULL,"American Samoa"
+43793,29121,"Noah Khan","2025-02-10 00:00:00",MALE,INF,NULL,NULL,479.4666666666667,NULL,NULL,1,Pakistan

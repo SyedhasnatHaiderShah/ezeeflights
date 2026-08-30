@@ -1,132 +1,99 @@
-'use client';
+"use client";
 
-import { FormEvent, useMemo, useState } from 'react';
-import { apiFetch } from '@/lib/api/client';
-import { ChatBubble } from '@/components/ai/ChatBubble';
-import { QuickReplies } from '@/components/ai/QuickReplies';
-import { InlineFlightCard } from '@/components/ai/InlineFlightCard';
-import { InlineHotelCard } from '@/components/ai/InlineHotelCard';
-
-type ChatMessage = { role: 'user' | 'assistant'; content: string };
-interface AgentAction {
-  type: string;
-  payload: Record<string, unknown>;
-}
-
-interface ChatResponse {
-  reply: string;
-  actions?: AgentAction[];
-  sessionId: string;
-}
-
-const quickReplies = ['Search flights to Bali', 'Plan a 7-day trip', 'Best time to visit Tokyo'];
+import * as React from "react";
+import { motion } from "framer-motion";
+import { Sparkles, Bot, ShieldCheck, Globe, Zap, Languages, Users } from "lucide-react";
+import { ConversationalAgent } from "@/components/ai/ConversationalAgent";
 
 export default function AiAssistantPage() {
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [actions, setActions] = useState<AgentAction[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [sessionId] = useState(() => `web-${Date.now()}`);
-
-  const send = async (text: string) => {
-    const trimmed = text.trim();
-    if (!trimmed) return;
-    setLoading(true);
-    setMessages((prev) => [...prev, { role: 'user', content: trimmed }]);
-    setMessage('');
-
-    try {
-      const result = await apiFetch<ChatResponse>('/ai/chat', {
-        method: 'POST',
-        body: JSON.stringify({ sessionId, message: trimmed, context: { surface: 'ai-page' } }),
-      });
-      setMessages((prev) => [...prev, { role: 'assistant', content: result.reply }]);
-      setActions(result.actions ?? []);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    await send(message);
-  };
-
-  const renderedCards = useMemo(
-    () =>
-      actions.flatMap((action) => {
-        const results = (action.payload.results as Array<Record<string, unknown>> | undefined) ?? [];
-        if (action.type === 'search_flights') {
-          return results.map((item, idx) => (
-            <InlineFlightCard
-              key={`f-${idx}`}
-              id={String(item.id ?? idx)}
-              airlineCode={String(item.airlineCode ?? item.airline_code ?? 'FL')}
-              flightNumber={String(item.flightNumber ?? item.flight_number ?? '')}
-              departureAirport={String(item.departureAirport ?? item.departure_airport ?? '')}
-              arrivalAirport={String(item.arrivalAirport ?? item.arrival_airport ?? '')}
-              departureAt={String(item.departureAt ?? item.departure_at ?? new Date().toISOString())}
-              baseFare={Number(item.baseFare ?? item.base_fare ?? 0)}
-              currency={String(item.currency ?? 'USD')}
-            />
-          ));
-        }
-
-        if (action.type === 'search_hotels') {
-          return results.map((item, idx) => (
-            <InlineHotelCard
-              key={`h-${idx}`}
-              id={String(item.id ?? idx)}
-              name={String(item.name ?? 'Hotel')}
-              city={String(item.city ?? '')}
-              starRating={Number(item.starRating ?? item.star_rating ?? 3)}
-              nightlyRate={Number(item.nightlyRate ?? item.nightly_rate ?? 0)}
-              currency={String(item.currency ?? 'USD')}
-            />
-          ));
-        }
-
-        return [];
-      }),
-    [actions],
-  );
-
   return (
-    <section className="space-y-4">
-      <h1 className="text-2xl font-bold">Ask AI for Trip</h1>
-      <QuickReplies options={quickReplies} onPick={(value) => void send(value)} />
+    <div className="min-h-screen bg-slate-50/50 pb-20 pt-10">
+      <div className="mx-auto max-w-screen-xl px-4 md:px-6">
+        
+        {/* Hero Section */}
+        <div className="mb-12 flex flex-col gap-10 lg:flex-row lg:items-center">
+          <div className="flex-1 space-y-6">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="inline-flex items-center gap-2 rounded-full bg-brand-red/10 px-3 py-1 text-xs font-black uppercase tracking-widest text-brand-red"
+            >
+              <Sparkles className="h-4 w-4" />
+              Flagship AI Feature
+            </motion.div>
+            
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-5xl font-black tracking-tight text-slate-900 md:text-7xl"
+            >
+              Meet <span className="text-brand-red">Ezee AI</span>
+            </motion.h1>
+            
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="max-w-xl text-xl font-medium leading-relaxed text-slate-500"
+            >
+              Your intelligent, context-aware travel companion. From natural language booking to real-time document verification, Ezee AI handles everything.
+            </motion.p>
 
-      <div className="space-y-3 rounded-xl border bg-slate-100 p-4">
-        {messages.map((msg, idx) => (
-          <ChatBubble key={idx} role={msg.role}>
-            {msg.content}
-          </ChatBubble>
-        ))}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="grid grid-cols-2 gap-4 sm:grid-cols-3"
+            >
+              {[
+                { icon: Zap, label: "Instant Booking" },
+                { icon: ShieldCheck, label: "Secure Docs" },
+                { icon: Globe, label: "Context Aware" },
+                { icon: Languages, label: "Multi-language" },
+                { icon: Users, label: "Group Planning" },
+                { icon: Bot, label: "24/7 Expert" },
+              ].map((f) => (
+                <div key={f.label} className="flex items-center gap-2 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm">
+                  <f.icon className="h-4 w-4 text-brand-red" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">{f.label}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
 
-        {loading && (
-          <ChatBubble role="assistant">
-            <span className="inline-flex items-center gap-1">
-              <span className="h-2 w-2 animate-bounce rounded-full bg-slate-500" />
-              <span className="h-2 w-2 animate-bounce rounded-full bg-slate-500 [animation-delay:120ms]" />
-              <span className="h-2 w-2 animate-bounce rounded-full bg-slate-500 [animation-delay:240ms]" />
-            </span>
-          </ChatBubble>
-        )}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="w-full lg:w-[500px]"
+          >
+            <ConversationalAgent />
+          </motion.div>
+        </div>
 
-        {renderedCards}
+        {/* Capabilities Section */}
+        <div className="grid gap-8 border-t border-slate-200 pt-16 md:grid-cols-3">
+          <div className="space-y-3">
+            <h3 className="text-lg font-black text-slate-900">Natural Language Booking</h3>
+            <p className="text-sm font-medium leading-relaxed text-slate-500">
+              "Book me a return flight to London in December under AED 3,000." Just type what you want, and Ezee AI parses, searches, and presents the best results instantly.
+            </p>
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-lg font-black text-slate-900">Document Intelligence</h3>
+            <p className="text-sm font-medium leading-relaxed text-slate-500">
+              AI reviews your passport expiry, visa requirements, and destination entry rules to ensure you never miss a document check.
+            </p>
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-lg font-black text-slate-900">Total Trip Budgeting</h3>
+            <p className="text-sm font-medium leading-relaxed text-slate-500">
+              Get an instant cost breakdown including flights, hotels, transfers, meals, and local attractions tailored to your preferences.
+            </p>
+          </div>
+        </div>
+
       </div>
-
-      <form className="flex gap-2" onSubmit={onSubmit}>
-        <input
-          className="flex-1 rounded border p-2"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Tell me where and when you want to travel"
-        />
-        <button className="rounded bg-indigo-600 px-4 py-2 text-white" type="submit" disabled={loading}>
-          Send
-        </button>
-      </form>
-    </section>
+    </div>
   );
 }

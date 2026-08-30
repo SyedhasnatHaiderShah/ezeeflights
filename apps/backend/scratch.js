@@ -1,0 +1,1 @@
+const { DataSource } = require('typeorm'); const ds = new DataSource({ type: 'mysql', host: 'localhost', port: 3306, username: 'root', password: '', database: 'ezeeflights_crm' }); ds.initialize().then(() = TABLES')).then(console.log).finally(() = 

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM ezeeflights_crm.affirmpayment
+LIMIT 0, 10
+"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<row>
+		<field name="Id">29</field>
+		<field name="BookingRef">order_SzcI9jT1TReGK8</field>
+		<field name="CheckoutToken">order_SzcI9jT1TReGK8</field>
+		<field name="PaymentAmount">92061.32</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"order_SzcI9jT1TReGK8","CheckoutToken":"order_SzcI9jT1TReGK8","Amount":92061.31671462001,"Currency":"USD","Phone":"+923001234567","Email":"uaf.khurram@gmail.com","Provider":"Razorpay","RazorpayPaymentId":"pay_SzcIczRIp5Dv7p","FullCardResponse":"{\"provider\":\"razorpay\",\"razorpay_order_id\":\"order_SzcI9jT1TReGK8\",\"razorpay_payment_id\":\"pay_SzcIczRIp5Dv7p\",\"amount\":92061.31671462001,\"currency\":\"USD\",\"paid_at\":\"2026-06-09 23:04:38\"}"}</field>
+		<field name="Phone">+923001234567</field>
+		<field name="Email">uaf.khurram@gmail.com</field>
+		<field name="PaidAt">2026-06-09 23:04:38</field>
+		<field name="CreatedAt">2026-06-09 23:04:38</field>
+		<field name="FullCardResponse">{"provider":"razorpay","razorpay_order_id":"order_SzcI9jT1TReGK8","razorpay_payment_id":"pay_SzcIczRIp5Dv7p","amount":92061.31671462001,"currency":"USD","paid_at":"2026-06-09 23:04:38"}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by" xsi:nil="true" />
+		<field name="flagged_at" xsi:nil="true" />
+		<field name="payment_review_status" xsi:nil="true" />
+		<field name="reviewed_by" xsi:nil="true" />
+		<field name="reviewed_at" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">30</field>
+		<field name="BookingRef">260609232137</field>
+		<field name="CheckoutToken">order_Szca0vHwqUGeTQ</field>
+		<field name="PaymentAmount">92061.32</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"order_Szca0vHwqUGeTQ","CheckoutToken":"order_Szca0vHwqUGeTQ","Amount":92061.31671462001,"Currency":"USD","Phone":"+923001234567","Email":"uaf.khurram@gmail.com","Provider":"Razorpay","RazorpayPaymentId":"pay_SzcagxfSzKEm3V","FullCardResponse":"{\"provider\":\"razorpay\",\"razorpay_order_id\":\"order_Szca0vHwqUGeTQ\",\"razorpay_payment_id\":\"pay_SzcagxfSzKEm3V\",\"amount\":92061.31671462001,\"currency\":\"USD\",\"paid_at\":\"2026-06-09 23:21:37\"}"}</field>
+		<field name="Phone">+923001234567</field>
+		<field name="Email">uaf.khurram@gmail.com</field>
+		<field name="PaidAt">2026-06-09 23:21:37</field>
+		<field name="CreatedAt">2026-06-09 23:21:37</field>
+		<field name="FullCardResponse">{"provider":"razorpay","razorpay_order_id":"order_Szca0vHwqUGeTQ","razorpay_payment_id":"pay_SzcagxfSzKEm3V","amount":92061.31671462001,"currency":"USD","paid_at":"2026-06-09 23:21:37"}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by" xsi:nil="true" />
+		<field name="flagged_at" xsi:nil="true" />
+		<field name="payment_review_status" xsi:nil="true" />
+		<field name="reviewed_by" xsi:nil="true" />
+		<field name="reviewed_at" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">31</field>
+		<field name="BookingRef">order_SztIO3MaUOclmF</field>
+		<field name="CheckoutToken">order_SztIO3MaUOclmF</field>
+		<field name="PaymentAmount">80325.45</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"BookingRef":"order_SztIO3MaUOclmF","CheckoutToken":"order_SztIO3MaUOclmF","Amount":80325.4456686,"Currency":"USD","Phone":"+923001234567","Email":"uaf.khurram@gmail.com","Provider":"Razorpay","RazorpayPaymentId":"pay_SztLYwXSyn7pTn","FullCardResponse":"{\"provider\":\"razorpay\",\"razorpay_order_id\":\"order_SztIO3MaUOclmF\",\"razorpay_payment_id\":\"pay_SztLYwXSyn7pTn\",\"amount\":80325.4456686,\"currency\":\"USD\",\"paid_at\":\"2026-06-10 15:45:31\"}"}</field>
+		<field name="Phone">+923001234567</field>
+		<field name="Email">uaf.khurram@gmail.com</field>
+		<field name="PaidAt">2026-06-10 15:45:31</field>
+		<field name="CreatedAt">2026-06-10 15:45:31</field>
+		<field name="FullCardResponse">{"provider":"razorpay","razorpay_order_id":"order_SztIO3MaUOclmF","razorpay_payment_id":"pay_SztLYwXSyn7pTn","amount":80325.4456686,"currency":"USD","paid_at":"2026-06-10 15:45:31"}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by" xsi:nil="true" />
+		<field name="flagged_at" xsi:nil="true" />
+		<field name="payment_review_status" xsi:nil="true" />
+		<field name="reviewed_by" xsi:nil="true" />
+		<field name="reviewed_at" xsi:nil="true" />
+	</row>
+
+	<row>
+		<field name="Id">32</field>
+		<field name="BookingRef">d763154e-3428-4695-bb86-b68b5d63e9b3</field>
+		<field name="CheckoutToken">OADXU67KBZ1CHQB5</field>
+		<field name="PaymentAmount">826.63</field>
+		<field name="Currency">USD</field>
+		<field name="PaymentStatus">Success</field>
+		<field name="PaymentResponseJson">{"created":"2026-06-10T11:15:58.327392","checkout_token":"OADXU67KBZ1CHQB5","id":"OADXU67KBZ1CHQB5","charge_ari":"9JZ9-U2YE","callback_id":"7d8c7004-abc1-4ebf-be24-775de37bfea3","number":"4111111111111111","cvv":"123","expiration":"0426","cardholder_name":"AffirmInc Hanna Lushchyk","billing_address":{"line1":"650 California St.","city":"San Francisco","state":"CA","zipcode":"94108","line2":"12th Floor"}}</field>
+		<field name="Phone">uaf.khurram@gmail.com</field>
+		<field name="Email">uaf.khurram@gmail.com</field>
+		<field name="PaidAt">2026-06-10 16:46:18</field>
+		<field name="CreatedAt">2026-06-10 16:46:18</field>
+		<field name="FullCardResponse">{"provider":"affirm","checkout_id":"OADXU67KBZ1CHQB5","card":{"number":"4111111111111111","cvv":"123","expiry":"0426","cardholderName":"AffirmInc Hanna Lushchyk"},"paid_at":"2026-06-10 16:46:18"}</field>
+		<field name="is_flagged">0</field>
+		<field name="flagged_by" xsi:nil="true" />
+		<field name="flagged_at" xsi:nil="true" />
+		<field name="payment_review_status" xsi:nil="true" />
+		<field name="reviewed_by" xsi:nil="true" />
+		<field name="reviewed_at" xsi:nil="true" />
+	</row>
+</resultset>
